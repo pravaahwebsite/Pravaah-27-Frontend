@@ -5363,14 +5363,13 @@ body.portal-entered #main-scroll-container {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-image: url('../../assets/images/bg_portals.jpeg');
+    background-image: url('../../assets/images/subpage_bg.jpg');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
-    filter: brightness(0.85) contrast(1.05) blur(3px);
-    opacity: 0.65;
+    filter: brightness(0.9) contrast(1.05);
+    opacity: 0.85;
     z-index: -2;
-    transform: scale(1.02);
 }
 
 .subpage-grid-overlay {
