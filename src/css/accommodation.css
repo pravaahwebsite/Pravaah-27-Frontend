@@ -1,0 +1,533 @@
+/* ============================================================
+   PRAVAAH 2026 — ACCOMMODATION PAGE STYLES
+   Exact design matching reference screenshots & Pravaha theme
+   ============================================================ */
+
+/* Force body vertical scroll and override global overflow:hidden */
+body.subpage-body.accom-page-body {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    position: relative !important;
+}
+
+/* Main Container Layout Override */
+.subpage-main.accom-main-container {
+    width: 100% !important;
+    max-width: 1040px !important;
+    margin: 0 auto !important;
+    padding: 110px 24px 70px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 40px !important;
+    position: relative !important;
+    z-index: 2 !important;
+    box-sizing: border-box !important;
+    height: auto !important;
+}
+
+/* Override global section absolute positioning from style.css */
+.accom-main-container section,
+.accom-main-container .rules-card-container,
+.accom-main-container .notice-callout-outer,
+.accom-main-container .guidelines-section,
+.accom-main-container .booking-section-container {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+    z-index: 1 !important;
+    box-sizing: border-box !important;
+}
+
+/* ============================================================
+   SECTION A: COMPACT HERO HEADER
+   ============================================================ */
+.accom-hero-header {
+    text-align: center;
+    margin-bottom: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.accom-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    background: rgba(0, 242, 254, 0.08);
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    color: #00f2fe;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    box-shadow: 0 0 12px rgba(0, 242, 254, 0.15);
+}
+
+.accom-hero-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+    font-weight: 900;
+    letter-spacing: 3px;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1.1;
+    text-shadow: 0 0 20px rgba(0, 242, 254, 0.45);
+}
+
+.accom-hero-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.98rem;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.5;
+    margin: 0;
+    max-width: 650px;
+}
+
+/* ============================================================
+   SECTION B: IMPORTANT ACCOMMODATION RULES CARD (SCREENSHOT 1)
+   ============================================================ */
+.rules-card-container {
+    background: rgba(10, 14, 28, 0.72) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1.5px solid #00f2fe !important;
+    border-radius: 18px !important;
+    padding: 36px 44px !important;
+    box-shadow: 0 0 28px rgba(0, 242, 254, 0.22), inset 0 0 15px rgba(0, 242, 254, 0.04) !important;
+    box-sizing: border-box !important;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.rules-card-container:hover {
+    box-shadow: 0 0 38px rgba(0, 242, 254, 0.35), inset 0 0 20px rgba(0, 242, 254, 0.08) !important;
+    border-color: #33f5ff !important;
+}
+
+.rules-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.rules-card-header .warning-icon {
+    font-size: 1.7rem;
+    line-height: 1;
+}
+
+.rules-card-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.35rem, 2.8vw, 1.85rem);
+    font-weight: 700;
+    color: #00f2fe;
+    margin: 0;
+    letter-spacing: 1px;
+    text-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
+}
+
+.rules-arrow-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.rules-arrow-list li {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.98rem;
+    color: #ffffff;
+    line-height: 1.6;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.rules-arrow-list li .cyan-arrow {
+    color: #00f2fe;
+    font-size: 1.15rem;
+    font-weight: 900;
+    line-height: 1.5;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.6));
+}
+
+/* ============================================================
+   SECTION C: STUDENT EXEMPTION CALLOUT (SCREENSHOT 2)
+   ============================================================ */
+.notice-callout-outer {
+    background: rgba(10, 14, 28, 0.72) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 18px !important;
+    padding: 40px 24px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4) !important;
+    box-sizing: border-box !important;
+}
+
+.notice-inner-box {
+    border: 1.5px solid #00f2fe;
+    border-radius: 12px;
+    padding: 28px 40px;
+    background: rgba(0, 242, 254, 0.02);
+    box-shadow: 0 0 20px rgba(0, 242, 254, 0.15), inset 0 0 15px rgba(0, 242, 254, 0.04);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.notice-highlight-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.12rem;
+    font-weight: 700;
+    color: #00ff88;
+    margin: 0;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
+}
+
+/* ============================================================
+   SECTION D: ACCOMMODATION GUIDELINES GRID (SCREENSHOT 3)
+   ============================================================ */
+.guidelines-section {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 28px !important;
+}
+
+.guidelines-main-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.7rem, 3.5vw, 2.3rem);
+    font-weight: 800;
+    color: #00f2fe;
+    margin: 0;
+    letter-spacing: 1.5px;
+    text-align: center;
+    text-shadow: 0 0 18px rgba(0, 242, 254, 0.45);
+}
+
+.dos-donts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+    width: 100%;
+    max-width: 860px;
+}
+
+.guideline-card {
+    background: rgba(10, 14, 28, 0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1.5px solid #00f2fe;
+    border-radius: 18px;
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 0 24px rgba(0, 242, 254, 0.18), inset 0 0 15px rgba(0, 242, 254, 0.04);
+    box-sizing: border-box;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.guideline-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 34px rgba(0, 242, 254, 0.32);
+}
+
+.card-top-icon {
+    font-size: 2.6rem;
+    color: #00f2fe;
+    margin-bottom: 12px;
+    line-height: 1;
+    filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.5));
+}
+
+.card-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #00f2fe;
+    margin: 0 0 20px 0;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.bullet-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+}
+
+.bullet-list li {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.96rem;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.55;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.bullet-list li .dot-marker {
+    color: #00f2fe;
+    font-size: 1.1rem;
+    line-height: 1.4;
+    flex-shrink: 0;
+}
+
+/* ============================================================
+   SECTION E: ACCOMMODATION BOOKING FORM
+   ============================================================ */
+.booking-section-container {
+    background: rgba(10, 14, 28, 0.72) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1.5px solid #00f2fe !important;
+    border-radius: 18px !important;
+    padding: 38px 44px !important;
+    box-shadow: 0 0 30px rgba(0, 242, 254, 0.22), inset 0 0 15px rgba(0, 242, 254, 0.04) !important;
+    box-sizing: border-box !important;
+}
+
+.booking-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.booking-section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    font-weight: 800;
+    color: #00f2fe;
+    margin: 0 0 8px 0;
+    letter-spacing: 1px;
+    text-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
+}
+
+.booking-section-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+}
+
+.booking-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    width: 100%;
+}
+
+.form-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-field-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #00f2fe;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.form-input,
+.form-select {
+    width: 100%;
+    background: rgba(0, 242, 254, 0.04);
+    border: 1.5px solid rgba(0, 242, 254, 0.3);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    color: #ffffff;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.form-input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.form-input:focus,
+.form-select:focus {
+    border-color: #00f2fe;
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.35);
+    background: rgba(0, 242, 254, 0.08);
+}
+
+.form-select option {
+    background: #060c16;
+    color: #ffffff;
+    padding: 10px;
+}
+
+.form-select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.fee-display-box {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(0, 242, 254, 0.2);
+    border-radius: 12px;
+    padding: 18px 24px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.fee-status-badge {
+    display: inline-block;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: #00f2fe;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+}
+
+.payment-action-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.disabled-payment-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 34px;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: not-allowed;
+    user-select: none;
+    box-shadow: none;
+    outline: none;
+}
+
+.payment-notice-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    margin: 0;
+    max-width: 580px;
+    line-height: 1.5;
+}
+
+/* Footer Flow Override */
+.accom-main-container .pravaah-full-footer {
+    position: relative !important;
+    width: 100% !important;
+    margin-top: 20px !important;
+    z-index: 5 !important;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES
+   ============================================================ */
+@media (max-width: 850px) {
+    .subpage-main.accom-main-container {
+        padding-top: 100px !important;
+        gap: 32px !important;
+    }
+
+    .rules-card-container,
+    .booking-section-container {
+        padding: 30px 22px !important;
+    }
+
+    .booking-form-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .dos-donts-grid {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    .guideline-card {
+        padding: 30px 22px;
+    }
+
+    .notice-inner-box {
+        padding: 22px 18px;
+    }
+
+    .notice-highlight-text {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .subpage-main.accom-main-container {
+        padding-top: 90px !important;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+        gap: 28px !important;
+    }
+
+    .rules-card-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 6px;
+    }
+
+    .rules-arrow-list li {
+        font-size: 0.92rem;
+    }
+
+    .disabled-payment-btn {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 14px 18px;
+        font-size: 0.78rem;
+    }
+}

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORBIT PHOTO GALLERY // PRAVAAH '26</title>
+    <meta name="description" content="Explore the official visual dossier and photo archives of Pravaah 2026 Multiverse Fest.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Custom Gallery Stylesheet -->
+    <link rel="stylesheet" href="src/css/photo-gallery.css">
+    
+    <!-- Scripts -->
+    <script src="src/js/photo-gallery.js" defer></script>
+    <script src="src/js/glitch-nav.js" defer></script>
+</head>
+<body class="photo-gallery-body">
+
+    <!-- Cyber Visual Background Layers -->
+    <div class="gallery-cyber-bg"></div>
+    <div class="gallery-grid-overlay"></div>
+
+    <!-- Cosmic Nav Wheel -->
+    <nav class="cosmic-nav-wheel" id="cosmic-nav-wheel">
+        <div class="nav-wheel-track">
+            <div class="nav-indicator-pill" id="nav-indicator-pill"></div>
+            <div class="nav-hover-pill" id="nav-hover-pill"></div>
+
+            <a href="index.html" class="nav-item">HOME</a>
+            <div class="nav-divider"></div>
+            <a href="events.html" class="nav-item">EVENTS</a>
+            <div class="nav-divider"></div>
+            <a href="register.html" class="nav-item">REGISTER</a>
+            <div class="nav-divider"></div>
+            <a href="accommodation.html" class="nav-item">ACCOMMODATION</a>
+            <div class="nav-divider"></div>
+            <a href="photo-gallery.html" class="nav-item active">PHOTO GALLERY</a>
+            <div class="nav-divider"></div>
+            <a href="sponsors.html" class="nav-item">SPONSORS</a>
+            <div class="nav-divider"></div>
+            <a href="contact.html" class="nav-item">CONTACT US</a>
+            <div class="nav-divider"></div>
+            <a href="profile.html" class="nav-item">PROFILE</a>
+        </div>
+        <div class="nav-wheel-glow"></div>
+    </nav>
+
+    <!-- Main Shell -->
+    <main class="photo-gallery-main">
+        
+        <!-- Header Section -->
+        <header class="gallery-header">
+            <div class="badge-pill">VISUAL DOSSIER ARCHIVES // PRAVAAH '27</div>
+            <h1 class="gallery-hero-title">ORBIT PHOTO GALLERY</h1>
+            <p class="gallery-subtitle">
+                Fly forward down the continuous 3D wall corridor to explore high-definition captures mounted along the left and right gallery walls.
+            </p>
+
+            <!-- Category Filter Buttons -->
+            <div class="category-filter-bar" id="category-filter-bar">
+                <button class="filter-btn active" data-category="ALL" type="button">
+                    <span class="filter-dot"></span>
+                    <span>ALL</span>
+                </button>
+                <button class="filter-btn" data-category="TECH & ROBOTICS" type="button">
+                    <span class="filter-dot"></span>
+                    <span>TECH & ROBOTICS</span>
+                </button>
+                <button class="filter-btn" data-category="CULTURAL & PRONITES" type="button">
+                    <span class="filter-dot"></span>
+                    <span>CULTURAL & PRONITES</span>
+                </button>
+                <button class="filter-btn" data-category="ESPORTS ARENA" type="button">
+                    <span class="filter-dot"></span>
+                    <span>ESPORTS ARENA</span>
+                </button>
+                <button class="filter-btn" data-category="STAGE & SHOWCASE" type="button">
+                    <span class="filter-dot"></span>
+                    <span>STAGE & SHOWCASE</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Continuous 3D Architectural Wall Corridor Viewport -->
+        <section class="corridor-viewport" id="corridor-viewport" aria-label="3D Wall Corridor Flythrough" tabindex="0" aria-describedby="corridor-scroll-hint-text">
+            <div class="corridor-floor-plane" id="floor-plane"></div>
+            <div class="corridor-ceiling-plane" id="ceiling-plane"></div>
+            <div class="corridor-fog-layer"></div>
+            <div class="corridor-vignette"></div>
+
+            <!-- Compact Return to Entrance Control (Centered Top) -->
+            <button class="return-entrance-btn" id="return-entrance-btn" type="button" aria-label="Return to Corridor Entrance">
+                <span>RETURN TO ENTRANCE</span>
+            </button>
+            
+            <div class="corridor-stage" id="corridor-stage">
+                <!-- 14 Photo Cards + THE FINAL FRAME end scene rendered dynamically by photo-gallery.js -->
+            </div>
+
+            <!-- Compact Photo Gallery Progress Seek Line (Positioned directly above scroll hint text) -->
+            <div class="hud-progress-container" id="hud-progress-container" role="progressbar" aria-label="Photo gallery progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <div class="hud-progress-bg" id="hud-progress-bg">
+                    <div class="hud-progress-fill" id="hud-progress-bar" style="width: 0%;"></div>
+                    <div class="hud-progress-thumb" id="hud-progress-thumb"></div>
+                </div>
+            </div>
+
+            <div class="corridor-scroll-hint" id="corridor-scroll-hint-text">
+                <span class="hint-main">SCROLL DOWN TO ENTER THE PHOTO CORRIDOR</span>
+                <span class="hint-sub">Scroll up at entrance or down at Final Frame to leave the corridor</span>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Shared Full-Width Footer as on Home Page -->
+    <footer class="pravaah-full-footer footer-centered">
+        <div class="footer-columns-grid grid-centered">
+            <div class="footer-col col-centered">
+                <h4 class="footer-heading">EXPLORE</h4>
+                <ul class="footer-links-list list-centered">
+                    <li><a href="events.html">Events Directory</a></li>
+                    <li><a href="register.html">Registration & Passes</a></li>
+                    <li><a href="accommodation.html">Accommodation</a></li>
+                    <li><a href="photo-gallery.html">Photo Gallery</a></li>
+                    <li><a href="sponsors.html">Our Sponsors</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col col-centered">
+                <h4 class="footer-heading">REACH OUT</h4>
+                <ul class="footer-links-list list-centered">
+                    <li><a href="mailto:coord.pravaah@iitbbs.ac.in">coord.pravaah@iitbbs.ac.in</a></li>
+                    <li><a href="mailto:events.pravaah@iitbbs.ac.in">events.pravaah@iitbbs.ac.in</a></li>
+                    <li><a href="https://www.iitbbs.ac.in/" target="_blank">IIT Bhubaneswar, Argul, Odisha 752050</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom-bar bar-centered">
+            <span>@PRAVAAH'26 IIT BHUBANESWAR</span>
+            <span>MADE WITH 💜 BY WEB TEAM</span>
+        </div>
+    </footer>
+
+    <!-- Photo Dossier Modal -->
+    <div class="dossier-modal-overlay" id="photo-dossier-modal" aria-hidden="true">
+        <div class="dossier-modal-card" role="dialog" aria-modal="true">
+            <div class="modal-header">
+                <span class="modal-badge" id="modal-badge">TECH & ROBOTICS // FLAGSHIP</span>
+                <button class="modal-close-btn" id="modal-close-btn" type="button">[ CLOSE DOSSIER ]</button>
+            </div>
+
+            <div class="modal-image-box">
+                <img id="modal-img" src="" alt="" />
+            </div>
+
+            <h3 class="modal-title" id="modal-title">PHOTO TITLE</h3>
+            <p class="modal-description" id="modal-description">Detailed description of the photo capture.</p>
+
+            <div class="modal-specs-grid">
+                <div class="spec-item">
+                    <span class="spec-label">EDITION</span>
+                    <span class="spec-value" id="spec-edition">PRAVAAH 2026</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">LOCATION</span>
+                    <span class="spec-value" id="spec-location">LHC Arena Complex</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">PHOTOGRAPHER</span>
+                    <span class="spec-value" id="spec-photographer">Media Team</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">RESOLUTION</span>
+                    <span class="spec-value" id="spec-resolution">6000 x 4000 (RAW)</span>
+                </div>
+            </div>
+
+            <div class="modal-highlights">
+                <h4 class="highlights-title">DOSSIER CAPTURE NOTES & HIGHLIGHTS</h4>
+                <ul class="highlights-list" id="modal-highlights-list">
+                    <!-- Dynamic highlights rendered by JS -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

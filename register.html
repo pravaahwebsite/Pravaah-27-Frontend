@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRAVAAH '26 — Dimensional Access Pass Registration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="src/css/register.css">
+</head>
+<body class="subpage-body register-page-body">
+
+    <!-- Global Cyber Background Layers -->
+    <div class="global-bg-layer subpage-bg"></div>
+    <div class="subpage-grid-overlay"></div>
+
+    <!-- Cosmic Nav Wheel -->
+    <nav class="cosmic-nav-wheel" id="cosmic-nav-wheel">
+        <div class="nav-wheel-track">
+            <div class="nav-indicator-pill" id="nav-indicator-pill"></div>
+            <div class="nav-hover-pill" id="nav-hover-pill"></div>
+
+            <a href="index.html" class="nav-item">HOME</a>
+            <div class="nav-divider"></div>
+            <a href="events.html" class="nav-item">EVENTS</a>
+            <div class="nav-divider"></div>
+            <a href="register.html" class="nav-item active">REGISTER</a>
+            <div class="nav-divider"></div>
+            <a href="accommodation.html" class="nav-item">ACCOMMODATION</a>
+            <div class="nav-divider"></div>
+            <a href="photo-gallery.html" class="nav-item">PHOTO GALLERY</a>
+            <div class="nav-divider"></div>
+            <a href="sponsors.html" class="nav-item">SPONSORS</a>
+            <div class="nav-divider"></div>
+            <a href="contact.html" class="nav-item">CONTACT US</a>
+            <div class="nav-divider"></div>
+            <a href="profile.html" class="nav-item">PROFILE</a>
+        </div>
+        <div class="nav-wheel-glow"></div>
+    </nav>
+
+    <!-- Main Registration Shell -->
+    <main class="subpage-main register-main-container">
+        
+        <!-- Section A: Compact Registration Hero -->
+        <header class="register-hero-header">
+            <div class="register-hero-badge">✦ FESTIVAL PASS TIER REGISTRY ✦</div>
+            <h1 class="register-hero-title">REGISTRATION</h1>
+            <p class="register-hero-subtitle">Select your festival pass tier, view pass rules, and prepare for Pravaah '26.</p>
+        </header>
+
+        <!-- Section B: Pravaha Passes Container (Screenshot 1) -->
+        <section class="passes-card-container">
+            <div class="passes-header">
+                <h2 class="passes-title"><span>🎟️</span> PRAVAAH PASSES</h2>
+                <p class="passes-subtitle">Select a pass type. Configure days/events and participants. Price updates live.</p>
+            </div>
+
+            <div class="passes-grid" id="passesGrid">
+                
+                <!-- Day Pass -->
+                <div class="pass-card" data-name="Day Pass" data-price="₹75 · ₹149 · ₹149 · ₹199" data-desc="Choose one or more days. Events selectable." data-notice="Select active days to participate in verse events.">
+                    <span class="check-badge">✓</span>
+                    <h3 class="pass-name">Day Pass</h3>
+                    <p class="pass-price">₹75 · ₹149 · ₹149 · ₹199</p>
+                    <p class="pass-desc">Choose one or more days. Events selectable.</p>
+                </div>
+
+                <!-- Fest Pass -->
+                <div class="pass-card" data-name="Fest Pass" data-price="₹449 (All 4 days)" data-desc="All 4 days. Price fixed. Select events per day." data-notice="Includes access to all 4 days, all verse events, and Starnite concert.">
+                    <span class="check-badge">✓</span>
+                    <h3 class="pass-name">Fest Pass</h3>
+                    <p class="pass-price">₹449 (All 4 days)</p>
+                    <p class="pass-desc">All 4 days. Price fixed. Select events per day.</p>
+                </div>
+
+                <!-- Visitor Pass -->
+                <div class="pass-card" data-name="Visitor Pass" data-price="₹75 · ₹99 · ₹99 · ₹149" data-desc="Choose days to visit. Events display only." data-notice="Campus access for spectators and visitors. Event viewing included.">
+                    <span class="check-badge">✓</span>
+                    <h3 class="pass-name">Visitor Pass</h3>
+                    <p class="pass-price">₹75 · ₹99 · ₹99 · ₹149</p>
+                    <p class="pass-desc">Choose days to visit. Events display only.</p>
+                </div>
+
+                <!-- Starnite Pass (Selected by Default) -->
+                <div class="pass-card selected" data-name="Starnite Pass" data-price="₹99" data-desc="Standalone concert-night access." data-notice="IITBBS students need not register for Starnite.">
+                    <span class="check-badge">✓</span>
+                    <h3 class="pass-name">Starnite Pass</h3>
+                    <p class="pass-price">₹99</p>
+                    <p class="pass-desc">Standalone concert-night access.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section C: Delegate Information Form -->
+        <section class="delegate-info-container">
+            <div class="delegate-header">
+                <h2 class="delegate-title">DELEGATE INFORMATION</h2>
+                <p class="delegate-sub">Enter your details to prepare your registration.</p>
+            </div>
+
+            <form id="delegateForm" class="delegate-form-grid" onsubmit="return false;">
+                <div class="form-field-group">
+                    <label for="reg-fullname" class="form-label">FULL NAME *</label>
+                    <input type="text" id="reg-fullname" name="fullname" class="form-input" required placeholder="e.g. Alex Mercer">
+                </div>
+
+                <div class="form-field-group">
+                    <label for="reg-email" class="form-label">EMAIL ADDRESS *</label>
+                    <input type="email" id="reg-email" name="email" class="form-input" required placeholder="e.g. alex@institution.edu">
+                </div>
+
+                <div class="form-field-group">
+                    <label for="reg-phone" class="form-label">PHONE NUMBER *</label>
+                    <input type="tel" id="reg-phone" name="phone" class="form-input" required placeholder="e.g. +91 98765 43210">
+                </div>
+
+                <div class="form-field-group">
+                    <label for="reg-college" class="form-label">COLLEGE / INSTITUTION *</label>
+                    <input type="text" id="reg-college" name="college" class="form-input" required placeholder="e.g. IIT Bhubaneswar">
+                </div>
+
+                <div class="form-field-group full-width">
+                    <p class="delegate-prep-note">These details are for registration preparation only. Online registration and payment will open when official pass sales go live.</p>
+                </div>
+            </form>
+        </section>
+
+        <!-- Section D: Important Notes Before Payment (Screenshot 2) -->
+        <section class="notes-card-container">
+            <div class="notes-card-header">
+                <span class="warning-icon">⚠️</span>
+                <h2 class="notes-card-title">Important Notes Before Payment</h2>
+            </div>
+            <ul class="notes-arrow-list">
+                <li><span class="cyan-arrow">➤</span> People who take a Fest Pass, Day 3 Pass, or Visitor Pass (Day 3) do not need to buy a separate Starnite pass.</li>
+                <li><span class="cyan-arrow">➤</span> Enter your full name correctly.</li>
+                <li><span class="cyan-arrow">➤</span> If you select a Day Pass, you can participate in all the events on that day. Select the events you are interested in for the day.</li>
+            </ul>
+        </section>
+
+        <!-- Section E: Selected Pass Details & Notice Box (Screenshot 2) -->
+        <section class="selected-pass-container">
+            <h2 class="selected-pass-heading" id="selectedPassTitle">Selected: Starnite Pass</h2>
+            
+            <div class="selected-pass-inner-box">
+                <h3 class="selected-card-title" id="selectedCardTitle">Starnite Pass</h3>
+                <p class="selected-card-notice" id="selectedCardNotice">IITBBS students need not register for Starnite.</p>
+            </div>
+        </section>
+
+        <!-- Section F: Coming Soon Payment Action -->
+        <div class="payment-action-container">
+            <button type="button" class="disabled-payment-btn" disabled>
+                PAYMENT & REGISTRATION PORTAL — COMING SOON
+            </button>
+            <p class="payment-notice-text">Online registration and payment gateway will open after official pass sales go live.</p>
+        </div>
+
+    </main>
+
+    <!-- Shared Full-Width Footer as on Home Page -->
+    <footer class="pravaah-full-footer footer-centered">
+        <div class="footer-columns-grid grid-centered">
+            <div class="footer-col col-centered">
+                <h4 class="footer-heading">EXPLORE</h4>
+                <ul class="footer-links-list list-centered">
+                    <li><a href="events.html">Events Directory</a></li>
+                    <li><a href="register.html">Registration & Passes</a></li>
+                    <li><a href="accommodation.html">Accommodation</a></li>
+                    <li><a href="photo-gallery.html">Photo Gallery</a></li>
+                    <li><a href="sponsors.html">Our Sponsors</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col col-centered">
+                <h4 class="footer-heading">REACH OUT</h4>
+                <ul class="footer-links-list list-centered">
+                    <li><a href="mailto:coord.pravaah@iitbbs.ac.in">coord.pravaah@iitbbs.ac.in</a></li>
+                    <li><a href="mailto:events.pravaah@iitbbs.ac.in">events.pravaah@iitbbs.ac.in</a></li>
+                    <li><a href="https://www.iitbbs.ac.in/" target="_blank">IIT Bhubaneswar, Argul, Odisha 752050</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom-bar bar-centered">
+            <span>@PRAVAAH'26 IIT BHUBANESWAR</span>
+            <span>MADE WITH 💜 BY WEB TEAM</span>
+        </div>
+    </footer>
+
+    <script src="src/js/glitch-nav.js"></script>
+    <script src="src/js/register.js"></script>
+</body>
+</html>

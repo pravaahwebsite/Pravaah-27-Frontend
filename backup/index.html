@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pravaah 2026 | The Multiverse Fest</title>
+    <meta name="description" content="Enter the Pravaah 2026 Multiverse. Explore Tech, Cult, Game, Entrepreneur, and Social Verses. Browse event schedule grids and travel across planetary space dimensions.">
+    <!-- Google Fonts: Orbitron for Sci-fi headers, Inter for clean body text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Persistent Starfield Canvas -->
+    <canvas id="starfield-canvas"></canvas>
+
+    <!-- Floating Top Navigation Wheel -->
+    <nav class="cosmic-nav-wheel hidden-nav" id="cosmic-nav-wheel">
+        <div class="nav-wheel-track">
+            <!-- Sliding indicator pill back overlay -->
+            <div class="nav-indicator-pill" id="nav-indicator-pill"></div>
+
+            <button class="nav-item" data-target="splash-screen">HOME</button>
+            <div class="nav-divider"></div>
+            <button class="nav-item active" data-target="calendar-page">CALENDAR</button>
+            <div class="nav-divider"></div>
+            <button class="nav-item" data-target="universe-page">PORTALS</button>
+            <div class="nav-divider"></div>
+            <button class="nav-item" data-target="gallery-page">GALLERY</button>
+            <div class="nav-divider"></div>
+            <button class="nav-item" data-target="about-page">ABOUT</button>
+        </div>
+        <div class="nav-wheel-glow"></div>
+    </nav>
+    
+    <!-- Screen 2: Portal Dimensional Warp Video Entrance (Plays Once on Entry Scroll) -->
+    <section id="loader-screen" class="hidden portal-warp-section">
+        <video id="portal-video" class="portal-video-element" playsinline preload="auto" muted>
+            <source src="portal_intro_9s.mp4" type="video/mp4">
+            <source src="vid1.mp4" type="video/mp4">
+            <source src="vid.mp4" type="video/mp4">
+        </video>
+        
+        <!-- Blinding Dimensional Whiteout Burst Overlay -->
+        <div id="portal-flash-overlay" class="portal-flash-overlay"></div>
+    </section>
+
+    <!-- Screen 3 & 4: Integrated App Scroll snap sections -->
+    <main id="main-scroll-container">
+        
+        <!-- Screen 1: Splash / Entry Portal (Now first snap page) -->
+        <section id="splash-screen" class="snap-page active-screen">
+            <div class="glow-core"></div>
+            <div class="splash-content">
+                
+                <!-- Left Panel: Highlights Showcase -->
+                <div class="splash-highlights-panel">
+                    <h3 class="splash-panel-title title-tech">FEST HIGHLIGHTS</h3>
+                    <div class="highlight-item">
+                        <span class="hl-badge badge-tech">TECH</span>
+                        <div class="hl-name">ROBO SOCCER</div>
+                        <div class="hl-desc">Futuristic robotic arena championship.</div>
+                    </div>
+                    <div class="highlight-item">
+                        <span class="hl-badge badge-cult">CULT</span>
+                        <div class="hl-name">SYMPHONY</div>
+                        <div class="hl-desc">Battle of the rock & fusion bands.</div>
+                    </div>
+                    <div class="highlight-item">
+                        <span class="hl-badge badge-game">GAME</span>
+                        <div class="hl-name">VALORANT LAN</div>
+                        <div class="hl-desc">High stakes tactical esports finals.</div>
+                    </div>
+                </div>
+
+                <!-- Center Panel: Main Logo & vortex -->
+                <div class="splash-logo-column">
+                    <div class="portal-vortex-bg"></div>
+                    <div class="logo-container">
+                        <div class="logo-pravaah-container">
+                            <span class="logo-pravaah spider-title" data-text="PRAVAAH">PRAVAAH</span>
+                            <span class="logo-edition-tag">3<sup>rd</sup> EDITION</span>
+                        </div>
+                        <h1 class="logo-title spider-title" data-text="KAIROS">KAIROS</h1>
+                        <div class="logo-subtitle-container">
+                            <div class="logo-subtitle">worlds unbound</div>
+                            <div class="subtitle-line">
+                                <span class="line-dot"></span>
+                                <span class="line-bar"></span>
+                                <span class="line-sparkle">✦</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="home-swipe-prompt" id="portal-entry-trigger" role="button" tabindex="0" title="Click or Swipe to Enter Multiverse Portal">
+                        <div class="home-enter-btn-glow"></div>
+                        <div class="home-enter-btn-content">
+                            <span class="home-enter-icon">✦</span>
+                            <span class="home-swipe-text">ENTER MULTIVERSE</span>
+                            <span class="home-enter-tag">SWIPE OR CLICK</span>
+                        </div>
+                        <div class="arrow-down-glowing home-swipe-arrow">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Panel: Portal Status Matrix -->
+                <div class="splash-status-panel">
+                    <h3 class="splash-panel-title title-cult">PORTAL MATRIX</h3>
+                    <div class="status-row">
+                        <div class="status-meta">
+                            <span class="status-name">TECH GATE</span>
+                            <span class="status-stat status-online">ONLINE (98%)</span>
+                        </div>
+                        <div class="status-bar"><div class="status-bar-fill fill-tech" style="width: 98%;"></div></div>
+                    </div>
+                    <div class="status-row">
+                        <div class="status-meta">
+                            <span class="status-name">CULT GATE</span>
+                            <span class="status-stat status-online">ONLINE (95%)</span>
+                        </div>
+                        <div class="status-bar"><div class="status-bar-fill fill-cult" style="width: 95%;"></div></div>
+                    </div>
+                    <div class="status-row">
+                        <div class="status-meta">
+                            <span class="status-name">GAME GATE</span>
+                            <span class="status-stat status-online">ONLINE (92%)</span>
+                        </div>
+                        <div class="status-bar"><div class="status-bar-fill fill-game" style="width: 92%;"></div></div>
+                    </div>
+                    <div class="status-row">
+                        <div class="status-meta">
+                            <span class="status-name">ENTRE GATE</span>
+                            <span class="status-stat status-stable">STABLE</span>
+                        </div>
+                        <div class="status-bar"><div class="status-bar-fill fill-ent" style="width: 85%;"></div></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        
+        <!-- SECTION 2: CALENDAR PAGE -->
+        <section id="calendar-page" class="snap-page">
+            <!-- HUD Header -->
+            <header class="hud-header">
+                <div class="hud-left">
+                    <span class="hud-indicator status-green"></span>
+                    <span class="hud-title">TIMELINE</span>
+                </div>
+                <div class="hud-right">
+                    <span class="hud-date">FEB - APR 2026</span>
+                </div>
+            </header>
+            
+            <h2 class="calendar-page-heading spider-title" data-text="FEST CALENDAR">FEST CALENDAR</h2>
+            
+            <!-- Left Sidebar Ticker -->
+            <div class="calendar-sidebar-ticker ticker-left">
+                <div class="ticker-header">
+                    <span class="ticker-dot pulse-gold"></span>
+                    <span class="ticker-title">LIVE PROTOCOLS</span>
+                </div>
+                <div class="ticker-viewport">
+                    <div class="ticker-track">
+                        <!-- Group 1 -->
+                        <div class="ticker-group">
+                            <div class="ticker-item">
+                                <span class="item-tag tag-tech">TECH</span>
+                                <p class="item-text">Warp engine stabilizing for the October 15 convergence.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-cult">CULT</span>
+                                <p class="item-text">Cyberpunk & Retro-futurism themes approved for Vogue.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-game">GAME</span>
+                                <p class="item-text">Valorant & BGMI brackets seeding starts Oct 10.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-ent">ENTR</span>
+                                <p class="item-text">VC panels confirmed from Sequoia & Techstars.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-tech">TECH</span>
+                                <p class="item-text">AI Singularity Panel: Decoding LLMs beyond 2026.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-cult">CULT</span>
+                                <p class="item-text">Neo-Tokyo Synthwave Concert details released.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-game">GAME</span>
+                                <p class="item-text">CS2 & FIFA arena registrations hit maximum capacity.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-ent">ENTR</span>
+                                <p class="item-text">VC matching pool expanded to 10M INR.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-tech">TECH</span>
+                                <p class="item-text">Quantum Networking Workshop: Labs online on Day 2.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-cult">CULT</span>
+                                <p class="item-text">Digital Art Gallery: Interactive hologram installations ready.</p>
+                            </div>
+                        </div>
+                        <!-- Group 2 (Duplicate for seamless loop) -->
+                        <div class="ticker-group">
+                            <div class="ticker-item">
+                                <span class="item-tag tag-tech">TECH</span>
+                                <p class="item-text">Warp engine stabilizing for the October 15 convergence.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-cult">CULT</span>
+                                <p class="item-text">Cyberpunk & Retro-futurism themes approved for Vogue.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-game">GAME</span>
+                                <p class="item-text">Valorant & BGMI brackets seeding starts Oct 10.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-ent">ENTR</span>
+                                <p class="item-text">VC panels confirmed from Sequoia & Techstars.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-tech">TECH</span>
+                                <p class="item-text">AI Singularity Panel: Decoding LLMs beyond 2026.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-cult">CULT</span>
+                                <p class="item-text">Neo-Tokyo Synthwave Concert details released.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-game">GAME</span>
+                                <p class="item-text">CS2 & FIFA arena registrations hit maximum capacity.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-ent">ENTR</span>
+                                <p class="item-text">VC matching pool expanded to 10M INR.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-tech">TECH</span>
+                                <p class="item-text">Quantum Networking Workshop: Labs online on Day 2.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-cult">CULT</span>
+                                <p class="item-text">Digital Art Gallery: Interactive hologram installations ready.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Sidebar Ticker -->
+            <div class="calendar-sidebar-ticker ticker-right">
+                <div class="ticker-header">
+                    <span class="ticker-dot pulse-gold"></span>
+                    <span class="ticker-title">IMP UPDATES</span>
+                </div>
+                <div class="ticker-viewport">
+                    <div class="ticker-track">
+                        <!-- Group 1 -->
+                        <div class="ticker-group">
+                            <div class="ticker-item">
+                                <span class="item-tag tag-alert">ALERT</span>
+                                <p class="item-text">Event registration lines are now officially live.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-prize">PRIZE</span>
+                                <p class="item-text">Total cash pool exceeds 5,000,000 INR across all events.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-portal">PORTAL</span>
+                                <p class="item-text">Portal core singularity stabilizing. Secure slots now.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-social">SOCIAL</span>
+                                <p class="item-text">Green Horizon eco-hacks submission portal closes soon.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-alert">ALERT</span>
+                                <p class="item-text">Registration deadline extended until October 12.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-prize">PRIZE</span>
+                                <p class="item-text">Special awards announced for eco-sustainable hacks.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-portal">PORTAL</span>
+                                <p class="item-text">Core stabilizer status: Nominal at 99.8% precision.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-social">SOCIAL</span>
+                                <p class="item-text">Community meetup at the Multiverse Arena on Day 3.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-alert">ALERT</span>
+                                <p class="item-text">Badge pickup opens at 8:00 AM at the Main Gate.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-portal">PORTAL</span>
+                                <p class="item-text">System sync offline for maintenance at 03:00 UTC.</p>
+                            </div>
+                        </div>
+                        <!-- Group 2 (Duplicate for seamless loop) -->
+                        <div class="ticker-group">
+                            <div class="ticker-item">
+                                <span class="item-tag tag-alert">ALERT</span>
+                                <p class="item-text">Event registration lines are now officially live.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-prize">PRIZE</span>
+                                <p class="item-text">Total cash pool exceeds 5,000,000 INR across all events.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-portal">PORTAL</span>
+                                <p class="item-text">Portal core singularity stabilizing. Secure slots now.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-social">SOCIAL</span>
+                                <p class="item-text">Green Horizon eco-hacks submission portal closes soon.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-alert">ALERT</span>
+                                <p class="item-text">Registration deadline extended until October 12.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-prize">PRIZE</span>
+                                <p class="item-text">Special awards announced for eco-sustainable hacks.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-portal">PORTAL</span>
+                                <p class="item-text">Core stabilizer status: Nominal at 99.8% precision.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-social">SOCIAL</span>
+                                <p class="item-text">Community meetup at the Multiverse Arena on Day 3.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-alert">ALERT</span>
+                                <p class="item-text">Badge pickup opens at 8:00 AM at the Main Gate.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="item-tag tag-portal">PORTAL</span>
+                                <p class="item-text">System sync offline for maintenance at 03:00 UTC.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="calendar-layout-container" id="calendar-layout-container">
+                <!-- 3D Calendar Cube Viewport -->
+                <div class="calendar-cube-viewport" id="calendar-cube-viewport">
+                    <!-- Diagonal orbiting 3D space comets -->
+                    <div class="comet-orbit-ring ring-1">
+                        <div class="comet-spinner spinner-1">
+                            <div class="cube-comet comet-cyan"></div>
+                        </div>
+                    </div>
+                    <div class="comet-orbit-ring ring-2">
+                        <div class="comet-spinner spinner-2">
+                            <div class="cube-comet comet-pink"></div>
+                        </div>
+                    </div>
+                    <div class="comet-orbit-ring ring-3">
+                        <div class="comet-spinner spinner-3">
+                            <div class="cube-comet comet-gold"></div>
+                        </div>
+                    </div>
+                    <!-- 3D Cube Rotation Navigation Arrows -->
+                    <button class="cube-nav-arrow arrow-top" id="cube-arrow-top" aria-label="View March Events" title="View March Events">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+                        <span class="arrow-tooltip">MARCH</span>
+                    </button>
+                    <button class="cube-nav-arrow arrow-left" id="cube-arrow-left" aria-label="View February Events" title="View February Events">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                        <span class="arrow-tooltip">FEB</span>
+                    </button>
+                    <button class="cube-nav-arrow arrow-right" id="cube-arrow-right" aria-label="View April Events" title="View April Events">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                        <span class="arrow-tooltip">APRIL</span>
+                    </button>
+
+                    <div class="calendar-cube" id="calendar-cube">
+                        <!-- February Face (Front) -->
+                        <div class="cube-face face-front" id="face-feb"></div>
+                        <!-- March Face (Top) -->
+                        <div class="cube-face face-top" id="face-mar"></div>
+                        <!-- April Face (Right) -->
+                        <div class="cube-face face-right" id="face-apr"></div>
+                    </div>
+                </div>
+
+                <!-- Click guidance note telemetry -->
+                <div class="calendar-tip-hud">
+                    <span class="tip-icon">💡</span>
+                    <span class="tip-text">SYSTEM NOTICE: SELECT A MONTH USING NAV ARROWS, THEN CLICK A HIGHLIGHTED DATE CELL FOR DETAIL INDEX.</span>
+                </div>
+
+                <!-- Daily Events Sidebar Panel -->
+                <div class="day-events-panel" id="day-events-panel">
+                    <div class="panel-header-row">
+                        <h3 class="panel-title" id="calendar-panel-title">SELECT A TEMPORAL NODE</h3>
+                        <button id="back-to-cube-btn" class="back-cube-btn hidden-btn">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                            BACK
+                        </button>
+                    </div>
+                    <div class="panel-date" id="calendar-panel-date">No cycle loaded</div>
+                    <div class="panel-events-list" id="calendar-events-list">
+                        <div class="no-events-prompt">Click a highlighted day grid cell to query local verse event timelines.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scroll Down Indicator HUD -->
+            <div class="scroll-down-indicator">
+                <p>SCROLL DOWN FOR EVENTS MAP</p>
+                <div class="arrow-down-glowing">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: EVENTS PAGE / PORTAL NETWORK -->
+        <section id="universe-page" class="snap-page network-undeployed">
+            <!-- HUD Header -->
+            <header class="hud-header">
+                <div class="hud-left">
+                    <span class="hud-indicator status-green"></span>
+                    <span class="hud-title">PRAVAAH PORTAL MAP // CO-ORDS: 0.15.26</span>
+                </div>
+                <div class="hud-right">
+                    <span class="hud-date">OCTOBER 15-18, 2026</span>
+                </div>
+            </header>
+
+            <h2 class="universe-page-heading spider-title" data-text="PORTAL NETWORK">PORTAL NETWORK</h2>
+            
+            <!-- Portal Network Layout Viewport -->
+            <div class="network-viewport">
+                <!-- Blinding white Big Bang flash overlay -->
+                <div class="big-bang-flash" id="big-bang-flash"></div>
+                <!-- Nebula back blur element for deep space atmospheric glow -->
+                <div class="universe-nebula-glow"></div>
+
+                <!-- Cybernetic coordinate background grid -->
+                <div class="cyber-grid-overlay"></div>
+
+                <!-- HUD corner brackets -->
+                <div class="hud-bracket bracket-tl"></div>
+                <div class="hud-bracket bracket-tr"></div>
+                <div class="hud-bracket bracket-bl"></div>
+                <div class="hud-bracket bracket-br"></div>
+
+                <!-- Cosmic telemetry metrics -->
+                <div class="telemetry-box telemetry-top-left">
+                    <span class="telemetry-label">SYSTEM SCANNER</span>
+                    <span class="telemetry-value">STATUS: SECTOR ACTIVE</span>
+                    <span class="telemetry-value">TARGET ID: PRV_CORE_02</span>
+                </div>
+                <div class="telemetry-box telemetry-top-right">
+                    <span class="telemetry-label">COSMIC TELEMETRY</span>
+                    <span class="telemetry-value">WORMHOLE: 98.7% STABLE</span>
+                    <span class="telemetry-value">GRID FREQ: 432.10Hz</span>
+                </div>
+                <div class="telemetry-box telemetry-bottom-left">
+                    <span class="telemetry-label">DIMENSIONAL CO-ORDINATES</span>
+                    <span class="telemetry-value" id="live-coords">X: 184.2930 | Y: -493.1820</span>
+                    <span class="telemetry-value">MATRIX VECTOR: [0.22, 0.99]</span>
+                </div>
+                <div class="telemetry-box telemetry-bottom-right">
+                    <span class="telemetry-label">TRANSMISSION FEED</span>
+                    <span class="telemetry-value">DECODING SIGNAL... OK</span>
+                    <span class="telemetry-value">PORTAL CONVERGENCE: ON</span>
+                </div>
+
+                <div class="portal-network-container" id="portal-network-container">
+                    <!-- Vortex Core Click Instruction Notice -->
+                    <div class="core-deploy-prompt" id="core-deploy-prompt">
+                        <span class="prompt-icon">⚡</span>
+                        <span class="prompt-text">VORTEX CORE STABLE<br>CLICK PORTAL CORE TO DEPLOY MULTIVERSE</span>
+                    </div>
+                    <!-- Rotating conic radar sweep line -->
+                    <div class="radar-scan-line"></div>
+
+                    <!-- Orbiting wrapper for dynamic network elements -->
+                    <div class="portal-orbit-wrapper" id="portal-orbit-wrapper">
+                        <!-- SVG for drawing circuit connections -->
+                        <svg class="network-svg" id="network-svg"></svg>
+
+                        <!-- Portal nodes and branching event nodes will be dynamically injected here in JS -->
+                    </div>
+
+                    <!-- Central Pravaah Core Button -->
+                    <button class="pravaah-core-btn" id="pravaah-core" aria-label="Reset Portal Network">
+                        <span class="core-text">PRAVAAH</span>
+                        <span class="core-click-prompt">CLICK TO SYNC SYSTEM</span>
+                        <span class="core-glow-ring"></span>
+                    </button>
+
+                    <!-- Portal nodes and branching event nodes will be dynamically injected here in JS -->
+                </div>
+            </div>
+
+            <!-- HUD footer overlay -->
+            <footer class="hud-footer">
+                <p>CLICK A PORTAL TO GROW EVENT BRANCHES // SCROLL DOWN FOR ABOUT</p>
+            </footer>
+        </section>
+
+        <!-- SECTION 4: GALLERY ARCHIVE PAGE (Vero Studio Inspired) -->
+        <section id="gallery-page" class="snap-page">
+            <!-- HUD Header -->
+            <header class="hud-header">
+                <div class="hud-left">
+                    <span class="hud-indicator status-green"></span>
+                    <span class="hud-title">ARCHIVE // DIMENSIONAL GALLERY</span>
+                </div>
+                <div class="hud-right">
+                    <span class="hud-date">MULTIVERSE MEMORIES</span>
+                </div>
+            </header>
+
+            <div class="gallery-viewport">
+                <h2 class="gallery-page-heading spider-title" data-text="PORTAL GALLERY">PORTAL GALLERY</h2>
+                
+
+
+                <div class="gallery-columns-wrapper">
+                    <!-- Column 1: Slides Down -->
+                    <div class="gallery-column col-down">
+                        <div class="gallery-track track-down">
+                            <!-- Group 1 -->
+                            <div class="gallery-group-vertical">
+                                <div class="gallery-card" data-category="tech">
+                                    <img src="pravaah_pics_2026/DSC_0377.JPG" alt="Tech Robo Soccer" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-tech">TECH VERSE</span>
+                                        <h4 class="gallery-card-title">Robo Soccer Arena</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="cult">
+                                    <img src="pravaah_pics_2026/DSC_1631.JPG" alt="Cult Live Concert" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
+                                        <h4 class="gallery-card-title">Main Arena Concert</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="cult">
+                                    <img src="pravaah_pics_2026/DSC_1675.JPG" alt="Cult Band Battle" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
+                                        <h4 class="gallery-card-title">Symphony Rock Battle</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Group 2 (Duplicate for loop) -->
+                            <div class="gallery-group-vertical">
+                                <div class="gallery-card" data-category="tech">
+                                    <img src="pravaah_pics_2026/DSC_0377.JPG" alt="Tech Robo Soccer" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-tech">TECH VERSE</span>
+                                        <h4 class="gallery-card-title">Robo Soccer Arena</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="cult">
+                                    <img src="pravaah_pics_2026/DSC_1631.JPG" alt="Cult Live Concert" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
+                                        <h4 class="gallery-card-title">Main Arena Concert</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="cult">
+                                    <img src="pravaah_pics_2026/DSC_1675.JPG" alt="Cult Band Battle" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
+                                        <h4 class="gallery-card-title">Symphony Rock Battle</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Slides Up -->
+                    <div class="gallery-column col-up">
+                        <div class="gallery-track track-up">
+                            <!-- Group 1 -->
+                            <div class="gallery-group-vertical">
+                                <div class="gallery-card" data-category="game">
+                                    <img src="pravaah_pics_2026/DSC_5907.JPG" alt="Game Esports Valorant" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-game">GAME VERSE</span>
+                                        <h4 class="gallery-card-title">Valorant Esports Arena</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="cult">
+                                    <img src="pravaah_pics_2026/0Q3A8579.jpg" alt="Vogue Fashion Show" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
+                                        <h4 class="gallery-card-title">Vogue Galaxy Runway</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="tech">
+                                    <img src="pravaah_pics_2026/0Q3A0171.JPG" alt="Tech Keynote Sync" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-tech">TECH VERSE</span>
+                                        <h4 class="gallery-card-title">Multiverse Sync Demo</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Group 2 (Duplicate for loop) -->
+                            <div class="gallery-group-vertical">
+                                <div class="gallery-card" data-category="game">
+                                    <img src="pravaah_pics_2026/DSC_5907.JPG" alt="Game Esports Valorant" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-game">GAME VERSE</span>
+                                        <h4 class="gallery-card-title">Valorant Esports Arena</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="cult">
+                                    <img src="pravaah_pics_2026/0Q3A8579.jpg" alt="Vogue Fashion Show" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
+                                        <h4 class="gallery-card-title">Vogue Galaxy Runway</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="tech">
+                                    <img src="pravaah_pics_2026/0Q3A0171.JPG" alt="Tech Keynote Sync" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-tech">TECH VERSE</span>
+                                        <h4 class="gallery-card-title">Multiverse Sync Demo</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 3: Slides Down -->
+                    <div class="gallery-column col-down">
+                        <div class="gallery-track track-down">
+                            <!-- Group 1 -->
+                            <div class="gallery-group-vertical">
+                                <div class="gallery-card" data-category="ent">
+                                    <img src="pravaah_pics_2026/0Q3A8476.jpg" alt="Entrepreneur Pitch Battle" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-ent">ENTR VERSE</span>
+                                        <h4 class="gallery-card-title">B-Plan Pitch Battle</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="social">
+                                    <img src="pravaah_pics_2026/DSC_0450.JPG" alt="Social Eco Initiative" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-social">SOCIAL VERSE</span>
+                                        <h4 class="gallery-card-title">Green Horizon Initiative</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="game">
+                                    <img src="pravaah_pics_2026/DSC_0630.JPG" alt="Game FIFA Cup" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-game">GAME VERSE</span>
+                                        <h4 class="gallery-card-title">FIFA Console Zones</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Group 2 (Duplicate for loop) -->
+                            <div class="gallery-group-vertical">
+                                <div class="gallery-card" data-category="ent">
+                                    <img src="pravaah_pics_2026/0Q3A8476.jpg" alt="Entrepreneur Pitch Battle" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-ent">ENTR VERSE</span>
+                                        <h4 class="gallery-card-title">B-Plan Pitch Battle</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="social">
+                                    <img src="pravaah_pics_2026/DSC_0450.JPG" alt="Social Eco Initiative" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-social">SOCIAL VERSE</span>
+                                        <h4 class="gallery-card-title">Green Horizon Initiative</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="game">
+                                    <img src="pravaah_pics_2026/DSC_0630.JPG" alt="Game FIFA Cup" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-game">GAME VERSE</span>
+                                        <h4 class="gallery-card-title">FIFA Console Zones</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 4: Slides Up -->
+                    <div class="gallery-column col-up">
+                        <div class="gallery-track track-up">
+                            <!-- Group 1 -->
+                            <div class="gallery-group-vertical">
+                                <div class="gallery-card" data-category="cult">
+                                    <img src="pravaah_pics_2026/DSC_0724.JPG" alt="Cult Street Play" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
+                                        <h4 class="gallery-card-title">Street Dramatics Stage</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="tech">
+                                    <img src="pravaah_pics_2026/DSC_0864.JPG" alt="Tech Hackathon AI" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-tech">TECH VERSE</span>
+                                        <h4 class="gallery-card-title">AI Odyssey Coding</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="ent">
+                                    <img src="pravaah_pics_2026/DSC_1305.JPG" alt="Entrepreneur Shark Tank" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-ent">ENTR VERSE</span>
+                                        <h4 class="gallery-card-title">Shark Tank Pitching</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Group 2 (Duplicate for loop) -->
+                            <div class="gallery-group-vertical">
+                                <div class="gallery-card" data-category="cult">
+                                    <img src="pravaah_pics_2026/DSC_0724.JPG" alt="Cult Street Play" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
+                                        <h4 class="gallery-card-title">Street Dramatics Stage</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="tech">
+                                    <img src="pravaah_pics_2026/DSC_0864.JPG" alt="Tech Hackathon AI" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-tech">TECH VERSE</span>
+                                        <h4 class="gallery-card-title">AI Odyssey Coding</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="ent">
+                                    <img src="pravaah_pics_2026/DSC_1305.JPG" alt="Entrepreneur Shark Tank" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-ent">ENTR VERSE</span>
+                                        <h4 class="gallery-card-title">Shark Tank Pitching</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: ABOUT & CONTACT PAGE -->
+        <section id="about-page" class="snap-page">
+            <!-- HUD Header -->
+            <header class="hud-header">
+                <div class="hud-left">
+                    <span class="hud-indicator status-green"></span>
+                    <span class="hud-title">PRAVAAH TRANSMISSION BOARD // ABOUT</span>
+                </div>
+                <div class="hud-right">
+                    <span class="hud-date">OCTOBER 15-18, 2026</span>
+                </div>
+            </header>
+
+            <div class="about-dashboard">
+                <h2 class="about-page-heading spider-title" data-text="ABOUT THE MULTIVERSE">ABOUT THE MULTIVERSE</h2>
+                <!-- Top Section: Team Nodes (Logos of people & random names) -->
+                <div class="team-section">
+                    <h3 class="about-title-tag">COMMUNICATION FREQUENCIES // TEAM</h3>
+                    <div class="team-row">
+                        <!-- Person 1 (Tech) -->
+                        <div class="team-card">
+                            <div class="avatar-logo logo-tech">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            </div>
+                            <div class="team-name">Aris Thorne</div>
+                            <div class="team-role">TECH LEAD</div>
+                        </div>
+                        <!-- Person 2 (Cult) -->
+                        <div class="team-card">
+                            <div class="avatar-logo logo-cult">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            </div>
+                            <div class="team-name">Lyra Vance</div>
+                            <div class="team-role">CULTURAL HEAD</div>
+                        </div>
+                        <!-- Person 3 (Ent) -->
+                        <div class="team-card">
+                            <div class="avatar-logo logo-ent">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            </div>
+                            <div class="team-name">Kaelen Voss</div>
+                            <div class="team-role">EVENT DIRECTOR</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Section: Explore Options -->
+                <div class="options-section">
+                    <h3 class="about-title-tag">EXPLORATION CHANNELS</h3>
+                    <div class="options-grid">
+                        <!-- Brochure Option -->
+                        <button class="option-btn opt-brochure" id="brochure-btn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            DOWNLOAD BROCHURE
+                        </button>
+                        <!-- Instagram Option -->
+                        <a href="https://instagram.com" target="_blank" class="option-btn opt-insta">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                            INSTAGRAM PORTAL
+                        </a>
+                        <!-- YouTube Option -->
+                        <a href="https://youtube.com" target="_blank" class="option-btn opt-youtube">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.41 19c1.71.46 8.59.46 8.59.46s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+                            YOUTUBE BROADCAST
+                        </a>
+                        <!-- Gallery Option -->
+                        <button class="option-btn opt-gallery" id="about-gallery-btn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                            GALLERY ARCHIVE
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Connect Section: Social links and Connect Info -->
+                <div class="connect-section">
+                    <h3 class="about-title-tag">SYSTEM CHANNELS // CONNECT & SUPPORT</h3>
+                    <div class="connect-grid">
+                        <!-- Social links Card -->
+                        <div class="connect-card">
+                            <h4 class="connect-card-title">SOCIAL NETWORKS</h4>
+                            <div class="social-links-list">
+                                <a href="https://linkedin.com" target="_blank" class="social-link-item" rel="noopener">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                                    LINKEDIN NETWORK
+                                </a>
+                                <a href="https://twitter.com" target="_blank" class="social-link-item" rel="noopener">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
+                                    TWITTER / X FEED
+                                </a>
+                                <a href="https://github.com" target="_blank" class="social-link-item" rel="noopener">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                                    GITHUB ARCHIVE
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Contact details Card -->
+                        <div class="connect-card">
+                            <h4 class="connect-card-title">DIRECT CHANNELS</h4>
+                            <div class="connect-info-list">
+                                <div class="connect-info-item">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                    <span>support@pravaahfest.in</span>
+                                </div>
+                                <div class="connect-info-item">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                    <span>+91 98765 43210</span>
+                                </div>
+                                <div class="connect-info-item">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-12a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                    <span>Auditorium, KIIT Campus, IN</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HUD footer overlay -->
+            <footer class="hud-footer">
+                <p>PRAVAAH 2026 // TRANSMISSION TERMINAL STABLE</p>
+            </footer>
+        </section>
+    </main>
+
+    <!-- Overlay Component: Event Details Modal (Glassmorphic) -->
+    <div id="event-modal" class="modal-overlay hidden">
+        <div class="modal-glow-back"></div>
+        <div class="modal-container">
+            <button id="close-modal-btn" class="close-btn" aria-label="Close modal">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div class="modal-header">
+                <div class="verse-badge" id="modal-verse-badge">TECH VERSE</div>
+                <h2 id="modal-verse-title" class="verse-title">TECH VERSE EVENTS</h2>
+                <p id="modal-verse-desc" class="verse-desc">The dimensional portal of extreme machines and futuristic logic.</p>
+            </div>
+            
+            <div class="events-grid" id="events-grid">
+                <!-- Dynamically loaded event cards with links -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Lightbox Modal Component (Vero Studio Inspired) -->
+    <div id="gallery-lightbox" class="lightbox-overlay hidden">
+        <button id="close-lightbox-btn" class="lightbox-close-btn" aria-label="Close Lightbox">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <button id="prev-lightbox-btn" class="lightbox-nav-btn nav-left" aria-label="Previous Image">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button id="next-lightbox-btn" class="lightbox-nav-btn nav-right" aria-label="Next Image">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="large preview">
+            <div class="lightbox-caption">
+                <span id="lightbox-tag" class="lightbox-tag">CATEGORY</span>
+                <h3 id="lightbox-title" class="lightbox-title">Image Title</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screen Glitch Overlay (Into the Spider-Verse inspired transition) -->
+    <div id="screen-glitch-overlay" class="screen-glitch-overlay">
+        <div class="glitch-halftone"></div>
+        <div class="glitch-shard shard-1"></div>
+        <div class="glitch-shard shard-2"></div>
+        <div class="glitch-shard shard-3"></div>
+        <div class="glitch-shard shard-4"></div>
+        <div class="glitch-shard shard-5"></div>
+        <div class="glitch-noise"></div>
+    </div>
+
+    <!-- Toast Notification for Event Registration -->
+    <div id="toast-notification" class="toast-hidden">
+        <div class="toast-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <div class="toast-text">
+            <span class="toast-title">Transmission Successful</span>
+            <span class="toast-msg">Opening registration portal...</span>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>
