@@ -924,75 +924,53 @@ document.addEventListener('DOMContentLoaded', () => {
     /* =========================================================
        CARD SCROLL REVEAL
        ========================================================= */
-
     function revealVisibleEventCards() {
-
-        if (
-            !verseEventListView ||
-            !verseEventList
-        ) {
+        if (!verseEventList) {
             return;
         }
 
-        const viewportRect =
-            verseEventListView.getBoundingClientRect();
+        const visibleTop = window.innerHeight * 0.06;
+        const visibleBottom = window.innerHeight * 0.92;
 
-        const visibleTop =
-            viewportRect.top +
-            viewportRect.height * 0.06;
+        const hiddenCards = [
+            ...verseEventList.querySelectorAll(
+                '.reference-event-card:not(.is-visible):not(.is-revealing)'
+            )
+        ].filter(card => {
+            const rect = card.getBoundingClientRect();
 
-        const visibleBottom =
-            viewportRect.bottom -
-            viewportRect.height * 0.06;
-
-        const hiddenCards =
-            [
-                ...verseEventList.querySelectorAll(
-                    '.reference-event-card:not(.is-visible)'
-                )
-            ].filter(
-                card => {
-
-                    const cardRect =
-                        card.getBoundingClientRect();
-
-                    return (
-                        cardRect.top < visibleBottom &&
-                        cardRect.bottom > visibleTop
-                    );
-
-                }
+            return (
+                rect.top < visibleBottom &&
+                rect.bottom > visibleTop
             );
+        });
 
+        hiddenCards.forEach((card, index) => {
+            card.classList.add('is-revealing');
 
-        hiddenCards.forEach(
-            (card, index) => {
+            setTimeout(() => {
+                card.classList.remove('is-revealing');
 
-                setTimeout(
-                    () => {
+                // Restart the same CSS animation reliably.
+                void card.offsetWidth;
 
-                        card.classList.add(
-                            'is-visible'
-                        );
-
-                    },
-                    index * 120
-                );
-
-            }
-        );
-
+                card.classList.add('is-visible');
+            }, index * 120);
+        });
     }
-
 
     if (verseEventListView) {
 
-        verseEventListView.addEventListener(
+        // Reveal cards as the PAGE scrolls.
+        window.addEventListener(
             'scroll',
             revealVisibleEventCards,
-            {
-                passive: true
-            }
+            { passive: true }
+        );
+
+        window.addEventListener(
+            'resize',
+            revealVisibleEventCards
         );
 
     }
@@ -1121,9 +1099,7 @@ document.addEventListener('DOMContentLoaded', () => {
        RENDER EVENT CARDS
        ========================================================= */
 
-    function renderVerseEventList(
-        verse
-    ) {
+    function renderVerseEventList(verse) {
 
         if (!verseEventList) {
             return;
@@ -1440,54 +1416,44 @@ document.addEventListener('DOMContentLoaded', () => {
        ========================================================= */
 
     function closeExplorerToCards() {
-
-        activeEvent =
-            null;
-
+        activeEvent = null;
 
         eventsPortalHero?.classList.remove(
             'event-explore-open'
         );
 
-
-        explorerView?.classList.remove(
-            'visible'
-        );
-
+        explorerView?.classList.remove('visible');
 
         explorerView?.setAttribute(
             'aria-hidden',
             'true'
         );
 
-
-        verseEventListView?.classList.add(
-            'visible'
-        );
-
+        verseEventListView?.classList.add('visible');
 
         verseEventListView?.setAttribute(
             'aria-hidden',
             'false'
         );
 
+        // Reset the previous card animation states.
+        verseEventList?.querySelectorAll(
+            '.reference-event-card'
+        ).forEach(card => {
+            card.classList.remove(
+                'is-visible',
+                'is-revealing'
+            );
+        });
 
-        requestAnimationFrame(
-            () => {
-
-                requestAnimationFrame(
-                    () => {
-
-                        revealVisibleEventCards();
-
-                    }
-                );
-
-            }
-        );
-
+        // Let the list become visible before restarting
+        // the entrance animation.
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                revealVisibleEventCards();
+            });
+        });
     }
-
 
     /* =========================================================
        DEPLOY NETWORK

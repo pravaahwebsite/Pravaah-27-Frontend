@@ -15455,3 +15455,167 @@ body.subpage-body>.pravaah-full-footer {
     }
 
 }
+
+/* ==========================================================
+   PRAVAAH CORE — VERSE SPHERES EMERGE FROM BEHIND THE CORE
+   ========================================================== */
+
+/* Keep the three spheres and connecting lines behind PRAVAAH */
+.events-page-body .portal-orbit-wrapper {
+    z-index: 20 !important;
+    overflow: visible !important;
+}
+
+/* The central PRAVAAH sphere must remain in front */
+.events-page-body .pravaah-core-btn {
+    position: absolute !important;
+    z-index: 45 !important;
+}
+
+/* Animate each sphere's actual journey out from the centre */
+.events-page-body .portal-node {
+    position: absolute !important;
+
+    transition:
+        left 1.25s cubic-bezier(0.22, 1, 0.36, 1),
+        top 1.25s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.75s ease-out,
+        opacity 0.55s ease-out !important;
+
+    will-change:
+        left,
+        top,
+        transform,
+        opacity;
+}
+
+/* Tech sphere emerges first */
+.events-page-body .portal-node.portal-tech {
+    transition-delay: 0ms;
+}
+
+/* Cult sphere follows */
+.events-page-body .portal-node.portal-cult {
+    transition-delay: 120ms;
+}
+
+/* Entrepreneur sphere follows */
+.events-page-body .portal-node.portal-ent {
+    transition-delay: 240ms;
+}
+
+/* ==========================================================
+   EVENTS — RESPONSIVE GRID, NO INTERNAL SCROLLBAR
+   ========================================================== */
+
+/* Let the event-list page grow naturally */
+.events-page-body
+.events-portal-hero.event-list-open:not(.event-explore-open) {
+    position: relative !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    flex: 0 0 auto !important;
+}
+
+/* Remove the fixed-height network viewport in list mode */
+.events-page-body
+.events-portal-hero.event-list-open:not(.event-explore-open)
+.standalone-network-viewport {
+    position: relative !important;
+
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+
+    overflow: visible !important;
+}
+
+/* Make the event-list panel part of normal document flow */
+.events-page-body
+.events-portal-hero.event-list-open:not(.event-explore-open)
+.verse-event-list-view {
+    position: relative !important;
+    inset: auto !important;
+
+    width: 100% !important;
+    max-width: 1280px !important;
+
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+
+    display: flex !important;
+    flex: 0 0 auto !important;
+    flex-direction: column !important;
+
+    overflow: visible !important;
+
+    box-sizing: border-box;
+}
+
+/* Responsive card grid */
+.events-page-body .verse-event-list {
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(min(100%, 240px), 1fr)
+        ) !important;
+
+    align-items: start;
+    align-content: start;
+
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+
+    flex: 0 0 auto !important;
+
+    gap: 28px 24px !important;
+
+    margin-top: 18px !important;
+    padding: 18px 6px 32px !important;
+
+    overflow: visible !important;
+}
+
+/* Keep cards inside their grid columns */
+.events-page-body .reference-event-card {
+    width: 100%;
+    min-width: 0;
+    align-self: start;
+}
+
+/* When exploring a selected event, preserve the existing
+   fixed viewport and explorer behavior */
+.events-page-body
+.events-portal-hero.event-explore-open
+.standalone-network-viewport {
+    height: 720px !important;
+    min-height: 720px !important;
+    overflow: hidden !important;
+}
+
+/* Smaller screens */
+@media (max-width: 600px) {
+    .events-page-body
+    .events-portal-hero.event-list-open:not(.event-explore-open)
+    .verse-event-list-view {
+        padding: 17px 12px 24px !important;
+    }
+
+    .events-page-body .verse-event-list {
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 25px !important;
+        padding: 14px 4px 25px !important;
+    }
+}
