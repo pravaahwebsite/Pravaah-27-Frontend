@@ -1,21 +1,21 @@
 // Glitch Navigation & Cosmic Nav Controller (Pravāah '26)
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Ensure Screen Glitch Overlay exists in DOM
+    // 1. Ensure Screen Glitch Overlay exists in DOM with full shard set
     let glitchOverlay = document.getElementById('screen-glitch-overlay');
     if (!glitchOverlay) {
         glitchOverlay = document.createElement('div');
         glitchOverlay.id = 'screen-glitch-overlay';
         glitchOverlay.className = 'screen-glitch-overlay';
-        glitchOverlay.innerHTML = `
-            <div class="glitch-halftone"></div>
-            <div class="glitch-shard shard-1"></div>
-            <div class="glitch-shard shard-2"></div>
-            <div class="glitch-shard shard-3"></div>
-            <div class="glitch-shard shard-4"></div>
-            <div class="glitch-shard shard-5"></div>
-            <div class="glitch-noise"></div>
-        `;
         document.body.appendChild(glitchOverlay);
+    }
+    const existingShards = glitchOverlay.querySelectorAll('.glitch-shard');
+    if (existingShards.length < 24) {
+        let shardsHtml = '<div class="glitch-halftone"></div>\n';
+        for (let i = 1; i <= 24; i++) {
+            shardsHtml += `            <div class="glitch-shard shard-${i}"></div>\n`;
+        }
+        shardsHtml += '            <div class="glitch-noise"></div>';
+        glitchOverlay.innerHTML = shardsHtml;
     }
 
     // 2. Ensure Cosmic Page Loader (Circular Dotted Loader) exists in DOM
