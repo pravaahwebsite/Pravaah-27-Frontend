@@ -1,9 +1,12 @@
 /**
- * PRAVAAH 2026 - REGISTRATION PORTAL
+ * PRAVAAH 2026 - FULLPAGE 3D ROOM REGISTRATION MATRIX ENGINE
+ * Features 360° Rotational 3D Cube Chamber, Mouse Parallax Tilt, Drag & Wheel Side-Scroll
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Nav indicator pill alignment for active REGISTER nav item
+    // ========================================================
+    // 1. Cosmic Nav Wheel Active Indicator Pill Alignment
+    // ========================================================
     const activeNav = document.querySelector('.nav-item.active');
     const pill = document.getElementById('nav-indicator-pill');
     
@@ -12,14 +15,15 @@ document.addEventListener("DOMContentLoaded", () => {
             pill.style.left = `${activeNav.offsetLeft}px`;
             pill.style.width = `${activeNav.offsetWidth}px`;
         };
-
         updatePill();
         setTimeout(updatePill, 100);
         window.addEventListener('resize', updatePill);
     }
 
-    // 2. Interactive Pass Selection
-    const passCards = document.querySelectorAll(".pass-card");
+    // ========================================================
+    // 2. Interactive Festival Pass Selection
+    // ========================================================
+    const passCards = document.querySelectorAll(".pass-tower-card, .pass-card");
     const selectedPassTitle = document.getElementById("selectedPassTitle");
     const selectedCardTitle = document.getElementById("selectedCardTitle");
     const selectedCardNotice = document.getElementById("selectedCardNotice");
@@ -27,14 +31,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (passCards.length > 0) {
         passCards.forEach(card => {
             card.addEventListener("click", () => {
-                // Toggle active state
                 passCards.forEach(c => c.classList.remove("selected"));
                 card.classList.add("selected");
 
                 const name = card.dataset.name || "Pass";
                 const notice = card.dataset.notice || "";
 
-                // Update selected pass details display
                 if (selectedPassTitle) {
                     selectedPassTitle.textContent = `Selected: ${name}`;
                 }
@@ -42,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     selectedCardTitle.textContent = name;
                 }
                 if (selectedCardNotice) {
-                    // Exact required text for Starnite Pass
                     if (name.toLowerCase().includes("starnite")) {
                         selectedCardNotice.textContent = "IITBBS students need not register for Starnite.";
                         selectedCardNotice.style.color = "#00ff88";
@@ -55,200 +56,299 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function renderEvents(targetEventToHighlight) {
-        eventsListContainer.innerHTML = "";
-        selectedEvents.clear();
+    // ========================================================
+    // 3. 3D Room Matrix Controller
+    // ========================================================
+    const viewport = document.getElementById("room3dViewport");
+    const stage = document.getElementById("room3dStage");
+    const box = document.getElementById("room3dBox");
+    const walls = document.querySelectorAll(".room-wall, .room-3d-wall");
+    const tabs = document.querySelectorAll(".chamber-tab-btn");
+    const dots = document.querySelectorAll(".wall-pill-dot, .chamber-dot");
+    const prevBtn = document.getElementById("roomPrevBtn");
+    const nextBtn = document.getElementById("roomNextBtn");
+    const progressFill = document.getElementById("chamberProgressFill");
+    const telemetryLabel = document.getElementById("activeChamberTelemetry");
 
-        let filtered = EVENTS_DATA.filter(e => selectedDays.includes(e.day));
-        if (selectedVerseFilter !== "all") {
-            filtered = filtered.filter(e => e.verse === selectedVerseFilter);
-        }
+    const telemetryDescriptions = [
+        "WALL 01 [FRONT] // FESTIVAL PASS VAULT",
+        "WALL 02 [RIGHT] // DELEGATE IDENTITY MATRIX",
+        "WALL 03 [REAR] // FESTIVAL PROTOCOLS",
+        "WALL 04 [LEFT] // PASS SUMMARY & PORTAL"
+    ];
 
-        if (filtered.length === 0) {
-            eventsListContainer.innerHTML = `<div class="empty-events-msg">No events matching filter for selected days.</div>`;
-            return;
-        }
+    let currentWallIndex = 0;
 
-        filtered.forEach((ev, idx) => {
-            const row = document.createElement("label");
-            row.className = "event-checkbox-row";
-            const inputId = `event_check_${idx}`;
+    // Rotate to specific wall (0: Front, 1: Right, 2: Back, 3: Left)
+    function rotateToWall(index, withZoom = true) {
+        if (!box) return;
+        index = (index + walls.length) % walls.length;
+        currentWallIndex = index;
 
-            const isTargetMatch = targetEventToHighlight && ev.name.toLowerCase() === targetEventToHighlight.toLowerCase();
-            if (isTargetMatch) {
-                row.classList.add("event-row-highlight");
-            }
+        const targetRotY = -90 * index;
+        box.style.setProperty("--room-rot-y", `${targetRotY}deg`);
 
-            // Auto-check events by default
-            selectedEvents.add(ev.name);
-
-            row.innerHTML = `
-                <div class="ev-left">
-                    <input type="checkbox" id="${inputId}" class="ev-cb" checked data-event-name="${ev.name}">
-                    <span class="ev-icon">${ev.icon}</span>
-                    <span class="ev-title">${ev.name}</span>
-                    <span class="ev-verse-badge badge-${ev.verse.toLowerCase()}">${ev.verse}</span>
-                </div>
-                <div class="ev-right">
-                    <span class="ev-day-pill">${ev.dayLabel}</span>
-                    <a href="events.html" class="ev-link">📄 Details</a>
-                </div>
-            `;
-
-            const cb = row.querySelector(".ev-cb");
-            cb.addEventListener("change", (e) => {
-                if (e.target.checked) {
-                    selectedEvents.add(ev.name);
-                } else {
-                    selectedEvents.delete(ev.name);
-                }
-                updateCalculations();
-            });
-
-            eventsListContainer.appendChild(row);
-        });
-
-        updateCalculations();
-    }
-
-    function updateCalculations() {
-        let total = 0;
-
-        if (selectedPassType === "Fest Pass") {
-            total = PRICES["Fest Pass"];
-        } else if (selectedPassType === "Starnite VIP Pass") {
-            total = PRICES["Starnite VIP Pass"];
-        } else if (selectedPassType === "Day Pass") {
-            selectedDays.forEach(d => {
-                total += PRICES["Day Pass"][d] || 0;
-            });
-        } else if (selectedPassType === "Visitor Pass") {
-            selectedDays.forEach(d => {
-                total += PRICES["Visitor Pass"][d] || 0;
-            });
-        }
-
-        // Live Ticket Preview updates
-        if (livePassBadge) livePassBadge.textContent = selectedPassType.toUpperCase();
-        if (livePrice) livePrice.textContent = `₹${total}`;
-        if (totalPriceDisplay) totalPriceDisplay.textContent = `₹${total}`;
-        if (liveEventsCount) liveEventsCount.textContent = `${selectedEvents.size} EVENTS`;
-
-        if (liveDays) {
-            if (selectedPassType === "Fest Pass") {
-                liveDays.textContent = "ALL 4 DAYS";
-            } else {
-                liveDays.textContent = selectedDays.map(d => d.toUpperCase()).join(", ");
-            }
-        }
-    }
-
-    // Live form inputs update live ticket pass preview
-    if (regName) {
-        regName.addEventListener("input", (e) => {
-            const val = e.target.value.trim();
-            if (liveDelegateName) {
-                liveDelegateName.textContent = val ? val.toUpperCase() : "ALEX MERCER";
-            }
-        });
-    }
-
-    if (regCollege) {
-        regCollege.addEventListener("input", (e) => {
-            const val = e.target.value.trim();
-            if (liveCollege) {
-                liveCollege.textContent = val ? val.toUpperCase() : "IIT BHUBANESWAR";
-            }
-        });
-    }
-
-    // URL parameter parsing (Redirection from Events page)
-    function checkUrlParameters() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const targetEventParam = urlParams.get('event');
-        const targetDayParam = urlParams.get('day');
-        const targetVerseParam = urlParams.get('verse');
-
-        if (targetEventParam) {
-            const banner = document.getElementById('event-redirect-banner');
-            const bannerEvName = document.getElementById('banner-event-name');
-            if (banner && bannerEvName) {
-                bannerEvName.textContent = targetEventParam;
-                banner.classList.remove('hidden');
-            }
-
-            let foundEvent = EVENTS_DATA.find(e => e.name.toLowerCase() === targetEventParam.toLowerCase());
-            let foundDay = foundEvent ? foundEvent.day : (targetDayParam ? (targetDayParam.startsWith("day") ? targetDayParam : `day${targetDayParam}`) : "day1");
-
-            setPassType("Day Pass");
-            selectedDays = [foundDay];
-            renderDayPills("Day Pass");
-
-            if (targetVerseParam && targetVerseParam.toUpperCase() !== "ALL") {
-                selectedVerseFilter = targetVerseParam.toUpperCase();
-                const vBtn = verseFilterPills ? verseFilterPills.querySelector(`[data-verse="${selectedVerseFilter}"]`) : null;
-                if (vBtn) {
-                    verseFilterPills.querySelectorAll(".verse-tab-btn").forEach(b => b.classList.remove("active"));
-                    vBtn.classList.add("active");
-                }
-            }
-
-            renderEvents(targetEventParam);
-
+        if (withZoom) {
+            // Camera slight pull-back on 3D rotation
+            box.style.setProperty("--room-zoom-z", "-5vw");
             setTimeout(() => {
-                const redirectBanner = document.getElementById("event-redirect-banner");
-                if (redirectBanner) {
-                    redirectBanner.scrollIntoView({ behavior: "smooth", block: "center" });
-                }
-            }, 250);
-        } else {
-            setPassType("Fest Pass");
+                box.style.setProperty("--room-zoom-z", "0px");
+            }, 300);
+        }
+
+        // Update Wall Active States
+        walls.forEach((wall, i) => {
+            if (i === index) {
+                wall.classList.add("active");
+            } else {
+                wall.classList.remove("active");
+            }
+        });
+
+        // Update Tabs
+        tabs.forEach((tab, i) => {
+            if (i === index) {
+                tab.classList.add("active");
+                tab.setAttribute("aria-selected", "true");
+            } else {
+                tab.classList.remove("active");
+                tab.setAttribute("aria-selected", "false");
+            }
+        });
+
+        // Update Dots
+        dots.forEach((dot, i) => {
+            if (i === index) {
+                dot.classList.add("active");
+            } else {
+                dot.classList.remove("active");
+            }
+        });
+
+        // Update Progress Bar
+        if (progressFill) {
+            const pct = ((index + 1) / walls.length) * 100;
+            progressFill.style.width = `${pct}%`;
+        }
+
+        // Update Telemetry
+        if (telemetryLabel && telemetryDescriptions[index]) {
+            telemetryLabel.textContent = telemetryDescriptions[index];
         }
     }
 
-    // Submit handler
-    if (registrationForm) {
-        registrationForm.addEventListener("submit", (e) => {
+    // ========================================================
+    // 4. One Rotation Per Scroll Gesture Controller
+    // ========================================================
+    let isScrollLocked = false;
+    let isTransitioning = false;
+    let wheelResetTimer = null;
+
+    if (viewport) {
+        viewport.addEventListener("wheel", (e) => {
+            // Check if user is scrolling inside an internal scrollable container
+            const scrollableParent = e.target.closest(".wall-content-wrapper");
+            if (scrollableParent) {
+                const canScrollDown = e.deltaY > 0 && scrollableParent.scrollTop < (scrollableParent.scrollHeight - scrollableParent.clientHeight - 8);
+                const canScrollUp = e.deltaY < 0 && scrollableParent.scrollTop > 8;
+                if (canScrollDown || canScrollUp) {
+                    return; // Allow internal vertical scrolling
+                }
+            }
+
             e.preventDefault();
 
-            const nameVal = regName && regName.value.trim() ? regName.value.trim() : "Alex Mercer";
-            const collegeVal = regCollege && regCollege.value.trim() ? regCollege.value.trim() : "IIT Bhubaneswar";
+            // Reset idle timer on every wheel event in this gesture stream
+            clearTimeout(wheelResetTimer);
+            wheelResetTimer = setTimeout(() => {
+                // User has fully finished this scroll gesture (fingers lifted / wheel stopped)
+                isScrollLocked = false;
+            }, 300);
 
-            if (modalDelegate) modalDelegate.textContent = nameVal;
-            if (modalPassType) modalPassType.textContent = selectedPassType;
-            if (modalDays) modalDays.textContent = selectedDays.map(d => d.toUpperCase()).join(", ");
-            if (modalEvents) modalEvents.textContent = `${selectedEvents.size} Events Selected`;
-            if (modalTotal) modalTotal.textContent = totalPriceDisplay ? totalPriceDisplay.textContent : "₹449";
+            // If this scroll gesture has already fired its single rotation, ignore further events
+            if (isScrollLocked || isTransitioning) return;
 
-            const registrationData = {
-                name: nameVal,
-                college: collegeVal,
-                ticketId: currentTicketId,
-                passType: selectedPassType,
-                days: selectedDays,
-                eventsCount: selectedEvents.size,
-                eventsList: Array.from(selectedEvents),
-                total: totalPriceDisplay ? totalPriceDisplay.textContent : "₹449",
-                registeredAt: new Date().toISOString()
-            };
-            try {
-                localStorage.setItem("pravaahUserRegistration", JSON.stringify(registrationData));
-            } catch (err) {}
+            const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+            if (Math.abs(delta) < 18) return;
 
-            if (successModal) {
-                successModal.classList.add("modal-open");
+            // Lock this scroll gesture immediately to prevent multi-wall skips
+            isScrollLocked = true;
+            isTransitioning = true;
+
+            // Trigger exactly ONE rotation
+            if (delta > 0) {
+                rotateToWall(currentWallIndex + 1);
+            } else {
+                rotateToWall(currentWallIndex - 1);
             }
+
+            // Keep transition lock for the duration of the 3D animation
+            setTimeout(() => {
+                isTransitioning = false;
+            }, 650);
+        }, { passive: false });
+    }
+
+    // ========================================================
+    // 5. Interactive Mouse Drag / Touch Swipe to Rotate 3D Room
+    // ========================================================
+    let isDragging = false;
+    let startX = 0;
+    let currentDragDelta = 0;
+
+    function handleDragStart(clientX) {
+        isDragging = true;
+        startX = clientX;
+        currentDragDelta = 0;
+        if (box) box.classList.add("dragging");
+    }
+
+    function handleDragMove(clientX) {
+        if (!isDragging || !box) return;
+        currentDragDelta = clientX - startX;
+        const baseRotY = -90 * currentWallIndex;
+        const liveRotY = baseRotY + (currentDragDelta * 0.18);
+        box.style.setProperty("--room-rot-y", `${liveRotY}deg`);
+    }
+
+    function handleDragEnd() {
+        if (!isDragging || !box) return;
+        isDragging = false;
+        box.classList.remove("dragging");
+
+        if (currentDragDelta < -60) {
+            rotateToWall(currentWallIndex + 1);
+        } else if (currentDragDelta > 60) {
+            rotateToWall(currentWallIndex - 1);
+        } else {
+            rotateToWall(currentWallIndex, false);
+        }
+        currentDragDelta = 0;
+    }
+
+    if (stage) {
+        stage.addEventListener("mousedown", (e) => {
+            if (e.target.closest("input, button, a, label")) return;
+            handleDragStart(e.clientX);
+        });
+
+        window.addEventListener("mousemove", (e) => {
+            if (isDragging) handleDragMove(e.clientX);
+        });
+
+        window.addEventListener("mouseup", () => {
+            if (isDragging) handleDragEnd();
+        });
+
+        // Touch Drag
+        stage.addEventListener("touchstart", (e) => {
+            if (e.target.closest("input, button, a, label")) return;
+            if (e.touches.length === 1) handleDragStart(e.touches[0].clientX);
+        }, { passive: true });
+
+        stage.addEventListener("touchmove", (e) => {
+            if (isDragging && e.touches.length === 1) handleDragMove(e.touches[0].clientX);
+        }, { passive: true });
+
+        stage.addEventListener("touchend", () => {
+            if (isDragging) handleDragEnd();
         });
     }
 
-    if (closeModalBtn) {
-        closeModalBtn.addEventListener("click", () => {
-            if (successModal) {
-                successModal.classList.remove("modal-open");
-            }
+    // ========================================================
+    // 6. 3D Spatial Mouse Parallax Tilt
+    // ========================================================
+    let targetTiltX = 0;
+    let targetTiltY = 0;
+    let currentTiltX = 0;
+    let currentTiltY = 0;
+
+    function renderParallax() {
+        currentTiltX += (targetTiltX - currentTiltX) * 0.08;
+        currentTiltY += (targetTiltY - currentTiltY) * 0.08;
+
+        if (box && !isDragging) {
+            box.style.setProperty("--room-tilt-x", `${currentTiltX.toFixed(2)}deg`);
+            box.style.setProperty("--room-tilt-y", `${currentTiltY.toFixed(2)}deg`);
+        }
+
+        requestAnimationFrame(renderParallax);
+    }
+
+    if (viewport) {
+        viewport.addEventListener("mousemove", (e) => {
+            const relX = (e.clientX / window.innerWidth) - 0.5;
+            const relY = (e.clientY / window.innerHeight) - 0.5;
+
+            targetTiltX = -relY * 8; // -4deg to 4deg
+            targetTiltY = relX * 10; // -5deg to 5deg
+        });
+
+        viewport.addEventListener("mouseleave", () => {
+            targetTiltX = 0;
+            targetTiltY = 0;
+        });
+
+        requestAnimationFrame(renderParallax);
+    }
+
+    // ========================================================
+    // 7. Interactive Controls (Tabs, Arrows, Dots, Actions)
+    // ========================================================
+    // Tab Clicks
+    tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            const wallIdx = parseInt(tab.dataset.wall, 10);
+            if (!isNaN(wallIdx)) rotateToWall(wallIdx);
+        });
+    });
+
+    // Dot Clicks
+    dots.forEach(dot => {
+        dot.addEventListener("click", () => {
+            const wallIdx = parseInt(dot.dataset.wall, 10);
+            if (!isNaN(wallIdx)) rotateToWall(wallIdx);
+        });
+    });
+
+    // Arrow Buttons
+    if (prevBtn) {
+        prevBtn.addEventListener("click", () => {
+            rotateToWall(currentWallIndex - 1);
         });
     }
 
-    // Run Initializer
-    checkUrlParameters();
+    if (nextBtn) {
+        nextBtn.addEventListener("click", () => {
+            rotateToWall(currentWallIndex + 1);
+        });
+    }
+
+    // Wall Action Buttons ([data-goto])
+    const gotoButtons = document.querySelectorAll("[data-goto]");
+    gotoButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const targetIdx = parseInt(btn.dataset.goto, 10);
+            if (!isNaN(targetIdx)) {
+                rotateToWall(targetIdx);
+            }
+        });
+    });
+
+    // Keyboard Arrow Keys
+    window.addEventListener("keydown", (e) => {
+        const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : "";
+        if (activeTag === "input" || activeTag === "textarea") return;
+
+        if (e.key === "ArrowRight") {
+            e.preventDefault();
+            rotateToWall(currentWallIndex + 1);
+        } else if (e.key === "ArrowLeft") {
+            e.preventDefault();
+            rotateToWall(currentWallIndex - 1);
+        }
+    });
+
+    // Initialize Fullpage 3D Room at Wall 0
+    rotateToWall(0, false);
 });
