@@ -82,7 +82,7 @@ body.register-fullscreen-body {
    ============================================================ */
 .room-top-hud {
     position: absolute;
-    top: 66px;
+    top: 76px;
     left: 0;
     width: 100%;
     z-index: 120;
@@ -199,60 +199,75 @@ body.register-fullscreen-body {
 }
 
 /* ============================================================
-   FLOATING 3D ROTATION ARROWS
+   FLOATING 3D NAVIGATION ARROW BUTTONS (VISIBLE PREV / NEXT TEXT)
    ============================================================ */
 .room-3d-arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: rgba(8, 16, 38, 0.85);
-    border: 1.5px solid rgba(0, 242, 254, 0.5);
+    padding: 12px 22px;
+    border-radius: 30px;
+    background: rgba(8, 16, 38, 0.88);
+    border: 1.5px solid rgba(0, 242, 254, 0.45);
     color: #00f2fe;
-    font-size: 1.15rem;
-    display: flex;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
+    gap: 10px;
     cursor: pointer;
     z-index: 150;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 0 25px rgba(0, 242, 254, 0.25);
     outline: none;
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    user-select: none;
+}
+
+.room-3d-arrow i {
+    font-size: 0.95rem;
+    transition: transform 0.25s ease;
+}
+
+.arrow-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #ffffff;
+    transition: color 0.25s ease;
 }
 
 .room-3d-arrow.arrow-left {
-    left: 28px;
+    left: 30px;
 }
 
 .room-3d-arrow.arrow-right {
-    right: 28px;
+    right: 30px;
 }
 
 .room-3d-arrow:hover {
     background: #00f2fe;
     color: #040916;
-    transform: translateY(-50%) scale(1.1);
+    border-color: #00f2fe;
+    transform: translateY(-50%) scale(1.06);
     box-shadow: 0 0 35px rgba(0, 242, 254, 0.6);
 }
 
-.arrow-tooltip {
-    position: absolute;
-    top: 115%;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.62rem;
-    letter-spacing: 1px;
-    color: #00f2fe;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease;
+.room-3d-arrow:hover .arrow-text {
+    color: #040916;
 }
 
-.room-3d-arrow:hover .arrow-tooltip {
-    opacity: 1;
+.room-3d-arrow.arrow-left:hover i {
+    transform: translateX(-3px);
+}
+
+.room-3d-arrow.arrow-right:hover i {
+    transform: translateX(3px);
 }
 
 /* ============================================================
@@ -270,29 +285,19 @@ body.register-fullscreen-body {
     justify-content: center;
     transform-style: preserve-3d;
     overflow: hidden;
-    cursor: grab;
     z-index: 10;
 }
 
-.room-3d-stage:active {
-    cursor: grabbing;
-}
-
-/* The 3D Rotating Room Container */
+/* The 3D Rotating Room Container - Rock-Solid Stable */
 .room-3d-box {
     position: relative;
     width: 100vw;
     height: 100vh;
     transform-style: preserve-3d;
-    transform: translateZ(calc(-50vw + var(--room-zoom-z))) 
-               rotateY(calc(var(--room-rot-y) + var(--room-tilt-y))) 
-               rotateX(var(--room-tilt-x));
+    transform: translateZ(calc(-50vw + var(--room-zoom-z, 0px))) 
+               rotateY(var(--room-rot-y, 0deg));
     transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform;
-}
-
-.room-3d-box.dragging {
-    transition: none !important;
 }
 
 /* 3D Seamless Floor Plane (NO CUT-OFF BORDERS, SOFT EDGE FADE) */
@@ -352,7 +357,7 @@ body.register-fullscreen-body {
     box-shadow: 0 0 45px rgba(0, 242, 254, 0.45);
 }
 
-/* 3D Seamless Ceiling Plane (NO CUT-OFF BORDERS, SOFT EDGE FADE) */
+/* 3D Seamless Ceiling Plane (UPPER ROOF MOVED DOWN TO PREVENT OVERLAP) */
 .room-3d-ceiling {
     position: absolute;
     width: 100vw;
@@ -361,7 +366,7 @@ body.register-fullscreen-body {
     left: 50%;
     margin-left: -50vw;
     margin-top: -50vw;
-    transform: rotateX(-90deg) translateZ(50vh);
+    transform: rotateX(-90deg) translateZ(40vh);
     background: radial-gradient(circle at 50% 50%, rgba(207, 58, 214, 0.12) 0%, rgba(2, 6, 23, 0.9) 70%, transparent 95%);
     border: none !important; /* Removed cut-off border line */
     pointer-events: none;
@@ -415,7 +420,7 @@ body.register-fullscreen-body {
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    padding: 105px 4vw 50px;
+    padding: 135px 4vw 50px;
     pointer-events: none;
     opacity: 0.3;
     filter: brightness(0.4) blur(1.5px);
@@ -444,96 +449,12 @@ body.register-fullscreen-body {
     pointer-events: all;
 }
 
-/* ============================================================
-   3D BOX EDGE LINES & CORNER BRACKETS (BOX FEELING)
-   ============================================================ */
-/* Side vertical edge rails */
-.box-side-rail {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 2px;
-    height: 74vh;
-    background: linear-gradient(180deg, transparent 0%, rgba(0, 242, 254, 0.45) 15%, rgba(0, 242, 254, 0.6) 50%, rgba(0, 242, 254, 0.45) 85%, transparent 100%);
-    box-shadow: 0 0 14px rgba(0, 242, 254, 0.4);
-    pointer-events: none;
-    z-index: 25;
-}
-
-.box-side-rail.rail-left {
-    left: 20px;
-}
-
-.box-side-rail.rail-right {
-    right: 20px;
-}
-
-/* Little edge lines on sides of horizontal (Corner brackets) */
-.box-corner-edge {
-    position: absolute;
-    width: 38px;
-    height: 38px;
-    pointer-events: none;
-    z-index: 26;
-}
-
-.box-corner-edge.corner-tl {
-    top: 96px;
-    left: 20px;
-    border-top: 2px solid #00f2fe;
-    border-left: 2px solid #00f2fe;
-    box-shadow: -2px -2px 12px rgba(0, 242, 254, 0.5);
-}
-
-.box-corner-edge.corner-tr {
-    top: 96px;
-    right: 20px;
-    border-top: 2px solid #00f2fe;
-    border-right: 2px solid #00f2fe;
-    box-shadow: 2px -2px 12px rgba(0, 242, 254, 0.5);
-}
-
-.box-corner-edge.corner-bl {
-    bottom: 50px;
-    left: 20px;
-    border-bottom: 2px solid #00f2fe;
-    border-left: 2px solid #00f2fe;
-    box-shadow: -2px 2px 12px rgba(0, 242, 254, 0.5);
-}
-
-.box-corner-edge.corner-br {
-    bottom: 50px;
-    right: 20px;
-    border-bottom: 2px solid #00f2fe;
-    border-right: 2px solid #00f2fe;
-    box-shadow: 2px 2px 12px rgba(0, 242, 254, 0.5);
-}
-
-/* Subtle horizontal boundary edge lines */
-.box-horizontal-edge {
-    position: absolute;
-    left: 58px;
-    right: 58px;
-    height: 1px;
-    pointer-events: none;
-    z-index: 24;
-    background: linear-gradient(90deg, rgba(0, 242, 254, 0.35) 0%, rgba(0, 242, 254, 0.05) 30%, transparent 50%, rgba(0, 242, 254, 0.05) 70%, rgba(0, 242, 254, 0.35) 100%);
-}
-
-.box-horizontal-edge.edge-top {
-    top: 96px;
-}
-
-.box-horizontal-edge.edge-bottom {
-    bottom: 50px;
-}
-
 /* Wall Content Wrapper (Spacious, Expansive, Centered) */
 .wall-content-wrapper {
     width: 100%;
     max-width: 1320px;
     height: 100%;
-    max-height: calc(100vh - 160px);
+    max-height: calc(100vh - 190px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;

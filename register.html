@@ -68,14 +68,14 @@
             </div>
         </header>
 
-        <!-- Floating 3D Navigation Arrows -->
-        <button class="room-3d-arrow arrow-left" id="roomPrevBtn" type="button" aria-label="Rotate Left">
+        <!-- Floating 3D Navigation Arrows with Visible Text -->
+        <button class="room-3d-arrow arrow-left" id="roomPrevBtn" type="button" aria-label="Previous Page">
             <i class="fa-solid fa-chevron-left"></i>
-            <span class="arrow-tooltip">PREV WALL</span>
+            <span class="arrow-text">PREV</span>
         </button>
-        <button class="room-3d-arrow arrow-right" id="roomNextBtn" type="button" aria-label="Rotate Right">
+        <button class="room-3d-arrow arrow-right" id="roomNextBtn" type="button" aria-label="Next Page">
+            <span class="arrow-text">NEXT</span>
             <i class="fa-solid fa-chevron-right"></i>
-            <span class="arrow-tooltip">NEXT WALL</span>
         </button>
 
         <!-- 3D WORLD STAGE (FILLS ENTIRE SCREEN) -->
@@ -104,17 +104,6 @@
                      WALL 01 [FRONT - 0°]: FESTIVAL PASS SHOWCASE
                      ======================================================== -->
                 <section class="room-wall wall-front active" id="wall-1" data-wall="0" role="tabpanel">
-                    
-                    <!-- 3D Box Edge Frame (Sides & Horizontal Edges) -->
-                    <div class="box-corner-edge corner-tl" aria-hidden="true"></div>
-                    <div class="box-corner-edge corner-tr" aria-hidden="true"></div>
-                    <div class="box-corner-edge corner-bl" aria-hidden="true"></div>
-                    <div class="box-corner-edge corner-br" aria-hidden="true"></div>
-                    <div class="box-side-rail rail-left" aria-hidden="true"></div>
-                    <div class="box-side-rail rail-right" aria-hidden="true"></div>
-                    <div class="box-horizontal-edge edge-top" aria-hidden="true"></div>
-                    <div class="box-horizontal-edge edge-bottom" aria-hidden="true"></div>
-
                     <div class="wall-content-wrapper">
                         
                         <!-- Wall Header -->
@@ -186,17 +175,6 @@
                      WALL 02 [RIGHT - 90°]: DELEGATE IDENTITY MATRIX
                      ======================================================== -->
                 <section class="room-wall wall-right" id="wall-2" data-wall="1" role="tabpanel">
-                    
-                    <!-- 3D Box Edge Frame (Sides & Horizontal Edges) -->
-                    <div class="box-corner-edge corner-tl" aria-hidden="true"></div>
-                    <div class="box-corner-edge corner-tr" aria-hidden="true"></div>
-                    <div class="box-corner-edge corner-bl" aria-hidden="true"></div>
-                    <div class="box-corner-edge corner-br" aria-hidden="true"></div>
-                    <div class="box-side-rail rail-left" aria-hidden="true"></div>
-                    <div class="box-side-rail rail-right" aria-hidden="true"></div>
-                    <div class="box-horizontal-edge edge-top" aria-hidden="true"></div>
-                    <div class="box-horizontal-edge edge-bottom" aria-hidden="true"></div>
-
                     <div class="wall-content-wrapper">
                         
                         <div class="wall-header-section">
@@ -252,17 +230,6 @@
                      WALL 03 [REAR - 180°]: FESTIVAL PROTOCOLS & RULES
                      ======================================================== -->
                 <section class="room-wall wall-back" id="wall-3" data-wall="2" role="tabpanel">
-                    
-                    <!-- 3D Box Edge Frame (Sides & Horizontal Edges) -->
-                    <div class="box-corner-edge corner-tl" aria-hidden="true"></div>
-                    <div class="box-corner-edge corner-tr" aria-hidden="true"></div>
-                    <div class="box-corner-edge corner-bl" aria-hidden="true"></div>
-                    <div class="box-corner-edge corner-br" aria-hidden="true"></div>
-                    <div class="box-side-rail rail-left" aria-hidden="true"></div>
-                    <div class="box-side-rail rail-right" aria-hidden="true"></div>
-                    <div class="box-horizontal-edge edge-top" aria-hidden="true"></div>
-                    <div class="box-horizontal-edge edge-bottom" aria-hidden="true"></div>
-
                     <div class="wall-content-wrapper">
                         
                         <div class="wall-header-section">
@@ -315,17 +282,6 @@
                      WALL 04 [LEFT - 270°]: PASS SUMMARY & PORTAL
                      ======================================================== -->
                 <section class="room-wall wall-left" id="wall-4" data-wall="3" role="tabpanel">
-                    
-                    <!-- 3D Box Edge Frame (Sides & Horizontal Edges) -->
-                    <div class="box-corner-edge corner-tl" aria-hidden="true"></div>
-                    <div class="box-corner-edge corner-tr" aria-hidden="true"></div>
-                    <div class="box-corner-edge corner-bl" aria-hidden="true"></div>
-                    <div class="box-corner-edge corner-br" aria-hidden="true"></div>
-                    <div class="box-side-rail rail-left" aria-hidden="true"></div>
-                    <div class="box-side-rail rail-right" aria-hidden="true"></div>
-                    <div class="box-horizontal-edge edge-top" aria-hidden="true"></div>
-                    <div class="box-horizontal-edge edge-bottom" aria-hidden="true"></div>
-
                     <div class="wall-content-wrapper">
                         
                         <div class="wall-header-section">
@@ -385,8 +341,8 @@
         <!-- Pinned Bottom HUD & Controls -->
         <footer class="room-bottom-hud">
             <div class="hud-interaction-hint">
-                <span class="hint-icon"><i class="fa-solid fa-arrows-spin"></i></span>
-                <span class="hint-text">SCROLL SIDEWAYS // DRAG OR USE ARROW KEYS TO ROTATE // MOVE MOUSE TO TILT</span>
+                <span class="hint-icon"><i class="fa-solid fa-compass"></i></span>
+                <span class="hint-text">NAVIGATE USING THE TOP TABS OR SIDE ARROWS</span>
             </div>
             <div class="hud-wall-indicators" id="roomChamberPills">
                 <button class="wall-pill-dot active" data-wall="0" title="Wall 01 - Passes"></button>
