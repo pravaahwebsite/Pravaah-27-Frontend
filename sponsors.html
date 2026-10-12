@@ -17,6 +17,14 @@
     <div class="global-bg-layer subpage-bg"></div>
     <div class="subpage-grid-overlay"></div>
 
+    <!-- Ambient Multiverse Atmosphere Glows -->
+    <div class="sponsors-ambient-atmosphere" aria-hidden="true">
+        <div class="ambient-plasma-orb orb-cyan"></div>
+        <div class="ambient-plasma-orb orb-magenta"></div>
+        <div class="ambient-plasma-orb orb-amber"></div>
+        <div class="cyber-grid-scanline"></div>
+    </div>
+
     <!-- Cosmic Nav Wheel -->
     <nav class="cosmic-nav-wheel" id="cosmic-nav-wheel">
         <div class="nav-wheel-track">
@@ -47,50 +55,152 @@
         
         <!-- Hero Header Box -->
         <header class="sponsors-hero-header">
-            <div class="hero-badge-pill">✦ CORPORATE ALLIANCES & GLOBAL PARTNERS // PRAVAAH '26 ✦</div>
-            <h1 class="sponsors-hero-title">OUR SPONSORS</h1>
+            <div class="hero-live-badge">
+                <span class="live-pulse-dot"></span>
+                <span>SECURE ALLIANCE TELEMETRY // PRAVAAH '26</span>
+                <span class="badge-code">[IIT BHUBANESWAR]</span>
+            </div>
+            
+            <h1 class="sponsors-hero-title cyber-glitch-title" data-text="OUR SPONSORS">OUR SPONSORS</h1>
             <p class="sponsors-hero-subtitle">Partnering with industry titans, tech pioneers, and global lifestyle brands empowering 30,000+ student visionaries across India.</p>
 
             <!-- Metrics Telemetry Ticker -->
             <div class="sponsors-metrics-strip">
-                <div class="metric-card">
-                    <span class="m-val">50,000+</span>
+                <div class="metric-card" data-metric="footfall">
+                    <span class="m-icon-wrap"><i class="fa-solid fa-users"></i></span>
+                    <span class="m-val" data-counter-target="50000">50,000+</span>
                     <span class="m-lbl">STUDENT FOOTFALL</span>
                 </div>
                 <div class="metric-sep"></div>
-                <div class="metric-card">
-                    <span class="m-val">15+</span>
+                <div class="metric-card" data-metric="brands">
+                    <span class="m-icon-wrap"><i class="fa-solid fa-crown"></i></span>
+                    <span class="m-val" data-counter-target="15">15+</span>
                     <span class="m-lbl">GLOBAL BRANDS</span>
                 </div>
                 <div class="metric-sep"></div>
-                <div class="metric-card">
+                <div class="metric-card" data-metric="prizes">
+                    <span class="m-icon-wrap"><i class="fa-solid fa-trophy"></i></span>
                     <span class="m-val">₹15L+</span>
                     <span class="m-lbl">PRIZE ALLIANCE</span>
                 </div>
                 <div class="metric-sep"></div>
-                <div class="metric-card">
+                <div class="metric-card" data-metric="reach">
+                    <span class="m-icon-wrap"><i class="fa-solid fa-satellite-dish"></i></span>
                     <span class="m-val">5M+</span>
                     <span class="m-lbl">DIGITAL REACH</span>
                 </div>
             </div>
 
-            <!-- Interactive Category Filter Bar -->
-            <div class="sponsor-category-filters" id="sponsorCategoryFilters">
-                <button type="button" class="cat-filter-btn active" data-filter="all">
-                    <span>✦ ALL SPONSORS</span>
-                </button>
-                <button type="button" class="cat-filter-btn" data-filter="title">
-                    <span>⚡ TITLE PARTNER</span>
-                </button>
-                <button type="button" class="cat-filter-btn" data-filter="tech">
-                    <span>🤖 TECH & AI</span>
-                </button>
-                <button type="button" class="cat-filter-btn" data-filter="lifestyle">
-                    <span>🥤 MEDIA & LIFESTYLE</span>
-                </button>
-                <button type="button" class="cat-filter-btn highlight" data-filter="proposal">
-                    <span>💼 BECOME A SPONSOR</span>
-                </button>
+            <!-- Dynamic Cyber Sponsor Marquee Stream -->
+            <div class="sponsors-marquee-container" aria-label="Official Brand Marquee">
+                <div class="marquee-badge-label">
+                    <span class="live-dot"></span>
+                    <span>ALLIANCE FEED</span>
+                </div>
+                <div class="marquee-track-wrapper">
+                    <div class="marquee-track" id="allianceMarqueeTrack">
+                        <button type="button" class="marquee-chip" data-target="sponsor-quantum"><span class="m-icon">⚡</span> QUANTUM DYNAMICS</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-neuromatrix"><span class="m-icon">🧠</span> NEUROMATRIX LABS</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-intel"><span class="m-icon">🤖</span> INTEL INNOVATION</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-github"><span class="m-icon"><i class="fa-brands fa-github"></i></span> GITHUB</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-cyberwave"><span class="m-icon">🎮</span> CYBERWAVE ESPORTS</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-nvidia"><span class="m-icon">⚡</span> NVIDIA AI STUDIO</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-venture"><span class="m-icon">💎</span> VENTURE MATRIX</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-mtv"><span class="m-icon"><i class="fa-solid fa-tv"></i></span> MTV INDIA</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-redfm"><span class="m-icon"><i class="fa-solid fa-radio"></i></span> RED FM 93.5</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-redbull"><span class="m-icon"><i class="fa-solid fa-bolt"></i></span> REDBULL</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-dominos"><span class="m-icon"><i class="fa-solid fa-pizza-slice"></i></span> DOMINO'S PIZZA</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-boat"><span class="m-icon"><i class="fa-solid fa-headphones"></i></span> BOAT AUDIO</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-spotify"><span class="m-icon"><i class="fa-brands fa-spotify"></i></span> SPOTIFY CAMPUS</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-oneplus"><span class="m-icon">📱</span> ONEPLUS INDIA</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-bewakoof"><span class="m-icon"><i class="fa-solid fa-shirt"></i></span> BEWAKOOF</button>
+                        <span class="marquee-sep">✦</span>
+                        <!-- Seamless Duplicate Sequence -->
+                        <button type="button" class="marquee-chip" data-target="sponsor-quantum"><span class="m-icon">⚡</span> QUANTUM DYNAMICS</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-neuromatrix"><span class="m-icon">🧠</span> NEUROMATRIX LABS</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-intel"><span class="m-icon">🤖</span> INTEL INNOVATION</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-github"><span class="m-icon"><i class="fa-brands fa-github"></i></span> GITHUB</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-cyberwave"><span class="m-icon">🎮</span> CYBERWAVE ESPORTS</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-nvidia"><span class="m-icon">⚡</span> NVIDIA AI STUDIO</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-venture"><span class="m-icon">💎</span> VENTURE MATRIX</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-mtv"><span class="m-icon"><i class="fa-solid fa-tv"></i></span> MTV INDIA</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-redfm"><span class="m-icon"><i class="fa-solid fa-radio"></i></span> RED FM 93.5</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-redbull"><span class="m-icon"><i class="fa-solid fa-bolt"></i></span> REDBULL</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-dominos"><span class="m-icon"><i class="fa-solid fa-pizza-slice"></i></span> DOMINO'S PIZZA</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-boat"><span class="m-icon"><i class="fa-solid fa-headphones"></i></span> BOAT AUDIO</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-spotify"><span class="m-icon"><i class="fa-brands fa-spotify"></i></span> SPOTIFY CAMPUS</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-oneplus"><span class="m-icon">📱</span> ONEPLUS INDIA</button>
+                        <span class="marquee-sep">✦</span>
+                        <button type="button" class="marquee-chip" data-target="sponsor-bewakoof"><span class="m-icon"><i class="fa-solid fa-shirt"></i></span> BEWAKOOF</button>
+                        <span class="marquee-sep">✦</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls Panel: Filter Pills & Instant Cyber Search Bar -->
+            <div class="sponsor-controls-dock">
+                <!-- Interactive Category Filter Bar -->
+                <div class="sponsor-category-filters" id="sponsorCategoryFilters">
+                    <button type="button" class="cat-filter-btn active" data-filter="all">
+                        <span>✦ ALL SPONSORS</span>
+                        <span class="filter-count">15</span>
+                    </button>
+                    <button type="button" class="cat-filter-btn" data-filter="title">
+                        <span>⚡ TITLE PARTNER</span>
+                        <span class="filter-count">1</span>
+                    </button>
+                    <button type="button" class="cat-filter-btn" data-filter="tech">
+                        <span>🤖 TECH & AI</span>
+                        <span class="filter-count">6</span>
+                    </button>
+                    <button type="button" class="cat-filter-btn" data-filter="lifestyle">
+                        <span>🥤 MEDIA & LIFESTYLE</span>
+                        <span class="filter-count">8</span>
+                    </button>
+                    <button type="button" class="cat-filter-btn highlight" data-filter="proposal">
+                        <span>💼 BECOME A SPONSOR</span>
+                    </button>
+                </div>
+
+                <!-- Live Search Box with Key Shortcut & Clear -->
+                <div class="sponsor-search-wrapper">
+                    <div class="cyber-search-box">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="sponsorSearchInput" placeholder="SEARCH SPONSOR OR DOMAIN (e.g. AI, Hardware, Sound...)" autocomplete="off">
+                        <button type="button" id="clearSearchBtn" class="clear-search-btn" title="Clear Search" aria-label="Clear Search">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                        <span class="search-kbd-tag" title="Press / to search">/</span>
+                    </div>
+                    <div class="search-status-counter" id="searchStatusCounter">SHOWING 15 OF 15 ALLIANCES</div>
+                </div>
             </div>
         </header>
 
@@ -107,7 +217,11 @@
                     <span class="tier-star">✦</span>
                 </div>
                 
-                <div class="title-sponsor-card holo-glow-card" data-tilt>
+                <div class="title-sponsor-card holo-glow-card" data-tilt id="sponsor-quantum" data-brand="quantum">
+                    <span class="hud-corner top-left"></span>
+                    <span class="hud-corner top-right"></span>
+                    <span class="hud-corner bottom-left"></span>
+                    <span class="hud-corner bottom-right"></span>
                     <div class="card-ambient-aura"></div>
                     <div class="card-shimmer-sweep"></div>
                     
@@ -141,7 +255,12 @@
 
                     <!-- Right: Meta Perks & Description -->
                     <div class="sponsor-meta-info">
-                        <span class="brand-tagline"><i class="fa-solid fa-atom"></i> GLOBAL TITLE ALLIANCE // MULTIVERSE CORE</span>
+                        <div class="brand-meta-top-row">
+                            <span class="brand-tagline"><i class="fa-solid fa-atom"></i> GLOBAL TITLE ALLIANCE // MULTIVERSE CORE</span>
+                            <button type="button" class="card-dossier-trigger" data-dossier-id="quantum" aria-label="View Quantum Dynamics Dossier">
+                                <i class="fa-solid fa-id-badge"></i> ALLIANCE DOSSIER
+                            </button>
+                        </div>
                         <p class="brand-desc">Global vanguard in quantum computing, neural hardware architectures, and hyperscale cloud intelligence driving the central technological ecosystem of Pravaah '26 at IIT Bhubaneswar.</p>
                         
                         <div class="brand-perks-row">
@@ -167,7 +286,11 @@
                 <div class="sponsors-cards-grid grid-3col">
                     
                     <!-- Card 1: Neuromatrix Labs -->
-                    <div class="sponsor-card holo-glow-card" data-tilt data-brand="neuromatrix">
+                    <div class="sponsor-card holo-glow-card" data-tilt data-brand="neuromatrix" id="sponsor-neuromatrix">
+                        <span class="hud-corner top-left"></span>
+                        <span class="hud-corner top-right"></span>
+                        <span class="hud-corner bottom-left"></span>
+                        <span class="hud-corner bottom-right"></span>
                         <div class="card-shimmer-sweep"></div>
                         <div class="sponsor-brand-stage" style="--brand-glow: rgba(0, 242, 254, 0.35);">
                             <div class="vector-logo-wrap">
@@ -190,13 +313,22 @@
                             <span class="brand-category">AI & Deep Compute Partner</span>
                         </div>
                         <p class="card-desc">Powering the AI Odyssey and high-performance neural hackathons with enterprise GPU cluster nodes.</p>
-                        <div class="card-perk-pill">
-                            <i class="fa-solid fa-server"></i> 10,000 GPU Compute Hours
+                        <div class="card-footer-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <div class="card-perk-pill">
+                                <i class="fa-solid fa-server"></i> 10,000 GPU Compute Hours
+                            </div>
+                            <button type="button" class="card-dossier-trigger" data-dossier-id="neuromatrix" aria-label="View Neuromatrix Dossier">
+                                <i class="fa-solid fa-shield-halved"></i> DOSSIER
+                            </button>
                         </div>
                     </div>
 
                     <!-- Card 2: Intel Innovation -->
-                    <div class="sponsor-card holo-glow-card" data-tilt data-brand="intel">
+                    <div class="sponsor-card holo-glow-card" data-tilt data-brand="intel" id="sponsor-intel">
+                        <span class="hud-corner top-left"></span>
+                        <span class="hud-corner top-right"></span>
+                        <span class="hud-corner bottom-left"></span>
+                        <span class="hud-corner bottom-right"></span>
                         <div class="card-shimmer-sweep"></div>
                         <div class="sponsor-brand-stage" style="--brand-glow: rgba(0, 113, 197, 0.45);">
                             <div class="vector-logo-wrap">
@@ -214,13 +346,22 @@
                             <span class="brand-category">Hardware Acceleration Partner</span>
                         </div>
                         <p class="card-desc">Providing edge AI Core Ultra chips, developer kits, and high-framerate workstation rigs for creators.</p>
-                        <div class="card-perk-pill">
-                            <i class="fa-solid fa-microchip"></i> Core Ultra Rigs & Dev Kits
+                        <div class="card-footer-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <div class="card-perk-pill">
+                                <i class="fa-solid fa-microchip"></i> Core Ultra Rigs & Dev Kits
+                            </div>
+                            <button type="button" class="card-dossier-trigger" data-dossier-id="intel" aria-label="View Intel Dossier">
+                                <i class="fa-solid fa-shield-halved"></i> DOSSIER
+                            </button>
                         </div>
                     </div>
 
                     <!-- Card 3: GitHub -->
-                    <div class="sponsor-card holo-glow-card" data-tilt data-brand="github">
+                    <div class="sponsor-card holo-glow-card" data-tilt data-brand="github" id="sponsor-github">
+                        <span class="hud-corner top-left"></span>
+                        <span class="hud-corner top-right"></span>
+                        <span class="hud-corner bottom-left"></span>
+                        <span class="hud-corner bottom-right"></span>
                         <div class="card-shimmer-sweep"></div>
                         <div class="sponsor-brand-stage" style="--brand-glow: rgba(163, 113, 247, 0.4);">
                             <div class="vector-logo-wrap">
@@ -235,13 +376,22 @@
                             <span class="brand-category">Platform & Community Partner</span>
                         </div>
                         <p class="card-desc">Empowering student developers with Student Developer Packs, GitHub Copilot subscriptions, and hackathon tooling.</p>
-                        <div class="card-perk-pill">
-                            <i class="fa-brands fa-github"></i> Student Developer Packs
+                        <div class="card-footer-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <div class="card-perk-pill">
+                                <i class="fa-brands fa-github"></i> Student Developer Packs
+                            </div>
+                            <button type="button" class="card-dossier-trigger" data-dossier-id="github" aria-label="View GitHub Dossier">
+                                <i class="fa-solid fa-shield-halved"></i> DOSSIER
+                            </button>
                         </div>
                     </div>
 
                     <!-- Card 4: Cyberwave Esports -->
-                    <div class="sponsor-card holo-glow-card" data-tilt data-brand="cyberwave">
+                    <div class="sponsor-card holo-glow-card" data-tilt data-brand="cyberwave" id="sponsor-cyberwave">
+                        <span class="hud-corner top-left"></span>
+                        <span class="hud-corner top-right"></span>
+                        <span class="hud-corner bottom-left"></span>
+                        <span class="hud-corner bottom-right"></span>
                         <div class="card-shimmer-sweep"></div>
                         <div class="sponsor-brand-stage" style="--brand-glow: rgba(243, 85, 218, 0.4);">
                             <div class="vector-logo-wrap">
@@ -259,13 +409,22 @@
                             <span class="brand-category">Gaming Arena Partner</span>
                         </div>
                         <p class="card-desc">Hosting the high-stakes Gaming Verse championships: BGMI, Valorant 5v5, and Tekken 8 arena showdowns.</p>
-                        <div class="card-perk-pill">
-                            <i class="fa-solid fa-gamepad"></i> Official 240Hz LAN Arena
+                        <div class="card-footer-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <div class="card-perk-pill">
+                                <i class="fa-solid fa-gamepad"></i> Official 240Hz LAN Arena
+                            </div>
+                            <button type="button" class="card-dossier-trigger" data-dossier-id="cyberwave" aria-label="View Cyberwave Esports Dossier">
+                                <i class="fa-solid fa-shield-halved"></i> DOSSIER
+                            </button>
                         </div>
                     </div>
 
                     <!-- Card 5: NVIDIA AI Studio -->
-                    <div class="sponsor-card holo-glow-card" data-tilt data-brand="nvidia">
+                    <div class="sponsor-card holo-glow-card" data-tilt data-brand="nvidia" id="sponsor-nvidia">
+                        <span class="hud-corner top-left"></span>
+                        <span class="hud-corner top-right"></span>
+                        <span class="hud-corner bottom-left"></span>
+                        <span class="hud-corner bottom-right"></span>
                         <div class="card-shimmer-sweep"></div>
                         <div class="sponsor-brand-stage" style="--brand-glow: rgba(118, 185, 0, 0.45);">
                             <div class="vector-logo-wrap">
@@ -282,13 +441,22 @@
                             <span class="brand-category">Deep Learning & Graphics</span>
                         </div>
                         <p class="card-desc">Powering ray-tracing graphics competitions and deep learning workshops with NVIDIA RTX workstations.</p>
-                        <div class="card-perk-pill">
-                            <i class="fa-solid fa-bolt"></i> RTX Ray-Tracing Clusters
+                        <div class="card-footer-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <div class="card-perk-pill">
+                                <i class="fa-solid fa-bolt"></i> RTX Ray-Tracing Clusters
+                            </div>
+                            <button type="button" class="card-dossier-trigger" data-dossier-id="nvidia" aria-label="View NVIDIA Dossier">
+                                <i class="fa-solid fa-shield-halved"></i> DOSSIER
+                            </button>
                         </div>
                     </div>
 
                     <!-- Card 6: Venture Matrix -->
-                    <div class="sponsor-card holo-glow-card" data-tilt data-brand="venture">
+                    <div class="sponsor-card holo-glow-card" data-tilt data-brand="venture" id="sponsor-venture">
+                        <span class="hud-corner top-left"></span>
+                        <span class="hud-corner top-right"></span>
+                        <span class="hud-corner bottom-left"></span>
+                        <span class="hud-corner bottom-right"></span>
                         <div class="card-shimmer-sweep"></div>
                         <div class="sponsor-brand-stage" style="--brand-glow: rgba(255, 215, 0, 0.4);">
                             <div class="vector-logo-wrap">
@@ -305,8 +473,13 @@
                             <span class="brand-category">Incubation & Angel Partner</span>
                         </div>
                         <p class="card-desc">Backing high-potential student founders with ₹25L+ seed grant commitments in the B-Plan Pitch Tank.</p>
-                        <div class="card-perk-pill">
-                            <i class="fa-solid fa-coins"></i> ₹25L+ Angel Pitch Tank
+                        <div class="card-footer-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <div class="card-perk-pill">
+                                <i class="fa-solid fa-coins"></i> ₹25L+ Angel Pitch Tank
+                            </div>
+                            <button type="button" class="card-dossier-trigger" data-dossier-id="venture" aria-label="View Venture Matrix Dossier">
+                                <i class="fa-solid fa-shield-halved"></i> DOSSIER
+                            </button>
                         </div>
                     </div>
 
@@ -326,7 +499,11 @@
                 <div class="sponsors-cards-grid grid-4col">
                     
                     <!-- MTV India -->
-                    <div class="sponsor-mini-card holo-glow-card" data-tilt>
+                    <div class="sponsor-mini-card holo-glow-card" data-tilt id="sponsor-mtv" data-brand="mtv">
+                        <span class="hud-corner top-left"></span>
+                        <span class="hud-corner top-right"></span>
+                        <span class="hud-corner bottom-left"></span>
+                        <span class="hud-corner bottom-right"></span>
                         <div class="mini-brand-badge" style="--badge-glow: #FFDF00;">
                             <svg class="mini-svg-logo" viewBox="0 0 48 48" fill="none">
                                 <path d="M10 38 V14 L20 28 L30 14 V38" stroke="#FFDF00" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -337,10 +514,17 @@
                             <h4>MTV INDIA</h4>
                             <span>Official Youth Media</span>
                         </div>
+                        <button type="button" class="card-dossier-trigger mini-dossier-trigger" data-dossier-id="mtv" aria-label="View MTV India Dossier" style="margin-left: auto; padding: 4px 8px;">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </button>
                     </div>
 
                     <!-- Red FM 93.5 -->
-                    <div class="sponsor-mini-card holo-glow-card" data-tilt>
+                    <div class="sponsor-mini-card holo-glow-card" data-tilt id="sponsor-redfm" data-brand="redfm">
+                        <span class="hud-corner top-left"></span>
+                        <span class="hud-corner top-right"></span>
+                        <span class="hud-corner bottom-left"></span>
+                        <span class="hud-corner bottom-right"></span>
                         <div class="mini-brand-badge" style="--badge-glow: #FF3B30;">
                             <svg class="mini-svg-logo" viewBox="0 0 48 48" fill="none">
                                 <circle cx="24" cy="24" r="18" stroke="#FF3B30" stroke-width="2.5" fill="rgba(255, 59, 48, 0.1)"/>
@@ -353,10 +537,17 @@
                             <h4>RED FM 93.5</h4>
                             <span>Radio & Audio Partner</span>
                         </div>
+                        <button type="button" class="card-dossier-trigger mini-dossier-trigger" data-dossier-id="redfm" aria-label="View Red FM Dossier" style="margin-left: auto; padding: 4px 8px;">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </button>
                     </div>
 
                     <!-- RedBull -->
-                    <div class="sponsor-mini-card holo-glow-card" data-tilt>
+                    <div class="sponsor-mini-card holo-glow-card" data-tilt id="sponsor-redbull" data-brand="redbull">
+                        <span class="hud-corner top-left"></span>
+                        <span class="hud-corner top-right"></span>
+                        <span class="hud-corner bottom-left"></span>
+                        <span class="hud-corner bottom-right"></span>
                         <div class="mini-brand-badge" style="--badge-glow: #ED1C24;">
                             <svg class="mini-svg-logo" viewBox="0 0 48 48" fill="none">
                                 <circle cx="24" cy="24" r="14" fill="#FFD700" opacity="0.85"/>
@@ -368,10 +559,17 @@
                             <h4>REDBULL</h4>
                             <span>Energy Fuel Partner</span>
                         </div>
+                        <button type="button" class="card-dossier-trigger mini-dossier-trigger" data-dossier-id="redbull" aria-label="View RedBull Dossier" style="margin-left: auto; padding: 4px 8px;">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </button>
                     </div>
 
                     <!-- Domino's Pizza -->
-                    <div class="sponsor-mini-card holo-glow-card" data-tilt>
+                    <div class="sponsor-mini-card holo-glow-card" data-tilt id="sponsor-dominos" data-brand="dominos">
+                        <span class="hud-corner top-left"></span>
+                        <span class="hud-corner top-right"></span>
+                        <span class="hud-corner bottom-left"></span>
+                        <span class="hud-corner bottom-right"></span>
                         <div class="mini-brand-badge" style="--badge-glow: #0078ae;">
                             <svg class="mini-svg-logo" viewBox="0 0 48 48" fill="none">
                                 <g transform="rotate(45 24 24)">
@@ -387,10 +585,17 @@
                             <h4>DOMINO'S PIZZA</h4>
                             <span>Official Food Partner</span>
                         </div>
+                        <button type="button" class="card-dossier-trigger mini-dossier-trigger" data-dossier-id="dominos" aria-label="View Domino's Pizza Dossier" style="margin-left: auto; padding: 4px 8px;">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </button>
                     </div>
 
                     <!-- boAt Audio -->
-                    <div class="sponsor-mini-card holo-glow-card" data-tilt>
+                    <div class="sponsor-mini-card holo-glow-card" data-tilt id="sponsor-boat" data-brand="boat">
+                        <span class="hud-corner top-left"></span>
+                        <span class="hud-corner top-right"></span>
+                        <span class="hud-corner bottom-left"></span>
+                        <span class="hud-corner bottom-right"></span>
                         <div class="mini-brand-badge" style="--badge-glow: #FF1E27;">
                             <svg class="mini-svg-logo" viewBox="0 0 48 48" fill="none">
                                 <path d="M12 30 L24 12 L36 30 C30 28 18 28 12 30 Z" fill="#FF1E27"/>
@@ -401,10 +606,17 @@
                             <h4>BOAT AUDIO</h4>
                             <span>Sound & Wearables</span>
                         </div>
+                        <button type="button" class="card-dossier-trigger mini-dossier-trigger" data-dossier-id="boat" aria-label="View boAt Audio Dossier" style="margin-left: auto; padding: 4px 8px;">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </button>
                     </div>
 
                     <!-- Spotify Campus -->
-                    <div class="sponsor-mini-card holo-glow-card" data-tilt>
+                    <div class="sponsor-mini-card holo-glow-card" data-tilt id="sponsor-spotify" data-brand="spotify">
+                        <span class="hud-corner top-left"></span>
+                        <span class="hud-corner top-right"></span>
+                        <span class="hud-corner bottom-left"></span>
+                        <span class="hud-corner bottom-right"></span>
                         <div class="mini-brand-badge" style="--badge-glow: #1DB954;">
                             <svg class="mini-svg-logo" viewBox="0 0 48 48" fill="none">
                                 <circle cx="24" cy="24" r="18" fill="#1DB954"/>
@@ -417,10 +629,17 @@
                             <h4>SPOTIFY CAMPUS</h4>
                             <span>Music Streaming Partner</span>
                         </div>
+                        <button type="button" class="card-dossier-trigger mini-dossier-trigger" data-dossier-id="spotify" aria-label="View Spotify Campus Dossier" style="margin-left: auto; padding: 4px 8px;">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </button>
                     </div>
 
                     <!-- OnePlus India -->
-                    <div class="sponsor-mini-card holo-glow-card" data-tilt>
+                    <div class="sponsor-mini-card holo-glow-card" data-tilt id="sponsor-oneplus" data-brand="oneplus">
+                        <span class="hud-corner top-left"></span>
+                        <span class="hud-corner top-right"></span>
+                        <span class="hud-corner bottom-left"></span>
+                        <span class="hud-corner bottom-right"></span>
                         <div class="mini-brand-badge" style="--badge-glow: #EB0028;">
                             <svg class="mini-svg-logo" viewBox="0 0 48 48" fill="none">
                                 <rect x="10" y="10" width="28" height="28" rx="5" fill="#EB0028"/>
@@ -432,10 +651,17 @@
                             <h4>ONEPLUS INDIA</h4>
                             <span>Smartphone & Tech</span>
                         </div>
+                        <button type="button" class="card-dossier-trigger mini-dossier-trigger" data-dossier-id="oneplus" aria-label="View OnePlus India Dossier" style="margin-left: auto; padding: 4px 8px;">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </button>
                     </div>
 
                     <!-- Bewakoof -->
-                    <div class="sponsor-mini-card holo-glow-card" data-tilt>
+                    <div class="sponsor-mini-card holo-glow-card" data-tilt id="sponsor-bewakoof" data-brand="bewakoof">
+                        <span class="hud-corner top-left"></span>
+                        <span class="hud-corner top-right"></span>
+                        <span class="hud-corner bottom-left"></span>
+                        <span class="hud-corner bottom-right"></span>
                         <div class="mini-brand-badge" style="--badge-glow: #FDD835;">
                             <svg class="mini-svg-logo" viewBox="0 0 48 48" fill="none">
                                 <rect x="10" y="18" width="12" height="12" rx="3" fill="#FDD835"/>
@@ -449,6 +675,9 @@
                             <h4>BEWAKOOF</h4>
                             <span>Apparel & Official Merch</span>
                         </div>
+                        <button type="button" class="card-dossier-trigger mini-dossier-trigger" data-dossier-id="bewakoof" aria-label="View Bewakoof Dossier" style="margin-left: auto; padding: 4px 8px;">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </button>
                     </div>
 
                 </div>
@@ -482,16 +711,91 @@
 
                         <div class="sim-results-card" id="simResultsCard">
                             <div class="sim-row">
-                                <span class="s-lbl"><i class="fa-solid fa-eye"></i> BRAND REACH</span>
+                                <div class="sim-row-head">
+                                    <span class="s-lbl"><i class="fa-solid fa-eye"></i> BRAND REACH</span>
+                                    <span class="sim-meter-pct" id="meterPctReach">100% EXPOSURE</span>
+                                </div>
                                 <span class="s-val" id="simReach">50,000+ Footfall & 5M+ Digital</span>
+                                <div class="sim-meter-track"><div class="sim-meter-fill" id="meterReach" style="width: 100%;"></div></div>
                             </div>
                             <div class="sim-row">
-                                <span class="s-lbl"><i class="fa-solid fa-store"></i> STALL ALLOCATION</span>
+                                <div class="sim-row-head">
+                                    <span class="s-lbl"><i class="fa-solid fa-store"></i> STALL ALLOCATION</span>
+                                    <span class="sim-meter-pct" id="meterPctStalls">3 EXCLUSIVE UNITS</span>
+                                </div>
                                 <span class="s-val" id="simStalls">3 Exclusive VIP Stalls</span>
+                                <div class="sim-meter-track"><div class="sim-meter-fill" id="meterStalls" style="width: 100%;"></div></div>
                             </div>
                             <div class="sim-row">
-                                <span class="s-lbl"><i class="fa-solid fa-bullhorn"></i> STAGE BRANDING</span>
+                                <div class="sim-row-head">
+                                    <span class="s-lbl"><i class="fa-solid fa-bullhorn"></i> STAGE BRANDING</span>
+                                    <span class="sim-meter-pct" id="meterPctKeynote">TIER-1 PRIVILEGES</span>
+                                </div>
                                 <span class="s-val" id="simKeynote">Mainstage Keynote & Title Naming</span>
+                                <div class="sim-meter-track"><div class="sim-meter-fill" id="meterKeynote" style="width: 100%;"></div></div>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Tier Benefits Comparison Matrix Toggle -->
+                        <div class="matrix-toggle-wrap">
+                            <button type="button" class="matrix-toggle-btn" id="toggleMatrixBtn">
+                                <i class="fa-solid fa-table-cells"></i>
+                                <span>VIEW FULL TIER MATRIX COMPARISON</span>
+                                <i class="fa-solid fa-chevron-down matrix-chevron" id="matrixChevron"></i>
+                            </button>
+                        </div>
+
+                        <!-- Expandable Matrix Comparison Table Drawer -->
+                        <div class="tier-matrix-drawer" id="tierMatrixDrawer">
+                            <div class="matrix-table-scroll">
+                                <table class="cyber-matrix-table">
+                                    <thead>
+                                        <tr>
+                                            <th>PARTNERSHIP PRIVILEGE</th>
+                                            <th class="col-title">TITLE</th>
+                                            <th class="col-platinum">PLATINUM</th>
+                                            <th class="col-gold">GOLD</th>
+                                            <th class="col-event">EVENT</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="m-privilege"><i class="fa-solid fa-users"></i> Footfall Audience</td>
+                                            <td class="highlight-val">50,000+</td>
+                                            <td>30,000+</td>
+                                            <td>20,000+</td>
+                                            <td>5,000+</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="m-privilege"><i class="fa-solid fa-satellite-dish"></i> Digital & Media Reach</td>
+                                            <td class="highlight-val">5M+</td>
+                                            <td>2.5M+</td>
+                                            <td>1M+</td>
+                                            <td>Event Channels</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="m-privilege"><i class="fa-solid fa-store"></i> Arena Stalls</td>
+                                            <td class="highlight-val">3 VIP Stalls</td>
+                                            <td>2 Arena Stalls</td>
+                                            <td>1 Arena Stall</td>
+                                            <td>1 Event Kiosk</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="m-privilege"><i class="fa-solid fa-microphone"></i> Stage & Naming Rights</td>
+                                            <td class="highlight-val">Mainstage Keynote</td>
+                                            <td>Category Naming</td>
+                                            <td>Stage Branding</td>
+                                            <td>Event Title</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="m-privilege"><i class="fa-solid fa-shield-halved"></i> Hackathon / Arena Sponsor</td>
+                                            <td class="highlight-val">Flagship Core</td>
+                                            <td>Domain Partner</td>
+                                            <td>Prize Sponsor</td>
+                                            <td>Track Support</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
@@ -596,6 +900,37 @@
 
             <div class="modal-actions-grid">
                 <button type="button" class="modal-close-cta" id="closeSponsorModalBtn">CONFIRM & CLOSE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Sponsor Holographic Dossier Modal -->
+    <div class="dossier-modal-overlay" id="sponsorDossierModal" aria-hidden="true">
+        <div class="dossier-modal-box holo-glow-card">
+            <button type="button" class="dossier-close-btn" id="closeDossierModalBtn" aria-label="Close Dossier">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="dossier-header">
+                <span class="dossier-security-badge">
+                    <span class="live-dot"></span>
+                    <span>ALLIANCE TELEMETRY DOSSIER</span>
+                </span>
+                <h3 class="dossier-title" id="dossierBrandName">QUANTUM DYNAMICS</h3>
+                <span class="dossier-subtitle" id="dossierCategory">AI & Deep Compute Partner</span>
+            </div>
+            <div class="dossier-body">
+                <div class="dossier-info-block">
+                    <span class="d-label"><i class="fa-solid fa-circle-info"></i> ALLIANCE PROFILE</span>
+                    <p class="d-text" id="dossierDesc">Global vanguard in quantum computing and neural hardware architectures.</p>
+                </div>
+                <div class="dossier-info-block">
+                    <span class="d-label"><i class="fa-solid fa-star"></i> VERIFIED ALLIANCE PERK</span>
+                    <div class="d-perk-badge" id="dossierPerk"><i class="fa-solid fa-shield-halved"></i> 5M+ Digital Reach & Main Arena Title</div>
+                </div>
+            </div>
+            <div class="dossier-actions">
+                <button type="button" class="dossier-action-btn secondary" id="dossierCloseBtn">CLOSE DOSSIER</button>
+                <button type="button" class="dossier-action-btn primary" id="dossierPartnerBtn">BECOME A PARTNER</button>
             </div>
         </div>
     </div>

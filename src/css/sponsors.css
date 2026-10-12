@@ -49,7 +49,8 @@ section,
     padding: 0 20px !important;
 }
 
-.hero-badge {
+.hero-badge,
+.hero-badge-pill {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -80,7 +81,8 @@ section,
     filter: drop-shadow(0 0 25px rgba(0, 242, 254, 0.35));
 }
 
-.hero-subtitle {
+.hero-subtitle,
+.sponsors-hero-subtitle {
     font-family: 'Inter', sans-serif;
     font-size: 0.95rem;
     color: rgba(255, 255, 255, 0.75);
@@ -979,7 +981,8 @@ section,
     line-height: 1.5 !important;
 }
 
-.success-ticket-summary {
+.success-ticket-summary,
+.modal-ticket-summary {
     background: rgba(255, 255, 255, 0.04) !important;
     border: 1px dashed rgba(255, 255, 255, 0.15) !important;
     border-radius: 12px !important;
@@ -1090,4 +1093,848 @@ section,
     .proposal-card-container {
         padding: 24px !important;
     }
+}
+
+/* =========================================================
+   ATMOSPHERIC AMBIENT MULTIVERSE GLOWS & SCANLINE
+========================================================= */
+.sponsors-ambient-atmosphere {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.ambient-plasma-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.35;
+    animation: orbFloatAnim 16s ease-in-out infinite alternate;
+}
+
+.orb-cyan {
+    width: 480px;
+    height: 480px;
+    background: radial-gradient(circle, rgba(0, 242, 254, 0.45) 0%, transparent 70%);
+    top: 5%;
+    left: -100px;
+}
+
+.orb-magenta {
+    width: 520px;
+    height: 520px;
+    background: radial-gradient(circle, rgba(207, 58, 214, 0.38) 0%, transparent 70%);
+    top: 40%;
+    right: -120px;
+    animation-duration: 22s;
+    animation-delay: -5s;
+}
+
+.orb-amber {
+    width: 360px;
+    height: 360px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.25) 0%, transparent 70%);
+    bottom: 10%;
+    left: 20%;
+    animation-duration: 18s;
+    animation-delay: -10s;
+}
+
+@keyframes orbFloatAnim {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(40px, 30px) scale(1.08); }
+    100% { transform: translate(-30px, 50px) scale(0.95); }
+}
+
+.cyber-grid-scanline {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 242, 254, 0.03) 50%, transparent 100%);
+    background-size: 100% 8px;
+    opacity: 0.6;
+}
+
+/* =========================================================
+   HERO LIVE TELEMETRY BADGE & GLITCH TITLE
+========================================================= */
+.hero-live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(4, 9, 28, 0.85);
+    border: 1px solid rgba(0, 242, 254, 0.4);
+    box-shadow: 0 0 20px rgba(0, 242, 254, 0.25), inset 0 0 12px rgba(0, 242, 254, 0.12);
+    padding: 7px 18px;
+    border-radius: 30px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 800;
+    color: #00f2fe;
+    letter-spacing: 0.14em;
+    margin-bottom: 16px;
+    backdrop-filter: blur(12px);
+    text-transform: uppercase;
+}
+
+.live-pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #00ff88;
+    box-shadow: 0 0 10px #00ff88, 0 0 18px #00ff88;
+    animation: pulseDotAnim 1.6s ease-in-out infinite;
+    display: inline-block;
+}
+
+@keyframes pulseDotAnim {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.4); opacity: 0.6; }
+}
+
+.hero-live-badge .badge-code {
+    color: #ffdf7a;
+    font-size: 0.62rem;
+}
+
+/* Cyber Title Glitch Effect on Hover */
+.cyber-glitch-title {
+    position: relative;
+    display: inline-block;
+    cursor: default;
+}
+
+.cyber-glitch-title:hover::before,
+.cyber-glitch-title:hover::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    pointer-events: none;
+}
+
+.cyber-glitch-title:hover::before {
+    left: -2px;
+    text-shadow: 2px 0 #cf3ad6;
+    clip-path: inset(20% 0 30% 0);
+    animation: glitchAnim1 0.4s infinite;
+}
+
+.cyber-glitch-title:hover::after {
+    left: 2px;
+    text-shadow: -2px 0 #00f2fe;
+    clip-path: inset(50% 0 10% 0);
+    animation: glitchAnim2 0.3s infinite;
+}
+
+@keyframes glitchAnim1 {
+    0% { clip-path: inset(10% 0 60% 0); }
+    50% { clip-path: inset(40% 0 20% 0); }
+    100% { clip-path: inset(20% 0 50% 0); }
+}
+
+@keyframes glitchAnim2 {
+    0% { clip-path: inset(60% 0 10% 0); }
+    50% { clip-path: inset(20% 0 70% 0); }
+    100% { clip-path: inset(50% 0 20% 0); }
+}
+
+/* Metrics Icon Wrap */
+.metric-card .m-icon-wrap {
+    font-size: 0.95rem;
+    color: #00f2fe;
+    margin-bottom: 2px;
+    filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.7));
+}
+
+/* =========================================================
+   DYNAMIC CYBER SPONSOR MARQUEE STREAM
+========================================================= */
+.sponsors-marquee-container {
+    width: 100%;
+    max-width: 1040px;
+    margin: 18px auto 26px auto;
+    background: rgba(6, 9, 28, 0.75);
+    border: 1px solid rgba(0, 242, 254, 0.28);
+    border-radius: 40px;
+    padding: 6px 14px 6px 8px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 16px rgba(0, 242, 254, 0.08);
+    backdrop-filter: blur(16px);
+    overflow: hidden;
+    position: relative;
+}
+
+.marquee-badge-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(0, 242, 254, 0.16);
+    border: 1px solid rgba(0, 242, 254, 0.45);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 800;
+    color: #00f2fe;
+    letter-spacing: 0.12em;
+    flex-shrink: 0;
+    z-index: 2;
+}
+
+.marquee-badge-label .live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #00f2fe;
+    box-shadow: 0 0 8px #00f2fe;
+}
+
+.marquee-track-wrapper {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    mask-image: linear-gradient(90deg, transparent 0%, black 5%, black 95%, transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 5%, black 95%, transparent 100%);
+}
+
+.marquee-track {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    white-space: nowrap;
+    width: max-content;
+    animation: marqueeScrollAnim 38s linear infinite;
+}
+
+.marquee-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes marqueeScrollAnim {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.marquee-chip {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 5px 14px;
+    color: rgba(255, 255, 255, 0.85);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.marquee-chip:hover {
+    background: rgba(0, 242, 254, 0.18);
+    border-color: #00f2fe;
+    color: #ffffff;
+    box-shadow: 0 0 14px rgba(0, 242, 254, 0.5);
+    transform: translateY(-1px);
+}
+
+.marquee-chip .m-icon {
+    font-size: 0.72rem;
+    color: #00f2fe;
+}
+
+.marquee-sep {
+    color: rgba(255, 223, 122, 0.6);
+    font-size: 0.7rem;
+    user-select: none;
+}
+
+/* =========================================================
+   CONTROLS DOCK: CATEGORY FILTERS & LIVE SEARCH
+========================================================= */
+.sponsor-controls-dock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.filter-count {
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    border-radius: 10px;
+    padding: 1px 7px;
+    font-size: 0.58rem;
+    margin-left: 6px;
+    color: #00f2fe;
+    font-weight: 800;
+}
+
+.cat-filter-btn.active .filter-count {
+    background: #040916;
+    color: #00f2fe;
+    border-color: #040916;
+}
+
+.sponsor-search-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.cyber-search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    background: rgba(8, 12, 34, 0.75);
+    border: 1.5px solid rgba(0, 242, 254, 0.28);
+    border-radius: 30px;
+    padding: 8px 18px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 0 12px rgba(0, 242, 254, 0.05);
+    backdrop-filter: blur(14px);
+    transition: all 0.3s ease;
+}
+
+.cyber-search-box:focus-within {
+    border-color: #00f2fe;
+    box-shadow: 0 0 25px rgba(0, 242, 254, 0.45), inset 0 0 16px rgba(0, 242, 254, 0.15);
+    background: rgba(10, 16, 44, 0.9);
+}
+
+.cyber-search-box .search-icon {
+    color: #00f2fe;
+    font-size: 0.88rem;
+}
+
+.cyber-search-box input {
+    flex: 1;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 4px 0 !important;
+    color: #ffffff !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.84rem !important;
+    outline: none !important;
+}
+
+.cyber-search-box input::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 0.78rem;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 0.05em;
+}
+
+.clear-search-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 4px;
+    display: none;
+    transition: color 0.2s ease;
+}
+
+.clear-search-btn.visible {
+    display: inline-block;
+}
+
+.clear-search-btn:hover {
+    color: #ff3b30;
+}
+
+.search-kbd-tag {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 800;
+    color: #00f2fe;
+    background: rgba(0, 242, 254, 0.12);
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    border-radius: 6px;
+    padding: 2px 7px;
+    user-select: none;
+}
+
+.search-status-counter {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: rgba(0, 242, 254, 0.8);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+/* =========================================================
+   HOLOGRAPHIC HUD CORNER RETICLES & MOUSE SPOTLIGHT
+========================================================= */
+.hud-corner {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-color: #00f2fe;
+    border-style: solid;
+    opacity: 0.35;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.hud-corner.top-left {
+    top: 8px;
+    left: 8px;
+    border-width: 2px 0 0 2px;
+}
+
+.hud-corner.top-right {
+    top: 8px;
+    right: 8px;
+    border-width: 2px 2px 0 0;
+}
+
+.hud-corner.bottom-left {
+    bottom: 8px;
+    left: 8px;
+    border-width: 0 0 2px 2px;
+}
+
+.hud-corner.bottom-right {
+    bottom: 8px;
+    right: 8px;
+    border-width: 0 2px 2px 0;
+}
+
+.holo-glow-card:hover .hud-corner {
+    opacity: 1;
+    border-color: #00f2fe;
+    box-shadow: 0 0 8px rgba(0, 242, 254, 0.8);
+    width: 14px;
+    height: 14px;
+}
+
+/* Dynamic Cursor-Following Specular Spotlight */
+.holo-glow-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 242, 254, 0.12), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+    border-radius: inherit;
+    z-index: 1;
+}
+
+.holo-glow-card:hover::before {
+    opacity: 1;
+}
+
+/* Alliance Dossier Quick Trigger Pill */
+.card-dossier-trigger {
+    background: rgba(0, 242, 254, 0.1);
+    border: 1px solid rgba(0, 242, 254, 0.35);
+    border-radius: 12px;
+    color: #00f2fe;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 800;
+    padding: 5px 12px;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-transform: uppercase;
+}
+
+.card-dossier-trigger:hover {
+    background: #00f2fe;
+    color: #040916;
+    box-shadow: 0 0 16px rgba(0, 242, 254, 0.6);
+    transform: translateY(-1px);
+}
+
+.brand-meta-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Highlight Target Card Flash Animation */
+.card-spotlight-active {
+    animation: cardGlowPulseAnim 2.4s ease-out;
+}
+
+@keyframes cardGlowPulseAnim {
+    0%, 100% { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35); }
+    20%, 60% {
+        box-shadow: 0 0 50px rgba(0, 242, 254, 0.9), inset 0 0 30px rgba(0, 242, 254, 0.4);
+        border-color: #00f2fe !important;
+        transform: scale(1.02);
+    }
+}
+
+/* =========================================================
+   SIMULATOR TELEMETRY METERS & EXPANDABLE MATRIX TABLE
+========================================================= */
+.sim-row-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sim-meter-pct {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 800;
+    color: #ffdf7a;
+    letter-spacing: 0.08em;
+}
+
+.sim-meter-track {
+    width: 100%;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 6px;
+}
+
+.sim-meter-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00f2fe, #cf3ad6);
+    border-radius: 6px;
+    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 0 8px rgba(0, 242, 254, 0.6);
+}
+
+/* Tier Matrix Toggle & Drawer */
+.matrix-toggle-wrap {
+    margin-top: 6px;
+}
+
+.matrix-toggle-btn {
+    width: 100%;
+    background: rgba(14, 18, 44, 0.7);
+    border: 1px dashed rgba(0, 242, 254, 0.35);
+    border-radius: 12px;
+    padding: 12px 18px;
+    color: #00f2fe;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-transform: uppercase;
+}
+
+.matrix-toggle-btn:hover {
+    background: rgba(0, 242, 254, 0.12);
+    border-color: #00f2fe;
+    box-shadow: 0 0 18px rgba(0, 242, 254, 0.3);
+}
+
+.matrix-chevron {
+    transition: transform 0.3s ease;
+}
+
+.matrix-toggle-btn.active .matrix-chevron {
+    transform: rotate(180deg);
+}
+
+.tier-matrix-drawer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+    opacity: 0;
+}
+
+.tier-matrix-drawer.open {
+    max-height: 500px;
+    opacity: 1;
+    margin-top: 14px;
+}
+
+.matrix-table-scroll {
+    overflow-x: auto;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 242, 254, 0.2);
+    background: rgba(4, 7, 24, 0.85);
+}
+
+.cyber-matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.cyber-matrix-table th {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    padding: 12px 14px;
+    background: rgba(0, 242, 254, 0.08);
+    border-bottom: 1.5px solid rgba(0, 242, 254, 0.25);
+    text-align: left;
+    color: #ffffff;
+}
+
+.cyber-matrix-table th.col-title { color: #00f2fe; }
+.cyber-matrix-table th.col-platinum { color: #cf3ad6; }
+.cyber-matrix-table th.col-gold { color: #ffdf7a; }
+.cyber-matrix-table th.col-event { color: #00ff88; }
+
+.cyber-matrix-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.cyber-matrix-table td.m-privilege {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.cyber-matrix-table td.m-privilege i {
+    color: #00f2fe;
+    margin-right: 6px;
+}
+
+.cyber-matrix-table td.highlight-val {
+    color: #00f2fe;
+    font-weight: 700;
+}
+
+/* =========================================================
+   INTERACTIVE SPONSOR HOLOGRAPHIC DOSSIER MODAL
+========================================================= */
+.dossier-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 5, 18, 0.85);
+    backdrop-filter: blur(18px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10005;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    padding: 20px;
+}
+
+.dossier-modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.dossier-modal-box {
+    background: linear-gradient(145deg, rgba(14, 16, 44, 0.96) 0%, rgba(6, 8, 26, 0.98) 100%) !important;
+    border: 2px solid #00f2fe !important;
+    border-radius: 24px !important;
+    padding: 34px !important;
+    max-width: 580px !important;
+    width: 100% !important;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 242, 254, 0.3) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+    position: relative !important;
+    transform: scale(0.92) !important;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.dossier-modal-overlay.open .dossier-modal-box {
+    transform: scale(1) !important;
+}
+
+.dossier-close-btn {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.dossier-close-btn:hover {
+    background: rgba(255, 59, 48, 0.25);
+    border-color: #ff3b30;
+    color: #ff3b30;
+}
+
+.dossier-header {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.dossier-security-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 800;
+    color: #00ff88;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.dossier-security-badge .live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #00ff88;
+    box-shadow: 0 0 8px #00ff88;
+}
+
+.dossier-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.45rem;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 4px 0 0 0;
+    text-shadow: 0 0 16px rgba(0, 242, 254, 0.6);
+}
+
+.dossier-subtitle {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #00f2fe;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.dossier-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.dossier-info-block {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.dossier-info-block .d-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.dossier-info-block .d-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.d-perk-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 223, 122, 0.12);
+    border: 1px solid rgba(255, 223, 122, 0.35);
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #ffdf7a;
+    letter-spacing: 0.04em;
+    width: fit-content;
+}
+
+.dossier-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 6px;
+}
+
+.dossier-action-btn {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    padding: 11px 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.25s ease;
+}
+
+.dossier-action-btn.secondary {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+.dossier-action-btn.secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.dossier-action-btn.primary {
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    border: none;
+    color: #040916;
+    box-shadow: 0 0 16px rgba(0, 242, 254, 0.45);
+}
+
+.dossier-action-btn.primary:hover {
+    box-shadow: 0 0 25px rgba(0, 242, 254, 0.75);
+    transform: translateY(-2px);
 }
