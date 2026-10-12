@@ -301,11 +301,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.fill();
             }
 
-            if (document.body.classList.contains('portal-entered')) {
-                ctx.clearRect(0, 0, width, height);
-                return;
-            }
-
             requestAnimationFrame(render);
         }
         render();
@@ -322,34 +317,21 @@ document.addEventListener('DOMContentLoaded', () => {
     let portalHasPlayedOnce = false;
     let flashTriggered = false;
 
-    // Check if user has already entered the portal during this session
-    const hasAlreadyEnteredPortal = sessionStorage.getItem('portalEntered') === 'true';
-
-    if (hasAlreadyEnteredPortal) {
-        portalHasPlayedOnce = true;
-        document.documentElement.classList.add('portal-entered-fast');
-        document.body.classList.add('portal-entered');
-        if (splashScreen) {
-            splashScreen.classList.add('hidden');
-            splashScreen.classList.remove('active-screen');
-        }
-        if (mainScrollContainer) {
-            mainScrollContainer.classList.add('scroll-enabled');
-            mainScrollContainer.scrollTop = 0;
-        }
-        if (loaderScreen) {
-            loaderScreen.classList.add('hidden');
-            loaderScreen.classList.remove('active-screen');
-        }
-        const navWheel = document.getElementById('cosmic-nav-wheel');
-        if (navWheel) {
-            navWheel.classList.remove('hidden-nav');
-            setTimeout(updateNavPill, 120);
-        }
-        setTimeout(() => {
-            generateCalendarCube();
-        }, 50);
+    // Enable multiverse environment while keeping all sections including Hero cleanly visible & scrollable
+    portalHasPlayedOnce = true;
+    document.documentElement.classList.add('portal-entered-fast');
+    document.body.classList.add('portal-entered');
+    if (mainScrollContainer) {
+        mainScrollContainer.classList.add('scroll-enabled');
     }
+    const navWheel = document.getElementById('cosmic-nav-wheel');
+    if (navWheel) {
+        navWheel.classList.remove('hidden-nav');
+        setTimeout(updateNavPill, 120);
+    }
+    setTimeout(() => {
+        generateCalendarCube();
+    }, 50);
 
     if (portalVideo) {
         portalVideo.muted = true;
@@ -437,55 +419,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    window.addEventListener('wheel', (e) => {
-        if (!portalHasPlayedOnce && splashScreen && splashScreen.classList.contains('active-screen') && e.deltaY > 15) {
-            handlePortalLaunch();
+    function smoothScrollToAbout() {
+        const aboutPage = document.getElementById('about-page');
+        if (aboutPage) {
+            aboutPage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else if (mainScrollContainer) {
+            mainScrollContainer.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
         }
-    }, { passive: true });
-
-    if (splashScreen) {
-        splashScreen.addEventListener('touchstart', (e) => {
-            startY = e.touches[0].clientY;
-        }, { passive: true });
-
-        splashScreen.addEventListener('touchmove', (e) => {
-            const currentY = e.touches[0].clientY;
-            const diffY = startY - currentY;
-
-            if (!portalHasPlayedOnce) {
-                const logoCont = document.querySelector('.logo-container');
-                if (logoCont && diffY > 0 && diffY < 120) {
-                    logoCont.style.transform = `translateY(-${diffY * 0.2}px)`;
-                }
-            }
-        }, { passive: true });
-
-        splashScreen.addEventListener('touchend', (e) => {
-            const currentY = e.changedTouches[0].clientY;
-            const diffY = startY - currentY;
-
-            const logoCont = document.querySelector('.logo-container');
-            if (logoCont) {
-                logoCont.style.transform = 'translateY(0)';
-            }
-
-            if (!portalHasPlayedOnce && diffY > 40) {
-                handlePortalLaunch();
-            }
-        }, { passive: true });
     }
 
     if (portalEntryTrigger) {
-        portalEntryTrigger.addEventListener('click', handlePortalLaunch);
+        portalEntryTrigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            smoothScrollToAbout();
+        });
         portalEntryTrigger.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
-                handlePortalLaunch();
+                e.preventDefault();
+                smoothScrollToAbout();
             }
         });
     }
 
     if (enterBtn) {
-        enterBtn.addEventListener('click', handlePortalLaunch);
+        enterBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            smoothScrollToAbout();
+        });
     }
 
     function enterUniverse() {
@@ -581,6 +541,153 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }, 220);
     }
+
+    /* =========================================================
+       ULTRA-SMOOTH INERTIAL SCROLL & PARALLAX ENGINE (PRAVAAH HOME)
+       ========================================================= */
+    const snapSections = Array.from(document.querySelectorAll('.snap-page'));
+    let currentSnapIndex = 0;
+
+    function getScrollPosition() {
+        return window.pageYOffset || document.documentElement.scrollTop || (mainScrollContainer ? mainScrollContainer.scrollTop : 0);
+    }
+
+    function syncCurrentIndexFromScroll() {
+        if (snapSections.length === 0) return;
+        const scrollTop = getScrollPosition();
+        let closestIndex = 0;
+        let minDiff = Infinity;
+        snapSections.forEach((sec, idx) => {
+            const secTop = sec.getBoundingClientRect().top + scrollTop;
+            const diff = Math.abs(secTop - scrollTop);
+            if (diff < minDiff) {
+                minDiff = diff;
+                closestIndex = idx;
+            }
+        });
+        currentSnapIndex = closestIndex;
+    }
+
+    function smoothScrollToSection(index) {
+        if (snapSections.length === 0) return;
+        index = Math.max(0, Math.min(index, snapSections.length - 1));
+        const targetSec = snapSections[index];
+        if (!targetSec) return;
+
+        currentSnapIndex = index;
+        targetSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // Parallax & Dynamic Atmosphere Sync
+    function handleParallaxAndNav() {
+        const scrollTop = getScrollPosition();
+        const viewportH = window.innerHeight;
+        const globalBg = document.getElementById('global-bg-layer');
+        const septagonRotator = document.querySelector('.big-septagon-rotator');
+        const highlightsPanel = document.querySelector('.splash-highlights-panel');
+        const statusPanel = document.querySelector('.splash-status-panel');
+
+        // Smooth cosmic background parallax
+        if (globalBg) {
+            globalBg.style.transform = `scale(1.04) translateY(-${scrollTop * 0.12}px)`;
+        }
+
+        // Hero elements subtle depth floating
+        if (scrollTop < viewportH * 1.3) {
+            const ratio = scrollTop / viewportH;
+            if (septagonRotator) {
+                septagonRotator.style.transform = `translateY(${scrollTop * 0.16}px) scale(${Math.max(0.75, 1 - ratio * 0.2)})`;
+            }
+            if (highlightsPanel) {
+                highlightsPanel.style.transform = `translateY(${scrollTop * 0.1}px)`;
+            }
+            if (statusPanel) {
+                statusPanel.style.transform = `translateY(${scrollTop * 0.1}px)`;
+            }
+        }
+
+        syncCurrentIndexFromScroll();
+
+        // Cosmic nav indicator update
+        const navItems = Array.from(document.querySelectorAll('.cosmic-nav-wheel .nav-item'));
+        if (navItems.length > 0 && scrollTop < viewportH * 0.6) {
+            navItems.forEach(item => {
+                if (item.getAttribute('href') === 'index.html' || item.textContent.trim() === 'HOME') {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+            updateNavPill();
+        }
+    }
+
+    window.addEventListener('scroll', handleParallaxAndNav, { passive: true });
+    if (mainScrollContainer) {
+        mainScrollContainer.addEventListener('scroll', handleParallaxAndNav, { passive: true });
+    }
+
+    // Scroll-Reveal intersection observer for all home page elements
+    const revealElements = document.querySelectorAll('.scroll-reveal, .about-intro-card, .calendar-layout-container, .gallery-columns-wrapper, .last-page-hero-container, .pravaah-full-footer');
+    if ('IntersectionObserver' in window && revealElements.length > 0) {
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-revealed');
+                }
+            });
+        }, {
+            threshold: 0.08
+        });
+
+        revealElements.forEach(el => {
+            revealObserver.observe(el);
+        });
+    } else {
+        revealElements.forEach(el => el.classList.add('is-revealed'));
+    }
+
+    // Smooth Home Link click handler
+    const homeNavLinks = document.querySelectorAll('a.nav-item[href="index.html"], a.nav-item[href="/"], .nav-wheel-track a:first-child');
+    homeNavLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const currentPath = window.location.pathname;
+            if (currentPath.endsWith('index.html') || currentPath.endsWith('/') || currentPath === '') {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                if (mainScrollContainer) {
+                    mainScrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // Keyboard navigation (ArrowDown, ArrowUp, PageDown, PageUp, Home, End)
+    window.addEventListener('keydown', (e) => {
+        const modal = document.getElementById('event-modal');
+        const lightbox = document.getElementById('gallery-lightbox');
+        if ((modal && !modal.classList.contains('hidden')) || (lightbox && !lightbox.classList.contains('hidden'))) {
+            return;
+        }
+
+        if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
+
+        if (e.key === 'ArrowDown' || e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey)) {
+            e.preventDefault();
+            syncCurrentIndexFromScroll();
+            smoothScrollToSection(currentSnapIndex + 1);
+        } else if (e.key === 'ArrowUp' || e.key === 'PageUp' || (e.key === ' ' && e.shiftKey)) {
+            e.preventDefault();
+            syncCurrentIndexFromScroll();
+            smoothScrollToSection(currentSnapIndex - 1);
+        } else if (e.key === 'Home') {
+            e.preventDefault();
+            smoothScrollToSection(0);
+        } else if (e.key === 'End') {
+            e.preventDefault();
+            smoothScrollToSection(snapSections.length - 1);
+        }
+    });
 
 
     const observerOptions = {
@@ -1392,8 +1499,12 @@ document.addEventListener('DOMContentLoaded', () => {
         aboutGalleryBtn.addEventListener('click', () => {
             const gallerySec = document.getElementById('gallery-page');
             if (gallerySec) {
-                triggerPageGlitch(gallerySec);
-                gallerySec.scrollIntoView({ behavior: 'smooth' });
+                const gIdx = snapSections.indexOf(gallerySec);
+                if (gIdx !== -1) {
+                    smoothScrollToSection(gIdx, 800);
+                } else {
+                    gallerySec.scrollIntoView({ behavior: 'smooth' });
+                }
             }
         });
     }
@@ -1413,8 +1524,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const targetEl = document.querySelector(href);
                 if (targetEl) {
                     e.preventDefault();
-                    triggerPageGlitch(targetEl);
-                    targetEl.scrollIntoView({ behavior: 'smooth' });
+                    const sIdx = snapSections.indexOf(targetEl);
+                    if (sIdx !== -1) {
+                        smoothScrollToSection(sIdx, 800);
+                    } else {
+                        targetEl.scrollIntoView({ behavior: 'smooth' });
+                    }
                 }
             }
         });

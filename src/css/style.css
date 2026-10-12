@@ -34,15 +34,23 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
 body {
     background-color: var(--bg-dark);
     color: var(--text-main);
     font-family: 'Inter', sans-serif;
-    overflow: hidden;
-    height: 100vh;
-    width: 100vw;
+    overflow-x: hidden;
+    overflow-y: auto !important;
+    min-height: 100vh;
+    height: auto !important;
+    width: 100%;
     position: relative;
     user-select: none;
+    scroll-behavior: smooth;
 }
 
 .global-bg-layer {
@@ -51,7 +59,7 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-image: url('../../assets/images/page1_hero.jpg');
+    background-image: url('../../assets/images/home_bg_new.jpg');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -59,31 +67,19 @@ body {
     pointer-events: none;
     transform: scale(1.0);
     filter: blur(0px);
-    transition: opacity 0.8s ease, filter 0.8s ease;
+    opacity: 1 !important;
+    display: block !important;
+    visibility: visible !important;
+    transition: opacity 0.8s ease, filter 0.8s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: opacity, transform;
 }
 
-body.portal-entered .global-bg-layer {
-    display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-}
-
-body.portal-entered #starfield-canvas {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-    display: none !important;
-}
-
-body.portal-entered .comet-orbit-ring,
-body.portal-entered .comet-spinner,
-body.portal-entered .cube-comet {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-    display: none !important;
-    animation: none !important;
+.global-bg-layer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 45%, rgba(0, 242, 254, 0.08) 0%, rgba(157, 78, 221, 0.12) 40%, rgba(6, 3, 14, 0.65) 85%, rgba(6, 3, 14, 0.92) 100%);
+    pointer-events: none;
 }
 
 #starfield-canvas {
@@ -147,28 +143,13 @@ section {
     transform: scale(1);
 }
 
-#splash-screen {
-    background: url('../../assets/images/page1_hero.jpg') center center / cover no-repeat;
-}
-
-#about-page {
-    background: url('../../assets/images/home_portal_bg.jpg') center center / cover no-repeat fixed;
-}
-
-#calendar-page {
-    background: url('../../assets/images/home_portal_bg.jpg') center center / cover no-repeat fixed;
-}
-
-#universe-page {
-    background: url('../../assets/images/home_portal_bg.jpg') center center / cover no-repeat fixed;
-}
-
-#gallery-page {
-    background: url('../../assets/images/home_portal_bg.jpg') center center / cover no-repeat fixed;
-}
-
+#splash-screen,
+#about-page,
+#calendar-page,
+#universe-page,
+#gallery-page,
 #team-page {
-    background: url('../../assets/images/home_portal_bg.jpg') center center / cover no-repeat fixed;
+    background: transparent !important;
 }
 
 .glow-core {
@@ -188,8 +169,8 @@ section {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    height: 75%;
-    max-height: 620px;
+    min-height: 80vh;
+    height: auto;
     width: 90%;
     max-width: 1100px;
     gap: 30px;
@@ -691,30 +672,33 @@ section {
     height: 24px;
 }
 
-#splash-screen.portal-warp-section {
-    background: url('../../assets/images/page1_hero.jpg') center center / cover no-repeat;
-    z-index: 9980;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100vw;
-    height: 100vh;
-    width: 100dvw;
-    height: 100dvh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1),
-                transform 0.8s cubic-bezier(0.25, 1, 0.5, 1),
-                visibility 0.8s;
+#splash-screen.portal-warp-section,
+#splash-screen.snap-page,
+#splash-screen {
+    background: transparent !important;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
+    min-height: 85vh !important;
+    height: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding-top: 100px !important;
+    padding-bottom: 60px !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+    z-index: 5 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: all !important;
+    transform: none !important;
 }
 
-html.portal-entered-fast #splash-screen,
 html.portal-entered-fast #loader-screen,
-body.portal-entered #splash-screen,
 body.portal-entered #loader-screen {
     display: none !important;
     opacity: 0 !important;
@@ -723,8 +707,7 @@ body.portal-entered #loader-screen {
     z-index: -9999 !important;
 }
 
-html.portal-entered-fast .cosmic-nav-wheel,
-body.portal-entered .cosmic-nav-wheel {
+.cosmic-nav-wheel {
     opacity: 1 !important;
     transform: translate(-50%, 0) !important;
     pointer-events: all !important;
@@ -870,50 +853,53 @@ body.portal-entered .home-swipe-prompt {
 }
 
 #main-scroll-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 100vh;
     z-index: 10;
-    overflow-y: hidden;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
-
-#main-scroll-container.scroll-enabled {
-    overflow-y: scroll;
-    scroll-snap-type: y mandatory;
-}
-
-body.portal-entered #main-scroll-container {
-    background: url('../../assets/images/home_portal_bg.jpg') center center / cover no-repeat fixed !important;
+    overflow: visible !important;
+    scroll-behavior: smooth;
+    scroll-snap-type: none !important;
+    background: transparent !important;
 }
 
 #main-scroll-container::-webkit-scrollbar {
-    display: none;
+    width: 7px;
+}
+
+#main-scroll-container::-webkit-scrollbar-track {
+    background: rgba(6, 3, 14, 0.7);
+}
+
+#main-scroll-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #00f2fe 0%, #9d4edd 50%, #ff007f 100%);
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
 }
 
 .snap-page {
     position: relative !important;
     top: auto !important;
     left: auto !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    min-height: 100vh !important;
-    scroll-snap-align: start;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal !important;
+    overflow: visible !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
     opacity: 1 !important;
     visibility: visible !important;
     transform: none !important;
-    background-size: cover !important;
-    background-position: center center !important;
-    background-repeat: no-repeat !important;
-    background-attachment: fixed !important;
+    background: transparent !important;
+    padding: 80px 20px 60px 20px !important;
+    box-sizing: border-box !important;
 }
 
 .snap-page::after {
@@ -923,8 +909,8 @@ body.portal-entered #main-scroll-container {
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at center, rgba(6, 3, 14, 0.12) 0%, rgba(6, 3, 14, 0.38) 85%, rgba(6, 3, 14, 0.6) 100%),
-        linear-gradient(to bottom, rgba(6, 3, 14, 0.35) 0%, transparent 12%, transparent 88%, rgba(6, 3, 14, 0.35) 100%);
+    background: radial-gradient(circle at center, rgba(6, 3, 14, 0.1) 0%, rgba(6, 3, 14, 0.4) 75%, rgba(6, 3, 14, 0.7) 100%),
+        linear-gradient(to bottom, rgba(6, 3, 14, 0.4) 0%, transparent 15%, transparent 85%, rgba(6, 3, 14, 0.4) 100%);
     pointer-events: none;
     z-index: 2;
 }
@@ -934,28 +920,35 @@ body.portal-entered #main-scroll-container {
     z-index: 5;
 }
 
-#splash-screen.snap-page {
-    background-image: url('../../assets/images/page1_hero.jpg') !important;
-}
-
-#about-page.snap-page {
-    background-image: url('../../assets/images/home_portal_bg.jpg') !important;
-}
-
-#calendar-page.snap-page {
-    background-image: url('../../assets/images/home_portal_bg.jpg') !important;
-}
-
-#universe-page.snap-page {
-    background-image: url('../../assets/images/home_portal_bg.jpg') !important;
-}
-
-#gallery-page.snap-page {
-    background-image: url('../../assets/images/home_portal_bg.jpg') !important;
-}
-
+#splash-screen.snap-page,
+#about-page.snap-page,
+#calendar-page.snap-page,
+#universe-page.snap-page,
+#gallery-page.snap-page,
 #team-page.snap-page {
-    background-image: url('../../assets/images/home_portal_bg.jpg') !important;
+    background: transparent !important;
+}
+
+/* ==========================================================================
+   SMOOTH SCROLL ELEMENT ANIMATIONS & PARALLAX GLIDE
+   ========================================================================== */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.scroll-reveal.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.about-intro-grid,
+.calendar-layout-container,
+.gallery-columns-wrapper,
+.last-page-hero-container {
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hud-header {
@@ -2728,14 +2721,15 @@ body.portal-entered #main-scroll-container {
 }
 
 #about-page {
-    background: transparent;
-    padding: 70px 20px 20px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
+    background: transparent !important;
+    padding: 90px 20px 80px 20px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: visible !important;
+    position: relative !important;
+    height: auto !important;
 }
 
 .about-fullscreen-wrapper {
@@ -3159,18 +3153,19 @@ body.portal-entered #main-scroll-container {
     border-color: var(--tech-color);
 }
 
-/* Team Page & Sticky Footer */
+/* Team Page & Footer */
 #team-page {
-    background: transparent;
-    padding: 70px 0 0 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
-    height: 100vh;
-    box-sizing: border-box;
+    background: transparent !important;
+    padding: 90px 0 0 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    overflow: visible !important;
+    position: relative !important;
+    height: auto !important;
+    min-height: auto !important;
+    box-sizing: border-box !important;
 }
 
 .last-page-hero-container {
@@ -4212,23 +4207,24 @@ body.portal-entered #main-scroll-container {
 }
 
 #gallery-page {
-    background: transparent;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+    background: transparent !important;
+    padding: 90px 20px 80px 20px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: visible !important;
+    height: auto !important;
 }
 
 .gallery-viewport {
     width: 100%;
-    height: 78vh;
+    height: clamp(520px, 75vh, 720px);
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: clamp(15px, 2.5vw, 30px);
-    margin-top: 60px;
+    margin-top: 20px;
     z-index: 20;
 }
 
