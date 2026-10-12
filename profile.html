@@ -3,1193 +3,959 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>PARTICIPANT PROFILE // PRAVAAH '26 - IIT Bhubaneswar</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;600;700;800;900&display=swap"
-        rel="stylesheet"
-    >
-
-    <!-- Your existing stylesheet -->
+    <!-- Global stylesheet -->
     <link rel="stylesheet" href="src/css/style.css">
+    <!-- Dedicated Profile stylesheet -->
+    <link rel="stylesheet" href="src/css/profile.css">
 </head>
 
 <body class="subpage-body">
 
-    <!-- Background -->
+    <!-- Global Background Elements (Matches entire site) -->
     <div class="global-bg-layer subpage-bg"></div>
     <div class="subpage-grid-overlay"></div>
 
-
     <!-- =========================================================
-         NAVBAR
+         COSMIC NAV WHEEL (Consistent with all pages)
          ========================================================= -->
-
     <nav class="cosmic-nav-wheel" id="cosmic-nav-wheel">
-
         <div class="nav-wheel-track">
+            <div class="nav-indicator-pill" id="nav-indicator-pill"></div>
+            <div class="nav-hover-pill" id="nav-hover-pill"></div>
 
-            <div
-                class="nav-indicator-pill"
-                id="nav-indicator-pill"
-            ></div>
-            <div
-                class="nav-hover-pill"
-                id="nav-hover-pill"
-            ></div>
-
-            <a href="index.html" class="nav-item">
-                HOME
-            </a>
-
+            <a href="index.html" class="nav-item">HOME</a>
             <div class="nav-divider"></div>
 
-            <a href="events.html" class="nav-item">
-                EVENTS
-            </a>
-
+            <a href="events.html" class="nav-item">EVENTS</a>
             <div class="nav-divider"></div>
 
-            <a href="register.html" class="nav-item">
-                REGISTER
-            </a>
-
+            <a href="register.html" class="nav-item">REGISTER</a>
             <div class="nav-divider"></div>
 
-            <a href="accommodation.html" class="nav-item">
-                ACCOMMODATION
-            </a>
-
+            <a href="accommodation.html" class="nav-item">ACCOMMODATION</a>
             <div class="nav-divider"></div>
 
             <a href="photo-gallery.html" class="nav-item">PHOTO GALLERY</a>
             <div class="nav-divider"></div>
+
             <a href="sponsors.html" class="nav-item">SPONSORS</a>
             <div class="nav-divider"></div>
 
-            <a href="contact.html" class="nav-item">
-                CONTACT US
-            </a>
-
+            <a href="contact.html" class="nav-item">CONTACT US</a>
             <div class="nav-divider"></div>
 
-            <a href="profile.html" class="nav-item active">
-                PROFILE
-            </a>
-
+            <a href="profile.html" class="nav-item active">PROFILE</a>
         </div>
-
         <div class="nav-wheel-glow"></div>
-
     </nav>
 
-
-
     <!-- =========================================================
-         MAIN PROFILE CONTENT
+         MAIN PROFILE CONSOLE
          ========================================================= -->
-
     <main class="subpage-main">
+        <div class="profile-wrapper">
 
-        <section class="profile-hero-section">
+            <!-- Hero Header -->
+            <div class="pf-hero">
+                <div class="pf-hero-tag">
+                    <span class="live-dot"></span>
+                    <span>PRAVAAH '26 // PARTICIPANT CONSOLE &bull; IIT BHUBANESWAR</span>
+                </div>
 
+                <h1 class="pf-hero-title spider-title" data-text="PARTICIPANT PROFILE">
+                    PARTICIPANT PROFILE
+                </h1>
 
-            <!-- =================================================
-                 PROFILE TITLE
-                 ================================================= -->
-
-            <div class="hero-badge-pill">
-                ✦ PARTICIPANT CONSOLE // VERIFIED FESTIVAL ACCESS ✦
+                <p class="pf-hero-subtitle">
+                    Official festival dashboard for delegate credentials, registered events, holographic gate pass, campus accommodation, and contingent squad management.
+                </p>
             </div>
 
-            <h1
-                class="spider-title"
-                data-text="PARTICIPANT PROFILE"
-            >
-                PARTICIPANT PROFILE
-            </h1>
-
-            <p class="subpage-hero-subtitle">
-                Your Pravaah '26 participant dashboard for profile
-                details, registered events, digital pass access,
-                and accommodation information.
-            </p>
-
-
-
-            <!-- =================================================
-                 PROFILE OVERVIEW / STATS
-                 ================================================= -->
-
-            <div class="profile-stats-bar">
-
-                <div class="stat-card">
-
-                    <div class="stat-icon-wrapper">
-                        ⚡
+            <!-- Live Festival Countdown & Campus Status HUD Bar -->
+            <div class="pf-countdown-bar">
+                <div class="pf-countdown-left">
+                    <div class="pulse-beacon"></div>
+                    <span class="pf-countdown-label">FESTIVAL KICKOFF IN:</span>
+                    <div class="pf-countdown-timer">
+                        <div class="pf-time-unit">
+                            <span class="t-val" id="cd-days">03</span>
+                            <span class="t-lbl">DAYS</span>
+                        </div>
+                        <span style="color: var(--pf-cyan); font-weight: 800;">:</span>
+                        <div class="pf-time-unit">
+                            <span class="t-val" id="cd-hours">14</span>
+                            <span class="t-lbl">HOURS</span>
+                        </div>
+                        <span style="color: var(--pf-cyan); font-weight: 800;">:</span>
+                        <div class="pf-time-unit">
+                            <span class="t-val" id="cd-mins">28</span>
+                            <span class="t-lbl">MINS</span>
+                        </div>
+                        <span style="color: var(--pf-cyan); font-weight: 800;">:</span>
+                        <div class="pf-time-unit">
+                            <span class="t-val" id="cd-secs">45</span>
+                            <span class="t-lbl">SECS</span>
+                        </div>
                     </div>
-
-                    <div class="stat-details">
-
-                        <span class="stat-number">
-                            04
-                        </span>
-
-                        <span class="stat-label">
-                            REGISTERED EVENTS
-                        </span>
-
-                    </div>
-
                 </div>
-
-
-                <div class="stat-card">
-
-                    <div class="stat-icon-wrapper">
-                        📅
-                    </div>
-
-                    <div class="stat-details">
-
-                        <span class="stat-number">
-                            03
-                        </span>
-
-                        <span class="stat-label">
-                            UPCOMING
-                        </span>
-
-                    </div>
-
+                <div class="pf-countdown-right">
+                    <span><i class="fa-solid fa-signal"></i> GATE TERMINALS: LIVE</span>
+                    <span>&bull;</span>
+                    <span><i class="fa-solid fa-wifi"></i> WI-FI: IITBBS-FESTNET</span>
+                    <span>&bull;</span>
+                    <span><i class="fa-solid fa-location-dot"></i> ARGUL CAMPUS</span>
                 </div>
-
-
-                <div class="stat-card">
-
-                    <div class="stat-icon-wrapper">
-                        🎟️
-                    </div>
-
-                    <div class="stat-details">
-
-                        <span class="stat-number">
-                            VALID
-                        </span>
-
-                        <span class="stat-label">
-                            PASS STATUS
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <div class="stat-icon-wrapper">
-                        🏢
-                    </div>
-
-                    <div class="stat-details">
-
-                        <span class="stat-number">
-                            CONFIRMED
-                        </span>
-
-                        <span class="stat-label">
-                            ACCOMMODATION
-                        </span>
-
-                    </div>
-
-                </div>
-
             </div>
 
+            <!-- 4 Minimalist Stats Cards -->
+            <div class="pf-metrics-grid">
+                <div class="pf-metric-card">
+                    <div class="pf-metric-icon">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div class="pf-metric-info">
+                        <span class="pf-metric-number" id="metric-events-count">05</span>
+                        <span class="pf-metric-label">Registered Events</span>
+                        <span class="pf-metric-subtext">2 Tech &bull; 1 Cult &bull; 1 Game &bull; 1 Wkp</span>
+                    </div>
+                </div>
 
+                <div class="pf-metric-card">
+                    <div class="pf-metric-icon">
+                        <i class="fa-solid fa-ticket"></i>
+                    </div>
+                    <div class="pf-metric-info">
+                        <span class="pf-metric-number">ACTIVE</span>
+                        <span class="pf-metric-label">Festival Pass</span>
+                        <span class="pf-metric-subtext">All-Access Delegate Pass</span>
+                    </div>
+                </div>
 
-            <!-- =================================================
-                 PROFILE TWO COLUMN CONSOLE
-                 ================================================= -->
+                <div class="pf-metric-card">
+                    <div class="pf-metric-icon">
+                        <i class="fa-solid fa-hotel"></i>
+                    </div>
+                    <div class="pf-metric-info">
+                        <span class="pf-metric-number">RM 304</span>
+                        <span class="pf-metric-label">Accommodation</span>
+                        <span class="pf-metric-subtext">Mahanadi Hall of Residence</span>
+                    </div>
+                </div>
 
-            <div class="profile-console-grid">
+                <div class="pf-metric-card">
+                    <div class="pf-metric-icon">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <div class="pf-metric-info">
+                        <span class="pf-metric-number">1,250 XP</span>
+                        <span class="pf-metric-label">Fest Merit Points</span>
+                        <span class="pf-metric-subtext">Rank #18 &bull; 3 Badges Earned</span>
+                    </div>
+                </div>
+            </div>
 
+            <!-- Main 2-Column Console Layout -->
+            <div class="pf-console-layout">
 
-                <!-- =================================================
-                     LEFT COLUMN
-                     ================================================= -->
+                <!-- ================= LEFT COLUMN: DELEGATE ID & UTILITIES ================= -->
+                <aside class="pf-sidebar">
 
-                <div class="console-left-col">
-
-
-                    <!-- =================================================
-                         PARTICIPANT CARD
-                         ================================================= -->
-
-                    <div class="passport-card-redesigned">
-
-
-                        <!-- Card top -->
-                        <div class="pass-card-top-bar">
-
-                            <span class="pass-chip-label">
-                                PRAVAAH '26 // PARTICIPANT
+                    <!-- Holographic Identity Pass Card -->
+                    <div class="pf-id-card">
+                        <div class="pf-id-header">
+                            <div class="pf-id-brand">
+                                <span class="pf-id-fest-title">PRAVAAH '26 // DELEGATE</span>
+                                <span class="pf-id-fest-edition">IIT BHUBANESWAR ANNUAL FEST</span>
+                            </div>
+                            <span class="pf-id-status-badge">
+                                <span class="badge-dot"></span>
+                                VERIFIED
                             </span>
-
-                            <span class="status-pulse-badge">
-
-                                <span class="pulse-dot"></span>
-
-                                ACTIVE
-
-                            </span>
-
                         </div>
 
-
-
-                        <!-- Participant header -->
-                        <div class="passport-header-main">
-
-
-                            <!-- OPTIONAL PHOTO -->
-
-                            <div>
-
-                                <!--
-                                    When there is no image,
-                                    the lightning symbol is shown.
-
-                                    User can select an image later.
-                                -->
-
-                                <label
-                                    class="pass-avatar-frame"
-                                    id="avatar-placeholder"
-                                    for="participant-photo-input"
-                                    title="Add participant photo"
-                                >
-                                    ⚡
-                                </label>
-
-
-                                <!-- Image preview -->
-                                <img
-                                    id="participant-photo-preview"
-                                    class="pass-avatar-frame profile-photo-preview"
-                                    src=""
-                                    alt="Participant profile photo"
-                                    width="68"
-                                    height="68"
-                                    hidden
-                                >
-
-
-                                <!-- Hidden file input -->
-                                <input
-                                    id="participant-photo-input"
-                                    type="file"
-                                    accept="image/*"
-                                    hidden
-                                >
-
+                        <!-- User Profile Header -->
+                        <div class="pf-user-strip">
+                            <div class="pf-avatar-wrapper" id="avatarPickerBtn" title="Click to upload profile photo">
+                                <span class="pf-avatar-initials" id="avatarInitials">AM</span>
+                                <img src="" alt="Participant Photo" id="avatarImage" class="pf-avatar-img" style="display: none;">
+                                <div class="pf-avatar-upload-trigger">
+                                    <i class="fa-solid fa-camera"></i>
+                                </div>
                             </div>
+                            <!-- Hidden Photo Input -->
+                            <input type="file" id="photoInput" accept="image/*" style="display: none;">
 
-
-
-                            <!-- Participant information -->
-
-                            <div class="agent-primary-meta">
-
-                                <span class="agent-tag-cyber">
-                                    AUTHENTICATED PARTICIPANT
-                                </span>
-
-                                <h2
-                                    class="agent-name-title"
-                                    id="participant-name"
-                                >
-                                    Aarav Mehta
-                                </h2>
-
-                                <span
-                                    class="agent-inst-subtitle"
-                                    id="participant-college"
-                                >
-                                    IIT Bhubaneswar
-                                </span>
-
+                            <div class="pf-user-identity">
+                                <span class="pf-id-clearance">ALL-ACCESS DELEGATE</span>
+                                <h2 class="pf-user-name" id="display-name">Aarav Mehta</h2>
+                                <span class="pf-user-college" id="display-college">Indian Institute of Technology Bhubaneswar</span>
+                                <span class="pf-user-dept" id="display-dept">School of Electrical Sciences (B.Tech '27)</span>
                             </div>
-
                         </div>
 
-
-
-                        <!-- =================================================
-                             PARTICIPANT INFORMATION
-                             ================================================= -->
-
-                        <div class="passport-fields-grid">
-
-
-                            <!-- Email -->
-
-                            <div class="p-field">
-
-                                <span class="p-field-label">
-                                    EMAIL
-                                </span>
-
-                                <span
-                                    class="p-field-val"
-                                    id="participant-email"
-                                >
-                                    aarav.mehta@example.com
-                                </span>
-
+                        <!-- Identity Fields Matrix -->
+                        <div class="pf-id-matrix">
+                            <div class="pf-matrix-cell">
+                                <span class="pf-matrix-label">DELEGATE ID</span>
+                                <span class="pf-matrix-value accent-cyan" id="display-ticket-id">PRV-2026-8492</span>
                             </div>
-
-
-                            <!-- Phone -->
-
-                            <div class="p-field">
-
-                                <span class="p-field-label">
-                                    PHONE
-                                </span>
-
-                                <span
-                                    class="p-field-val"
-                                    id="participant-phone"
-                                >
-                                    +91 98XXXXXX42
-                                </span>
-
+                            <div class="pf-matrix-cell">
+                                <span class="pf-matrix-label">PASS TIER</span>
+                                <span class="pf-matrix-value" id="display-pass-tier">ALL-ACCESS DELEGATE</span>
                             </div>
-
-
-                            <!-- Location -->
-
-                            <div class="p-field">
-
-                                <span class="p-field-label">
-                                    CITY / STATE
-                                </span>
-
-                                <span
-                                    class="p-field-val"
-                                    id="participant-location"
-                                >
-                                    Bhubaneswar, Odisha
-                                </span>
-
+                            <div class="pf-matrix-cell">
+                                <span class="pf-matrix-label">EMAIL ADDRESS</span>
+                                <span class="pf-matrix-value" id="display-email">aarav.mehta@iitbbs.ac.in</span>
                             </div>
-
-
-                            <!-- Pass -->
-
-                            <div class="p-field">
-
-                                <span class="p-field-label">
-                                    PASS TYPE
-                                </span>
-
-                                <span class="p-field-val tier-badge">
-                                    DELEGATE PASS
-                                </span>
-
+                            <div class="pf-matrix-cell">
+                                <span class="pf-matrix-label">PHONE</span>
+                                <span class="pf-matrix-value" id="display-phone">+91 98765 43210</span>
                             </div>
-
                         </div>
 
-
-
-                        <!-- =================================================
-                             QR SECTION
-                             ================================================= -->
-
-                        <div class="passport-qr-box">
-
-
-                            <div class="qr-code-wrapper">
-
-                                <div class="qr-laser-line"></div>
-
-                                <!-- Frontend QR placeholder -->
-
-                                <svg
-                                    width="90"
-                                    height="90"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="1.8"
-                                    aria-label="QR placeholder"
-                                >
-
-                                    <rect
-                                        x="3"
-                                        y="3"
-                                        width="7"
-                                        height="7"
-                                    ></rect>
-
-                                    <rect
-                                        x="14"
-                                        y="3"
-                                        width="7"
-                                        height="7"
-                                    ></rect>
-
-                                    <rect
-                                        x="14"
-                                        y="14"
-                                        width="7"
-                                        height="7"
-                                    ></rect>
-
-                                    <rect
-                                        x="3"
-                                        y="14"
-                                        width="7"
-                                        height="7"
-                                    ></rect>
-
-                                    <rect
-                                        x="7"
-                                        y="7"
-                                        width="1"
-                                        height="1"
-                                    ></rect>
-
-                                    <rect
-                                        x="17"
-                                        y="7"
-                                        width="1"
-                                        height="1"
-                                    ></rect>
-
-                                    <rect
-                                        x="7"
-                                        y="17"
-                                        width="1"
-                                        height="1"
-                                    ></rect>
-
-                                    <rect
-                                        x="17"
-                                        y="17"
-                                        width="1"
-                                        height="1"
-                                    ></rect>
-
+                        <!-- Scannable Gate Access QR -->
+                        <div class="pf-qr-container">
+                            <div class="pf-qr-frame">
+                                <div class="pf-qr-laser"></div>
+                                <!-- Crisp SVG QR Code -->
+                                <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                    <rect x="2" y="2" width="7" height="7" rx="1.5"></rect>
+                                    <rect x="15" y="2" width="7" height="7" rx="1.5"></rect>
+                                    <rect x="15" y="15" width="7" height="7" rx="1.5"></rect>
+                                    <rect x="2" y="15" width="7" height="7" rx="1.5"></rect>
+                                    <circle cx="5.5" cy="5.5" r="1.5" fill="currentColor"></circle>
+                                    <circle cx="18.5" cy="5.5" r="1.5" fill="currentColor"></circle>
+                                    <circle cx="5.5" cy="18.5" r="1.5" fill="currentColor"></circle>
+                                    <path d="M10 2v5M10 10v4M2 10h5M10 17v5M14 10h3M18 10v2M14 14h2M14 18v4M18 18h4M22 14v4M18 22h4"></path>
                                 </svg>
-
                             </div>
 
-
-
-                            <div class="qr-box-info">
-
-                                <span class="qr-box-title">
-                                    GATE ACCESS QR CODE
-                                </span>
-
-                                <p class="qr-box-desc">
-                                    Present this QR at designated
-                                    festival entry points. This is
-                                    a frontend placeholder for the
-                                    future participant QR.
-                                </p>
-
-                                <button
-                                    class="btn-qr-expand"
-                                    id="view-qr-btn"
-                                    type="button"
-                                >
-                                    🔍 View Enlarged QR
-                                </button>
-
+                            <div class="pf-qr-info">
+                                <span class="pf-qr-title">CAMPUS ENTRY QR</span>
+                                <p class="pf-qr-desc">Scannable token for Main Gate security, auditoriums, and dining halls.</p>
+                                <div class="pf-qr-actions-row">
+                                    <button class="pf-mini-btn" id="openQrModalBtn" type="button">
+                                        <i class="fa-solid fa-expand"></i> Enlarge
+                                    </button>
+                                    <button class="pf-mini-btn" id="downloadIdPassBtn" type="button">
+                                        <i class="fa-solid fa-download"></i> Save Pass
+                                    </button>
+                                </div>
                             </div>
-
                         </div>
-
                     </div>
 
-
-
-                    <!-- =================================================
-                         QUICK ACTIONS
-                         ================================================= -->
-
-                    <div class="quick-actions-panel">
-
-                        <h3 class="panel-section-title">
-                            QUICK ACTIONS
-                        </h3>
-
-                        <div class="quick-buttons-grid">
-
-
-                            <!-- Edit profile -->
-
-                            <button
-                                class="action-btn primary-action-btn"
-                                id="edit-profile-btn"
-                                type="button"
-                            >
-                                ✎ Edit Profile
-                            </button>
-
-
-                            <!-- Upload photo -->
-
-                            <button
-                                class="action-btn secondary-action-btn"
-                                id="upload-photo-btn"
-                                type="button"
-                            >
-                                ◉ Add / Change Photo
-                            </button>
-
-
-                            <!-- Download -->
-
-                            <button
-                                class="action-btn secondary-action-btn"
-                                id="download-pass-btn"
-                                type="button"
-                            >
-                                ⇩ Download Pass
-                            </button>
-
-
-                            <!-- Logout -->
-
-                            <button
-                                class="action-btn secondary-action-btn"
-                                id="logout-btn"
-                                type="button"
-                            >
-                                ↪ Logout
-                            </button>
-
-                        </div>
-
+                    <!-- Quick Utilities Box -->
+                    <div class="pf-actions-box">
+                        <span class="pf-box-title"><i class="fa-solid fa-sliders"></i> Participant Actions</span>
+                        <button class="pf-btn-primary" id="openEditModalBtn" type="button">
+                            <i class="fa-solid fa-pen-to-square"></i> Edit Profile Information
+                        </button>
+                        <button class="pf-btn-outline" id="copyFestIdBtn" type="button">
+                            <i class="fa-regular fa-copy"></i> Copy Delegate ID
+                        </button>
+                        <button class="pf-btn-outline" id="addCalendarBtn" type="button">
+                            <i class="fa-regular fa-calendar-plus"></i> Add Pravaah to Calendar (.ics)
+                        </button>
+                        <button class="pf-btn-outline pf-btn-sos" id="openSosModalBtn" type="button">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Campus Emergency Desk (SOS)
+                        </button>
+                        <button class="pf-btn-outline" id="signOutBtn" type="button">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+                        </button>
                     </div>
 
-                </div>
-
-
-
-                <!-- =================================================
-                     RIGHT COLUMN
-                     ================================================= -->
-
-                <div class="console-right-col">
-
-
-                    <!-- =================================================
-                         TAB HEADER
-                         ================================================= -->
-
-                    <div class="tab-control-header">
-
-                        <button
-                            class="tab-btn active"
-                            data-tab="events-panel"
-                            type="button"
-                        >
-                            <span>⚡</span>
-                            REGISTERED EVENTS
-                        </button>
-
-
-                        <button
-                            class="tab-btn"
-                            data-tab="pass-panel"
-                            type="button"
-                        >
-                            <span>🎟️</span>
-                            PASS & QR
-                        </button>
-
-
-                        <button
-                            class="tab-btn"
-                            data-tab="accommodation-panel"
-                            type="button"
-                        >
-                            <span>🏢</span>
-                            ACCOMMODATION
-                        </button>
-
+                    <!-- Campus Emergency Desk Card -->
+                    <div class="pf-emergency-card">
+                        <span class="pf-box-title"><i class="fa-solid fa-shield-halved"></i> Campus Helpline Desk</span>
+                        <div class="pf-contact-line">
+                            <span class="pf-contact-label"><i class="fa-solid fa-phone"></i> Fest Control Desk</span>
+                            <span class="pf-contact-val"><a href="tel:+916747963000">+91 (0674) 796-3000</a></span>
+                        </div>
+                        <div class="pf-contact-line">
+                            <span class="pf-contact-label"><i class="fa-solid fa-truck-medical"></i> Campus Health Center</span>
+                            <span class="pf-contact-val"><a href="tel:+916747963112">+91 (0674) 796-3112</a></span>
+                        </div>
+                        <div class="pf-contact-line">
+                            <span class="pf-contact-label"><i class="fa-solid fa-van-shuttle"></i> Main Gate Shuttle</span>
+                            <span class="pf-contact-val">Argul &bull; 24x7 Active</span>
+                        </div>
                     </div>
 
+                </aside>
 
+                <!-- ================= RIGHT COLUMN: INTERACTIVE DASHBOARD TABS ================= -->
+                <div class="pf-main-content">
 
-                    <!-- =================================================
-                         TAB 1 — REGISTERED EVENTS
-                         ================================================= -->
+                    <!-- Sleek Tab Control Header -->
+                    <div class="pf-tabs-nav" role="tablist">
+                        <button class="pf-tab-btn active" data-tab="tab-events" role="tab" type="button">
+                            <i class="fa-solid fa-calendar-day"></i>
+                            <span>MY EVENTS</span>
+                            <span class="pf-tab-badge">05</span>
+                        </button>
+                        <button class="pf-tab-btn" data-tab="tab-pass" role="tab" type="button">
+                            <i class="fa-solid fa-id-card"></i>
+                            <span>GATE PASS</span>
+                        </button>
+                        <button class="pf-tab-btn" data-tab="tab-accom" role="tab" type="button">
+                            <i class="fa-solid fa-building-user"></i>
+                            <span>ACCOMMODATION</span>
+                        </button>
+                        <button class="pf-tab-btn" data-tab="tab-squad" role="tab" type="button">
+                            <i class="fa-solid fa-users"></i>
+                            <span>SQUADS</span>
+                        </button>
+                        <button class="pf-tab-btn" data-tab="tab-cert" role="tab" type="button">
+                            <i class="fa-solid fa-award"></i>
+                            <span>CERTIFICATES</span>
+                        </button>
+                        <button class="pf-tab-btn" data-tab="tab-notices" role="tab" type="button">
+                            <i class="fa-solid fa-bullhorn"></i>
+                            <span>NOTICES</span>
+                        </button>
+                        <button class="pf-tab-btn" data-tab="tab-karma" role="tab" type="button">
+                            <i class="fa-solid fa-trophy"></i>
+                            <span>LEADERBOARD</span>
+                        </button>
+                    </div>
 
-                    <div
-                        class="tab-content-panel active"
-                        id="events-panel"
-                    >
-
-                        <div class="panel-inner-header">
-
-                            <h3 class="panel-section-title">
-                                YOUR REGISTERED EVENTS
-                            </h3>
-
-                            <span class="badge-count-pill">
-                                4 EVENTS
-                            </span>
-
+                    <!-- ================= TAB 1: REGISTERED EVENTS ================= -->
+                    <div class="pf-tab-panel active" id="tab-events" role="tabpanel">
+                        <div class="pf-panel-header">
+                            <div class="pf-panel-title-group">
+                                <h3 class="pf-panel-title"><i class="fa-solid fa-list-check" style="color: var(--pf-cyan);"></i> Registered Events & Schedule</h3>
+                                <p class="pf-panel-desc">All confirmed competitions, workshops, and concerts for Pravaah 2026.</p>
+                            </div>
+                            <span class="pf-status-badge"><i class="fa-solid fa-circle-check"></i> 5 CONFIRMED</span>
                         </div>
 
+                        <!-- Filters & Search Row -->
+                        <div class="pf-filter-group">
+                            <div class="pf-filter-bar">
+                                <div class="pf-filter-pills" id="eventFilterPills">
+                                    <button class="pf-filter-pill active" data-filter="all" type="button">All (5)</button>
+                                    <button class="pf-filter-pill" data-filter="tech" type="button">Technical (2)</button>
+                                    <button class="pf-filter-pill" data-filter="cult" type="button">Cultural (1)</button>
+                                    <button class="pf-filter-pill" data-filter="game" type="button">Esports (1)</button>
+                                    <button class="pf-filter-pill" data-filter="workshop" type="button">Workshops (1)</button>
+                                </div>
+                                <div class="pf-search-box">
+                                    <i class="fa-solid fa-magnifying-glass pf-search-icon"></i>
+                                    <input type="text" class="pf-search-input" id="eventSearchInput" placeholder="Filter by event name or venue...">
+                                </div>
+                            </div>
+                            <!-- Day-Wise Quick Filters -->
+                            <div class="pf-day-pills-row" id="eventDayPills">
+                                <span class="pf-filter-sublabel"><i class="fa-regular fa-calendar"></i> Filter by Day:</span>
+                                <button class="pf-day-pill active" data-day="all" type="button">All Days</button>
+                                <button class="pf-day-pill" data-day="day-1" type="button">Day 1 (Oct 15)</button>
+                                <button class="pf-day-pill" data-day="day-2" type="button">Day 2 (Oct 16)</button>
+                                <button class="pf-day-pill" data-day="day-3" type="button">Day 3 (Oct 17)</button>
+                                <button class="pf-day-pill" data-day="day-4" type="button">Day 4 (Oct 18)</button>
+                            </div>
+                        </div>
 
-
-                        <div class="events-timeline-list">
-
+                        <!-- Events Timeline Cards -->
+                        <div class="pf-events-list" id="eventsContainer">
 
                             <!-- Event 1 -->
-
-                            <article class="timeline-event-card">
-
-                                <span class="event-type-badge tech-badge">
-                                    TECH
-                                </span>
-
-                                <div class="event-details-main">
-
-                                    <div class="event-title-row">
-
-                                        <h4>
-                                            Robo Soccer Championship
-                                        </h4>
-
-                                        <span class="status-pill pill-confirmed">
-                                            CONFIRMED
-                                        </span>
-
+                            <article class="pf-event-card" data-category="tech" data-day="day-1" data-event-id="ev-1">
+                                <div class="pf-event-left">
+                                    <span class="pf-event-cat-tag">TECH</span>
+                                    <div class="pf-event-details">
+                                        <div class="pf-event-title-line">
+                                            <h4 class="pf-event-name">Robo Soccer Championship</h4>
+                                            <span class="pf-status-badge">ROUND 1 QUALIFIERS</span>
+                                        </div>
+                                        <div class="pf-event-meta-line">
+                                            <span><i class="fa-regular fa-clock"></i> Oct 15, 2026 &bull; 10:00 AM (Day 1)</span>
+                                            <span><i class="fa-solid fa-location-dot"></i> Robotics Arena Bay A</span>
+                                            <span><i class="fa-solid fa-users"></i> Team ByteForce (4/4)</span>
+                                        </div>
                                     </div>
-
-                                    <div class="event-meta-row">
-
-                                        <span>
-                                            📅 Oct 15, 2026 // 10:00 AM
-                                        </span>
-
-                                        <span>
-                                            📍 Robotics Bay A
-                                        </span>
-
-                                        <span>
-                                            👥 Team Event
-                                        </span>
-
-                                    </div>
-
                                 </div>
-
-                                <div class="event-card-action">
-
-                                    <button
-                                        class="btn-event-ticket event-ticket-btn"
-                                        type="button"
-                                    >
-                                        Ticket Pass
+                                <div class="pf-event-actions">
+                                    <button class="pf-event-btn" onclick="openTicketModal('Robo Soccer Championship', 'Oct 15, 2026 • 10:00 AM', 'Robotics Arena Bay A', 'ByteForce (Team Lead: Aarav Mehta)', 'TECH')">
+                                        <i class="fa-solid fa-ticket"></i> Ticket Pass
                                     </button>
-
                                 </div>
-
                             </article>
-
-
 
                             <!-- Event 2 -->
-
-                            <article class="timeline-event-card">
-
-                                <span class="event-type-badge game-badge">
-                                    GAME
-                                </span>
-
-                                <div class="event-details-main">
-
-                                    <div class="event-title-row">
-
-                                        <h4>
-                                            Valorant LAN Tournament
-                                        </h4>
-
-                                        <span class="status-pill pill-confirmed">
-                                            CONFIRMED
-                                        </span>
-
+                            <article class="pf-event-card" data-category="game" data-day="day-1" data-event-id="ev-2">
+                                <div class="pf-event-left">
+                                    <span class="pf-event-cat-tag game">GAME</span>
+                                    <div class="pf-event-details">
+                                        <div class="pf-event-title-line">
+                                            <h4 class="pf-event-name">Valorant LAN Showdown</h4>
+                                            <span class="pf-status-badge">BRACKET SEED A</span>
+                                        </div>
+                                        <div class="pf-event-meta-line">
+                                            <span><i class="fa-regular fa-clock"></i> Oct 15&ndash;16, 2026 &bull; 02:00 PM (Day 1)</span>
+                                            <span><i class="fa-solid fa-location-dot"></i> Esports Arena &bull; SAC 2nd Floor</span>
+                                            <span><i class="fa-solid fa-user"></i> Solo Entry (Aarav Mehta)</span>
+                                        </div>
                                     </div>
-
-                                    <div class="event-meta-row">
-
-                                        <span>
-                                            📅 Oct 15–16, 2026 // 02:00 PM
-                                        </span>
-
-                                        <span>
-                                            📍 Esports Lounge A
-                                        </span>
-
-                                        <span>
-                                            👥 Solo Participant
-                                        </span>
-
-                                    </div>
-
                                 </div>
-
-                                <div class="event-card-action">
-
-                                    <button
-                                        class="btn-event-ticket event-ticket-btn"
-                                        type="button"
-                                    >
-                                        Ticket Pass
+                                <div class="pf-event-actions">
+                                    <button class="pf-event-btn" onclick="openTicketModal('Valorant LAN Showdown', 'Oct 15-16, 2026 • 02:00 PM', 'Esports Arena, SAC 2nd Floor', 'Aarav Mehta', 'GAME')">
+                                        <i class="fa-solid fa-ticket"></i> Ticket Pass
                                     </button>
-
                                 </div>
-
                             </article>
-
-
 
                             <!-- Event 3 -->
-
-                            <article class="timeline-event-card">
-
-                                <span class="event-type-badge cult-badge">
-                                    CULT
-                                </span>
-
-                                <div class="event-details-main">
-
-                                    <div class="event-title-row">
-
-                                        <h4>
-                                            Battle of the Bands
-                                        </h4>
-
-                                        <span class="status-pill pill-scheduled">
-                                            UPCOMING
-                                        </span>
-
+                            <article class="pf-event-card" data-category="cult" data-day="day-2" data-event-id="ev-3">
+                                <div class="pf-event-left">
+                                    <span class="pf-event-cat-tag cult">CULT</span>
+                                    <div class="pf-event-details">
+                                        <div class="pf-event-title-line">
+                                            <h4 class="pf-event-name">Battle of the Bands (Symphony)</h4>
+                                            <span class="pf-status-badge">VIP STAGE ACCESS</span>
+                                        </div>
+                                        <div class="pf-event-meta-line">
+                                            <span><i class="fa-regular fa-clock"></i> Oct 16, 2026 &bull; 06:30 PM (Day 2)</span>
+                                            <span><i class="fa-solid fa-location-dot"></i> Open-Air Amphitheatre</span>
+                                            <span><i class="fa-solid fa-ticket-simple"></i> Reserved Delegate Zone</span>
+                                        </div>
                                     </div>
-
-                                    <div class="event-meta-row">
-
-                                        <span>
-                                            📅 Oct 16, 2026 // 06:30 PM
-                                        </span>
-
-                                        <span>
-                                            📍 Main Open-Air Arena
-                                        </span>
-
-                                        <span>
-                                            👥 Reserved Seat
-                                        </span>
-
-                                    </div>
-
                                 </div>
-
-                                <div class="event-card-action">
-
-                                    <button
-                                        class="btn-event-ticket event-ticket-btn"
-                                        type="button"
-                                    >
-                                        Ticket Pass
+                                <div class="pf-event-actions">
+                                    <button class="pf-event-btn" onclick="openTicketModal('Battle of the Bands (Symphony)', 'Oct 16, 2026 • 06:30 PM', 'Open-Air Amphitheatre', 'VIP Delegate Access', 'CULT')">
+                                        <i class="fa-solid fa-ticket"></i> Ticket Pass
                                     </button>
-
                                 </div>
-
                             </article>
-
-
 
                             <!-- Event 4 -->
-
-                            <article class="timeline-event-card">
-
-                                <span class="event-type-badge ent-badge">
-                                    WORKSHOP
-                                </span>
-
-                                <div class="event-details-main">
-
-                                    <div class="event-title-row">
-
-                                        <h4>
-                                            AI & Robotics Keynote
-                                        </h4>
-
-                                        <span class="status-pill pill-confirmed">
-                                            CONFIRMED
-                                        </span>
-
+                            <article class="pf-event-card" data-category="workshop" data-day="day-3" data-event-id="ev-4">
+                                <div class="pf-event-left">
+                                    <span class="pf-event-cat-tag workshop">WORKSHOP</span>
+                                    <div class="pf-event-details">
+                                        <div class="pf-event-title-line">
+                                            <h4 class="pf-event-name">Autonomous AI & Drone Robotics</h4>
+                                            <span class="pf-status-badge">KIT ALLOTTED</span>
+                                        </div>
+                                        <div class="pf-event-meta-line">
+                                            <span><i class="fa-regular fa-clock"></i> Oct 17, 2026 &bull; 11:00 AM (Day 3)</span>
+                                            <span><i class="fa-solid fa-location-dot"></i> LHC-1 &bull; Hall 102</span>
+                                            <span><i class="fa-solid fa-certificate"></i> Certification Included</span>
+                                        </div>
                                     </div>
-
-                                    <div class="event-meta-row">
-
-                                        <span>
-                                            📅 Oct 17, 2026 // 11:00 AM
-                                        </span>
-
-                                        <span>
-                                            📍 Main Auditorium 1
-                                        </span>
-
-                                        <span>
-                                            👥 Individual Seat
-                                        </span>
-
-                                    </div>
-
                                 </div>
-
-                                <div class="event-card-action">
-
-                                    <button
-                                        class="btn-event-ticket event-ticket-btn"
-                                        type="button"
-                                    >
-                                        Ticket Pass
+                                <div class="pf-event-actions">
+                                    <button class="pf-event-btn" onclick="openTicketModal('Autonomous AI & Drone Robotics', 'Oct 17, 2026 • 11:00 AM', 'LHC-1, Hall 102', 'Individual Delegate', 'WORKSHOP')">
+                                        <i class="fa-solid fa-ticket"></i> Ticket Pass
                                     </button>
-
                                 </div>
+                            </article>
 
+                            <!-- Event 5 -->
+                            <article class="pf-event-card" data-category="tech" data-day="day-3" data-event-id="ev-5">
+                                <div class="pf-event-left">
+                                    <span class="pf-event-cat-tag">TECH</span>
+                                    <div class="pf-event-details">
+                                        <div class="pf-event-title-line">
+                                            <h4 class="pf-event-name">Hack-A-Verse: 36Hr National Hackathon</h4>
+                                            <span class="pf-status-badge">FINALS QUALIFIED</span>
+                                        </div>
+                                        <div class="pf-event-meta-line">
+                                            <span><i class="fa-regular fa-clock"></i> Oct 17&ndash;18, 2026 &bull; 09:00 AM (Day 3&ndash;4)</span>
+                                            <span><i class="fa-solid fa-location-dot"></i> Research Park Innovation Center</span>
+                                            <span><i class="fa-solid fa-users"></i> Team ByteForce (Track: Web3/AI)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pf-event-actions">
+                                    <button class="pf-event-btn" onclick="openTicketModal('Hack-A-Verse: 36Hr National Hackathon', 'Oct 17-18, 2026 • 09:00 AM', 'Research Park Innovation Center', 'Team ByteForce', 'TECH')">
+                                        <i class="fa-solid fa-ticket"></i> Ticket Pass
+                                    </button>
+                                </div>
                             </article>
 
                         </div>
-
                     </div>
 
-
-
-                    <!-- =================================================
-                         TAB 2 — PASS & QR
-                         ================================================= -->
-
-                    <div
-                        class="tab-content-panel"
-                        id="pass-panel"
-                    >
-
-                        <div class="panel-inner-header">
-
-                            <h3 class="panel-section-title">
-                                DIGITAL PASS & ENTRY ACCESS
-                            </h3>
-
-                            <span class="badge-count-pill">
-                                VALID
-                            </span>
-
+                    <!-- ================= TAB 2: DIGITAL GATE PASS ================= -->
+                    <div class="pf-tab-panel" id="tab-pass" role="tabpanel">
+                        <div class="pf-panel-header">
+                            <div class="pf-panel-title-group">
+                                <h3 class="pf-panel-title"><i class="fa-solid fa-qrcode" style="color: var(--pf-cyan);"></i> Digital Access Clearance & RFID Pass</h3>
+                                <p class="pf-panel-desc">Present this credential at IIT Bhubaneswar Argul campus access checkpoints.</p>
+                            </div>
+                            <span class="pf-status-badge"><i class="fa-solid fa-shield"></i> SECURITY CLEARED</span>
                         </div>
 
+                        <!-- Dynamic Security Token Generator -->
+                        <div class="pf-dynamic-token-card">
+                            <div class="pf-token-left">
+                                <span class="pf-token-label">ANTI-SPOOF DYNAMIC TOKEN</span>
+                                <span class="pf-token-val" id="dynamicGateToken">PRV-8492-X9K2</span>
+                            </div>
+                            <div class="pf-token-timer-box">
+                                <div class="pf-token-ring"></div>
+                                <span>Refreshes in <strong id="tokenTimerCount" style="color: var(--pf-cyan);">30</strong>s</span>
+                            </div>
+                        </div>
 
+                        <div class="pf-pass-showcase">
+                            <!-- Visual Badge Display -->
+                            <div class="pf-pass-visual">
+                                <div class="pf-pass-seal-row">
+                                    <div class="pf-pass-fest-logo">PRAVAAH <span>'26</span></div>
+                                    <span class="pf-pass-badge-type">ALL-ACCESS</span>
+                                </div>
+                                <div>
+                                    <span style="font-size: 0.65rem; color: var(--pf-cyan); letter-spacing: 0.15em; font-family: 'Orbitron';">AUTHENTICATED PARTICIPANT</span>
+                                    <h3 style="font-size: 1.35rem; color: #fff; margin: 3px 0; font-family: 'Orbitron';" id="pass-card-name">Aarav Mehta</h3>
+                                    <p style="font-size: 0.78rem; color: var(--pf-text-muted); margin: 0;" id="pass-card-college">Indian Institute of Technology Bhubaneswar</p>
+                                </div>
+                                <div class="pf-pass-barcode-box">
+                                    <div class="pf-fake-barcode"></div>
+                                    <span class="pf-barcode-code">PRV &bull; 2026 &bull; 8492 &bull; DELEGATE</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--pf-text-dim);">
+                                    <span>VALID: OCT 15&ndash;18, 2026</span>
+                                    <span>ZONE: ARGUL CAMPUS ALL</span>
+                                </div>
+                            </div>
 
-                        <div class="accommodation-dashboard">
-
-
-                            <div class="accom-primary-card">
-
-                                <div class="accom-header">
-
-                                    <div class="accom-icon">
-                                        🎟️
-                                    </div>
-
+                            <!-- Gate Privileges Checklist -->
+                            <div class="pf-privileges-box">
+                                <div class="pf-privilege-item">
+                                    <i class="fa-solid fa-door-open pf-privilege-icon"></i>
                                     <div>
-
-                                        <h4>
-                                            Delegate Pass
-                                        </h4>
-
-                                        <p>
-                                            Frontend pass preview
-                                            for Pravaah '26
-                                        </p>
-
+                                        <div class="pf-privilege-title">Main Campus Gates (1 & 2)</div>
+                                        <p class="pf-privilege-desc">Unrestricted 24x7 entry/exit clearance with biometric or QR verification.</p>
                                     </div>
-
                                 </div>
-
-
-
-                                <div class="accom-details-grid">
-
-
-                                    <div class="accom-cell">
-
-                                        <span class="acc-lbl">
-                                            STATUS
-                                        </span>
-
-                                        <span class="acc-val text-neon">
-                                            VERIFIED
-                                        </span>
-
+                                <div class="pf-privilege-item">
+                                    <i class="fa-solid fa-guitar pf-privilege-icon"></i>
+                                    <div>
+                                        <div class="pf-privilege-title">Pro-Nite Concert Arena Access</div>
+                                        <p class="pf-privilege-desc">Exclusive front-row delegate enclosure for all 3 celebrity star nights.</p>
                                     </div>
-
-
-                                    <div class="accom-cell">
-
-                                        <span class="acc-lbl">
-                                            VALID DATES
-                                        </span>
-
-                                        <span class="acc-val">
-                                            OCT 15–18, 2026
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="accom-cell">
-
-                                        <span class="acc-lbl">
-                                            ACCESS
-                                        </span>
-
-                                        <span class="acc-val">
-                                            FESTIVAL GATES
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="accom-cell">
-
-                                        <span class="acc-lbl">
-                                            ENTRY MODE
-                                        </span>
-
-                                        <span class="acc-val">
-                                            QR / NFC
-                                        </span>
-
-                                    </div>
-
                                 </div>
-
+                                <div class="pf-privilege-item">
+                                    <i class="fa-solid fa-utensils pf-privilege-icon"></i>
+                                    <div>
+                                        <div class="pf-privilege-title">Hostel Mess & Dining Court Access</div>
+                                        <p class="pf-privilege-desc">Digital meal pass activated across Mahanadi Dining Hall and Food Plaza.</p>
+                                    </div>
+                                </div>
                             </div>
 
-
-
-                            <div class="accom-guidelines-box">
-
-                                <h4 class="guidelines-title">
-                                    DIGITAL ENTRY NOTE
-                                </h4>
-
-                                <ul class="guidelines-list">
-
-                                    <li>
-                                        Use the QR displayed above
-                                        at designated entry points.
-                                    </li>
-
-                                    <li>
-                                        The current QR is a frontend
-                                        placeholder and will later
-                                        be generated from real
-                                        participant data.
-                                    </li>
-
-                                    <li>
-                                        Pass download functionality
-                                        will be connected during
-                                        backend integration.
-                                    </li>
-
-                                </ul>
-
+                            <!-- NFC Tap Simulator -->
+                            <div class="pf-nfc-card">
+                                <div class="pf-nfc-info">
+                                    <div class="pf-nfc-wave" id="nfcTriggerBtn" title="Click to simulate RFID gate tap">
+                                        <i class="fa-solid fa-rss"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-family: 'Orbitron'; font-size: 0.8rem; font-weight: 800; color: #fff;">RFID / NFC FAST GATE SIMULATOR</div>
+                                        <p style="font-size: 0.74rem; color: var(--pf-text-dim); margin: 2px 0 0 0;" id="nfcStatusText">Tap sensor to simulate gate terminal scanner response</p>
+                                    </div>
+                                </div>
+                                <button class="pf-mini-btn" id="generateDownloadPassBtn" type="button" style="padding: 8px 14px; font-size: 0.7rem;">
+                                    <i class="fa-solid fa-download"></i> Download Pass PNG
+                                </button>
                             </div>
-
                         </div>
-
                     </div>
 
-
-
-                    <!-- =================================================
-                         TAB 3 — ACCOMMODATION
-                         ================================================= -->
-
-                    <div
-                        class="tab-content-panel"
-                        id="accommodation-panel"
-                    >
-
-                        <div class="panel-inner-header">
-
-                            <h3 class="panel-section-title">
-                                ACCOMMODATION DETAILS
-                            </h3>
-
-                            <span class="badge-count-pill">
-                                CONFIRMED
-                            </span>
-
+                    <!-- ================= TAB 3: ACCOMMODATION & MESS ================= -->
+                    <div class="pf-tab-panel" id="tab-accom" role="tabpanel">
+                        <div class="pf-panel-header">
+                            <div class="pf-panel-title-group">
+                                <h3 class="pf-panel-title"><i class="fa-solid fa-hotel" style="color: var(--pf-cyan);"></i> Campus Accommodation & Dining</h3>
+                                <p class="pf-panel-desc">Allotment details at Mahanadi Hall of Residence, IIT Bhubaneswar Argul Campus.</p>
+                            </div>
+                            <span class="pf-status-badge"><i class="fa-solid fa-circle-check"></i> ALLOTTED & CONFIRMED</span>
                         </div>
 
-
-
-                        <div class="accommodation-dashboard">
-
-
-                            <div class="accom-primary-card">
-
-                                <div class="accom-header">
-
-                                    <div class="accom-icon">
-                                        🏢
+                        <div class="pf-accom-grid">
+                            <!-- Hostel Card -->
+                            <div class="pf-hostel-card">
+                                <div class="pf-hostel-header">
+                                    <div class="pf-hostel-icon"><i class="fa-solid fa-bed"></i></div>
+                                    <div class="pf-hostel-title-box">
+                                        <h3>Mahanadi Hall of Residence</h3>
+                                        <p>IIT Bhubaneswar Main Campus, Argul, Jatni, Odisha 752050</p>
                                     </div>
+                                </div>
 
+                                <div class="pf-hostel-details-grid">
+                                    <div class="pf-matrix-cell">
+                                        <span class="pf-matrix-label">ROOM NUMBER</span>
+                                        <span class="pf-matrix-value accent-cyan">Room 304 (3rd Floor)</span>
+                                    </div>
+                                    <div class="pf-matrix-cell">
+                                        <span class="pf-matrix-label">WING & OCCUPANCY</span>
+                                        <span class="pf-matrix-value">West Wing &bull; Double</span>
+                                    </div>
+                                    <div class="pf-matrix-cell">
+                                        <span class="pf-matrix-label">CHECK-IN</span>
+                                        <span class="pf-matrix-value">Oct 14, 2026 &bull; 02:00 PM</span>
+                                    </div>
+                                    <div class="pf-matrix-cell">
+                                        <span class="pf-matrix-label">CHECK-OUT</span>
+                                        <span class="pf-matrix-value">Oct 18, 2026 &bull; 11:00 AM</span>
+                                    </div>
+                                </div>
+
+                                <!-- Wi-Fi Credentials Tool -->
+                                <div class="pf-wifi-card">
                                     <div>
-
-                                        <h4>
-                                            Mahanadi Hall of Residence
-                                        </h4>
-
-                                        <p>
-                                            IIT Bhubaneswar
-                                            Main Campus, Argul
+                                        <span style="font-family: 'Orbitron'; font-size: 0.72rem; font-weight: 800; color: #fff;">
+                                            <i class="fa-solid fa-wifi" style="color: var(--pf-cyan);"></i> CAMPUS WI-FI ACCESS
+                                        </span>
+                                        <p style="font-size: 0.74rem; color: var(--pf-text-dim); margin: 2px 0 0 0;">
+                                            SSID: <code style="color: var(--pf-cyan);">IITBBS-FestNet</code> &bull; Password: <code style="color: #fff;">Pravaah2026@Argul</code>
                                         </p>
-
                                     </div>
-
+                                    <button class="pf-mini-btn" id="copyWifiBtn" type="button">
+                                        <i class="fa-regular fa-copy"></i> Copy Key
+                                    </button>
                                 </div>
 
-
-
-                                <div class="accom-details-grid">
-
-
-                                    <div class="accom-cell">
-
-                                        <span class="acc-lbl">
-                                            ROOM
-                                        </span>
-
-                                        <span class="acc-val highlight-val">
-                                            304 · 3rd Floor
-                                        </span>
-
+                                <!-- Roommate Connection Card -->
+                                <div class="pf-roommate-card">
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <div class="pf-member-avatar" style="border-color: rgba(255,255,255,0.2); font-size: 0.75rem;">RS</div>
+                                        <div>
+                                            <span style="font-size: 0.62rem; color: var(--pf-cyan); font-family: 'Orbitron'; letter-spacing: 0.08em;">ALLOTTED ROOMMATE</span>
+                                            <h4 style="font-size: 0.86rem; color: #fff; margin: 2px 0 0 0;">Rohan Sen (Bed B)</h4>
+                                            <p style="font-size: 0.72rem; color: var(--pf-text-dim); margin: 0;">IIT Kharagpur &bull; Mech '27</p>
+                                        </div>
                                     </div>
-
-
-                                    <div class="accom-cell">
-
-                                        <span class="acc-lbl">
-                                            CHECK-IN
-                                        </span>
-
-                                        <span class="acc-val">
-                                            Oct 14, 2026 · 02:00 PM
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="accom-cell">
-
-                                        <span class="acc-lbl">
-                                            CHECK-OUT
-                                        </span>
-
-                                        <span class="acc-val">
-                                            Oct 18, 2026 · 11:00 AM
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="accom-cell">
-
-                                        <span class="acc-lbl">
-                                            FOOD PASS
-                                        </span>
-
-                                        <span class="acc-val text-neon">
-                                            ALL MEALS INCLUDED
-                                        </span>
-
-                                    </div>
-
+                                    <a href="tel:+919876511223" class="pf-mini-btn" style="text-decoration: none;">
+                                        <i class="fa-solid fa-phone"></i> Call
+                                    </a>
                                 </div>
 
+                                <div style="font-size: 0.75rem; color: var(--pf-text-dim); line-height: 1.5; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px;">
+                                    <strong style="color: #fff;">Included Amenities:</strong> 24/7 High-Speed Wi-Fi (<code style="color: var(--pf-cyan);">IITBBS-FestNet</code>), clean linen, drinking water, and round-the-clock security surveillance.
+                                </div>
                             </div>
 
-
-
-                            <div class="accom-guidelines-box">
-
-                                <h4 class="guidelines-title">
-                                    ACCOMMODATION NOTE
-                                </h4>
-
-                                <ul class="guidelines-list">
-
-                                    <li>
-                                        These values are frontend
-                                        placeholders for now.
-                                    </li>
-
-                                    <li>
-                                        Later, the backend will
-                                        supply accommodation details
-                                        for the logged-in participant.
-                                    </li>
-
-                                    <li>
-                                        Room and meal information
-                                        can be updated here without
-                                        changing the page layout.
-                                    </li>
-
-                                </ul>
-
+                            <!-- Meal Voucher Checklist -->
+                            <div class="pf-mess-box">
+                                <span class="pf-box-title"><i class="fa-solid fa-utensils"></i> Digital Meal Coupons (Tap to Redeem)</span>
+                                <div class="pf-meal-days-list">
+                                    <div class="pf-meal-day-card">
+                                        <span class="pf-day-name">DAY 1 (OCT 15)</span>
+                                        <div class="pf-meal-pills">
+                                            <span class="pf-meal-pill" onclick="toggleMeal(this, 'Day 1 Breakfast')">BF</span>
+                                            <span class="pf-meal-pill" onclick="toggleMeal(this, 'Day 1 Lunch')">LUNCH</span>
+                                            <span class="pf-meal-pill" onclick="toggleMeal(this, 'Day 1 Dinner')">DINNER</span>
+                                        </div>
+                                    </div>
+                                    <div class="pf-meal-day-card">
+                                        <span class="pf-day-name">DAY 2 (OCT 16)</span>
+                                        <div class="pf-meal-pills">
+                                            <span class="pf-meal-pill" onclick="toggleMeal(this, 'Day 2 Breakfast')">BF</span>
+                                            <span class="pf-meal-pill" onclick="toggleMeal(this, 'Day 2 Lunch')">LUNCH</span>
+                                            <span class="pf-meal-pill" onclick="toggleMeal(this, 'Day 2 Dinner')">DINNER</span>
+                                        </div>
+                                    </div>
+                                    <div class="pf-meal-day-card">
+                                        <span class="pf-day-name">DAY 3 (OCT 17)</span>
+                                        <div class="pf-meal-pills">
+                                            <span class="pf-meal-pill" onclick="toggleMeal(this, 'Day 3 Breakfast')">BF</span>
+                                            <span class="pf-meal-pill" onclick="toggleMeal(this, 'Day 3 Lunch')">LUNCH</span>
+                                            <span class="pf-meal-pill" onclick="toggleMeal(this, 'Day 3 Dinner')">DINNER</span>
+                                        </div>
+                                    </div>
+                                    <div class="pf-meal-day-card">
+                                        <span class="pf-day-name">DAY 4 (OCT 18)</span>
+                                        <div class="pf-meal-pills">
+                                            <span class="pf-meal-pill" onclick="toggleMeal(this, 'Day 4 Breakfast')">BF</span>
+                                            <span class="pf-meal-pill" onclick="toggleMeal(this, 'Day 4 Lunch')">LUNCH</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                    </div>
 
+                    <!-- ================= TAB 4: SQUADS & CONTINGENT ================= -->
+                    <div class="pf-tab-panel" id="tab-squad" role="tabpanel">
+                        <div class="pf-panel-header">
+                            <div class="pf-panel-title-group">
+                                <h3 class="pf-panel-title"><i class="fa-solid fa-users" style="color: var(--pf-cyan);"></i> My Squads & Team Contingent</h3>
+                                <p class="pf-panel-desc">Manage squad rosters for Hack-a-Verse and Robo Soccer team competitions.</p>
+                            </div>
+                            <span class="pf-status-badge"><i class="fa-solid fa-shield"></i> 4 MEMBERS VERIFIED</span>
                         </div>
 
+                        <div class="pf-squad-container">
+                            <div class="pf-squad-banner">
+                                <div class="pf-squad-info">
+                                    <h3>Team ByteForce</h3>
+                                    <p>Competing in: <strong>Hack-a-Verse 36Hr</strong> &bull; <strong>Robo Soccer</strong></p>
+                                </div>
+                                <div class="pf-squad-code-pill" id="copySquadCodeBtn" title="Click to copy team invite code">
+                                    <span>CODE: PRAVAAH-TEAM-8942</span>
+                                    <i class="fa-regular fa-copy"></i>
+                                </div>
+                            </div>
+
+                            <div class="pf-members-grid">
+                                <!-- Member 1 -->
+                                <div class="pf-member-card">
+                                    <div class="pf-member-left">
+                                        <div class="pf-member-avatar" style="border-color: var(--pf-cyan); color: var(--pf-cyan);">AM</div>
+                                        <div class="pf-member-info">
+                                            <h4>Aarav Mehta (You)</h4>
+                                            <p>IIT Bhubaneswar &bull; Team Captain</p>
+                                        </div>
+                                    </div>
+                                    <span class="pf-status-badge">LEAD</span>
+                                </div>
+
+                                <!-- Member 2 -->
+                                <div class="pf-member-card">
+                                    <div class="pf-member-left">
+                                        <div class="pf-member-avatar">RS</div>
+                                        <div class="pf-member-info">
+                                            <h4>Riya Sen</h4>
+                                            <p>NIT Rourkela &bull; AI Developer</p>
+                                        </div>
+                                    </div>
+                                    <span class="pf-status-badge">ACTIVE</span>
+                                </div>
+
+                                <!-- Member 3 -->
+                                <div class="pf-member-card">
+                                    <div class="pf-member-left">
+                                        <div class="pf-member-avatar">KS</div>
+                                        <div class="pf-member-info">
+                                            <h4>Kabir Sharma</h4>
+                                            <p>IIT Kharagpur &bull; Hardware Robotics</p>
+                                        </div>
+                                    </div>
+                                    <span class="pf-status-badge">ACTIVE</span>
+                                </div>
+
+                                <!-- Member 4 -->
+                                <div class="pf-member-card">
+                                    <div class="pf-member-left">
+                                        <div class="pf-member-avatar">AM</div>
+                                        <div class="pf-member-info">
+                                            <h4>Ananya Mishra</h4>
+                                            <p>IIT Bhubaneswar &bull; UI/UX Designer</p>
+                                        </div>
+                                    </div>
+                                    <span class="pf-status-badge">ACTIVE</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ================= TAB 5: CERTIFICATES & BADGES ================= -->
+                    <div class="pf-tab-panel" id="tab-cert" role="tabpanel">
+                        <div class="pf-panel-header">
+                            <div class="pf-panel-title-group">
+                                <h3 class="pf-panel-title"><i class="fa-solid fa-award" style="color: var(--pf-cyan);"></i> Certificates & Festival Merit Badges</h3>
+                                <p class="pf-panel-desc">Cryptographically verifiable festival credentials issued by IIT Bhubaneswar.</p>
+                            </div>
+                            <span class="pf-status-badge"><i class="fa-solid fa-check"></i> 1 ISSUED &bull; 2 PENDING</span>
+                        </div>
+
+                        <div class="pf-vault-grid">
+                            <div class="pf-cert-card">
+                                <div class="pf-cert-top">
+                                    <i class="fa-solid fa-certificate pf-cert-icon"></i>
+                                    <span class="pf-status-badge">ISSUED</span>
+                                </div>
+                                <h4 class="pf-cert-title">Delegate Clearance Certificate</h4>
+                                <p class="pf-cert-desc">Official festival verification certificate acknowledging pre-registration and delegate clearance for Pravaah 2026.</p>
+                                <button class="pf-event-btn" onclick="showToast('📥 Certificate downloaded successfully!')" type="button" style="align-self: flex-start;">
+                                    <i class="fa-solid fa-download"></i> Download E-Certificate
+                                </button>
+                            </div>
+
+                            <div class="pf-cert-card">
+                                <div class="pf-cert-top">
+                                    <i class="fa-solid fa-medal pf-cert-icon" style="color: var(--pf-text-dim);"></i>
+                                    <span class="pf-status-badge" style="color: var(--pf-text-dim); border-color: rgba(255,255,255,0.15);">UNLOCKS OCT 18</span>
+                                </div>
+                                <h4 class="pf-cert-title">Hack-A-Verse Contender Award</h4>
+                                <p class="pf-cert-desc">Merit credential granted to participating finalists who submit a working prototype during the 36-hour hackathon.</p>
+                                <span style="font-size: 0.72rem; color: var(--pf-text-dim);"><i class="fa-solid fa-lock"></i> Pending Project Submission</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ================= TAB 6: NOTICES & ANNOUNCEMENTS ================= -->
+                    <div class="pf-tab-panel" id="tab-notices" role="tabpanel">
+                        <div class="pf-panel-header">
+                            <div class="pf-panel-title-group">
+                                <h3 class="pf-panel-title"><i class="fa-solid fa-bullhorn" style="color: var(--pf-cyan);"></i> Live Fest Noticeboard</h3>
+                                <p class="pf-panel-desc">Direct communications from the Pravaah '26 Core Organizing Committee.</p>
+                            </div>
+                            <span class="pf-status-badge"><i class="fa-solid fa-bell"></i> 3 NEW ALERTS</span>
+                        </div>
+
+                        <div class="pf-notices-list">
+                            <div class="pf-notice-item">
+                                <div class="pf-notice-header">
+                                    <span class="pf-notice-subject"><i class="fa-solid fa-microphone"></i> Pro-Nite Gate Entry Protocol</span>
+                                    <span class="pf-notice-time">2 HOURS AGO</span>
+                                </div>
+                                <p class="pf-notice-body">
+                                    Gate access to the Open-Air Amphitheatre for the Day 1 Rock Concert will commence at 05:30 PM. Please keep your physical college ID card ready alongside your digital delegate QR code.
+                                </p>
+                            </div>
+
+                            <div class="pf-notice-item">
+                                <div class="pf-notice-header">
+                                    <span class="pf-notice-subject"><i class="fa-solid fa-robot"></i> Robo Soccer Arena Calibration Slot</span>
+                                    <span class="pf-notice-time">5 HOURS AGO</span>
+                                </div>
+                                <p class="pf-notice-body">
+                                    All participating teams may calibrate radio frequencies and Bluetooth signals in Bay A between 08:30 AM and 09:45 AM on October 15.
+                                </p>
+                            </div>
+
+                            <div class="pf-notice-item">
+                                <div class="pf-notice-header">
+                                    <span class="pf-notice-subject"><i class="fa-solid fa-bus"></i> Campus Shuttle Timetable Updated</span>
+                                    <span class="pf-notice-time">YESTERDAY</span>
+                                </div>
+                                <p class="pf-notice-body">
+                                    Complimentary transit shuttles between Khurda Road Junction railway station and the Argul main gate will run every 30 minutes from 06:00 AM onwards.
+                                </p>
+                            </div>
+                    </div>
+
+                    <!-- ================= TAB 7: FEST KARMA & LEADERBOARD ================= -->
+                    <div class="pf-tab-panel" id="tab-karma" role="tabpanel">
+                        <div class="pf-panel-header">
+                            <div class="pf-panel-title-group">
+                                <h3 class="pf-panel-title"><i class="fa-solid fa-trophy" style="color: var(--pf-cyan);"></i> Fest Merit Karma & Contingent Leaderboard</h3>
+                                <p class="pf-panel-desc">Track earned participation merit XP and the Inter-College General Championship (GC) leaderboard.</p>
+                            </div>
+                            <span class="pf-status-badge"><i class="fa-solid fa-bolt"></i> 1,250 XP &bull; RANK #18</span>
+                        </div>
+
+                        <div class="pf-karma-grid">
+                            <!-- Left: XP Level Progress & Badges -->
+                            <div class="pf-karma-box">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                    <div>
+                                        <span class="pf-token-label">DELEGATE MERIT TIER</span>
+                                        <h3 style="font-family: 'Orbitron'; font-size: 1.15rem; color: #fff; margin: 4px 0;">LEVEL 3: FESTIVAL VANGUARD</h3>
+                                        <p style="font-size: 0.74rem; color: var(--pf-text-dim); margin: 0;">250 XP needed to unlock Level 4 (Festival Legend)</p>
+                                    </div>
+                                    <span class="pf-status-badge" style="background: rgba(0,210,255,0.15); border-color: var(--pf-cyan);">TOP 1%</span>
+                                </div>
+
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; font-family: 'Orbitron'; font-size: 0.7rem; color: #fff; margin-bottom: 6px;">
+                                        <span>Current XP: 1,250</span>
+                                        <span style="color: var(--pf-cyan);">Target: 1,500 XP</span>
+                                    </div>
+                                    <div class="pf-progress-track">
+                                        <div class="pf-progress-fill" style="width: 83.3%;"></div>
+                                    </div>
+                                </div>
+
+                                <div style="margin-top: 8px;">
+                                    <span class="pf-box-title"><i class="fa-solid fa-medal"></i> Unlocked Merit Badges</span>
+                                    <div class="pf-badges-grid">
+                                        <div class="pf-badge-item unlocked">
+                                            <i class="fa-solid fa-laptop-code pf-badge-icon"></i>
+                                            <span class="pf-badge-name">Hack Finalist</span>
+                                            <span class="pf-badge-desc">36Hr Hack-A-Verse</span>
+                                        </div>
+                                        <div class="pf-badge-item unlocked">
+                                            <i class="fa-solid fa-bolt pf-badge-icon"></i>
+                                            <span class="pf-badge-name">Early Bird</span>
+                                            <span class="pf-badge-desc">Fast Track Reg</span>
+                                        </div>
+                                        <div class="pf-badge-item unlocked">
+                                            <i class="fa-solid fa-robot pf-badge-icon"></i>
+                                            <span class="pf-badge-name">Robo Gladiator</span>
+                                            <span class="pf-badge-desc">Robo Soccer Bay A</span>
+                                        </div>
+                                        <div class="pf-badge-item locked">
+                                            <i class="fa-solid fa-guitar pf-badge-icon"></i>
+                                            <span class="pf-badge-name">Rock Fanatic</span>
+                                            <span class="pf-badge-desc">Unlocks Oct 16</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right: Contingent College Cup Leaderboard -->
+                            <div class="pf-karma-box">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span class="pf-box-title" style="margin: 0;"><i class="fa-solid fa-ranking-star"></i> Inter-College Trophy Standings</span>
+                                    <span style="font-size: 0.68rem; font-family: 'Orbitron'; color: var(--pf-text-dim);">LIVE STANDINGS</span>
+                                </div>
+
+                                <table class="pf-leaderboard-table">
+                                    <thead>
+                                        <tr>
+                                            <th>RANK</th>
+                                            <th>COLLEGE / INSTITUTION</th>
+                                            <th style="text-align: right;">TOTAL XP</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="pf-rank-pill pf-rank-1">#1</span></td>
+                                            <td><strong>IIT Bhubaneswar</strong> <span style="font-size: 0.65rem; color: var(--pf-cyan);">(Host)</span></td>
+                                            <td style="text-align: right; font-family: 'Orbitron'; color: var(--pf-cyan);">14,250</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="pf-rank-pill pf-rank-2">#2</span></td>
+                                            <td><strong>IIT Kharagpur</strong></td>
+                                            <td style="text-align: right; font-family: 'Orbitron'; color: #fff;">12,800</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="pf-rank-pill pf-rank-3">#3</span></td>
+                                            <td><strong>NIT Rourkela</strong></td>
+                                            <td style="text-align: right; font-family: 'Orbitron'; color: #fff;">10,450</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="pf-rank-pill" style="color: var(--pf-text-dim); background: rgba(255,255,255,0.05);">#4</span></td>
+                                            <td><strong>IIIT Bhubaneswar</strong></td>
+                                            <td style="text-align: right; font-family: 'Orbitron'; color: var(--pf-text-muted);">9,200</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="pf-rank-pill" style="color: var(--pf-text-dim); background: rgba(255,255,255,0.05);">#5</span></td>
+                                            <td><strong>BITS Pilani</strong></td>
+                                            <td style="text-align: right; font-family: 'Orbitron'; color: var(--pf-text-muted);">8,950</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div style="font-size: 0.72rem; color: var(--pf-text-dim); line-height: 1.4; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px;">
+                                    <i class="fa-solid fa-info-circle" style="color: var(--pf-cyan);"></i> Points calculate overall medal tallies, qualifying rounds, hackathon scores, and delegation attendance.
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
-
             </div>
 
-        </section>
-
+        </div>
     </main>
 
-
-
     <!-- =========================================================
-         FOOTER
-         IMPORTANT: OUTSIDE MAIN
+         SHARED FOOTER (Consistent with entire site)
          ========================================================= -->
-    <!-- Shared Full-Width Footer as on Home Page -->
     <footer class="pravaah-full-footer footer-centered">
         <div class="footer-columns-grid grid-centered">
             <div class="footer-col col-centered">
@@ -1220,976 +986,739 @@
         </div>
     </footer>
 
-
-
-    <!-- =========================================================
-         QR MODAL
-         ========================================================= -->
-
-    <div
-        class="cyber-modal-overlay"
-        id="qr-modal"
-        aria-hidden="true"
-    >
-
-        <div class="cyber-modal-box">
-
-            <button
-                class="modal-close-btn"
-                data-close-modal="qr-modal"
-                type="button"
-                aria-label="Close QR modal"
-            >
-                &times;
-            </button>
-
-
-            <h3 class="modal-title">
-                DIMENSIONAL GATE ACCESS QR
-            </h3>
-
-
-            <p class="modal-sub">
-                Aarav Mehta // PARTICIPANT PASS
-            </p>
-
-
-
-            <div class="modal-qr-display">
-
-                <div class="qr-laser-line"></div>
-
-
-                <svg
-                    width="220"
-                    height="220"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.8"
-                    aria-label="QR placeholder"
-                >
-
-                    <rect
-                        x="3"
-                        y="3"
-                        width="7"
-                        height="7"
-                    ></rect>
-
-                    <rect
-                        x="14"
-                        y="3"
-                        width="7"
-                        height="7"
-                    ></rect>
-
-                    <rect
-                        x="14"
-                        y="14"
-                        width="7"
-                        height="7"
-                    ></rect>
-
-                    <rect
-                        x="3"
-                        y="14"
-                        width="7"
-                        height="7"
-                    ></rect>
-
-                    <rect
-                        x="7"
-                        y="7"
-                        width="1"
-                        height="1"
-                    ></rect>
-
-                    <rect
-                        x="17"
-                        y="7"
-                        width="1"
-                        height="1"
-                    ></rect>
-
-                    <rect
-                        x="7"
-                        y="17"
-                        width="1"
-                        height="1"
-                    ></rect>
-
-                    <rect
-                        x="17"
-                        y="17"
-                        width="1"
-                        height="1"
-                    ></rect>
-
-                </svg>
-
-            </div>
-
-
-            <span class="modal-status">
-                SECURITY CLEARANCE: VERIFIED
-            </span>
-
-        </div>
-
-    </div>
-
-
-
     <!-- =========================================================
          EDIT PROFILE MODAL
          ========================================================= -->
+    <div class="pf-modal-overlay" id="editProfileModal">
+        <div class="pf-modal-dialog">
+            <button class="pf-modal-close-btn" type="button" onclick="closeModal('editProfileModal')">&times;</button>
+            <h3 class="pf-modal-title"><i class="fa-solid fa-pen-to-square" style="color: var(--pf-cyan);"></i> Edit Profile Details</h3>
+            <p class="pf-modal-subtitle">Update your official festival delegate record.</p>
 
-    <div
-        class="cyber-modal-overlay"
-        id="edit-modal"
-        aria-hidden="true"
-    >
-
-        <div class="cyber-modal-box">
-
-            <button
-                class="modal-close-btn"
-                data-close-modal="edit-modal"
-                type="button"
-                aria-label="Close edit profile modal"
-            >
-                &times;
-            </button>
-
-
-            <h3 class="modal-title">
-                EDIT PROFILE
-            </h3>
-
-
-            <p class="modal-sub">
-                Frontend-only participant information editor
-            </p>
-
-
-
-            <form id="profile-edit-form">
-
-                <div class="quick-buttons-grid">
-
-
-                    <input
-                        id="edit-name"
-                        type="text"
-                        value="Aarav Mehta"
-                        placeholder="Full Name"
-                        required
-                    >
-
-
-                    <input
-                        id="edit-college"
-                        type="text"
-                        value="IIT Bhubaneswar"
-                        placeholder="College"
-                        required
-                    >
-
-
-                    <input
-                        id="edit-email"
-                        type="email"
-                        value="aarav.mehta@example.com"
-                        placeholder="Email"
-                        required
-                    >
-
-
-                    <input
-                        id="edit-phone"
-                        type="text"
-                        value="+91 98XXXXXX42"
-                        placeholder="Phone"
-                        required
-                    >
-
-
-                    <input
-                        id="edit-location"
-                        type="text"
-                        value="Bhubaneswar, Odisha"
-                        placeholder="City / State"
-                        required
-                    >
-
-
-                    <button
-                        class="action-btn primary-action-btn"
-                        type="submit"
-                    >
-                        SAVE CHANGES
-                    </button>
-
+            <form id="editProfileForm" class="pf-form-grid">
+                <div class="pf-input-group">
+                    <label class="pf-input-label">Full Name</label>
+                    <input type="text" class="pf-input-field" id="form-name" required value="Aarav Mehta">
                 </div>
 
+                <div class="pf-input-group">
+                    <label class="pf-input-label">College / University</label>
+                    <input type="text" class="pf-input-field" id="form-college" required value="Indian Institute of Technology Bhubaneswar">
+                </div>
+
+                <div class="pf-input-group">
+                    <label class="pf-input-label">Department / Branch & Year</label>
+                    <input type="text" class="pf-input-field" id="form-dept" required value="School of Electrical Sciences (B.Tech '27)">
+                </div>
+
+                <div class="pf-input-group">
+                    <label class="pf-input-label">Email Address</label>
+                    <input type="email" class="pf-input-field" id="form-email" required value="aarav.mehta@iitbbs.ac.in">
+                </div>
+
+                <div class="pf-input-group">
+                    <label class="pf-input-label">Phone Number</label>
+                    <input type="tel" class="pf-input-field" id="form-phone" required value="+91 98765 43210">
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button type="submit" class="pf-btn-primary" style="flex: 1;">
+                        <i class="fa-solid fa-check"></i> Save Changes
+                    </button>
+                    <button type="button" class="pf-btn-outline" style="flex: 0.6;" onclick="closeModal('editProfileModal')">
+                        Cancel
+                    </button>
+                </div>
             </form>
-
         </div>
-
     </div>
 
-
-
     <!-- =========================================================
-         TOAST NOTIFICATION
+         ENLARGED QR & BARCODE MODAL
          ========================================================= -->
+    <div class="pf-modal-overlay" id="qrEnlargeModal">
+        <div class="pf-modal-dialog" style="text-align: center; max-width: 420px;">
+            <button class="pf-modal-close-btn" type="button" onclick="closeModal('qrEnlargeModal')">&times;</button>
+            <h3 class="pf-modal-title"><i class="fa-solid fa-qrcode" style="color: var(--pf-cyan);"></i> GATE ENTRY QR CODE</h3>
+            <p class="pf-modal-subtitle" id="modalQrSub">Aarav Mehta &bull; PRV-2026-8492</p>
 
-    <div
-        class="cyber-toast-notification"
-        id="cyber-toast"
-    >
-        <span id="toast-message">
-            Notification
-        </span>
+            <div style="background: rgba(255, 255, 255, 0.04); border: 2px solid var(--pf-cyan); border-radius: 16px; padding: 20px; display: inline-block; margin-bottom: 16px; box-shadow: 0 0 30px rgba(0, 210, 255, 0.25);">
+                <svg width="180" height="180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color: #fff;">
+                    <rect x="2" y="2" width="7" height="7" rx="1.5"></rect>
+                    <rect x="15" y="2" width="7" height="7" rx="1.5"></rect>
+                    <rect x="15" y="15" width="7" height="7" rx="1.5"></rect>
+                    <rect x="2" y="15" width="7" height="7" rx="1.5"></rect>
+                    <circle cx="5.5" cy="5.5" r="1.5" fill="currentColor"></circle>
+                    <circle cx="18.5" cy="5.5" r="1.5" fill="currentColor"></circle>
+                    <circle cx="5.5" cy="18.5" r="1.5" fill="currentColor"></circle>
+                    <path d="M10 2v5M10 10v4M2 10h5M10 17v5M14 10h3M18 10v2M14 14h2M14 18v4M18 18h4M22 14v4M18 22h4"></path>
+                </svg>
+            </div>
+
+            <div style="font-family: 'Orbitron'; font-size: 0.72rem; color: #00d2ff; letter-spacing: 0.1em; margin-bottom: 14px;">
+                SECURITY HASH: 7F8A9-PRAVAAH-2026-IITBBS
+            </div>
+
+            <button type="button" class="pf-btn-primary" onclick="showToast('✓ Token verified on terminal.')">
+                <i class="fa-solid fa-circle-check"></i> Simulate Gate Scan
+            </button>
+        </div>
     </div>
 
+    <!-- =========================================================
+         EVENT TICKET PASS MODAL
+         ========================================================= -->
+    <div class="pf-modal-overlay" id="ticketModal">
+        <div class="pf-modal-dialog" style="max-width: 440px;">
+            <button class="pf-modal-close-btn" type="button" onclick="closeModal('ticketModal')">&times;</button>
+            <h3 class="pf-modal-title"><i class="fa-solid fa-ticket" style="color: var(--pf-cyan);"></i> EVENT ACCESS PASS</h3>
+            <p class="pf-modal-subtitle">Official Entry Voucher for Pravaah 2026</p>
 
+            <div style="background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(0, 210, 255, 0.3); border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
+                    <span style="font-family: 'Orbitron'; font-size: 0.8rem; font-weight: 800; color: #fff;" id="ticketEventName">Event Name</span>
+                    <span class="pf-status-badge" id="ticketCategoryTag">TECH</span>
+                </div>
+                <div class="pf-id-matrix" style="gap: 8px;">
+                    <div class="pf-matrix-cell">
+                        <span class="pf-matrix-label">DATE & TIME</span>
+                        <span class="pf-matrix-value" id="ticketDateTime">Oct 15 &bull; 10:00 AM</span>
+                    </div>
+                    <div class="pf-matrix-cell">
+                        <span class="pf-matrix-label">VENUE</span>
+                        <span class="pf-matrix-value" id="ticketVenue">Robotics Arena Bay A</span>
+                    </div>
+                    <div class="pf-matrix-cell">
+                        <span class="pf-matrix-label">ATTENDEE</span>
+                        <span class="pf-matrix-value" id="ticketAttendee">Aarav Mehta</span>
+                    </div>
+                    <div class="pf-matrix-cell">
+                        <span class="pf-matrix-label">GATE CLEARANCE</span>
+                        <span class="pf-matrix-value accent-cyan">CONFIRMED</span>
+                    </div>
+                </div>
+
+                <div class="pf-fake-barcode" style="margin-top: 6px;"></div>
+                <span style="text-align: center; font-family: 'Orbitron'; font-size: 0.65rem; color: var(--pf-text-dim);">VOUCHER-HASH: PRV26-EVT-CONFIRMED</span>
+            </div>
+
+            <button type="button" class="pf-btn-primary" style="margin-top: 16px;" onclick="closeModal('ticketModal'); showToast('✓ Event ticket saved.');">
+                <i class="fa-solid fa-check"></i> Done
+            </button>
+        </div>
+    </div>
 
     <!-- =========================================================
-         EXISTING GLITCH NAVIGATION
-         DO NOT REPLACE
+         CAMPUS EMERGENCY SOS MODAL
          ========================================================= -->
+    <div class="pf-modal-overlay" id="emergencySosModal">
+        <div class="pf-modal-dialog" style="max-width: 480px;">
+            <button class="pf-modal-close-btn" type="button" onclick="closeModal('emergencySosModal')">&times;</button>
+            <h3 class="pf-modal-title" style="color: #ff6b6b;"><i class="fa-solid fa-triangle-exclamation"></i> 24x7 CAMPUS HELPLINE & SOS</h3>
+            <p class="pf-modal-subtitle">Direct emergency assistance for Pravaah 2026 delegates at IIT Bhubaneswar Argul campus.</p>
 
+            <div class="pf-sos-grid">
+                <div class="pf-sos-card">
+                    <div class="pf-sos-info">
+                        <h4>Fest Central Control Room</h4>
+                        <p>24x7 Event Coordinator & Security Escalations</p>
+                    </div>
+                    <a href="tel:+916747963000" class="pf-sos-call-btn">
+                        <i class="fa-solid fa-phone"></i> Call 3000
+                    </a>
+                </div>
+
+                <div class="pf-sos-card">
+                    <div class="pf-sos-info">
+                        <h4>Campus Health Center & Ambulance</h4>
+                        <p>Argul Medical Ward & Emergency First-Aid</p>
+                    </div>
+                    <a href="tel:+916747963112" class="pf-sos-call-btn">
+                        <i class="fa-solid fa-truck-medical"></i> Call 3112
+                    </a>
+                </div>
+
+                <div class="pf-sos-card">
+                    <div class="pf-sos-info">
+                        <h4>Argul Main Gate Security</h4>
+                        <p>Gate 1 & Gate 2 Checkpoints & Transit Security</p>
+                    </div>
+                    <a href="tel:+916747963005" class="pf-sos-call-btn">
+                        <i class="fa-solid fa-shield"></i> Call 3005
+                    </a>
+                </div>
+
+                <div class="pf-sos-card">
+                    <div class="pf-sos-info">
+                        <h4>Mahanadi Hostel Caretaker</h4>
+                        <p>Accommodation Issues, Keys & Emergency Maintenance</p>
+                    </div>
+                    <a href="tel:+916747963901" class="pf-sos-call-btn">
+                        <i class="fa-solid fa-building"></i> Call 3901
+                    </a>
+                </div>
+            </div>
+
+            <button type="button" class="pf-btn-outline" style="margin-top: 18px;" onclick="closeModal('emergencySosModal')">
+                Close Emergency Desk
+            </button>
+        </div>
+    </div>
+
+    <!-- Hidden Canvas for Pass PNG generation -->
+    <canvas id="passCanvas" width="800" height="480"></canvas>
+
+    <!-- Floating Minimalist Toast Notification -->
+    <div class="pf-toast" id="pfToast">
+        <i class="fa-solid fa-circle-check" style="color: var(--pf-cyan);"></i>
+        <span id="pfToastText">Profile updated successfully.</span>
+    </div>
+
+    <!-- Cosmic Nav Wheel Engine -->
     <script src="src/js/glitch-nav.js"></script>
 
-
-
-    <!-- =========================================================
-         PROFILE PAGE JAVASCRIPT
-         ========================================================= -->
-
+    <!-- Interactive Profile Engine -->
     <script>
-
         document.addEventListener('DOMContentLoaded', () => {
 
+            /* =========================================================
+               1. DATA SYNC & LOCALSTORAGE HYDRATION
+               ========================================================= */
+            const DEFAULT_PROFILE = {
+                name: 'Aarav Mehta',
+                college: 'Indian Institute of Technology Bhubaneswar',
+                dept: "School of Electrical Sciences (B.Tech '27)",
+                email: 'aarav.mehta@iitbbs.ac.in',
+                phone: '+91 98765 43210',
+                ticketId: 'PRV-2026-8492',
+                passType: 'ALL-ACCESS DELEGATE',
+                photo: null
+            };
 
-            /* =====================================================
-               NAVBAR ACTIVE INDICATOR
-               ===================================================== */
+            function loadProfile() {
+                let profile = { ...DEFAULT_PROFILE };
 
-            const activeNav =
-                document.querySelector('.nav-item.active');
-
-            const pill =
-                document.getElementById('nav-indicator-pill');
-
-
-            function updateNavPill() {
-
-                if (!activeNav || !pill) {
-                    return;
+                // 1) Check dedicated profile storage
+                const saved = localStorage.getItem('pravaahProfileData');
+                if (saved) {
+                    try {
+                        const parsed = JSON.parse(saved);
+                        profile = { ...profile, ...parsed };
+                    } catch (e) {}
                 }
 
-                pill.style.left =
-                    `${activeNav.offsetLeft}px`;
+                // 2) If registration form had been filled, inherit fields
+                const regData = localStorage.getItem('pravaahUserRegistration');
+                if (regData) {
+                    try {
+                        const r = JSON.parse(regData);
+                        if (r.name) profile.name = r.name;
+                        if (r.college) profile.college = r.college;
+                        if (r.email) profile.email = r.email;
+                        if (r.phone) profile.phone = r.phone;
+                        if (r.ticketId) profile.ticketId = r.ticketId;
+                        if (r.passType) profile.passType = r.passType.toUpperCase();
+                    } catch (e) {}
+                }
 
-                pill.style.width =
-                    `${activeNav.offsetWidth}px`;
+                // Update UI elements
+                document.getElementById('display-name').textContent = profile.name;
+                document.getElementById('display-college').textContent = profile.college;
+                document.getElementById('display-dept').textContent = profile.dept;
+                document.getElementById('display-email').textContent = profile.email;
+                document.getElementById('display-phone').textContent = profile.phone;
+                document.getElementById('display-ticket-id').textContent = profile.ticketId;
+                document.getElementById('display-pass-tier').textContent = profile.passType;
+
+                const passCardName = document.getElementById('pass-card-name');
+                if (passCardName) passCardName.textContent = profile.name;
+                const passCardCollege = document.getElementById('pass-card-college');
+                if (passCardCollege) passCardCollege.textContent = profile.college;
+                const modalQrSub = document.getElementById('modalQrSub');
+                if (modalQrSub) modalQrSub.textContent = `${profile.name} • ${profile.ticketId}`;
+
+                // Form values
+                document.getElementById('form-name').value = profile.name;
+                document.getElementById('form-college').value = profile.college;
+                document.getElementById('form-dept').value = profile.dept;
+                document.getElementById('form-email').value = profile.email;
+                document.getElementById('form-phone').value = profile.phone;
+
+                // Initials
+                const initials = profile.name
+                    .split(' ')
+                    .map(w => w[0])
+                    .join('')
+                    .substring(0, 2)
+                    .toUpperCase();
+                document.getElementById('avatarInitials').textContent = initials || 'AM';
+
+                // Photo preview if saved
+                const avatarImg = document.getElementById('avatarImage');
+                const avatarInitials = document.getElementById('avatarInitials');
+                if (profile.photo) {
+                    avatarImg.src = profile.photo;
+                    avatarImg.style.display = 'block';
+                    avatarInitials.style.display = 'none';
+                } else {
+                    avatarImg.style.display = 'none';
+                    avatarInitials.style.display = 'block';
+                }
+
+                return profile;
             }
 
-            // Hydrate profile data from localStorage if available
-            try {
-                const savedReg = localStorage.getItem("pravaahUserRegistration");
-                if (savedReg) {
-                    const data = JSON.parse(savedReg);
-                    const agentName = document.querySelector('.agent-name');
-                    const agentInst = document.querySelector('.agent-inst');
-                    const pVals = document.querySelectorAll('.passport-body-grid .p-val');
-                    const heroPill = document.querySelector('.hero-badge-pill');
+            let currentProfile = loadProfile();
 
-                    if (agentName && data.name) agentName.textContent = data.name.toUpperCase();
-                    if (agentInst && data.college) agentInst.textContent = data.college;
-                    if (heroPill && data.ticketId) heroPill.textContent = `✦ AGENT ID: ${data.ticketId} // SECURITY CLEARANCE ✦`;
+            /* =========================================================
+               2. TABS CONTROLLER
+               ========================================================= */
+            const tabButtons = document.querySelectorAll('.pf-tab-btn');
+            const tabPanels = document.querySelectorAll('.pf-tab-panel');
 
-                    if (pVals && pVals.length >= 3) {
-                        if (data.ticketId) pVals[0].textContent = data.ticketId;
-                        if (data.passType) pVals[2].textContent = `${data.passType.toUpperCase()} (${data.total || 'VERIFIED'})`;
-                    }
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.dataset.tab;
+                    tabButtons.forEach(b => b.classList.remove('active'));
+                    tabPanels.forEach(p => p.classList.remove('active'));
 
-                    if (data.eventsList && data.eventsList.length > 0) {
-                        const regList = document.querySelector('.reg-events-list');
-                        if (regList) {
-                            let itemsHTML = '';
-                            data.eventsList.forEach(evName => {
-                                itemsHTML += `
-                                    <div class="reg-event-item">
-                                        <div class="reg-event-badge badge-tech">EVENT</div>
-                                        <div class="reg-event-info">
-                                            <h4>${evName}</h4>
-                                            <span>Multiverse Fest '26 // @ IIT Bhubaneswar</span>
-                                        </div>
-                                        <span class="reg-status-pill">REGISTERED</span>
-                                    </div>
-                                `;
-                            });
-                            regList.innerHTML = itemsHTML;
-                        }
-                    }
-                }
-            } catch (err) {}
-
-            updateNavPill();
-
-            window.addEventListener(
-                'resize',
-                updateNavPill
-            );
-
-
-
-            /* =====================================================
-               TOAST SYSTEM
-               ===================================================== */
-
-            const toast =
-                document.getElementById('cyber-toast');
-
-            const toastMessage =
-                document.getElementById('toast-message');
-
-            let toastTimer;
-
-
-            function showToast(message) {
-
-                if (!toast || !toastMessage) {
-                    return;
-                }
-
-                clearTimeout(toastTimer);
-
-                toastMessage.textContent = message;
-
-                toast.classList.add('show');
-
-                toastTimer = setTimeout(() => {
-
-                    toast.classList.remove('show');
-
-                }, 3000);
-
-            }
-
-
-
-            /* =====================================================
-               TAB SWITCHING
-               ===================================================== */
-
-            const tabButtons =
-                document.querySelectorAll('.tab-btn');
-
-            const tabPanels =
-                document.querySelectorAll(
-                    '.tab-content-panel'
-                );
-
-
-            tabButtons.forEach((button) => {
-
-                button.addEventListener('click', () => {
-
-                    const targetId =
-                        button.dataset.tab;
-
-
-                    /* Remove active from all tabs */
-
-                    tabButtons.forEach((item) => {
-
-                        item.classList.remove(
-                            'active'
-                        );
-
-                    });
-
-
-                    /* Hide all panels */
-
-                    tabPanels.forEach((panel) => {
-
-                        panel.classList.remove(
-                            'active'
-                        );
-
-                    });
-
-
-                    /* Activate clicked tab */
-
-                    button.classList.add('active');
-
-
-                    const targetPanel =
-                        document.getElementById(
-                            targetId
-                        );
-
-
+                    btn.classList.add('active');
+                    const targetPanel = document.getElementById(targetId);
                     if (targetPanel) {
-
-                        targetPanel.classList.add(
-                            'active'
-                        );
-
+                        targetPanel.classList.add('active');
                     }
-
                 });
-
             });
 
+            /* =========================================================
+               3. EVENTS FILTER & SEARCH ENGINE (Category + Day Filter)
+               ========================================================= */
+            const filterPills = document.querySelectorAll('.pf-filter-pill');
+            const dayPills = document.querySelectorAll('.pf-day-pill');
+            const searchInput = document.getElementById('eventSearchInput');
+            const eventCards = document.querySelectorAll('.pf-event-card');
 
+            function applyEventFilter() {
+                const activePill = document.querySelector('.pf-filter-pill.active');
+                const filterVal = activePill ? activePill.dataset.filter : 'all';
+                const activeDayPill = document.querySelector('.pf-day-pill.active');
+                const dayVal = activeDayPill ? activeDayPill.dataset.day : 'all';
+                const searchVal = (searchInput ? searchInput.value : '').toLowerCase().trim();
 
-            /* =====================================================
-               OPTIONAL PARTICIPANT PHOTO
-               ===================================================== */
+                let visibleCount = 0;
+                eventCards.forEach(card => {
+                    const category = card.dataset.category;
+                    const cardDay = card.dataset.day;
+                    const cardText = card.textContent.toLowerCase();
 
-            const photoInput =
-                document.getElementById(
-                    'participant-photo-input'
-                );
+                    const matchesCategory = (filterVal === 'all') || (category === filterVal);
+                    const matchesDay = (dayVal === 'all') || (cardDay === dayVal);
+                    const matchesSearch = !searchVal || cardText.includes(searchVal);
 
-            const placeholder =
-                document.getElementById(
-                    'avatar-placeholder'
-                );
-
-            const preview =
-                document.getElementById(
-                    'participant-photo-preview'
-                );
-
-            const uploadPhotoButton =
-                document.getElementById(
-                    'upload-photo-btn'
-                );
-
-
-            function openPhotoPicker() {
-
-                if (photoInput) {
-
-                    photoInput.click();
-
-                }
-
-            }
-
-
-            if (uploadPhotoButton) {
-
-                uploadPhotoButton.addEventListener(
-                    'click',
-                    openPhotoPicker
-                );
-
-            }
-
-
-            if (placeholder) {
-
-                placeholder.addEventListener(
-                    'click',
-                    openPhotoPicker
-                );
-
-            }
-
-
-            if (photoInput) {
-
-                photoInput.addEventListener(
-                    'change',
-                    () => {
-
-                        const file =
-                            photoInput.files?.[0];
-
-
-                        if (!file) {
-                            return;
-                        }
-
-
-                        /* Validate image */
-
-                        if (
-                            !file.type.startsWith(
-                                'image/'
-                            )
-                        ) {
-
-                            photoInput.value = '';
-
-                            showToast(
-                                'Please select a valid image file.'
-                            );
-
-                            return;
-
-                        }
-
-
-                        /* Preview image */
-
-                        const reader =
-                            new FileReader();
-
-
-                        reader.onload = () => {
-
-                            if (preview) {
-
-                                preview.src =
-                                    reader.result;
-
-                                preview.hidden =
-                                    false;
-
-                            }
-
-
-                            if (placeholder) {
-
-                                placeholder.hidden =
-                                    true;
-
-                            }
-
-
-                            showToast(
-                                '✓ Participant photo added.'
-                            );
-
-                        };
-
-
-                        reader.readAsDataURL(file);
-
+                    if (matchesCategory && matchesDay && matchesSearch) {
+                        card.style.display = 'flex';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
                     }
-                );
-
-            }
-
-
-
-            /* =====================================================
-               MODAL HELPERS
-               ===================================================== */
-
-            function openModal(id) {
-
-                const modal =
-                    document.getElementById(id);
-
-
-                if (!modal) {
-                    return;
-                }
-
-
-                modal.classList.add('active');
-
-                modal.setAttribute(
-                    'aria-hidden',
-                    'false'
-                );
-
-            }
-
-
-            function closeModal(id) {
-
-                const modal =
-                    document.getElementById(id);
-
-
-                if (!modal) {
-                    return;
-                }
-
-
-                modal.classList.remove('active');
-
-                modal.setAttribute(
-                    'aria-hidden',
-                    'true'
-                );
-
-            }
-
-
-
-            /* =====================================================
-               CLOSE BUTTONS
-               ===================================================== */
-
-            document
-                .querySelectorAll('[data-close-modal]')
-                .forEach((button) => {
-
-                    button.addEventListener(
-                        'click',
-                        () => {
-
-                            closeModal(
-                                button.dataset.closeModal
-                            );
-
-                        }
-                    );
-
                 });
+            }
 
-
-
-            /* =====================================================
-               CLOSE WHEN CLICKING OUTSIDE MODAL
-               ===================================================== */
-
-            document
-                .querySelectorAll('.cyber-modal-overlay')
-                .forEach((modal) => {
-
-                    modal.addEventListener(
-                        'click',
-                        (event) => {
-
-                            if (
-                                event.target === modal
-                            ) {
-
-                                closeModal(
-                                    modal.id
-                                );
-
-                            }
-
-                        }
-                    );
-
+            filterPills.forEach(pill => {
+                pill.addEventListener('click', () => {
+                    filterPills.forEach(p => p.classList.remove('active'));
+                    pill.classList.add('active');
+                    applyEventFilter();
                 });
+            });
 
+            dayPills.forEach(pill => {
+                pill.addEventListener('click', () => {
+                    dayPills.forEach(p => p.classList.remove('active'));
+                    pill.classList.add('active');
+                    applyEventFilter();
+                });
+            });
 
+            if (searchInput) {
+                searchInput.addEventListener('input', applyEventFilter);
+            }
 
-            /* =====================================================
-               ESC KEY
-               ===================================================== */
+            /* =========================================================
+               3B. LIVE FESTIVAL COUNTDOWN TICKER
+               ========================================================= */
+            function startCountdown() {
+                const festDate = new Date('2026-10-15T09:00:00+05:30').getTime();
+                function tick() {
+                    const now = new Date().getTime();
+                    let diff = festDate - now;
+                    if (diff < 0) diff = 0;
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const secs = Math.floor((diff % (1000 * 60)) / 1000);
 
-            document.addEventListener(
-                'keydown',
-                (event) => {
+                    const elD = document.getElementById('cd-days');
+                    const elH = document.getElementById('cd-hours');
+                    const elM = document.getElementById('cd-mins');
+                    const elS = document.getElementById('cd-secs');
+                    if (elD) elD.textContent = String(days).padStart(2, '0');
+                    if (elH) elH.textContent = String(hours).padStart(2, '0');
+                    if (elM) elM.textContent = String(mins).padStart(2, '0');
+                    if (elS) elS.textContent = String(secs).padStart(2, '0');
+                }
+                tick();
+                setInterval(tick, 1000);
+            }
+            startCountdown();
 
-                    if (event.key !== 'Escape') {
+            /* =========================================================
+               3C. DYNAMIC ANTI-SPOOF GATE PASS SECURITY TOKEN
+               ========================================================= */
+            let tokenSecondsLeft = 30;
+            function updateDynamicToken() {
+                const chars = '0123456789ABCDEF';
+                let rand = '';
+                for (let i = 0; i < 4; i++) rand += chars[Math.floor(Math.random() * chars.length)];
+                const tokenEl = document.getElementById('dynamicGateToken');
+                if (tokenEl) tokenEl.textContent = `PRV-8492-X${rand}`;
+            }
+            setInterval(() => {
+                tokenSecondsLeft--;
+                if (tokenSecondsLeft <= 0) {
+                    tokenSecondsLeft = 30;
+                    updateDynamicToken();
+                }
+                const timerEl = document.getElementById('tokenTimerCount');
+                if (timerEl) timerEl.textContent = tokenSecondsLeft;
+            }, 1000);
+
+            /* =========================================================
+               4. PHOTO UPLOAD & LOCAL STORAGE STORAGE
+               ========================================================= */
+            const avatarPickerBtn = document.getElementById('avatarPickerBtn');
+            const photoInput = document.getElementById('photoInput');
+
+            if (avatarPickerBtn && photoInput) {
+                avatarPickerBtn.addEventListener('click', () => photoInput.click());
+
+                photoInput.addEventListener('change', () => {
+                    const file = photoInput.files[0];
+                    if (!file) return;
+
+                    if (!file.type.startsWith('image/')) {
+                        showToast('Please upload a valid image file.');
                         return;
                     }
 
-
-                    document
-                        .querySelectorAll(
-                            '.cyber-modal-overlay.active'
-                        )
-                        .forEach((modal) => {
-
-                            closeModal(
-                                modal.id
-                            );
-
-                        });
-
-                }
-            );
-
-
-
-            /* =====================================================
-               VIEW QR
-               ===================================================== */
-
-            const viewQrButton =
-                document.getElementById(
-                    'view-qr-btn'
-                );
-
-
-            if (viewQrButton) {
-
-                viewQrButton.addEventListener(
-                    'click',
-                    () => {
-
-                        openModal(
-                            'qr-modal'
-                        );
-
-                    }
-                );
-
-            }
-
-
-
-            /* =====================================================
-               EDIT PROFILE
-               ===================================================== */
-
-            const editProfileButton =
-                document.getElementById(
-                    'edit-profile-btn'
-                );
-
-
-            if (editProfileButton) {
-
-                editProfileButton.addEventListener(
-                    'click',
-                    () => {
-
-                        openModal(
-                            'edit-modal'
-                        );
-
-                    }
-                );
-
-            }
-
-
-
-            /* =====================================================
-               SAVE PROFILE CHANGES
-               FRONTEND ONLY
-               ===================================================== */
-
-            const profileEditForm =
-                document.getElementById(
-                    'profile-edit-form'
-                );
-
-
-            if (profileEditForm) {
-
-                profileEditForm.addEventListener(
-                    'submit',
-                    (event) => {
-
-                        event.preventDefault();
-
-
-                        const name =
-                            document.getElementById(
-                                'edit-name'
-                            );
-
-                        const college =
-                            document.getElementById(
-                                'edit-college'
-                            );
-
-                        const email =
-                            document.getElementById(
-                                'edit-email'
-                            );
-
-                        const phone =
-                            document.getElementById(
-                                'edit-phone'
-                            );
-
-                        const location =
-                            document.getElementById(
-                                'edit-location'
-                            );
-
-
-                        const participantName =
-                            document.getElementById(
-                                'participant-name'
-                            );
-
-                        const participantCollege =
-                            document.getElementById(
-                                'participant-college'
-                            );
-
-                        const participantEmail =
-                            document.getElementById(
-                                'participant-email'
-                            );
-
-                        const participantPhone =
-                            document.getElementById(
-                                'participant-phone'
-                            );
-
-                        const participantLocation =
-                            document.getElementById(
-                                'participant-location'
-                            );
-
-
-                        if (
-                            participantName &&
-                            name
-                        ) {
-
-                            participantName.textContent =
-                                name.value.trim();
-
-                        }
-
-
-                        if (
-                            participantCollege &&
-                            college
-                        ) {
-
-                            participantCollege.textContent =
-                                college.value.trim();
-
-                        }
-
-
-                        if (
-                            participantEmail &&
-                            email
-                        ) {
-
-                            participantEmail.textContent =
-                                email.value.trim();
-
-                        }
-
-
-                        if (
-                            participantPhone &&
-                            phone
-                        ) {
-
-                            participantPhone.textContent =
-                                phone.value.trim();
-
-                        }
-
-
-                        if (
-                            participantLocation &&
-                            location
-                        ) {
-
-                            participantLocation.textContent =
-                                location.value.trim();
-
-                        }
-
-
-                        closeModal(
-                            'edit-modal'
-                        );
-
-
-                        showToast(
-                            '✓ Profile information updated on this page.'
-                        );
-
-                    }
-                );
-
-            }
-
-
-
-            /* =====================================================
-               DOWNLOAD PASS
-               BACKEND WILL BE CONNECTED LATER
-               ===================================================== */
-
-            const downloadButton =
-                document.getElementById(
-                    'download-pass-btn'
-                );
-
-
-            if (downloadButton) {
-
-                downloadButton.addEventListener(
-                    'click',
-                    () => {
-
-                        showToast(
-                            '📥 Pass download will connect to the backend later.'
-                        );
-
-                    }
-                );
-
-            }
-
-
-
-            /* =====================================================
-               LOGOUT
-               BACKEND AUTH WILL BE CONNECTED LATER
-               ===================================================== */
-
-            const logoutButton =
-                document.getElementById(
-                    'logout-btn'
-                );
-
-
-            if (logoutButton) {
-
-                logoutButton.addEventListener(
-                    'click',
-                    () => {
-
-                        showToast(
-                            '↪ Logout will connect to authentication later.'
-                        );
-
-                    }
-                );
-
-            }
-
-
-
-            /* =====================================================
-               EVENT TICKET BUTTONS
-               ===================================================== */
-
-            document
-                .querySelectorAll('.event-ticket-btn')
-                .forEach((button) => {
-
-                    button.addEventListener(
-                        'click',
-                        () => {
-
-                            showToast(
-                                '🎟️ Ticket details will connect to the event system later.'
-                            );
-
-                        }
-                    );
-
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const dataUrl = e.target.result;
+                        currentProfile.photo = dataUrl;
+                        localStorage.setItem('pravaahProfileData', JSON.stringify(currentProfile));
+                        loadProfile();
+                        showToast('✓ Participant photo updated & saved.');
+                    };
+                    reader.readAsDataURL(file);
                 });
+            }
 
+            /* =========================================================
+               5. EDIT PROFILE FORM SUBMISSION
+               ========================================================= */
+            const editForm = document.getElementById('editProfileForm');
+            if (editForm) {
+                editForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+
+                    currentProfile.name = document.getElementById('form-name').value.trim();
+                    currentProfile.college = document.getElementById('form-college').value.trim();
+                    currentProfile.dept = document.getElementById('form-dept').value.trim();
+                    currentProfile.email = document.getElementById('form-email').value.trim();
+                    currentProfile.phone = document.getElementById('form-phone').value.trim();
+
+                    localStorage.setItem('pravaahProfileData', JSON.stringify(currentProfile));
+                    loadProfile();
+                    closeModal('editProfileModal');
+                    showToast('✓ Profile information updated.');
+                });
+            }
+
+            /* =========================================================
+               6. MODAL UTILITIES
+               ========================================================= */
+            document.getElementById('openEditModalBtn')?.addEventListener('click', () => {
+                openModal('editProfileModal');
+            });
+
+            document.getElementById('openQrModalBtn')?.addEventListener('click', () => {
+                openModal('qrEnlargeModal');
+            });
+
+            // Close on backdrop click
+            document.querySelectorAll('.pf-modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay) {
+                        overlay.classList.remove('active');
+                    }
+                });
+            });
+
+            /* =========================================================
+               7. COPY ACTIONS & UTILITIES
+               ========================================================= */
+            document.getElementById('copyFestIdBtn')?.addEventListener('click', () => {
+                const tid = document.getElementById('display-ticket-id').textContent;
+                navigator.clipboard?.writeText(tid).then(() => {
+                    showToast(`✓ Copied Fest ID: ${tid}`);
+                }).catch(() => {
+                    showToast(`Fest ID: ${tid}`);
+                });
+            });
+
+            document.getElementById('copySquadCodeBtn')?.addEventListener('click', () => {
+                const code = 'PRAVAAH-TEAM-8942';
+                navigator.clipboard?.writeText(code).then(() => {
+                    showToast('✓ Squad Code copied to clipboard: ' + code);
+                }).catch(() => {
+                    showToast('Squad Code: ' + code);
+                });
+            });
+
+            document.getElementById('openSosModalBtn')?.addEventListener('click', () => {
+                openModal('emergencySosModal');
+            });
+
+            document.getElementById('copyWifiBtn')?.addEventListener('click', () => {
+                navigator.clipboard?.writeText('Pravaah2026@Argul').then(() => {
+                    showToast('✓ Wi-Fi Password copied: Pravaah2026@Argul');
+                }).catch(() => {
+                    showToast('Wi-Fi Password: Pravaah2026@Argul');
+                });
+            });
+
+            document.getElementById('addCalendarBtn')?.addEventListener('click', () => {
+                downloadCalendarFile();
+            });
+
+            document.getElementById('signOutBtn')?.addEventListener('click', () => {
+                showToast('ℹ️ To switch account, re-register or clear cache.');
+            });
+
+            /* =========================================================
+               8. RFID / NFC SIMULATION
+               ========================================================= */
+            const nfcBtn = document.getElementById('nfcTriggerBtn');
+            const nfcStatus = document.getElementById('nfcStatusText');
+            if (nfcBtn && nfcStatus) {
+                nfcBtn.addEventListener('click', () => {
+                    nfcBtn.classList.add('scanning');
+                    nfcStatus.textContent = 'Scanning RFID wave at Argul Terminal...';
+                    nfcStatus.style.color = '#00d2ff';
+
+                    setTimeout(() => {
+                        nfcBtn.classList.remove('scanning');
+                        nfcStatus.textContent = 'ACCESS GRANTED: Gate 1 & 2 cleared for ' + currentProfile.name;
+                        nfcStatus.style.color = '#00d2ff';
+                        showToast('✓ RFID Tap: Gate barrier unlocked.');
+                    }, 900);
+                });
+            }
+
+            /* =========================================================
+               9. CANVAS HIGH-RES PASS GENERATOR & DOWNLOAD
+               ========================================================= */
+            document.getElementById('downloadIdPassBtn')?.addEventListener('click', generatePassImage);
+            document.getElementById('generateDownloadPassBtn')?.addEventListener('click', generatePassImage);
+
+            function generatePassImage() {
+                const canvas = document.getElementById('passCanvas');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+
+                // Draw background gradient
+                const grad = ctx.createLinearGradient(0, 0, 800, 480);
+                grad.addColorStop(0, '#0a0718');
+                grad.addColorStop(0.5, '#06030e');
+                grad.addColorStop(1, '#0c0822');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, 800, 480);
+
+                // Outer border
+                ctx.strokeStyle = '#00d2ff';
+                ctx.lineWidth = 4;
+                ctx.strokeRect(10, 10, 780, 460);
+
+                // Inner hairline
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(18, 18, 764, 444);
+
+                // Header Top
+                ctx.fillStyle = '#00d2ff';
+                ctx.font = 'bold 22px Orbitron, sans-serif';
+                ctx.fillText("PRAVAAH '26 // OFFICIAL DELEGATE PASS", 40, 60);
+
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+                ctx.font = '14px Inter, sans-serif';
+                ctx.fillText('INDIAN INSTITUTE OF TECHNOLOGY BHUBANESWAR', 40, 84);
+
+                // Divider line
+                ctx.strokeStyle = 'rgba(0, 210, 255, 0.3)';
+                ctx.beginPath();
+                ctx.moveTo(40, 105);
+                ctx.lineTo(760, 105);
+                ctx.stroke();
+
+                // Participant Name
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 36px Orbitron, sans-serif';
+                ctx.fillText(currentProfile.name.toUpperCase(), 40, 160);
+
+                // College
+                ctx.fillStyle = '#94a8c7';
+                ctx.font = 'bold 18px Inter, sans-serif';
+                ctx.fillText(currentProfile.college, 40, 195);
+
+                // Info Matrix
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.font = 'bold 13px Orbitron, sans-serif';
+                ctx.fillText('DELEGATE ID:', 40, 245);
+                ctx.fillText('PASS TIER:', 40, 280);
+                ctx.fillText('ACCESS ZONE:', 40, 315);
+                ctx.fillText('DATES VALID:', 40, 350);
+
+                ctx.fillStyle = '#00d2ff';
+                ctx.font = 'bold 15px Orbitron, sans-serif';
+                ctx.fillText(currentProfile.ticketId, 180, 245);
+                ctx.fillText(currentProfile.passType, 180, 280);
+                ctx.fillStyle = '#ffffff';
+                ctx.fillText('ALL ARGUL CAMPUS VENUES', 180, 315);
+                ctx.fillText('OCTOBER 15 - 18, 2026', 180, 350);
+
+                // Right barcode & hologram box
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+                ctx.fillRect(520, 130, 240, 240);
+                ctx.strokeStyle = '#00d2ff';
+                ctx.strokeRect(520, 130, 240, 240);
+
+                ctx.fillStyle = '#00d2ff';
+                ctx.font = 'bold 14px Orbitron, sans-serif';
+                ctx.fillText('GATE ACCESS QR', 560, 165);
+
+                // Draw mock QR grid
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(560, 185, 160, 160);
+                ctx.fillStyle = '#06030e';
+                ctx.fillRect(575, 200, 40, 40);
+                ctx.fillRect(665, 200, 40, 40);
+                ctx.fillRect(575, 290, 40, 40);
+                ctx.fillRect(630, 245, 30, 30);
+
+                // Bottom security watermark
+                ctx.fillStyle = 'rgba(0, 210, 255, 0.7)';
+                ctx.font = 'bold 12px Orbitron, sans-serif';
+                ctx.fillText('✦ SECURITY TOKEN: VERIFIED // IIT BHUBANESWAR FESTIVAL SECRETARIAT ✦', 80, 430);
+
+                // Trigger PNG Download
+                const link = document.createElement('a');
+                link.download = `Pravaah2026_Delegate_Pass_${currentProfile.name.replace(/\s+/g, '_')}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+
+                showToast('📥 Digital Delegate Pass downloaded!');
+            }
+
+            /* =========================================================
+               10. ICALENDAR FILE GENERATION
+               ========================================================= */
+            function downloadCalendarFile() {
+                const icsContent = 
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Pravaah IIT Bhubaneswar//Festival Schedule//EN
+BEGIN:VEVENT
+SUMMARY:Pravaah 2026 - Annual Fest IIT Bhubaneswar
+DESCRIPTION:Official festival participation for Aarav Mehta at IIT Bhubaneswar (Kairos Multiverse Edition).
+LOCATION:IIT Bhubaneswar Main Campus, Argul, Jatni, Odisha
+DTSTART:20261015T090000Z
+DTEND:20261018T230000Z
+STATUS:CONFIRMED
+END:VEVENT
+END:VCALENDAR`;
+
+                const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.setAttribute('download', 'Pravaah_2026_IITBBS.ics');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                showToast('📅 Added Pravaah 2026 to calendar (.ics download)');
+            }
+
+            /* =========================================================
+               11. COSMIC NAV WHEEL PILL ALIGNMENT
+               ========================================================= */
+            const activeNav = document.querySelector('.nav-item.active');
+            const pill = document.getElementById('nav-indicator-pill');
+
+            function updateNavPill() {
+                if (!activeNav || !pill) return;
+                pill.style.left = `${activeNav.offsetLeft}px`;
+                pill.style.width = `${activeNav.offsetWidth}px`;
+            }
+
+            updateNavPill();
+            setTimeout(updateNavPill, 100);
+            window.addEventListener('resize', updateNavPill);
         });
 
-    </script>
+        /* =========================================================
+           GLOBAL HELPER FUNCTIONS (MODALS, TOAST, MEALS)
+           ========================================================= */
+        function openModal(id) {
+            const m = document.getElementById(id);
+            if (m) m.classList.add('active');
+        }
 
+        function closeModal(id) {
+            const m = document.getElementById(id);
+            if (m) m.classList.remove('active');
+        }
+
+        let toastTimer;
+        function showToast(msg) {
+            const t = document.getElementById('pfToast');
+            const txt = document.getElementById('pfToastText');
+            if (!t || !txt) return;
+
+            clearTimeout(toastTimer);
+            txt.textContent = msg;
+            t.classList.add('show');
+            toastTimer = setTimeout(() => {
+                t.classList.remove('show');
+            }, 3000);
+        }
+
+        function openTicketModal(name, time, venue, attendee, cat) {
+            document.getElementById('ticketEventName').textContent = name;
+            document.getElementById('ticketDateTime').textContent = time;
+            document.getElementById('ticketVenue').textContent = venue;
+            document.getElementById('ticketAttendee').textContent = attendee;
+            document.getElementById('ticketCategoryTag').textContent = cat;
+            openModal('ticketModal');
+        }
+
+        function toggleMeal(pill, mealName) {
+            pill.classList.toggle('redeemed');
+            if (pill.classList.contains('redeemed')) {
+                showToast(`✓ Redeemed: ${mealName} token.`);
+            } else {
+                showToast(`↺ Restored: ${mealName} token.`);
+            }
+        }
+    </script>
 </body>
 </html>

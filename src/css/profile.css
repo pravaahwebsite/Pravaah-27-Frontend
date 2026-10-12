@@ -1,0 +1,2308 @@
+/* ==========================================================================
+   PRAVAAH '26 // OFFICIAL PARTICIPANT PROFILE CONSOLE STYLESHEET
+   IIT BHUBANESWAR ANNUAL FESTIVAL (KAIROS MULTIVERSE EDITION)
+   Aesthetic: Ultra-Minimalist Cyber Obsidian, Electric Cyan, HUD Accents
+   ========================================================================== */
+
+:root {
+    --pf-bg-base: #06030e;
+    --pf-bg-surface: rgba(14, 10, 28, 0.76);
+    --pf-bg-surface-hover: rgba(20, 14, 38, 0.88);
+    --pf-border: rgba(255, 255, 255, 0.08);
+    --pf-border-hover: rgba(0, 210, 255, 0.35);
+    
+    --pf-cyan: #00d2ff;
+    --pf-cyan-glow: rgba(0, 210, 255, 0.25);
+    --pf-cyan-dim: rgba(0, 210, 255, 0.08);
+    
+    --pf-indigo: #6366f1;
+    --pf-indigo-dim: rgba(99, 102, 241, 0.12);
+    
+    --pf-text-main: #ffffff;
+    --pf-text-muted: #94a8c7;
+    --pf-text-dim: #64748b;
+    
+    --pf-radius-lg: 18px;
+    --pf-radius-md: 12px;
+    --pf-radius-sm: 8px;
+    
+    --pf-ease: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   1. CRITICAL DOCUMENT FLOW RESETS (PREVENTS GLOBAL POSITION: ABSOLUTE OVERLAP)
+   ========================================================================== */
+body.subpage-body {
+    min-height: 100vh !important;
+    height: auto !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    background-color: var(--pf-bg-base) !important;
+}
+
+body.subpage-body .subpage-main {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    min-height: calc(100vh - 105px) !important;
+    height: auto !important;
+    padding: 110px 24px 80px 24px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    flex: 1 0 auto !important;
+    z-index: 5 !important;
+    overflow-y: visible !important;
+    overflow-x: hidden !important;
+}
+
+body.subpage-body .profile-wrapper {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    max-width: 1320px !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 28px !important;
+    z-index: 10 !important;
+}
+
+/* Force document flow on all profile descendants and neutralize global section styles */
+.profile-wrapper,
+.profile-wrapper div,
+.profile-wrapper aside,
+.profile-wrapper article,
+.profile-wrapper header,
+.profile-wrapper section,
+.subpage-main section {
+    box-sizing: border-box;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: auto;
+    height: auto;
+    max-height: none !important;
+    overflow: visible;
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* ==========================================================================
+   2. HERO HEADER & FESTIVAL TAG
+   ========================================================================== */
+.pf-hero {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    margin-bottom: 4px !important;
+}
+
+.pf-hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--pf-cyan);
+    background: rgba(0, 210, 255, 0.08);
+    border: 1px solid rgba(0, 210, 255, 0.25);
+    padding: 6px 18px;
+    border-radius: 30px;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    box-shadow: 0 0 16px rgba(0, 210, 255, 0.12);
+}
+
+.pf-hero-tag .live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--pf-cyan);
+    box-shadow: 0 0 8px var(--pf-cyan);
+    animation: pfPulse 2s infinite ease-in-out;
+}
+
+@keyframes pfPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.35; transform: scale(0.85); }
+}
+
+.pf-hero-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2rem, 4.2vw, 3.2rem);
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    color: #ffffff;
+    margin: 0 0 10px 0;
+    line-height: 1.15;
+    text-shadow: 0 0 25px rgba(0, 210, 255, 0.25);
+}
+
+.pf-hero-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    color: var(--pf-text-muted);
+    max-width: 720px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ==========================================================================
+   3. LIVE COUNTDOWN & FESTIVAL TIMELINE BAR
+   ========================================================================== */
+.pf-countdown-bar {
+    width: 100%;
+    background: linear-gradient(90deg, rgba(14, 10, 28, 0.85) 0%, rgba(20, 14, 40, 0.9) 50%, rgba(14, 10, 28, 0.85) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 210, 255, 0.2);
+    border-radius: var(--pf-radius-md);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(0, 210, 255, 0.03);
+}
+
+.pf-countdown-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.pf-countdown-left .pulse-beacon {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #00d2ff;
+    box-shadow: 0 0 10px #00d2ff;
+    animation: pfPulse 1.5s infinite;
+}
+
+.pf-countdown-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: var(--pf-cyan);
+}
+
+.pf-countdown-timer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.pf-time-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    padding: 4px 8px;
+    min-width: 44px;
+}
+
+.pf-time-unit .t-val {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1;
+}
+
+.pf-time-unit .t-lbl {
+    font-size: 0.52rem;
+    font-weight: 600;
+    color: var(--pf-text-dim);
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+}
+
+.pf-countdown-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.75rem;
+    color: var(--pf-text-muted);
+}
+
+.pf-countdown-right i {
+    color: var(--pf-cyan);
+}
+
+/* ==========================================================================
+   4. TOP 4-COLUMN METRIC CARDS
+   ========================================================================== */
+.pf-metrics-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 16px !important;
+    width: 100% !important;
+}
+
+.pf-metric-card {
+    background: var(--pf-bg-surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius-lg);
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: var(--pf-ease);
+    position: relative;
+    overflow: hidden;
+}
+
+.pf-metric-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 80% 20%, rgba(0, 210, 255, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    opacity: 0;
+    transition: var(--pf-ease);
+}
+
+.pf-metric-card:hover {
+    transform: translateY(-3px) !important;
+    border-color: var(--pf-border-hover);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 210, 255, 0.12);
+}
+
+.pf-metric-card:hover::before {
+    opacity: 1;
+}
+
+.pf-metric-icon {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    border-radius: var(--pf-radius-md);
+    background: var(--pf-cyan-dim);
+    border: 1px solid rgba(0, 210, 255, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--pf-cyan);
+    font-size: 1.25rem;
+    transition: var(--pf-ease);
+}
+
+.pf-metric-card:hover .pf-metric-icon {
+    transform: scale(1.06);
+    border-color: var(--pf-cyan);
+    box-shadow: 0 0 16px rgba(0, 210, 255, 0.35);
+}
+
+.pf-metric-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.pf-metric-number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+}
+
+.pf-metric-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--pf-text-dim);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.pf-metric-subtext {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: var(--pf-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ==========================================================================
+   5. TWO-COLUMN CONSOLE GRID LAYOUT
+   ========================================================================== */
+.pf-console-layout {
+    display: grid !important;
+    grid-template-columns: 345px minmax(0, 1fr) !important;
+    gap: 22px !important;
+    width: 100% !important;
+    align-items: start !important;
+    position: relative !important;
+}
+
+/* ==========================================================================
+   6. LEFT SIDEBAR: AUTHENTIC DELEGATE PASS & ACTIONS
+   ========================================================================== */
+.pf-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+/* Holographic Delegate Badge */
+.pf-id-card {
+    background: linear-gradient(145deg, rgba(16, 12, 34, 0.9) 0%, rgba(9, 7, 20, 0.98) 100%);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(0, 210, 255, 0.32);
+    border-radius: 22px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.6), inset 0 0 25px rgba(0, 210, 255, 0.04);
+    transition: var(--pf-ease);
+}
+
+/* Holographic Shimmer Effect */
+.pf-id-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), rgba(0, 210, 255, 0.1), transparent);
+    transform: skewX(-25deg);
+    animation: holoSheen 6s infinite ease-in-out;
+    pointer-events: none;
+}
+
+@keyframes holoSheen {
+    0%, 70% { left: -100%; }
+    100% { left: 200%; }
+}
+
+/* Top Lanyard Slot Simulation */
+.pf-lanyard-slot {
+    width: 54px;
+    height: 8px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 0 auto -6px auto;
+}
+
+/* Card Header */
+.pf-id-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    padding-bottom: 14px;
+}
+
+.pf-id-brand {
+    display: flex;
+    flex-direction: column;
+}
+
+.pf-id-fest-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    color: var(--pf-cyan);
+}
+
+.pf-id-fest-edition {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--pf-text-dim);
+    letter-spacing: 0.05em;
+}
+
+.pf-id-status-badge {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #00d2ff;
+    background: rgba(0, 210, 255, 0.1);
+    border: 1px solid rgba(0, 210, 255, 0.35);
+    padding: 4px 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pf-id-status-badge .badge-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--pf-cyan);
+    box-shadow: 0 0 6px var(--pf-cyan);
+    animation: pfPulse 1.8s infinite ease-in-out;
+}
+
+/* User Identity Section */
+.pf-user-strip {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.pf-avatar-wrapper {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    min-width: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(0, 210, 255, 0.15), rgba(99, 102, 241, 0.2));
+    border: 2px solid var(--pf-cyan);
+    box-shadow: 0 0 20px rgba(0, 210, 255, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    transition: var(--pf-ease);
+}
+
+.pf-avatar-wrapper:hover {
+    transform: scale(1.04);
+    box-shadow: 0 0 28px rgba(0, 210, 255, 0.5);
+}
+
+.pf-avatar-initials {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #ffffff;
+    user-select: none;
+}
+
+.pf-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.pf-avatar-upload-trigger {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #00d2ff;
+    color: #06030e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    border: 1.5px solid #06030e;
+    transition: var(--pf-ease);
+}
+
+.pf-user-identity {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.pf-id-clearance {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    color: var(--pf-cyan);
+    text-transform: uppercase;
+}
+
+.pf-user-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.25;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pf-user-college {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    color: var(--pf-text-muted);
+    line-height: 1.35;
+}
+
+.pf-user-dept {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    color: var(--pf-text-dim);
+}
+
+/* Info Grid */
+.pf-id-matrix {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.pf-matrix-cell {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--pf-radius-sm);
+    padding: 9px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+    transition: var(--pf-ease);
+}
+
+.pf-matrix-cell:hover {
+    border-color: rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.pf-matrix-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--pf-text-dim);
+    text-transform: uppercase;
+}
+
+.pf-matrix-value {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #ffffff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pf-matrix-value.accent-cyan {
+    color: var(--pf-cyan);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+/* Scannable Gate QR Frame */
+.pf-qr-container {
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(0, 210, 255, 0.22);
+    border-radius: var(--pf-radius-md);
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+}
+
+.pf-qr-frame {
+    width: 82px;
+    height: 82px;
+    min-width: 82px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--pf-cyan);
+    border-radius: var(--pf-radius-sm);
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    color: #ffffff;
+}
+
+.pf-qr-laser {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--pf-cyan);
+    box-shadow: 0 0 10px var(--pf-cyan), 0 0 4px #ffffff;
+    animation: pfLaserScan 2.4s infinite ease-in-out alternate;
+}
+
+@keyframes pfLaserScan {
+    0% { top: 4px; }
+    100% { top: 76px; }
+}
+
+.pf-qr-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.pf-qr-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--pf-cyan);
+}
+
+.pf-qr-desc {
+    font-size: 0.72rem;
+    color: var(--pf-text-muted);
+    line-height: 1.4;
+    margin: 0;
+}
+
+.pf-qr-actions-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.pf-mini-btn {
+    background: rgba(0, 210, 255, 0.08);
+    border: 1px solid rgba(0, 210, 255, 0.25);
+    color: var(--pf-cyan);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 5px 9px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: var(--pf-ease);
+}
+
+.pf-mini-btn:hover {
+    background: var(--pf-cyan);
+    color: #06030e;
+    box-shadow: 0 0 12px rgba(0, 210, 255, 0.35);
+}
+
+/* Quick Utilities Box */
+.pf-actions-box {
+    background: var(--pf-bg-surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius-lg);
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pf-box-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: var(--pf-text-muted);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pf-btn-primary {
+    width: 100%;
+    background: linear-gradient(90deg, #00d2ff 0%, #0099ff 100%);
+    color: #06030e;
+    border: none;
+    padding: 12px 16px;
+    border-radius: var(--pf-radius-md);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 18px rgba(0, 210, 255, 0.28);
+    transition: var(--pf-ease);
+}
+
+.pf-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 210, 255, 0.45);
+    filter: brightness(1.08);
+}
+
+.pf-btn-outline {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    padding: 10px 14px;
+    border-radius: var(--pf-radius-md);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: var(--pf-ease);
+}
+
+.pf-btn-outline:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--pf-cyan);
+    color: var(--pf-cyan);
+    transform: translateY(-2px);
+}
+
+/* Emergency Support Card */
+.pf-emergency-card {
+    background: rgba(14, 10, 28, 0.5);
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: var(--pf-radius-lg);
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pf-contact-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.75rem;
+}
+
+.pf-contact-label {
+    color: var(--pf-text-dim);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pf-contact-val {
+    color: var(--pf-text-muted);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+}
+
+.pf-contact-val a {
+    color: var(--pf-cyan);
+    text-decoration: none;
+    transition: var(--pf-ease);
+}
+
+.pf-contact-val a:hover {
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   7. RIGHT COLUMN: TABS & CONTENT PANELS
+   ========================================================================== */
+.pf-main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+}
+
+/* Tab Bar Navigation */
+.pf-tabs-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(10, 7, 22, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius-lg);
+    padding: 5px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 210, 255, 0.3) rgba(255, 255, 255, 0.02);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.pf-tabs-nav::-webkit-scrollbar {
+    height: 3px;
+}
+
+.pf-tabs-nav::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 4px;
+}
+
+.pf-tabs-nav::-webkit-scrollbar-thumb {
+    background: rgba(0, 210, 255, 0.35);
+    border-radius: 4px;
+}
+
+.pf-tabs-nav::-webkit-scrollbar-thumb:hover {
+    background: var(--pf-cyan);
+}
+
+.pf-tab-btn {
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: nowrap;
+    background: transparent;
+    border: none;
+    padding: 8px 10px;
+    border-radius: var(--pf-radius-md);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--pf-text-dim);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: var(--pf-ease);
+}
+
+.pf-tab-btn i {
+    font-size: 0.72rem;
+    flex-shrink: 0;
+}
+
+.pf-tab-btn span {
+    white-space: nowrap;
+}
+
+.pf-tab-btn:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.pf-tab-btn.active {
+    background: rgba(0, 210, 255, 0.12);
+    border: 1px solid rgba(0, 210, 255, 0.35);
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.18);
+}
+
+.pf-tab-badge {
+    font-size: 0.62rem;
+    padding: 2px 7px;
+    border-radius: 10px;
+    background: rgba(0, 210, 255, 0.15);
+    color: var(--pf-cyan);
+    border: 1px solid rgba(0, 210, 255, 0.3);
+}
+
+/* Tab Content Panel */
+.pf-tab-panel {
+    display: none;
+    background: var(--pf-bg-surface);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--pf-border);
+    border-radius: 20px;
+    padding: 26px;
+    flex-direction: column;
+    gap: 22px;
+    width: 100%;
+    animation: pfPanelFade 0.35s ease forwards;
+}
+
+.pf-tab-panel.active {
+    display: flex !important;
+}
+
+@keyframes pfPanelFade {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Panel Header Row */
+.pf-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    padding-bottom: 16px;
+    width: 100%;
+}
+
+.pf-panel-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.pf-panel-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: #ffffff;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pf-panel-desc {
+    font-size: 0.8rem;
+    color: var(--pf-text-dim);
+    margin: 0;
+}
+
+/* Filter Controls & Search Bar */
+.pf-filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 100%;
+}
+
+.pf-filter-pills {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.pf-filter-pill {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--pf-text-dim);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--pf-ease);
+}
+
+.pf-filter-pill:hover {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.pf-filter-pill.active {
+    background: rgba(0, 210, 255, 0.12);
+    border-color: var(--pf-cyan);
+    color: var(--pf-cyan);
+}
+
+.pf-search-box {
+    position: relative;
+    min-width: 220px;
+}
+
+.pf-search-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 20px;
+    padding: 7px 12px 7px 32px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    color: #ffffff;
+    outline: none;
+    transition: var(--pf-ease);
+}
+
+.pf-search-input:focus {
+    border-color: var(--pf-cyan);
+    background: rgba(0, 210, 255, 0.04);
+    box-shadow: 0 0 12px rgba(0, 210, 255, 0.2);
+}
+
+.pf-search-icon {
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.75rem;
+    color: var(--pf-text-dim);
+    pointer-events: none;
+}
+
+/* ==========================================================================
+   8. TAB 1: EVENTS LIST & CARDS
+   ========================================================================= */
+.pf-events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.pf-event-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: var(--pf-radius-md);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    transition: var(--pf-ease);
+    width: 100%;
+}
+
+.pf-event-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(0, 210, 255, 0.3);
+    transform: translateX(4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.pf-event-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+    flex: 1;
+}
+
+.pf-event-cat-tag {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    padding: 7px 11px;
+    border-radius: var(--pf-radius-sm);
+    background: rgba(0, 210, 255, 0.1);
+    border: 1px solid rgba(0, 210, 255, 0.3);
+    color: var(--pf-cyan);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.pf-event-cat-tag.cult {
+    background: rgba(99, 102, 241, 0.12);
+    border-color: rgba(99, 102, 241, 0.35);
+    color: #a5b4fc;
+}
+
+.pf-event-cat-tag.game {
+    background: rgba(255, 42, 75, 0.12);
+    border-color: rgba(255, 42, 75, 0.35);
+    color: #ff6b81;
+}
+
+.pf-event-cat-tag.workshop {
+    background: rgba(255, 170, 0, 0.12);
+    border-color: rgba(255, 170, 0, 0.35);
+    color: #fbc531;
+}
+
+.pf-event-details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+}
+
+.pf-event-title-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.pf-event-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+}
+
+.pf-status-badge {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    padding: 2px 7px;
+    border-radius: 12px;
+    background: rgba(0, 210, 255, 0.1);
+    color: var(--pf-cyan);
+    border: 1px solid rgba(0, 210, 255, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.pf-event-meta-line {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 0.74rem;
+    color: var(--pf-text-dim);
+}
+
+.pf-event-meta-line span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pf-event-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.pf-event-btn {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 7px 12px;
+    border-radius: var(--pf-radius-sm);
+    cursor: pointer;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--pf-ease);
+}
+
+.pf-event-btn:hover {
+    background: var(--pf-cyan);
+    color: #06030e;
+    border-color: var(--pf-cyan);
+    box-shadow: 0 0 14px rgba(0, 210, 255, 0.3);
+}
+
+/* ==========================================================================
+   9. TAB 2: DIGITAL GATE PASS & RFID
+   ========================================================================== */
+.pf-pass-showcase {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+}
+
+.pf-pass-visual {
+    background: linear-gradient(135deg, rgba(16, 12, 38, 0.95), rgba(8, 6, 20, 0.98));
+    border: 1px solid rgba(0, 210, 255, 0.3);
+    border-radius: 18px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+}
+
+.pf-pass-visual::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 210, 255, 0.2) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.pf-pass-seal-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pf-pass-fest-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    color: #ffffff;
+}
+
+.pf-pass-fest-logo span {
+    color: var(--pf-cyan);
+}
+
+.pf-pass-badge-type {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: var(--pf-cyan);
+    background: rgba(0, 210, 255, 0.1);
+    border: 1px solid rgba(0, 210, 255, 0.35);
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.pf-pass-barcode-box {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.pf-fake-barcode {
+    width: 90%;
+    height: 38px;
+    background: repeating-linear-gradient(90deg, #ffffff 0px, #ffffff 2px, transparent 2px, transparent 4px, #ffffff 4px, #ffffff 7px, transparent 7px, transparent 9px, #ffffff 9px, #ffffff 10px, transparent 10px, transparent 13px, #ffffff 13px, #ffffff 17px, transparent 17px, transparent 19px);
+    opacity: 0.85;
+}
+
+.pf-barcode-code {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    color: var(--pf-text-muted);
+}
+
+/* Access Privileges Checklist */
+.pf-privileges-box {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.pf-privilege-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--pf-radius-sm);
+    padding: 12px 14px;
+}
+
+.pf-privilege-icon {
+    color: var(--pf-cyan);
+    font-size: 1rem;
+    margin-top: 1px;
+}
+
+.pf-privilege-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 2px;
+}
+
+.pf-privilege-desc {
+    font-size: 0.75rem;
+    color: var(--pf-text-dim);
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* NFC Simulator */
+.pf-nfc-card {
+    grid-column: 1 / -1;
+    background: rgba(0, 210, 255, 0.03);
+    border: 1px solid rgba(0, 210, 255, 0.15);
+    border-radius: var(--pf-radius-md);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.pf-nfc-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.pf-nfc-wave {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(0, 210, 255, 0.1);
+    border: 1px solid rgba(0, 210, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--pf-cyan);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: var(--pf-ease);
+}
+
+.pf-nfc-wave.scanning {
+    animation: pfNfcTap 1s infinite alternate;
+}
+
+@keyframes pfNfcTap {
+    0% { transform: scale(1); box-shadow: 0 0 10px rgba(0, 210, 255, 0.3); }
+    100% { transform: scale(1.15); box-shadow: 0 0 25px rgba(0, 210, 255, 0.7); }
+}
+
+/* ==========================================================================
+   10. TAB 3: ACCOMMODATION & MESS
+   ========================================================================== */
+.pf-accom-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 20px;
+    width: 100%;
+}
+
+.pf-hostel-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 18px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.pf-hostel-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding-bottom: 14px;
+}
+
+.pf-hostel-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: var(--pf-radius-md);
+    background: var(--pf-cyan-dim);
+    border: 1px solid rgba(0, 210, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--pf-cyan);
+    font-size: 1.3rem;
+}
+
+.pf-hostel-title-box h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+}
+
+.pf-hostel-title-box p {
+    font-size: 0.78rem;
+    color: var(--pf-text-dim);
+    margin: 2px 0 0 0;
+}
+
+.pf-hostel-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+/* Digital Mess Coupon Tracker */
+.pf-mess-box {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 18px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.pf-meal-days-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pf-meal-day-card {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--pf-radius-sm);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.pf-day-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--pf-cyan);
+}
+
+.pf-meal-pills {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pf-meal-pill {
+    font-size: 0.62rem;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: rgba(0, 210, 255, 0.08);
+    border: 1px solid rgba(0, 210, 255, 0.25);
+    color: var(--pf-cyan);
+    cursor: pointer;
+    transition: var(--pf-ease);
+}
+
+.pf-meal-pill.redeemed {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: var(--pf-text-dim);
+    text-decoration: line-through;
+}
+
+.pf-meal-pill:hover {
+    transform: scale(1.05);
+    border-color: var(--pf-cyan);
+}
+
+/* ==========================================================================
+   11. TAB 4: SQUADS & CONTINGENT
+   ========================================================================== */
+.pf-squad-container {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 100%;
+}
+
+.pf-squad-banner {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(0, 210, 255, 0.06) 100%);
+    border: 1px solid rgba(0, 210, 255, 0.2);
+    border-radius: 16px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.pf-squad-info h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: #ffffff;
+    margin: 0;
+    letter-spacing: 0.05em;
+}
+
+.pf-squad-info p {
+    font-size: 0.8rem;
+    color: var(--pf-text-muted);
+    margin: 4px 0 0 0;
+}
+
+.pf-squad-code-pill {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--pf-cyan);
+    border-radius: var(--pf-radius-md);
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: var(--pf-ease);
+}
+
+.pf-squad-code-pill:hover {
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.35);
+}
+
+.pf-members-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    width: 100%;
+}
+
+.pf-member-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: var(--pf-radius-md);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    transition: var(--pf-ease);
+}
+
+.pf-member-card:hover {
+    border-color: rgba(0, 210, 255, 0.3);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.pf-member-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.pf-member-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--pf-cyan-dim);
+    border: 1px solid rgba(0, 210, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
+.pf-member-info h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pf-member-info p {
+    font-size: 0.72rem;
+    color: var(--pf-text-dim);
+    margin: 2px 0 0 0;
+}
+
+/* ==========================================================================
+   12. TAB 5: CERTIFICATES & BADGES
+   ========================================================================== */
+.pf-vault-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    width: 100%;
+}
+
+.pf-cert-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: var(--pf-ease);
+}
+
+.pf-cert-card:hover {
+    border-color: rgba(0, 210, 255, 0.35);
+    background: rgba(255, 255, 255, 0.04);
+    transform: translateY(-2px);
+}
+
+.pf-cert-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pf-cert-icon {
+    font-size: 1.5rem;
+    color: var(--pf-cyan);
+}
+
+.pf-cert-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+}
+
+.pf-cert-desc {
+    font-size: 0.75rem;
+    color: var(--pf-text-dim);
+    line-height: 1.45;
+    margin: 0;
+}
+
+/* ==========================================================================
+   13. TAB 6: NOTICES & ALERTS
+   ========================================================================== */
+.pf-notices-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.pf-notice-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-left: 3px solid var(--pf-cyan);
+    border-radius: var(--pf-radius-md);
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: var(--pf-ease);
+}
+
+.pf-notice-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-left-color: #ffffff;
+}
+
+.pf-notice-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pf-notice-subject {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.pf-notice-time {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    color: var(--pf-text-dim);
+}
+
+.pf-notice-body {
+    font-size: 0.78rem;
+    color: var(--pf-text-muted);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ==========================================================================
+   14. TAB 7: FEST KARMA & LEADERBOARD
+   ========================================================================== */
+.pf-karma-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+}
+
+.pf-karma-box {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.pf-progress-track {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+.pf-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00d2ff, #6366f1);
+    box-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+    border-radius: 4px;
+    transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Day Filter Pills & Filter Groups */
+.pf-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.pf-day-pills-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding-top: 4px;
+}
+
+.pf-filter-sublabel {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--pf-text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.pf-day-pill {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--pf-text-dim);
+    padding: 4px 11px;
+    border-radius: 14px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--pf-ease);
+}
+
+.pf-day-pill:hover {
+    color: #ffffff;
+    border-color: rgba(0, 210, 255, 0.35);
+}
+
+.pf-day-pill.active {
+    background: rgba(0, 210, 255, 0.14);
+    border-color: var(--pf-cyan);
+    color: var(--pf-cyan);
+    box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
+}
+
+/* Dynamic Gate Pass Security Token */
+.pf-dynamic-token-card {
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(0, 210, 255, 0.28);
+    border-radius: var(--pf-radius-md);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 100%;
+    box-shadow: inset 0 0 15px rgba(0, 210, 255, 0.03);
+}
+
+.pf-token-left {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.pf-token-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--pf-text-dim);
+    letter-spacing: 0.1em;
+}
+
+.pf-token-val {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--pf-cyan);
+    letter-spacing: 0.14em;
+    text-shadow: 0 0 12px rgba(0, 210, 255, 0.4);
+}
+
+.pf-token-timer-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.68rem;
+    color: var(--pf-text-dim);
+}
+
+.pf-token-ring {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 210, 255, 0.25);
+    border-top-color: var(--pf-cyan);
+    animation: pfSpin 2s linear infinite;
+}
+
+@keyframes pfSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* Wi-Fi & Roommate Cards */
+.pf-wifi-card {
+    background: rgba(0, 210, 255, 0.04);
+    border: 1px solid rgba(0, 210, 255, 0.22);
+    border-radius: var(--pf-radius-md);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.pf-roommate-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: var(--pf-radius-md);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+/* Tab 7: Badges Grid & Leaderboard Table */
+.pf-badges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 12px;
+    width: 100%;
+}
+
+.pf-badge-item {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 14px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    transition: var(--pf-ease);
+}
+
+.pf-badge-item.unlocked {
+    border-color: rgba(0, 210, 255, 0.35);
+    background: rgba(0, 210, 255, 0.05);
+}
+
+.pf-badge-item.unlocked:hover {
+    transform: translateY(-2px);
+    border-color: var(--pf-cyan);
+    box-shadow: 0 4px 16px rgba(0, 210, 255, 0.25);
+}
+
+.pf-badge-item.locked {
+    opacity: 0.55;
+}
+
+.pf-badge-icon {
+    font-size: 1.6rem;
+    color: var(--pf-cyan);
+}
+
+.pf-badge-item.locked .pf-badge-icon {
+    color: var(--pf-text-dim);
+}
+
+.pf-badge-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.pf-badge-desc {
+    font-size: 0.62rem;
+    color: var(--pf-text-dim);
+}
+
+.pf-leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 6px;
+}
+
+.pf-leaderboard-table th {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--pf-text-dim);
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.pf-leaderboard-table td {
+    padding: 10px;
+    font-size: 0.78rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    color: #ffffff;
+}
+
+.pf-leaderboard-table tr:hover td {
+    background: rgba(0, 210, 255, 0.04);
+}
+
+.pf-rank-pill {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.pf-rank-1 { background: rgba(255, 215, 0, 0.15); color: #ffd700; border: 1px solid rgba(255, 215, 0, 0.4); }
+.pf-rank-2 { background: rgba(192, 192, 192, 0.15); color: #c0c0c0; border: 1px solid rgba(192, 192, 192, 0.4); }
+.pf-rank-3 { background: rgba(205, 127, 50, 0.15); color: #cd7f32; border: 1px solid rgba(205, 127, 50, 0.4); }
+
+/* Campus Emergency SOS Button & Modal */
+.pf-btn-sos {
+    background: rgba(255, 68, 68, 0.1) !important;
+    border: 1px solid rgba(255, 68, 68, 0.35) !important;
+    color: #ff7676 !important;
+    transition: var(--pf-ease);
+}
+
+.pf-btn-sos:hover {
+    background: rgba(255, 68, 68, 0.22) !important;
+    border-color: #ff4d4d !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 16px rgba(255, 68, 68, 0.4) !important;
+}
+
+.pf-sos-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.pf-sos-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--pf-radius-md);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.pf-sos-info h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+}
+
+.pf-sos-info p {
+    font-size: 0.72rem;
+    color: var(--pf-text-dim);
+    margin: 2px 0 0 0;
+}
+
+.pf-sos-call-btn {
+    background: rgba(0, 210, 255, 0.12);
+    border: 1px solid var(--pf-cyan);
+    color: var(--pf-cyan);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--pf-ease);
+}
+
+.pf-sos-call-btn:hover {
+    background: var(--pf-cyan);
+    color: #06030e;
+    box-shadow: 0 0 12px rgba(0, 210, 255, 0.4);
+}
+
+/* ==========================================================================
+   15. MODALS & POPUPS
+   ========================================================================== */
+.pf-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(4, 2, 14, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.pf-modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.pf-modal-dialog {
+    background: linear-gradient(145deg, rgba(16, 12, 34, 0.96) 0%, rgba(8, 6, 20, 0.98) 100%);
+    border: 1px solid rgba(0, 210, 255, 0.35);
+    border-radius: 24px;
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 35px rgba(0, 210, 255, 0.2);
+    transform: scale(0.94);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.pf-modal-overlay.active .pf-modal-dialog {
+    transform: scale(1);
+}
+
+.pf-modal-close-btn {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--pf-text-dim);
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--pf-ease);
+}
+
+.pf-modal-close-btn:hover {
+    color: #ffffff;
+    border-color: var(--pf-cyan);
+    background: rgba(0, 210, 255, 0.1);
+}
+
+.pf-modal-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 6px 0;
+    letter-spacing: 0.04em;
+}
+
+.pf-modal-subtitle {
+    font-size: 0.8rem;
+    color: var(--pf-text-dim);
+    margin: 0 0 20px 0;
+}
+
+/* Form Grid */
+.pf-form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+}
+
+.pf-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.pf-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.pf-input-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--pf-text-muted);
+    text-transform: uppercase;
+}
+
+.pf-input-field {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--pf-radius-sm);
+    padding: 10px 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    color: #ffffff;
+    outline: none;
+    transition: var(--pf-ease);
+}
+
+.pf-input-field:focus {
+    border-color: var(--pf-cyan);
+    background: rgba(0, 210, 255, 0.04);
+    box-shadow: 0 0 14px rgba(0, 210, 255, 0.2);
+}
+
+/* ==========================================================================
+   16. MINIMALIST FLOATING TOAST
+   ========================================================================== */
+.pf-toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: rgba(14, 10, 32, 0.95);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--pf-cyan);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 210, 255, 0.25);
+    color: #ffffff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 12px 20px;
+    border-radius: var(--pf-radius-md);
+    z-index: 10001;
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pf-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+#passCanvas {
+    display: none;
+}
+
+/* ==========================================================================
+   17. RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+@media (max-width: 1080px) {
+    .pf-console-layout {
+        grid-template-columns: 1fr !important;
+    }
+    .pf-metrics-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    .pf-pass-showcase,
+    .pf-accom-grid,
+    .pf-karma-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 680px) {
+    body.subpage-body .subpage-main {
+        padding: 95px 14px 60px 14px !important;
+    }
+    .pf-metrics-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .pf-members-grid,
+    .pf-vault-grid,
+    .pf-id-matrix,
+    .pf-form-row {
+        grid-template-columns: 1fr;
+    }
+    .pf-tabs-nav {
+        justify-content: flex-start;
+    }
+    .pf-tab-btn {
+        font-size: 0.65rem;
+        padding: 8px 10px;
+    }
+    .pf-event-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .pf-event-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+    .pf-countdown-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

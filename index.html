@@ -20,7 +20,7 @@
     <div id="global-bg-layer" class="global-bg-layer"></div>
     <canvas id="starfield-canvas"></canvas>
 
-    <nav class="cosmic-nav-wheel hidden-nav" id="cosmic-nav-wheel">
+    <nav class="cosmic-nav-wheel" id="cosmic-nav-wheel">
         <div class="nav-wheel-track">
 
             <div class="nav-indicator-pill" id="nav-indicator-pill"></div>
@@ -45,142 +45,6 @@
         <div class="nav-wheel-glow"></div>
     </nav>
 
-    <section id="splash-screen" class="portal-warp-section active-screen">
-        <div class="glow-core"></div>
-        <div class="splash-content">
-
-            <div class="splash-highlights-panel">
-                <h3 class="splash-panel-title title-tech">FEST HIGHLIGHTS</h3>
-                <div class="highlight-item">
-                    <span class="hl-badge badge-tech">TECH</span>
-                    <div class="hl-name">ROBO SOCCER</div>
-                    <div class="hl-desc">Futuristic robotic arena championship.</div>
-                </div>
-                <div class="highlight-item">
-                    <span class="hl-badge badge-cult">CULT</span>
-                    <div class="hl-name">SYMPHONY</div>
-                    <div class="hl-desc">Battle of the rock & fusion bands.</div>
-                </div>
-                <div class="highlight-item">
-                    <span class="hl-badge badge-game">GAME</span>
-                    <div class="hl-name">VALORANT LAN</div>
-                    <div class="hl-desc">High stakes tactical esports finals.</div>
-                </div>
-            </div>
-
-            <div class="splash-logo-column">
-                <div class="big-septagon-portal-container">
-                    <svg width="0" height="0" style="position: absolute;">
-                        <defs>
-                            <linearGradient id="septagon-neon-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#ff007f" />
-                                <stop offset="40%" stop-color="#00f2fe" />
-                                <stop offset="75%" stop-color="#9d4edd" />
-                                <stop offset="100%" stop-color="#ff007f" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                    <div class="big-septagon-rotator">
-                        <div class="big-septagon-artwork-box">
-                            <img src="assets/images/vertical_draft1.jpg" alt="Big Septagon Portal Artwork" class="big-septagon-img">
-                            <div class="big-septagon-edge-shadow"></div>
-                        </div>
-                        <svg viewBox="0 0 100 100" class="big-septagon-frame-svg">
-                            <polygon points="50,2.5 87.1,20.4 96.3,60.6 70.6,92.8 29.4,92.8 3.7,60.6 12.9,20.4" class="big-septagon-border-glow" />
-                            <polygon points="50,2.5 87.1,20.4 96.3,60.6 70.6,92.8 29.4,92.8 3.7,60.6 12.9,20.4" class="big-septagon-border-main" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="logo-container">
-                    <div class="logo-pravaah-container">
-                        <span class="logo-pravaah spider-title" data-text="PRAVAAH">PRAVAAH</span>
-                        <span class="logo-edition-tag">3<sup>rd</sup> EDITION</span>
-                    </div>
-                    <h1 class="logo-title spider-title" data-text="KAIROS">KAIROS</h1>
-                    <div class="logo-subtitle-container">
-                        <div class="logo-subtitle">worlds unbound</div>
-                        <div class="subtitle-line">
-                            <span class="line-dot"></span>
-                            <span class="line-bar"></span>
-                            <span class="line-sparkle">✦</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- High-Tech Multiverse Live Countdown Timer -->
-                <div class="multiverse-countdown-container" id="multiverse-countdown">
-                    <div class="countdown-label">FESTIVAL IGNITION IN</div>
-                    <div class="countdown-units">
-                        <div class="countdown-card">
-                            <span class="count-val" id="cnt-days">00</span>
-                            <span class="count-lbl">DAYS</span>
-                        </div>
-                        <span class="countdown-sep">:</span>
-                        <div class="countdown-card">
-                            <span class="count-val" id="cnt-hours">00</span>
-                            <span class="count-lbl">HOURS</span>
-                        </div>
-                        <span class="countdown-sep">:</span>
-                        <div class="countdown-card">
-                            <span class="count-val" id="cnt-mins">00</span>
-                            <span class="count-lbl">MINS</span>
-                        </div>
-                        <span class="countdown-sep">:</span>
-                        <div class="countdown-card">
-                            <span class="count-val" id="cnt-secs">00</span>
-                            <span class="count-lbl">SECS</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="home-swipe-prompt" id="portal-entry-trigger" role="button" tabindex="0" title="Click or Swipe to Enter Multiverse Portal">
-                    <div class="home-enter-btn-glow"></div>
-                    <div class="home-enter-btn-content">
-                        <span class="home-enter-icon">✦</span>
-                        <span class="home-swipe-text">ENTER MULTIVERSE</span>
-                        <span class="home-enter-tag">SWIPE OR CLICK</span>
-                    </div>
-                    <div class="arrow-down-glowing home-swipe-arrow">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                    </div>
-                </div>
-            </div>
-
-            <div class="splash-status-panel">
-                <h3 class="splash-panel-title title-cult">PORTAL MATRIX</h3>
-                <div class="status-row">
-                    <div class="status-meta">
-                        <span class="status-name">TECH GATE</span>
-                        <span class="status-stat status-online">ONLINE (98%)</span>
-                    </div>
-                    <div class="status-bar"><div class="status-bar-fill fill-tech" style="width: 98%;"></div></div>
-                </div>
-                <div class="status-row">
-                    <div class="status-meta">
-                        <span class="status-name">CULT GATE</span>
-                        <span class="status-stat status-online">ONLINE (95%)</span>
-                    </div>
-                    <div class="status-bar"><div class="status-bar-fill fill-cult" style="width: 95%;"></div></div>
-                </div>
-                <div class="status-row">
-                    <div class="status-meta">
-                        <span class="status-name">GAME GATE</span>
-                        <span class="status-stat status-online">ONLINE (92%)</span>
-                    </div>
-                    <div class="status-bar"><div class="status-bar-fill fill-game" style="width: 92%;"></div></div>
-                </div>
-                <div class="status-row">
-                    <div class="status-meta">
-                        <span class="status-name">ENTRE GATE</span>
-                        <span class="status-stat status-stable">STABLE</span>
-                    </div>
-                    <div class="status-bar"><div class="status-bar-fill fill-ent" style="width: 85%;"></div></div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
     <section id="loader-screen" class="hidden portal-warp-section">
         <video id="portal-video" class="portal-video-element" playsinline preload="auto" muted>
             <source src="assets/videos/portal.mp4" type="video/mp4">
@@ -189,7 +53,143 @@
         <div id="portal-flash-overlay" class="portal-flash-overlay"></div>
     </section>
 
-    <main id="main-scroll-container">
+    <main id="main-scroll-container" class="scroll-enabled">
+
+        <section id="splash-screen" class="snap-page splash-screen-page active-screen">
+            <div class="glow-core"></div>
+            <div class="splash-content">
+
+                <div class="splash-highlights-panel scroll-reveal">
+                    <h3 class="splash-panel-title title-tech">FEST HIGHLIGHTS</h3>
+                    <div class="highlight-item">
+                        <span class="hl-badge badge-tech">TECH</span>
+                        <div class="hl-name">ROBO SOCCER</div>
+                        <div class="hl-desc">Futuristic robotic arena championship.</div>
+                    </div>
+                    <div class="highlight-item">
+                        <span class="hl-badge badge-cult">CULT</span>
+                        <div class="hl-name">SYMPHONY</div>
+                        <div class="hl-desc">Battle of the rock & fusion bands.</div>
+                    </div>
+                    <div class="highlight-item">
+                        <span class="hl-badge badge-game">GAME</span>
+                        <div class="hl-name">VALORANT LAN</div>
+                        <div class="hl-desc">High stakes tactical esports finals.</div>
+                    </div>
+                </div>
+
+                <div class="splash-logo-column">
+                    <div class="big-septagon-portal-container">
+                        <svg width="0" height="0" style="position: absolute;">
+                            <defs>
+                                <linearGradient id="septagon-neon-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#ff007f" />
+                                    <stop offset="40%" stop-color="#00f2fe" />
+                                    <stop offset="75%" stop-color="#9d4edd" />
+                                    <stop offset="100%" stop-color="#ff007f" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="big-septagon-rotator">
+                            <div class="big-septagon-artwork-box">
+                                <img src="assets/images/vertical_draft1.jpg" alt="Big Septagon Portal Artwork" class="big-septagon-img">
+                                <div class="big-septagon-edge-shadow"></div>
+                            </div>
+                            <svg viewBox="0 0 100 100" class="big-septagon-frame-svg">
+                                <polygon points="50,2.5 87.1,20.4 96.3,60.6 70.6,92.8 29.4,92.8 3.7,60.6 12.9,20.4" class="big-septagon-border-glow" />
+                                <polygon points="50,2.5 87.1,20.4 96.3,60.6 70.6,92.8 29.4,92.8 3.7,60.6 12.9,20.4" class="big-septagon-border-main" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="logo-container">
+                        <div class="logo-pravaah-container">
+                            <span class="logo-pravaah spider-title" data-text="PRAVAAH">PRAVAAH</span>
+                            <span class="logo-edition-tag">3<sup>rd</sup> EDITION</span>
+                        </div>
+                        <h1 class="logo-title spider-title" data-text="KAIROS">KAIROS</h1>
+                        <div class="logo-subtitle-container">
+                            <div class="logo-subtitle">worlds unbound</div>
+                            <div class="subtitle-line">
+                                <span class="line-dot"></span>
+                                <span class="line-bar"></span>
+                                <span class="line-sparkle">✦</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- High-Tech Multiverse Live Countdown Timer -->
+                    <div class="multiverse-countdown-container" id="multiverse-countdown">
+                        <div class="countdown-label">FESTIVAL IGNITION IN</div>
+                        <div class="countdown-units">
+                            <div class="countdown-card">
+                                <span class="count-val" id="cnt-days">00</span>
+                                <span class="count-lbl">DAYS</span>
+                            </div>
+                            <span class="countdown-sep">:</span>
+                            <div class="countdown-card">
+                                <span class="count-val" id="cnt-hours">00</span>
+                                <span class="count-lbl">HOURS</span>
+                            </div>
+                            <span class="countdown-sep">:</span>
+                            <div class="countdown-card">
+                                <span class="count-val" id="cnt-mins">00</span>
+                                <span class="count-lbl">MINS</span>
+                            </div>
+                            <span class="countdown-sep">:</span>
+                            <div class="countdown-card">
+                                <span class="count-val" id="cnt-secs">00</span>
+                                <span class="count-lbl">SECS</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="home-swipe-prompt" id="portal-entry-trigger" role="button" tabindex="0" title="Click or Scroll to Explore Multiverse">
+                        <div class="home-enter-btn-glow"></div>
+                        <div class="home-enter-btn-content">
+                            <span class="home-enter-icon">✦</span>
+                            <span class="home-swipe-text">EXPLORE MULTIVERSE</span>
+                            <span class="home-enter-tag">SCROLL OR CLICK</span>
+                        </div>
+                        <div class="arrow-down-glowing home-swipe-arrow">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="splash-status-panel scroll-reveal">
+                    <h3 class="splash-panel-title title-cult">PORTAL MATRIX</h3>
+                    <div class="status-row">
+                        <div class="status-meta">
+                            <span class="status-name">TECH GATE</span>
+                            <span class="status-stat status-online">ONLINE (98%)</span>
+                        </div>
+                        <div class="status-bar"><div class="status-bar-fill fill-tech" style="width: 98%;"></div></div>
+                    </div>
+                    <div class="status-row">
+                        <div class="status-meta">
+                            <span class="status-name">CULT GATE</span>
+                            <span class="status-stat status-online">ONLINE (95%)</span>
+                        </div>
+                        <div class="status-bar"><div class="status-bar-fill fill-cult" style="width: 95%;"></div></div>
+                    </div>
+                    <div class="status-row">
+                        <div class="status-meta">
+                            <span class="status-name">GAME GATE</span>
+                            <span class="status-stat status-online">ONLINE (92%)</span>
+                        </div>
+                        <div class="status-bar"><div class="status-bar-fill fill-game" style="width: 92%;"></div></div>
+                    </div>
+                    <div class="status-row">
+                        <div class="status-meta">
+                            <span class="status-name">ENTRE GATE</span>
+                            <span class="status-stat status-stable">STABLE</span>
+                        </div>
+                        <div class="status-bar"><div class="status-bar-fill fill-ent" style="width: 85%;"></div></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
 
         <section id="about-page" class="snap-page">
 
