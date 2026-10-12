@@ -1,184 +1,614 @@
 /* ============================================================
-   PRAVAAH 2026 — REGISTRATION PAGE STYLES
-   Exact design matching reference screenshots & Pravaha theme
+   PRAVAAH 2026 — FULLPAGE 3D CYBER ROOM REGISTRATION MATRIX
+   Immersive, Polished 3D Chamber Architecture (Zero Cut-Off Lines)
    ============================================================ */
 
-/* Force body vertical scroll and override global overflow:hidden */
-body.subpage-body.register-page-body {
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-    height: auto !important;
-    min-height: 100vh !important;
-    position: relative !important;
+:root {
+    --room-rot-y: 0deg;
+    --room-tilt-x: 0deg;
+    --room-tilt-y: 0deg;
+    --room-zoom-z: 0px;
 }
 
-/* Main Container Layout Override */
-.subpage-main.register-main-container {
-    width: 100% !important;
-    max-width: 1040px !important;
-    margin: 0 auto !important;
-    padding: 110px 24px 70px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 40px !important;
-    position: relative !important;
-    z-index: 2 !important;
-    box-sizing: border-box !important;
-    height: auto !important;
+/* 1. Fullpage Root & Body Lock */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
 }
 
-/* Override global section absolute positioning from style.css */
-.register-main-container section,
-.register-main-container .passes-card-container,
-.register-main-container .delegate-info-container,
-.register-main-container .notes-card-container,
-.register-main-container .selected-pass-container {
-    position: relative !important;
-    width: 100% !important;
-    height: auto !important;
-    min-height: 0 !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    transform: none !important;
-    margin: 0 !important;
-    z-index: 1 !important;
-    box-sizing: border-box !important;
+body.register-fullscreen-body {
+    width: 100vw !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+    position: fixed !important;
+    inset: 0 !important;
+    background: #020514 !important;
+    color: #f8fafc;
+    font-family: 'Inter', sans-serif;
+    user-select: none;
+}
+
+/* Background Cosmic Nebula Layers */
+.global-bg-layer.subpage-bg {
+    position: fixed;
+    inset: 0;
+    background: 
+        radial-gradient(circle at 50% 40%, rgba(0, 242, 254, 0.08) 0%, transparent 60%),
+        radial-gradient(circle at 80% 20%, rgba(207, 58, 214, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 20% 80%, rgba(0, 242, 254, 0.05) 0%, transparent 50%),
+        #020514;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.subpage-grid-overlay {
+    position: fixed;
+    inset: 0;
+    background-image: 
+        linear-gradient(to right, rgba(0, 242, 254, 0.025) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 242, 254, 0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Cosmic Nav Wheel Pinning */
+.cosmic-nav-wheel {
+    position: fixed !important;
+    top: 14px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 1000 !important;
 }
 
 /* ============================================================
-   SECTION A: COMPACT HERO HEADER
+   FULLPAGE 3D MATRIX MAIN CONTAINER
    ============================================================ */
-.register-hero-header {
-    text-align: center;
-    margin-bottom: 4px;
+.fullpage-3d-matrix {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================================================
+   PINNED TOP HUD & ROOM TABS (CLEAN, NO DIVIDER LINES)
+   ============================================================ */
+.room-top-hud {
+    position: absolute;
+    top: 76px;
+    left: 0;
+    width: 100%;
+    z-index: 120;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    width: 100%;
+    pointer-events: none;
 }
 
-.register-hero-badge {
+.hud-telemetry-cluster {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(6, 14, 34, 0.65);
+    border: 1px solid rgba(0, 242, 254, 0.25);
+    border-radius: 20px;
+    padding: 4px 16px;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 242, 254, 0.1);
+}
+
+.telemetry-dot.pulse {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #00ff88;
+    box-shadow: 0 0 8px #00ff88;
+    animation: telemetryPulse 1.8s infinite ease-in-out;
+}
+
+@keyframes telemetryPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.4); opacity: 0.4; }
+}
+
+.telemetry-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #00f2fe;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.hud-mode-pill {
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: rgba(207, 58, 214, 0.18);
+    border: 1px solid rgba(207, 58, 214, 0.6);
+    color: #f355da;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Floating Frosted Glass Capsule Tabs */
+.chamber-tabs-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(6, 14, 34, 0.72);
+    padding: 5px;
+    border-radius: 35px;
+    border: 1px solid rgba(0, 242, 254, 0.25);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 242, 254, 0.1);
+    backdrop-filter: blur(16px);
+    pointer-events: all;
+}
+
+.chamber-tab-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: rgba(255, 255, 255, 0.65);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    padding: 8px 18px;
+    border-radius: 25px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
+}
+
+.chamber-tab-btn .tab-index {
+    color: #00f2fe;
+    font-size: 0.68rem;
+    opacity: 0.85;
+}
+
+.chamber-tab-btn:hover {
+    color: #ffffff;
+    background: rgba(0, 242, 254, 0.1);
+    border-color: rgba(0, 242, 254, 0.35);
+}
+
+.chamber-tab-btn.active {
+    color: #ffffff;
+    background: linear-gradient(135deg, rgba(0, 242, 254, 0.32) 0%, rgba(207, 58, 214, 0.35) 100%);
+    border-color: #00f2fe;
+    box-shadow: 0 0 20px rgba(0, 242, 254, 0.4), inset 0 0 10px rgba(0, 242, 254, 0.2);
+}
+
+.chamber-tab-btn.active .tab-index {
+    color: #ffffff;
+    text-shadow: 0 0 8px #00f2fe;
+}
+
+/* ============================================================
+   FLOATING 3D NAVIGATION ARROW BUTTONS (VISIBLE PREV / NEXT TEXT)
+   ============================================================ */
+.room-3d-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 12px 22px;
+    border-radius: 30px;
+    background: rgba(8, 16, 38, 0.88);
+    border: 1.5px solid rgba(0, 242, 254, 0.45);
+    color: #00f2fe;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    z-index: 150;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 0 25px rgba(0, 242, 254, 0.25);
+    outline: none;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    user-select: none;
+}
+
+.room-3d-arrow i {
+    font-size: 0.95rem;
+    transition: transform 0.25s ease;
+}
+
+.arrow-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #ffffff;
+    transition: color 0.25s ease;
+}
+
+.room-3d-arrow.arrow-left {
+    left: 30px;
+}
+
+.room-3d-arrow.arrow-right {
+    right: 30px;
+}
+
+.room-3d-arrow:hover {
+    background: #00f2fe;
+    color: #040916;
+    border-color: #00f2fe;
+    transform: translateY(-50%) scale(1.06);
+    box-shadow: 0 0 35px rgba(0, 242, 254, 0.6);
+}
+
+.room-3d-arrow:hover .arrow-text {
+    color: #040916;
+}
+
+.room-3d-arrow.arrow-left:hover i {
+    transform: translateX(-3px);
+}
+
+.room-3d-arrow.arrow-right:hover i {
+    transform: translateX(3px);
+}
+
+/* ============================================================
+   3D WORLD STAGE (FULLSCREEN PERSPECTIVE)
+   ============================================================ */
+.room-3d-stage {
+    position: absolute;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    perspective: 1400px;
+    perspective-origin: 50% 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-style: preserve-3d;
+    overflow: hidden;
+    z-index: 10;
+}
+
+/* The 3D Rotating Room Container - Rock-Solid Stable */
+.room-3d-box {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    transform-style: preserve-3d;
+    transform: translateZ(calc(-50vw + var(--room-zoom-z, 0px))) 
+               rotateY(var(--room-rot-y, 0deg));
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+}
+
+/* 3D Seamless Floor Plane (NO CUT-OFF BORDERS, SOFT EDGE FADE) */
+.room-3d-floor {
+    position: absolute;
+    width: 100vw;
+    height: 100vw;
+    top: 50%;
+    left: 50%;
+    margin-left: -50vw;
+    margin-top: -50vw;
+    transform: rotateX(90deg) translateZ(50vh);
+    background: radial-gradient(circle at 50% 50%, rgba(0, 242, 254, 0.12) 0%, rgba(4, 9, 24, 0.9) 70%, transparent 95%);
+    border: none !important; /* Removed cut-off border line */
+    pointer-events: none;
+    overflow: hidden;
+    mask-image: radial-gradient(ellipse at center, black 25%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 25%, transparent 75%);
+}
+
+.floor-grid-lines {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(to right, rgba(0, 242, 254, 0.15) 1.5px, transparent 1.5px),
+        linear-gradient(to bottom, rgba(0, 242, 254, 0.15) 1.5px, transparent 1.5px);
+    background-size: 60px 60px;
+}
+
+.floor-radar-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(0, 242, 254, 0.35);
+    box-shadow: 0 0 30px rgba(0, 242, 254, 0.2);
+    animation: radarSpin 45s linear infinite;
+}
+
+@keyframes radarSpin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.floor-pedestal-singularity {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 18%;
+    height: 18%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 242, 254, 0.25) 0%, transparent 75%);
+    box-shadow: 0 0 45px rgba(0, 242, 254, 0.45);
+}
+
+/* 3D Seamless Ceiling Plane (UPPER ROOF MOVED DOWN TO PREVENT OVERLAP) */
+.room-3d-ceiling {
+    position: absolute;
+    width: 100vw;
+    height: 100vw;
+    top: 50%;
+    left: 50%;
+    margin-left: -50vw;
+    margin-top: -50vw;
+    transform: rotateX(-90deg) translateZ(40vh);
+    background: radial-gradient(circle at 50% 50%, rgba(207, 58, 214, 0.12) 0%, rgba(2, 6, 23, 0.9) 70%, transparent 95%);
+    border: none !important; /* Removed cut-off border line */
+    pointer-events: none;
+    overflow: hidden;
+    mask-image: radial-gradient(ellipse at center, black 25%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 25%, transparent 75%);
+}
+
+.ceiling-grid-lines {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(to right, rgba(207, 58, 214, 0.15) 1.5px, transparent 1.5px),
+        linear-gradient(to bottom, rgba(207, 58, 214, 0.15) 1.5px, transparent 1.5px);
+    background-size: 60px 60px;
+}
+
+.ceiling-light-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 25%;
+    height: 25%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(207, 58, 214, 0.3) 0%, transparent 70%);
+    box-shadow: 0 0 50px rgba(207, 58, 214, 0.5);
+}
+
+/* Volumetric Atmospheric Depth Glow */
+.room-ambient-nebula {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(0, 242, 254, 0.05) 0%, transparent 75%);
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* ============================================================
+   THE 4 FULLPAGE 3D ROOM WALLS
+   ============================================================ */
+.room-wall {
+    position: absolute;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 135px 4vw 50px;
+    pointer-events: none;
+    opacity: 0.3;
+    filter: brightness(0.4) blur(1.5px);
+    transition: opacity 0.5s ease, filter 0.5s ease;
+}
+
+.wall-front {
+    transform: rotateY(0deg) translateZ(50vw);
+}
+
+.wall-right {
+    transform: rotateY(90deg) translateZ(50vw);
+}
+
+.wall-back {
+    transform: rotateY(180deg) translateZ(50vw);
+}
+
+.wall-left {
+    transform: rotateY(270deg) translateZ(50vw);
+}
+
+.room-wall.active {
+    opacity: 1;
+    filter: brightness(1) blur(0);
+    pointer-events: all;
+}
+
+/* Wall Content Wrapper (Spacious, Expansive, Centered) */
+.wall-content-wrapper {
+    width: 100%;
+    max-width: 1320px;
+    height: 100%;
+    max-height: calc(100vh - 190px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 6px 18px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 242, 254, 0.4) transparent;
+}
+
+.wall-content-wrapper::-webkit-scrollbar {
+    width: 5px;
+}
+
+.wall-content-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(0, 242, 254, 0.4);
+    border-radius: 4px;
+}
+
+/* Wall Header Section */
+.wall-header-section {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.wall-badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 4px 14px;
     border-radius: 20px;
     background: rgba(0, 242, 254, 0.08);
-    border: 1px solid rgba(0, 242, 254, 0.3);
+    border: 1px solid rgba(0, 242, 254, 0.35);
     color: #00f2fe;
     font-family: 'Orbitron', sans-serif;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
-    box-shadow: 0 0 12px rgba(0, 242, 254, 0.15);
 }
 
-.register-hero-title {
+.wall-title {
     font-family: 'Orbitron', sans-serif;
-    font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+    font-size: clamp(2rem, 3.8vw, 3rem);
     font-weight: 900;
-    letter-spacing: 3px;
+    letter-spacing: 2.5px;
     color: #ffffff;
     text-transform: uppercase;
     margin: 0;
     line-height: 1.1;
-    text-shadow: 0 0 20px rgba(0, 242, 254, 0.45);
+    text-shadow: 0 0 20px rgba(0, 242, 254, 0.5), 0 0 35px rgba(207, 58, 214, 0.3);
 }
 
-.register-hero-subtitle {
+.wall-subtitle {
     font-family: 'Inter', sans-serif;
-    font-size: 0.98rem;
+    font-size: 0.92rem;
     color: rgba(255, 255, 255, 0.75);
-    line-height: 1.5;
     margin: 0;
     max-width: 650px;
 }
 
 /* ============================================================
-   SECTION B: PRAVAAH PASSES CONTAINER (SCREENSHOT 1)
+   WALL 01: EXPANSIVE 4-PASS TOWER SHOWCASE (STUNNING AESTHETICS)
    ============================================================ */
-.passes-card-container {
-    background: rgba(10, 14, 28, 0.72) !important;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1.5px solid #00f2fe !important;
-    border-radius: 18px !important;
-    padding: 38px 44px !important;
-    box-shadow: 0 0 30px rgba(0, 242, 254, 0.22), inset 0 0 15px rgba(0, 242, 254, 0.04) !important;
-    box-sizing: border-box !important;
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
-}
-
-.passes-header {
-    text-align: center;
-    margin-bottom: 28px;
-}
-
-.passes-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(1.4rem, 3vw, 1.9rem);
-    font-weight: 800;
-    color: #00f2fe;
-    margin: 0 0 8px 0;
-    letter-spacing: 1px;
-    text-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
+.passes-showcase-row {
     display: flex;
-    align-items: center;
+    flex-direction: row;
+    align-items: stretch;
     justify-content: center;
-    gap: 10px;
-}
-
-.passes-subtitle {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.92rem;
-    color: rgba(255, 255, 255, 0.75);
-    margin: 0;
-}
-
-.passes-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 22px;
     width: 100%;
+    max-width: 1280px;
+    margin: auto 0;
 }
 
-.pass-card {
-    background: rgba(10, 14, 28, 0.65);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1.5px solid rgba(0, 242, 254, 0.3);
-    border-radius: 14px;
-    padding: 24px 20px;
+.pass-tower-card {
+    flex: 1 1 0;
+    min-width: 220px;
+    max-width: 295px;
+    background: linear-gradient(180deg, rgba(14, 24, 52, 0.75) 0%, rgba(6, 12, 28, 0.88) 100%);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1.5px solid rgba(0, 242, 254, 0.28);
+    border-radius: 20px;
+    padding: 26px 20px 22px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 8px;
+    gap: 10px;
     cursor: pointer;
     position: relative;
     box-sizing: border-box;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.pass-card:hover {
+.pass-tower-card:hover {
     border-color: #00f2fe;
-    box-shadow: 0 0 20px rgba(0, 242, 254, 0.25);
-    transform: translateY(-2px);
-    background: rgba(0, 242, 254, 0.03);
+    box-shadow: 0 15px 40px rgba(0, 242, 254, 0.3), inset 0 1px 0 rgba(0, 242, 254, 0.2);
+    transform: translateY(-8px);
+    background: linear-gradient(180deg, rgba(16, 30, 68, 0.85) 0%, rgba(8, 16, 38, 0.92) 100%);
 }
 
-.pass-card.selected {
+.pass-tower-card.selected {
     border: 2px solid #00f2fe !important;
-    box-shadow: 0 0 28px rgba(0, 242, 254, 0.45), inset 0 0 15px rgba(0, 242, 254, 0.08) !important;
-    background: rgba(0, 242, 254, 0.05) !important;
+    box-shadow: 0 0 35px rgba(0, 242, 254, 0.5), inset 0 0 20px rgba(0, 242, 254, 0.15) !important;
+    background: linear-gradient(180deg, rgba(18, 36, 80, 0.88) 0%, rgba(8, 18, 42, 0.95) 100%) !important;
+    transform: translateY(-5px);
 }
 
-.pass-card .check-badge {
+.pass-tower-card.featured {
+    border-color: rgba(207, 58, 214, 0.55);
+    background: linear-gradient(180deg, rgba(28, 14, 52, 0.8) 0%, rgba(10, 8, 30, 0.9) 100%);
+}
+
+.pass-tower-card.featured:hover {
+    border-color: #cf3ad6;
+    box-shadow: 0 15px 40px rgba(207, 58, 214, 0.35);
+}
+
+.pass-tower-card.featured.selected {
+    border-color: #cf3ad6 !important;
+    box-shadow: 0 0 35px rgba(207, 58, 214, 0.55), inset 0 0 20px rgba(207, 58, 214, 0.18) !important;
+}
+
+.card-featured-tag {
+    position: absolute;
+    top: -12px;
+    background: linear-gradient(90deg, #cf3ad6, #00f2fe);
+    color: #ffffff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    padding: 4px 14px;
+    border-radius: 12px;
+    box-shadow: 0 0 14px rgba(207, 58, 214, 0.6);
+}
+
+.card-icon-halo {
+    font-size: 2rem;
+    margin-bottom: 2px;
+    filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.3));
+}
+
+.pass-tower-card .check-badge {
     position: absolute;
     top: 14px;
     right: 14px;
@@ -196,232 +626,214 @@ body.subpage-body.register-page-body {
     transition: opacity 0.25s ease;
 }
 
-.pass-card.selected .check-badge {
+.pass-tower-card.selected .check-badge {
     opacity: 1;
 }
 
-.pass-name {
+.pass-tower-card .pass-name {
     font-family: 'Orbitron', sans-serif;
     font-size: 1.25rem;
     font-weight: 800;
     color: #ffffff;
     margin: 0;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
 }
 
-.pass-price {
+.pass-tower-card .pass-price {
     font-family: 'Inter', sans-serif;
-    font-size: 0.92rem;
+    font-size: 0.95rem;
     font-weight: 700;
-    color: rgba(255, 255, 255, 0.85);
+    color: #00f2fe;
     margin: 0;
 }
 
-.pass-desc {
+.pass-tower-card.featured .pass-price {
+    color: #f355da;
+}
+
+.pass-tower-card .pass-desc {
     font-family: 'Inter', sans-serif;
     font-size: 0.82rem;
-    color: rgba(255, 255, 255, 0.65);
+    color: rgba(255, 255, 255, 0.72);
     margin: 0;
-    line-height: 1.4;
+    line-height: 1.45;
+    flex-grow: 1;
+}
+
+.pass-select-prompt {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 7px 16px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    transition: all 0.25s ease;
+}
+
+.pass-tower-card.selected .pass-select-prompt {
+    background: #00f2fe;
+    color: #040916;
+    border-color: #00f2fe;
+    box-shadow: 0 0 16px rgba(0, 242, 254, 0.5);
 }
 
 /* ============================================================
-   SECTION C: DELEGATE INFORMATION FORM
+   WALL 02: DELEGATE CREDENTIALS CONSOLE
    ============================================================ */
-.delegate-info-container {
-    background: rgba(10, 14, 28, 0.72) !important;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1.5px solid #00f2fe !important;
-    border-radius: 18px !important;
-    padding: 38px 44px !important;
-    box-shadow: 0 0 30px rgba(0, 242, 254, 0.22), inset 0 0 15px rgba(0, 242, 254, 0.04) !important;
-    box-sizing: border-box !important;
+.delegate-console-layout {
+    width: 100%;
+    max-width: 900px;
+    margin: auto 0;
 }
 
-.delegate-header {
-    text-align: center;
-    margin-bottom: 24px;
-}
-
-.delegate-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(1.35rem, 2.8vw, 1.85rem);
-    font-weight: 800;
-    color: #00f2fe;
-    margin: 0 0 8px 0;
-    letter-spacing: 1px;
-    text-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
-}
-
-.delegate-sub {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.7);
-    margin: 0;
-}
-
-.delegate-form-grid {
+.delegate-form-row {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     width: 100%;
 }
 
-.form-field-group {
+.form-pod {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    position: relative;
 }
 
-.form-field-group.full-width {
-    grid-column: 1 / -1;
-}
-
-.form-label {
+.form-pod-label {
     font-family: 'Orbitron', sans-serif;
     font-size: 0.72rem;
     font-weight: 700;
     color: #00f2fe;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.form-input {
+.form-pod-input {
     width: 100%;
-    background: rgba(0, 242, 254, 0.04);
+    background: rgba(8, 16, 38, 0.8);
     border: 1.5px solid rgba(0, 242, 254, 0.3);
-    border-radius: 10px;
-    padding: 12px 16px;
+    border-radius: 12px;
+    padding: 14px 18px;
     font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
+    font-size: 0.96rem;
     color: #ffffff;
     box-sizing: border-box;
     outline: none;
-    transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+    transition: all 0.25s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.form-input::placeholder {
-    color: rgba(255, 255, 255, 0.35);
-}
-
-.form-input:focus {
+.form-pod-input:focus {
     border-color: #00f2fe;
-    box-shadow: 0 0 15px rgba(0, 242, 254, 0.35);
+    box-shadow: 0 0 22px rgba(0, 242, 254, 0.35);
     background: rgba(0, 242, 254, 0.08);
 }
 
-.delegate-prep-note {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.65);
-    text-align: center;
-    margin: 12px 0 0 0;
+.delegate-prep-banner {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(0, 242, 254, 0.05);
+    border: 1px solid rgba(0, 242, 254, 0.22);
+    border-radius: 14px;
+    padding: 14px 20px;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.86rem;
     line-height: 1.5;
 }
 
-/* ============================================================
-   SECTION D: IMPORTANT NOTES BEFORE PAYMENT (SCREENSHOT 2)
-   ============================================================ */
-.notes-card-container {
-    background: rgba(10, 14, 28, 0.72) !important;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1.5px solid #00f2fe !important;
-    border-radius: 18px !important;
-    padding: 36px 44px !important;
-    box-shadow: 0 0 28px rgba(0, 242, 254, 0.22), inset 0 0 15px rgba(0, 242, 254, 0.04) !important;
-    box-sizing: border-box !important;
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
-}
-
-.notes-card-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 28px;
-}
-
-.notes-card-header .warning-icon {
-    font-size: 1.7rem;
-    line-height: 1;
-}
-
-.notes-card-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(1.35rem, 2.8vw, 1.85rem);
-    font-weight: 700;
+.delegate-prep-banner i {
     color: #00f2fe;
-    margin: 0;
-    letter-spacing: 1px;
-    text-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
+    font-size: 1.2rem;
+    flex-shrink: 0;
 }
 
-.notes-arrow-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+/* ============================================================
+   WALL 03: DIRECTIVES PANORAMA
+   ============================================================ */
+.directives-panorama {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    width: 100%;
+    max-width: 940px;
+    margin: auto 0;
 }
 
-.notes-arrow-list li {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.98rem;
-    color: #ffffff;
-    line-height: 1.6;
+.directive-card {
     display: flex;
     align-items: flex-start;
-    gap: 14px;
+    gap: 20px;
+    background: rgba(8, 16, 38, 0.8);
+    border: 1.5px solid rgba(0, 242, 254, 0.25);
+    border-left: 3.5px solid #00f2fe;
+    border-radius: 14px;
+    padding: 18px 24px;
+    backdrop-filter: blur(14px);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-.notes-arrow-list li .cyan-arrow {
-    color: #00f2fe;
-    font-size: 1.15rem;
+.directive-card:hover {
+    border-color: #00f2fe;
+    box-shadow: 0 8px 30px rgba(0, 242, 254, 0.25);
+    transform: translateX(4px);
+}
+
+.directive-num {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.4rem;
     font-weight: 900;
-    line-height: 1.5;
-    flex-shrink: 0;
-    filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.6));
+    color: #00f2fe;
+    opacity: 0.85;
+    line-height: 1;
+    text-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+}
+
+.directive-heading {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 6px 0;
+    letter-spacing: 1px;
+}
+
+.directive-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    line-height: 1.55;
 }
 
 /* ============================================================
-   SECTION E: SELECTED PASS DETAILS & NOTICE BOX (SCREENSHOT 2)
+   WALL 04: CLEARANCE SHOWCASE
    ============================================================ */
-.selected-pass-container {
-    background: rgba(10, 14, 28, 0.72) !important;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1.5px solid #00f2fe !important;
-    border-radius: 18px !important;
-    padding: 38px 44px !important;
-    box-shadow: 0 0 30px rgba(0, 242, 254, 0.22), inset 0 0 15px rgba(0, 242, 254, 0.04) !important;
-    box-sizing: border-box !important;
+.clearance-showcase {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 24px;
+    gap: 20px;
+    width: 100%;
+    max-width: 860px;
+    margin: auto 0;
 }
 
-.selected-pass-heading {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(1.4rem, 3vw, 2.1rem);
-    font-weight: 800;
-    color: #00f2fe;
-    margin: 0;
-    letter-spacing: 1.5px;
-    text-align: center;
-    text-shadow: 0 0 18px rgba(0, 242, 254, 0.45);
-}
-
-.selected-pass-inner-box {
+.hologram-ticket-box {
     border: 1.5px solid #00f2fe;
-    border-radius: 12px;
-    padding: 28px 40px;
-    background: rgba(0, 242, 254, 0.02);
-    box-shadow: 0 0 20px rgba(0, 242, 254, 0.15), inset 0 0 15px rgba(0, 242, 254, 0.04);
-    max-width: 580px;
+    border-radius: 18px;
+    padding: 24px 40px;
+    background: linear-gradient(180deg, rgba(10, 20, 48, 0.88) 0%, rgba(6, 12, 28, 0.92) 100%);
+    box-shadow: 0 0 35px rgba(0, 242, 254, 0.22), inset 0 0 20px rgba(0, 242, 254, 0.08);
+    max-width: 620px;
     width: 100%;
     text-align: center;
     box-sizing: border-box;
@@ -429,48 +841,80 @@ body.subpage-body.register-page-body {
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    position: relative;
+    backdrop-filter: blur(16px);
 }
 
-.selected-card-title {
+.ticket-beacon-light {
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: #00f2fe;
+    box-shadow: 0 0 16px #00f2fe;
+}
+
+.ticket-top-tag {
     font-family: 'Orbitron', sans-serif;
-    font-size: 1.15rem;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.ticket-pass-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #00f2fe;
+    margin: 0;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 16px rgba(0, 242, 254, 0.5);
+}
+
+.ticket-subcard {
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    border-radius: 10px;
+    padding: 12px 24px;
+    background: rgba(0, 242, 254, 0.04);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.ticket-tier-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.05rem;
     font-weight: 800;
     color: #ffffff;
-    margin: 0;
+    margin: 0 0 4px 0;
 }
 
-.selected-card-notice {
+.ticket-notice-text {
     font-family: 'Inter', sans-serif;
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     font-weight: 700;
     color: #00ff88;
     margin: 0;
-    line-height: 1.5;
     text-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
 }
 
-/* ============================================================
-   SECTION F: COMING SOON PAYMENT ACTION
-   ============================================================ */
-.payment-action-container {
+.payment-action-hub {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
     width: 100%;
-    margin-top: 10px;
 }
 
 .disabled-payment-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 16px 36px;
+    gap: 12px;
+    padding: 16px 40px;
     border-radius: 50px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1.5px solid rgba(255, 255, 255, 0.2);
-    color: rgba(255, 255, 255, 0.5);
+    background: linear-gradient(135deg, rgba(0, 242, 254, 0.18) 0%, rgba(207, 58, 214, 0.22) 100%);
+    border: 1.5px solid #00f2fe;
+    color: #ffffff;
     font-family: 'Orbitron', sans-serif;
     font-size: 0.88rem;
     font-weight: 800;
@@ -478,77 +922,245 @@ body.subpage-body.register-page-body {
     text-transform: uppercase;
     cursor: not-allowed;
     user-select: none;
-    box-shadow: none;
-    outline: none;
+    box-shadow: 0 0 25px rgba(0, 242, 254, 0.25);
 }
 
-.payment-notice-text {
+.payment-live-note {
     font-family: 'Inter', sans-serif;
     font-size: 0.88rem;
-    color: rgba(255, 255, 255, 0.6);
-    text-align: center;
+    color: rgba(255, 255, 255, 0.65);
     margin: 0;
-    max-width: 580px;
-    line-height: 1.5;
+    text-align: center;
 }
 
-/* Footer Flow Override */
-.register-main-container .pravaah-full-footer {
-    position: relative !important;
-    width: 100% !important;
-    margin-top: 20px !important;
-    z-index: 5 !important;
+.wall-footer-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    padding-top: 6px;
+}
+
+.wall-footer-links a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.wall-footer-links a:hover {
+    color: #00f2fe;
+    text-shadow: 0 0 8px #00f2fe;
 }
 
 /* ============================================================
-   RESPONSIVE MEDIA QUERIES
+   WALL ACTION BARS (CLEAN, NO HARSH DIVIDERS)
    ============================================================ */
-@media (max-width: 850px) {
-    .subpage-main.register-main-container {
-        padding-top: 100px !important;
-        gap: 32px !important;
+.wall-action-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    max-width: 1100px;
+    padding-top: 10px;
+    border: none !important; /* Removed cut-off border line */
+    flex-shrink: 0;
+}
+
+.wall-action-bar.centered {
+    justify-content: center;
+}
+
+.wall-telemetry-note {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.72rem;
+    color: #00ff88;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wall-nav-cta,
+.wall-back-cta,
+.wall-reset-cta {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    padding: 10px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
+}
+
+.wall-nav-cta {
+    background: linear-gradient(135deg, rgba(0, 242, 254, 0.28) 0%, rgba(0, 242, 254, 0.1) 100%);
+    border: 1.5px solid #00f2fe;
+    color: #ffffff;
+    box-shadow: 0 0 16px rgba(0, 242, 254, 0.25);
+    margin-left: auto;
+}
+
+.wall-nav-cta:hover {
+    background: #00f2fe;
+    color: #040916;
+    box-shadow: 0 0 28px rgba(0, 242, 254, 0.6);
+    transform: translateY(-2px);
+}
+
+.wall-back-cta {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.wall-back-cta:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.wall-reset-cta {
+    background: rgba(207, 58, 214, 0.18);
+    border: 1.5px solid #cf3ad6;
+    color: #ffffff;
+    box-shadow: 0 0 16px rgba(207, 58, 214, 0.25);
+}
+
+.wall-reset-cta:hover {
+    background: #cf3ad6;
+    color: #ffffff;
+    box-shadow: 0 0 28px rgba(207, 58, 214, 0.6);
+    transform: translateY(-2px);
+}
+
+/* ============================================================
+   PINNED BOTTOM HUD & 3D CONTROLS
+   ============================================================ */
+.room-bottom-hud {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 120;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 36px;
+    background: rgba(3, 7, 18, 0.85);
+    border-top: 1px solid rgba(0, 242, 254, 0.18);
+    backdrop-filter: blur(12px);
+    box-sizing: border-box;
+}
+
+.hud-interaction-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 1.2px;
+}
+
+.hint-icon {
+    color: #00f2fe;
+    font-size: 0.92rem;
+    animation: rotateHint 4s infinite linear;
+}
+
+@keyframes rotateHint {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.hud-wall-indicators {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wall-pill-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+    outline: none;
+}
+
+.wall-pill-dot:hover {
+    background: rgba(0, 242, 254, 0.5);
+}
+
+.wall-pill-dot.active {
+    width: 24px;
+    border-radius: 10px;
+    background: #00f2fe;
+    box-shadow: 0 0 10px #00f2fe;
+    border-color: #00f2fe;
+}
+
+/* ============================================================
+   RESPONSIVE QUERIES
+   ============================================================ */
+@media (max-width: 1080px) {
+    .passes-showcase-row {
+        flex-wrap: wrap;
+        gap: 14px;
     }
 
-    .passes-card-container,
-    .delegate-info-container,
-    .notes-card-container,
-    .selected-pass-container {
-        padding: 30px 22px !important;
+    .pass-tower-card {
+        min-width: 45%;
+        max-width: 48%;
     }
 
-    .passes-grid,
-    .delegate-form-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
-
-    .selected-pass-inner-box {
-        padding: 22px 18px;
+    .room-3d-arrow {
+        display: none;
     }
 }
 
-@media (max-width: 500px) {
-    .subpage-main.register-main-container {
-        padding-top: 90px !important;
-        padding-left: 16px !important;
-        padding-right: 16px !important;
-        gap: 28px !important;
-    }
-
-    .notes-card-header {
+@media (max-width: 720px) {
+    .passes-showcase-row {
         flex-direction: column;
-        text-align: center;
-        gap: 6px;
+        align-items: center;
     }
 
-    .notes-arrow-list li {
-        font-size: 0.92rem;
-    }
-
-    .disabled-payment-btn {
+    .pass-tower-card {
         width: 100%;
-        box-sizing: border-box;
-        padding: 14px 18px;
-        font-size: 0.78rem;
+        max-width: 100%;
+    }
+
+    .delegate-form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .chamber-tab-btn .tab-name {
+        display: none;
+    }
+
+    .room-bottom-hud {
+        justify-content: center;
+    }
+
+    .hud-interaction-hint {
+        display: none;
     }
 }

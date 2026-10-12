@@ -1,9 +1,12 @@
 /**
- * PRAVAAH 2026 - REGISTRATION PORTAL
+ * PRAVAAH 2026 - STABLE 3D ROOM REGISTRATION MATRIX ENGINE
+ * Stable 3D Cube: Tilting removed, rotates strictly via nav bar and side buttons.
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Nav indicator pill alignment for active REGISTER nav item
+    // ========================================================
+    // 1. Cosmic Nav Wheel Active Indicator Pill Alignment
+    // ========================================================
     const activeNav = document.querySelector('.nav-item.active');
     const pill = document.getElementById('nav-indicator-pill');
     
@@ -12,14 +15,15 @@ document.addEventListener("DOMContentLoaded", () => {
             pill.style.left = `${activeNav.offsetLeft}px`;
             pill.style.width = `${activeNav.offsetWidth}px`;
         };
-
         updatePill();
         setTimeout(updatePill, 100);
         window.addEventListener('resize', updatePill);
     }
 
-    // 2. Interactive Pass Selection
-    const passCards = document.querySelectorAll(".pass-card");
+    // ========================================================
+    // 2. Interactive Festival Pass Selection
+    // ========================================================
+    const passCards = document.querySelectorAll(".pass-tower-card, .pass-card");
     const selectedPassTitle = document.getElementById("selectedPassTitle");
     const selectedCardTitle = document.getElementById("selectedCardTitle");
     const selectedCardNotice = document.getElementById("selectedCardNotice");
@@ -27,14 +31,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (passCards.length > 0) {
         passCards.forEach(card => {
             card.addEventListener("click", () => {
-                // Toggle active state
                 passCards.forEach(c => c.classList.remove("selected"));
                 card.classList.add("selected");
 
                 const name = card.dataset.name || "Pass";
                 const notice = card.dataset.notice || "";
 
-                // Update selected pass details display
                 if (selectedPassTitle) {
                     selectedPassTitle.textContent = `Selected: ${name}`;
                 }
@@ -42,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     selectedCardTitle.textContent = name;
                 }
                 if (selectedCardNotice) {
-                    // Exact required text for Starnite Pass
                     if (name.toLowerCase().includes("starnite")) {
                         selectedCardNotice.textContent = "IITBBS students need not register for Starnite.";
                         selectedCardNotice.style.color = "#00ff88";
@@ -55,200 +56,108 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function renderEvents(targetEventToHighlight) {
-        eventsListContainer.innerHTML = "";
-        selectedEvents.clear();
+    // ========================================================
+    // 3. Stable 3D Room Controller
+    // ========================================================
+    const box = document.getElementById("room3dBox");
+    const walls = document.querySelectorAll(".room-wall, .room-3d-wall");
+    const tabs = document.querySelectorAll(".chamber-tab-btn");
+    const dots = document.querySelectorAll(".wall-pill-dot, .chamber-dot");
+    const prevBtn = document.getElementById("roomPrevBtn");
+    const nextBtn = document.getElementById("roomNextBtn");
 
-        let filtered = EVENTS_DATA.filter(e => selectedDays.includes(e.day));
-        if (selectedVerseFilter !== "all") {
-            filtered = filtered.filter(e => e.verse === selectedVerseFilter);
-        }
+    let currentWallIndex = 0;
 
-        if (filtered.length === 0) {
-            eventsListContainer.innerHTML = `<div class="empty-events-msg">No events matching filter for selected days.</div>`;
-            return;
-        }
+    // Rotate strictly to specific wall (0: Front, 1: Right, 2: Back, 3: Left)
+    function rotateToWall(index, withZoom = true) {
+        if (!box) return;
+        index = (index + walls.length) % walls.length;
+        currentWallIndex = index;
 
-        filtered.forEach((ev, idx) => {
-            const row = document.createElement("label");
-            row.className = "event-checkbox-row";
-            const inputId = `event_check_${idx}`;
+        const targetRotY = -90 * index;
+        box.style.setProperty("--room-rot-y", `${targetRotY}deg`);
 
-            const isTargetMatch = targetEventToHighlight && ev.name.toLowerCase() === targetEventToHighlight.toLowerCase();
-            if (isTargetMatch) {
-                row.classList.add("event-row-highlight");
-            }
-
-            // Auto-check events by default
-            selectedEvents.add(ev.name);
-
-            row.innerHTML = `
-                <div class="ev-left">
-                    <input type="checkbox" id="${inputId}" class="ev-cb" checked data-event-name="${ev.name}">
-                    <span class="ev-icon">${ev.icon}</span>
-                    <span class="ev-title">${ev.name}</span>
-                    <span class="ev-verse-badge badge-${ev.verse.toLowerCase()}">${ev.verse}</span>
-                </div>
-                <div class="ev-right">
-                    <span class="ev-day-pill">${ev.dayLabel}</span>
-                    <a href="events.html" class="ev-link">📄 Details</a>
-                </div>
-            `;
-
-            const cb = row.querySelector(".ev-cb");
-            cb.addEventListener("change", (e) => {
-                if (e.target.checked) {
-                    selectedEvents.add(ev.name);
-                } else {
-                    selectedEvents.delete(ev.name);
-                }
-                updateCalculations();
-            });
-
-            eventsListContainer.appendChild(row);
-        });
-
-        updateCalculations();
-    }
-
-    function updateCalculations() {
-        let total = 0;
-
-        if (selectedPassType === "Fest Pass") {
-            total = PRICES["Fest Pass"];
-        } else if (selectedPassType === "Starnite VIP Pass") {
-            total = PRICES["Starnite VIP Pass"];
-        } else if (selectedPassType === "Day Pass") {
-            selectedDays.forEach(d => {
-                total += PRICES["Day Pass"][d] || 0;
-            });
-        } else if (selectedPassType === "Visitor Pass") {
-            selectedDays.forEach(d => {
-                total += PRICES["Visitor Pass"][d] || 0;
-            });
-        }
-
-        // Live Ticket Preview updates
-        if (livePassBadge) livePassBadge.textContent = selectedPassType.toUpperCase();
-        if (livePrice) livePrice.textContent = `₹${total}`;
-        if (totalPriceDisplay) totalPriceDisplay.textContent = `₹${total}`;
-        if (liveEventsCount) liveEventsCount.textContent = `${selectedEvents.size} EVENTS`;
-
-        if (liveDays) {
-            if (selectedPassType === "Fest Pass") {
-                liveDays.textContent = "ALL 4 DAYS";
-            } else {
-                liveDays.textContent = selectedDays.map(d => d.toUpperCase()).join(", ");
-            }
-        }
-    }
-
-    // Live form inputs update live ticket pass preview
-    if (regName) {
-        regName.addEventListener("input", (e) => {
-            const val = e.target.value.trim();
-            if (liveDelegateName) {
-                liveDelegateName.textContent = val ? val.toUpperCase() : "ALEX MERCER";
-            }
-        });
-    }
-
-    if (regCollege) {
-        regCollege.addEventListener("input", (e) => {
-            const val = e.target.value.trim();
-            if (liveCollege) {
-                liveCollege.textContent = val ? val.toUpperCase() : "IIT BHUBANESWAR";
-            }
-        });
-    }
-
-    // URL parameter parsing (Redirection from Events page)
-    function checkUrlParameters() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const targetEventParam = urlParams.get('event');
-        const targetDayParam = urlParams.get('day');
-        const targetVerseParam = urlParams.get('verse');
-
-        if (targetEventParam) {
-            const banner = document.getElementById('event-redirect-banner');
-            const bannerEvName = document.getElementById('banner-event-name');
-            if (banner && bannerEvName) {
-                bannerEvName.textContent = targetEventParam;
-                banner.classList.remove('hidden');
-            }
-
-            let foundEvent = EVENTS_DATA.find(e => e.name.toLowerCase() === targetEventParam.toLowerCase());
-            let foundDay = foundEvent ? foundEvent.day : (targetDayParam ? (targetDayParam.startsWith("day") ? targetDayParam : `day${targetDayParam}`) : "day1");
-
-            setPassType("Day Pass");
-            selectedDays = [foundDay];
-            renderDayPills("Day Pass");
-
-            if (targetVerseParam && targetVerseParam.toUpperCase() !== "ALL") {
-                selectedVerseFilter = targetVerseParam.toUpperCase();
-                const vBtn = verseFilterPills ? verseFilterPills.querySelector(`[data-verse="${selectedVerseFilter}"]`) : null;
-                if (vBtn) {
-                    verseFilterPills.querySelectorAll(".verse-tab-btn").forEach(b => b.classList.remove("active"));
-                    vBtn.classList.add("active");
-                }
-            }
-
-            renderEvents(targetEventParam);
-
+        if (withZoom) {
+            box.style.setProperty("--room-zoom-z", "-4vw");
             setTimeout(() => {
-                const redirectBanner = document.getElementById("event-redirect-banner");
-                if (redirectBanner) {
-                    redirectBanner.scrollIntoView({ behavior: "smooth", block: "center" });
-                }
-            }, 250);
-        } else {
-            setPassType("Fest Pass");
+                box.style.setProperty("--room-zoom-z", "0px");
+            }, 300);
         }
-    }
 
-    // Submit handler
-    if (registrationForm) {
-        registrationForm.addEventListener("submit", (e) => {
-            e.preventDefault();
+        // Update Wall Active States
+        walls.forEach((wall, i) => {
+            if (i === index) {
+                wall.classList.add("active");
+            } else {
+                wall.classList.remove("active");
+            }
+        });
 
-            const nameVal = regName && regName.value.trim() ? regName.value.trim() : "Alex Mercer";
-            const collegeVal = regCollege && regCollege.value.trim() ? regCollege.value.trim() : "IIT Bhubaneswar";
+        // Update Nav Bar Tabs
+        tabs.forEach((tab, i) => {
+            if (i === index) {
+                tab.classList.add("active");
+                tab.setAttribute("aria-selected", "true");
+            } else {
+                tab.classList.remove("active");
+                tab.setAttribute("aria-selected", "false");
+            }
+        });
 
-            if (modalDelegate) modalDelegate.textContent = nameVal;
-            if (modalPassType) modalPassType.textContent = selectedPassType;
-            if (modalDays) modalDays.textContent = selectedDays.map(d => d.toUpperCase()).join(", ");
-            if (modalEvents) modalEvents.textContent = `${selectedEvents.size} Events Selected`;
-            if (modalTotal) modalTotal.textContent = totalPriceDisplay ? totalPriceDisplay.textContent : "₹449";
-
-            const registrationData = {
-                name: nameVal,
-                college: collegeVal,
-                ticketId: currentTicketId,
-                passType: selectedPassType,
-                days: selectedDays,
-                eventsCount: selectedEvents.size,
-                eventsList: Array.from(selectedEvents),
-                total: totalPriceDisplay ? totalPriceDisplay.textContent : "₹449",
-                registeredAt: new Date().toISOString()
-            };
-            try {
-                localStorage.setItem("pravaahUserRegistration", JSON.stringify(registrationData));
-            } catch (err) {}
-
-            if (successModal) {
-                successModal.classList.add("modal-open");
+        // Update Indicator Dots
+        dots.forEach((dot, i) => {
+            if (i === index) {
+                dot.classList.add("active");
+            } else {
+                dot.classList.remove("active");
             }
         });
     }
 
-    if (closeModalBtn) {
-        closeModalBtn.addEventListener("click", () => {
-            if (successModal) {
-                successModal.classList.remove("modal-open");
-            }
+    // ========================================================
+    // 4. Navigation Controls (Nav Bar Tabs & Side Buttons ONLY)
+    // ========================================================
+
+    // 1) Nav Bar Tab Buttons
+    tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            const wallIdx = parseInt(tab.dataset.wall, 10);
+            if (!isNaN(wallIdx)) rotateToWall(wallIdx);
+        });
+    });
+
+    // 2) Floating Side Navigation Arrows
+    if (prevBtn) {
+        prevBtn.addEventListener("click", () => {
+            rotateToWall(currentWallIndex - 1);
         });
     }
 
-    // Run Initializer
-    checkUrlParameters();
+    if (nextBtn) {
+        nextBtn.addEventListener("click", () => {
+            rotateToWall(currentWallIndex + 1);
+        });
+    }
+
+    // 3) In-Wall Step CTA Buttons
+    const gotoButtons = document.querySelectorAll("[data-goto]");
+    gotoButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const targetIdx = parseInt(btn.dataset.goto, 10);
+            if (!isNaN(targetIdx)) {
+                rotateToWall(targetIdx);
+            }
+        });
+    });
+
+    // 4) Bottom Wall Pill Indicators
+    dots.forEach(dot => {
+        dot.addEventListener("click", () => {
+            const wallIdx = parseInt(dot.dataset.wall, 10);
+            if (!isNaN(wallIdx)) rotateToWall(wallIdx);
+        });
+    });
+
+    // Initialize Stable 3D Room at Wall 0
+    rotateToWall(0, false);
 });

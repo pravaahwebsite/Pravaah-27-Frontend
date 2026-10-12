@@ -1,3 +1,5 @@
+@import url('profile.css');
+
 :root {
     --bg-dark: #06030e;
     --card-bg: rgba(14, 8, 28, 0.7);
