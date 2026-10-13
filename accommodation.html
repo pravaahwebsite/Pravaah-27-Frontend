@@ -42,133 +42,312 @@
         <div class="nav-wheel-glow"></div>
     </nav>
 
-    <!-- Main Accommodation Container -->
+    <!-- Main Container -->
     <main class="subpage-main accom-main-container">
-        
-        <!-- Section A: Compact Subpage Hero -->
-        <header class="accom-hero-header">
-            <div class="accom-hero-badge">✦ CAMPUS RESIDENCY & HABITAT HUB ✦</div>
-            <h1 class="accom-hero-title">ACCOMMODATION</h1>
-            <p class="accom-hero-subtitle">Campus residency information and guidelines for Pravaah '26 participants.</p>
-        </header>
 
-        <!-- Section B: Important Accommodation Rules Card (Screenshot 1) -->
-        <section class="rules-card-container">
-            <div class="rules-card-header">
-                <span class="warning-icon">⚠️</span>
-                <h2 class="rules-card-title">Important Accommodation Rules</h2>
-            </div>
-            <ul class="rules-arrow-list">
-                <li><span class="cyan-arrow">➤</span> IIT Bhubaneswar students do not need accommodation.</li>
-                <li><span class="cyan-arrow">➤</span> A "day" is defined as a 24-hour period starting at 9:00 AM and ending at 9:00 AM the next day.</li>
-                <li><span class="cyan-arrow">➤</span> Accommodation is allotted on a first-come, first-served basis, subject to availability.</li>
-                <li><span class="cyan-arrow">➤</span> The pass is equivalent to a visitor pass. To participate in any other events, you must purchase a Day Pass or Fest Pass.</li>
-                <li><span class="cyan-arrow">➤</span> Food is not included in the accommodation. Participants may pay separately and eat at any available mess.</li>
-                <li><span class="cyan-arrow">➤</span> Any damage to hostel property caused by participants will be chargeable.</li>
-                <li><span class="cyan-arrow">➤</span> There are no unisex hostels. Separate hostels are allotted for boys and girls, and entry into the opposite gender's rooms is strictly prohibited.</li>
-                <li><span class="cyan-arrow">➤</span> Participants must check out by 9:00 AM on the day of departure.</li>
-                <li><span class="cyan-arrow">➤</span> A Single Room with Double Occupancy includes one cot, two mattresses, and basic amenities.</li>
-            </ul>
-        </section>
+        <!-- Tall Scroll Track around the 3D Room -->
+        <div class="room-scroll-track" id="roomScrollTrack">
 
-        <!-- Section C: IIT Bhubaneswar Student Notice Callout (Screenshot 2) -->
-        <section class="notice-callout-outer">
-            <div class="notice-inner-box">
-                <p class="notice-highlight-text">IIT Bhubaneswar students do not need accommodation.</p>
-            </div>
-        </section>
+            <!-- Sticky Stage pinned to viewport while scrolling through track -->
+            <div class="room-sticky-stage" id="roomStickyStage">
 
-        <!-- Section D: Accommodation Guidelines Grid (Screenshot 3) -->
-        <section class="guidelines-section">
-            <h2 class="guidelines-main-title">Accommodation Guidelines</h2>
-            
-            <div class="dos-donts-grid">
-                <!-- Do's Card -->
-                <div class="guideline-card">
-                    <div class="card-top-icon">🛏️</div>
-                    <h3 class="card-title">Do's</h3>
-                    <ul class="bullet-list">
-                        <li><span class="dot-marker">•</span> Carry your college ID and registration confirmation.</li>
-                        <li><span class="dot-marker">•</span> Maintain cleanliness in rooms and surroundings.</li>
-                        <li><span class="dot-marker">•</span> Respect hostel and campus rules.</li>
-                        <li><span class="dot-marker">•</span> Use facilities responsibly.</li>
-                    </ul>
-                </div>
+                <!-- 3D Room Viewport -->
+                <div class="room-viewport" id="roomViewport" role="region" aria-label="3D Chamber Experience">
 
-                <!-- Don'ts Card -->
-                <div class="guideline-card">
-                    <div class="card-top-icon">🚫</div>
-                    <h3 class="card-title">Don'ts</h3>
-                    <ul class="bullet-list">
-                        <li><span class="dot-marker">•</span> No loud music or parties in hostel premises.</li>
-                        <li><span class="dot-marker">•</span> No damage to property or furniture.</li>
-                        <li><span class="dot-marker">•</span> Alcohol or prohibited substances are strictly banned.</li>
-                        <li><span class="dot-marker">•</span> Visitors are not allowed without prior permission.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
+                    <!-- Unified 3D Solid Room Chamber -->
+                    <div class="room-chamber" id="roomChamber">
 
-        <!-- Section E: Accommodation Booking Form -->
-        <section class="booking-section-container">
-            <div class="booking-header">
-                <h2 class="booking-section-title">CAMPUS RESIDENCY ALLOCATION</h2>
-                <p class="booking-section-sub">Select your category and hostel preference to view allocation status.</p>
-            </div>
+                        <!-- CEILING: Top Face of the 3D Room (NO text) -->
+                        <div class="room-wall-face ceiling-face" aria-hidden="true">
+                            <div class="ceiling-grid"></div>
+                            <div class="ceiling-light-beam"></div>
+                        </div>
 
-            <form id="accommodationBookingForm" class="booking-form-grid" onsubmit="return false;">
-                
-                <div class="form-field-group">
-                    <label for="acc-fullname" class="form-label">FULL NAME *</label>
-                    <input type="text" id="acc-fullname" name="fullname" class="form-input" required placeholder="e.g. Alex Mercer">
-                </div>
+                        <!-- FLOOR: Bottom Face of the 3D Room (NO text) -->
+                        <div class="room-wall-face floor-face" aria-hidden="true">
+                            <div class="floor-grid"></div>
+                            <div class="floor-runway"></div>
+                        </div>
 
-                <div class="form-field-group">
-                    <label for="acc-email" class="form-label">EMAIL ADDRESS *</label>
-                    <input type="email" id="acc-email" name="email" class="form-input" required placeholder="e.g. alex@institution.edu">
-                </div>
+                        <!-- WALL 1: Front Face at 0deg (Accommodation Overview) -->
+                        <div class="room-wall-face wall-face-1 active-wall" id="wall-face-1" data-wall-index="1" aria-label="Accommodation Overview">
+                            <div class="wall-bg-circuit">
+                                <div class="wall-grid"></div>
+                                <div class="laser-scanline"></div>
+                            </div>
+                            <div class="wall-glass-panel wall-content wall-overview-panel" id="wall-1" data-panel-index="1">
+                                <div class="panel-badge">
+                                    <span class="badge-pulse"></span>
+                                    <span>PRAVAAH ’27 // CAMPUS RESIDENCY SYSTEM</span>
+                                </div>
+                                <h1 class="wall-main-title">ACCOMMODATION</h1>
+                                <p class="wall-subheading">Your temporary habitat at IIT Bhubaneswar.</p>
+                                
+                                <div class="terminal-status-line">
+                                    <i class="fa-solid fa-terminal status-icon"></i>
+                                    <span class="status-prefix">SYS_STATUS:</span>
+                                    <span class="status-msg">INITIALIZING HABITAT MODULE… ALLOCATION STATUS: TO BE ANNOUNCED</span>
+                                </div>
 
-                <div class="form-field-group">
-                    <label for="acc-phone" class="form-label">PHONE NUMBER *</label>
-                    <input type="tel" id="acc-phone" name="phone" class="form-input" required placeholder="e.g. +91 98765 43210">
-                </div>
+                                <div class="important-notice-card">
+                                    <i class="fa-solid fa-circle-info notice-icon"></i>
+                                    <span>IIT Bhubaneswar students do not require accommodation.</span>
+                                </div>
+                            </div>
+                        </div>
 
-                <div class="form-field-group">
-                    <label for="acc-college" class="form-label">COLLEGE / INSTITUTION *</label>
-                    <input type="text" id="acc-college" name="college" class="form-input" required placeholder="e.g. IIT Bhubaneswar">
-                </div>
+                        <!-- WALL 2: Right Face at 0deg (Accommodation Guidelines) -->
+                        <div class="room-wall-face wall-face-2 is-side-wall" id="wall-face-2" data-wall-index="2" aria-label="Accommodation Guidelines">
+                            <div class="wall-bg-circuit">
+                                <div class="wall-grid"></div>
+                                <div class="laser-scanline"></div>
+                            </div>
+                            <div class="wall-glass-panel wall-content wall-guidelines-panel" id="wall-2" data-panel-index="2">
+                                <div class="panel-header-compact">
+                                    <span class="panel-index-tag">MODULE 02 // RULES</span>
+                                    <h2 class="wall-section-title">ACCOMMODATION GUIDELINES</h2>
+                                </div>
+                                <div class="guidelines-checklist">
+                                    <div class="guideline-item">
+                                        <span class="guide-num">01</span>
+                                        <p class="guide-text">A day is a 24-hour period from 9:00 AM to 9:00 AM the next day.</p>
+                                    </div>
+                                    <div class="guideline-item">
+                                        <span class="guide-num">02</span>
+                                        <p class="guide-text">Accommodation is allocated on a first-come, first-served basis.</p>
+                                    </div>
+                                    <div class="guideline-item">
+                                        <span class="guide-num">03</span>
+                                        <p class="guide-text">Accommodation pass acts as a visitor pass; Day/Fest pass is required for events.</p>
+                                    </div>
+                                    <div class="guideline-item">
+                                        <span class="guide-num">04</span>
+                                        <p class="guide-text">Food is not included; pay separately at any mess.</p>
+                                    </div>
+                                    <div class="guideline-item">
+                                        <span class="guide-num">05</span>
+                                        <p class="guide-text">Damage to hostel property is chargeable.</p>
+                                    </div>
+                                    <div class="guideline-item">
+                                        <span class="guide-num">06</span>
+                                        <p class="guide-text">Boys and girls have separate hostels; entry into the opposite gender’s room is prohibited.</p>
+                                    </div>
+                                    <div class="guideline-item">
+                                        <span class="guide-num">07</span>
+                                        <p class="guide-text">Check-out by 9:00 AM on departure day.</p>
+                                    </div>
+                                    <div class="guideline-item">
+                                        <span class="guide-num">08</span>
+                                        <p class="guide-text">Single Room Double Occupancy includes 1 cot, 2 mattresses, and basic amenities.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                <div class="form-field-group">
-                    <label for="acc-category" class="form-label">PARTICIPANT CATEGORY *</label>
-                    <select id="acc-category" name="category" class="form-select" required>
-                        <option value="" disabled selected>-- Select category --</option>
-                        <option value="girls">Girls</option>
-                        <option value="boys">Boys</option>
-                    </select>
-                </div>
+                        <!-- WALL 3: Back Face at 0deg (Do's and Don'ts) -->
+                        <div class="room-wall-face wall-face-3 is-side-wall" id="wall-face-3" data-wall-index="3" aria-label="Do's and Don'ts">
+                            <div class="wall-bg-circuit">
+                                <div class="wall-grid"></div>
+                                <div class="laser-scanline"></div>
+                            </div>
+                            <div class="wall-glass-panel wall-content wall-dodont-panel" id="wall-3" data-panel-index="3">
+                                <div class="panel-header-compact">
+                                    <span class="panel-index-tag">MODULE 03 // PROTOCOLS</span>
+                                    <h2 class="wall-section-title">DO’S AND DON’TS</h2>
+                                </div>
+                                <div class="dodont-columns">
+                                    <!-- DO'S (Left Box: Green / Cyan Theme) -->
+                                    <div class="dodont-box dos-box">
+                                        <div class="dodont-box-header">
+                                            <i class="fa-solid fa-circle-check dodont-icon"></i>
+                                            <h3>AUTHORIZED ACTIONS — DO’S</h3>
+                                        </div>
+                                        <ul class="dodont-items">
+                                            <li>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                                <span>Carry college ID and registration confirmation.</span>
+                                            </li>
+                                            <li>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                                <span>Maintain cleanliness in rooms and surroundings.</span>
+                                            </li>
+                                            <li>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                                <span>Respect hostel and campus rules.</span>
+                                            </li>
+                                            <li>
+                                                <i class="fa-solid fa-check check-icon"></i>
+                                                <span>Use facilities responsibly.</span>
+                                            </li>
+                                        </ul>
+                                    </div>
 
-                <div class="form-field-group">
-                    <label for="acc-hostel" class="form-label">HOSTEL / HALL SELECTION *</label>
-                    <select id="acc-hostel" name="hostel" class="form-select" required disabled>
-                        <option value="" disabled selected>-- Select category first --</option>
-                    </select>
-                </div>
+                                    <!-- DON'TS (Right Box: Magenta / Red Warning Theme) -->
+                                    <div class="dodont-box donts-box">
+                                        <div class="dodont-box-header">
+                                            <i class="fa-solid fa-triangle-exclamation dodont-icon"></i>
+                                            <h3>RESTRICTED ACTIONS — DON’TS</h3>
+                                        </div>
+                                        <ul class="dodont-items">
+                                            <li>
+                                                <i class="fa-solid fa-xmark cross-icon"></i>
+                                                <span>No loud music or parties in hostel premises.</span>
+                                            </li>
+                                            <li>
+                                                <i class="fa-solid fa-xmark cross-icon"></i>
+                                                <span>No damage to property or furniture.</span>
+                                            </li>
+                                            <li>
+                                                <i class="fa-solid fa-xmark cross-icon"></i>
+                                                <span>Alcohol or prohibited substances are strictly banned.</span>
+                                            </li>
+                                            <li>
+                                                <i class="fa-solid fa-xmark cross-icon"></i>
+                                                <span>Visitors are not allowed without prior permission.</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                <div class="form-field-group full-width">
-                    <div class="fee-display-box">
-                        <span class="fee-status-badge" id="feeStatusDisplay">[ ACCOMMODATION FEE — TO BE ANNOUNCED ]</span>
-                    </div>
-                </div>
+                        <!-- WALL 4: Left Face at 0deg (Campus Residency Allocation Form) -->
+                        <div class="room-wall-face wall-face-4 is-side-wall" id="wall-face-4" data-wall-index="4" aria-label="Campus Residency Allocation">
+                            <div class="wall-bg-circuit">
+                                <div class="wall-grid"></div>
+                                <div class="laser-scanline"></div>
+                            </div>
+                            <div class="wall-glass-panel wall-content wall-form-panel" id="wall-4" data-panel-index="4">
+                                <div class="panel-header-compact">
+                                    <span class="panel-index-tag">MODULE 04 // ALLOCATION</span>
+                                    <h2 class="wall-section-title">CAMPUS RESIDENCY ALLOCATION</h2>
+                                </div>
+                                <form id="accommodationBookingForm" class="accom-booking-form" novalidate>
+                                    <div class="form-grid-two">
+                                        <!-- Full Name -->
+                                        <div class="form-group">
+                                            <label for="acc-fullname">Full Name <span class="req">*</span></label>
+                                            <div class="input-wrapper">
+                                                <i class="fa-solid fa-user input-icon"></i>
+                                                <input type="text" id="acc-fullname" name="acc-fullname" placeholder="Enter your full name" required autocomplete="name">
+                                            </div>
+                                            <span class="field-error" id="err-acc-fullname" aria-live="polite"></span>
+                                        </div>
 
-                <div class="form-field-group full-width payment-action-block">
-                    <button type="button" class="disabled-payment-btn" disabled>
-                        PAYMENT PORTAL — COMING SOON
-                    </button>
-                    <p class="payment-notice-text">Accommodation booking and payment will open after official fee and allocation details are announced.</p>
-                </div>
+                                        <!-- Email Address -->
+                                        <div class="form-group">
+                                            <label for="acc-email">Email Address <span class="req">*</span></label>
+                                            <div class="input-wrapper">
+                                                <i class="fa-solid fa-envelope input-icon"></i>
+                                                <input type="email" id="acc-email" name="acc-email" placeholder="name@college.edu" required autocomplete="email">
+                                            </div>
+                                            <span class="field-error" id="err-acc-email" aria-live="polite"></span>
+                                        </div>
 
-            </form>
-        </section>
+                                        <!-- Phone Number -->
+                                        <div class="form-group">
+                                            <label for="acc-phone">Phone Number <span class="req">*</span></label>
+                                            <div class="input-wrapper">
+                                                <i class="fa-solid fa-phone input-icon"></i>
+                                                <input type="tel" id="acc-phone" name="acc-phone" placeholder="10-digit mobile number" required autocomplete="tel" maxlength="10">
+                                            </div>
+                                            <span class="field-error" id="err-acc-phone" aria-live="polite"></span>
+                                        </div>
+
+                                        <!-- College / Institution -->
+                                        <div class="form-group">
+                                            <label for="acc-college">College / Institution <span class="req">*</span></label>
+                                            <div class="input-wrapper">
+                                                <i class="fa-solid fa-building-columns input-icon"></i>
+                                                <input type="text" id="acc-college" name="acc-college" placeholder="Your college or institution" required>
+                                            </div>
+                                            <span class="field-error" id="err-acc-college" aria-live="polite"></span>
+                                        </div>
+
+                                        <!-- Participant Category -->
+                                        <div class="form-group">
+                                            <label for="acc-category">Participant Category <span class="req">*</span></label>
+                                            <div class="input-wrapper">
+                                                <i class="fa-solid fa-venus-mars input-icon"></i>
+                                                <select id="acc-category" name="acc-category" required>
+                                                    <option value="" disabled selected>Select category</option>
+                                                    <option value="Girls">Girls</option>
+                                                    <option value="Boys">Boys</option>
+                                                </select>
+                                            </div>
+                                            <span class="field-error" id="err-acc-category" aria-live="polite"></span>
+                                        </div>
+
+                                        <!-- Hostel / Hall Selection -->
+                                        <div class="form-group">
+                                            <label for="acc-hostel">Hostel / Hall Selection <span class="req">*</span></label>
+                                            <div class="input-wrapper">
+                                                <i class="fa-solid fa-hotel input-icon"></i>
+                                                <select id="acc-hostel" name="acc-hostel" required>
+                                                    <option value="" disabled selected>Select hostel</option>
+                                                    <option value="Sangam Hall of Residence">Sangam Hall of Residence (Girls)</option>
+                                                    <option value="Ganga Hall of Residence">Ganga Hall of Residence (Girls)</option>
+                                                    <option value="Rusikulya Hall of Residence">Rusikulya Hall of Residence (Boys)</option>
+                                                    <option value="Brahmaputra Hall of Residence">Brahmaputra Hall of Residence (Boys)</option>
+                                                </select>
+                                            </div>
+                                            <span class="field-error" id="err-acc-hostel" aria-live="polite"></span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Fee Status Display -->
+                                    <div class="fee-status-display" id="feeStatusDisplay">
+                                        <div class="fee-line">
+                                            <span class="fee-label">CALCULATED RESIDENCY FEE:</span>
+                                            <span class="fee-value" id="feeAmount">ACCOMMODATION FEE — TO BE ANNOUNCED</span>
+                                        </div>
+                                        <div class="booking-notice">
+                                            <i class="fa-solid fa-triangle-exclamation"></i>
+                                            <span>ACCOMMODATION BOOKING AND PAYMENT WILL OPEN AFTER OFFICIAL FEE AND ALLOCATION DETAILS ARE ANNOUNCED.</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Payment Button (Disabled) -->
+                                    <div class="form-actions">
+                                        <button type="submit" class="portal-btn-disabled" id="btnPaymentPortal" disabled aria-disabled="true">
+                                            <i class="fa-solid fa-lock"></i>
+                                            <span>PAYMENT PORTAL — COMING SOON</span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- 3D ARCHITECTURAL CORNER SEAMS & PERSPECTIVE RAILS -->
+                        <!-- 4 Longitudinal Rails (Connecting Front Corners to Back Corners along Ceiling & Floor) -->
+                        <div class="corner-rail rail-top-left" aria-hidden="true"></div>
+                        <div class="corner-rail rail-top-right" aria-hidden="true"></div>
+                        <div class="corner-rail rail-bottom-left" aria-hidden="true"></div>
+                        <div class="corner-rail rail-bottom-right" aria-hidden="true"></div>
+
+                        <!-- 4 Vertical Corner Pillars (Connecting Ceiling to Floor at the 4 Vertical Edges) -->
+                        <div class="corner-pillar pillar-front-left" aria-hidden="true"></div>
+                        <div class="corner-pillar pillar-front-right" aria-hidden="true"></div>
+                        <div class="corner-pillar pillar-back-left" aria-hidden="true"></div>
+                        <div class="corner-pillar pillar-back-right" aria-hidden="true"></div>
+
+                        <!-- Subtle 3D Ambient Dust Particles -->
+                        <div class="room-ambient-particles" aria-hidden="true">
+                            <span class="dust-particle p1"></span>
+                            <span class="dust-particle p2"></span>
+                            <span class="dust-particle p3"></span>
+                            <span class="dust-particle p4"></span>
+                            <span class="dust-particle p5"></span>
+                            <span class="dust-particle p6"></span>
+                        </div>
+
+                    </div><!-- /.room-chamber -->
+
+                </div><!-- /.room-viewport -->
+
+            </div><!-- /.room-sticky-stage -->
+
+        </div><!-- /.room-scroll-track -->
 
     </main>
 
@@ -179,7 +358,7 @@
                 <h4 class="footer-heading">EXPLORE</h4>
                 <ul class="footer-links-list list-centered">
                     <li><a href="events.html">Events Directory</a></li>
-                    <li><a href="register.html">Registration & Passes</a></li>
+                    <li><a href="register.html">Registration &amp; Passes</a></li>
                     <li><a href="accommodation.html">Accommodation</a></li>
                     <li><a href="photo-gallery.html">Photo Gallery</a></li>
                     <li><a href="sponsors.html">Our Sponsors</a></li>

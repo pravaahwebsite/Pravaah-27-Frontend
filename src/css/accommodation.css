@@ -1,533 +1,1145 @@
-/* ============================================================
-   PRAVAAH 2026 — ACCOMMODATION PAGE STYLES
-   Exact design matching reference screenshots & Pravaha theme
-   ============================================================ */
+/* ==========================================================================
+   PRAVAAH 2026 — 3D SOLID ROOM CHAMBER (ACCOMMODATION)
+   Immersive Spatial Room with Visible Corners, Deep Perspective & Ambient Glow
+   ========================================================================== */
 
-/* Force body vertical scroll and override global overflow:hidden */
-body.subpage-body.accom-page-body {
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-    height: auto !important;
-    min-height: 100vh !important;
-    position: relative !important;
+:root {
+    --room-s: clamp(940px, 62vw, 1180px);      /* Square horizontal dimension (Width & Depth) */
+    --room-r: calc(var(--room-s) / 2);         /* Radius from center to each wall */
+    --room-h: clamp(580px, 72vh, 720px);       /* Height of the room */
+    --half-h: calc(var(--room-h) / 2);         /* Half height */
+    --cam-z: calc(var(--room-r) - 110px);      /* Camera depth: keeps active wall prominent & reveals corners */
 }
 
-/* Main Container Layout Override */
+/* --------------------------------------------------------------------------
+   0. Body & HTML Scoped Overrides
+   -------------------------------------------------------------------------- */
+html {
+    overflow-x: clip !important;
+}
+
+body.subpage-body.accom-page-body {
+    overflow-x: clip !important;
+    overflow-y: visible !important;
+    min-height: 100% !important;
+    height: auto !important;
+    position: relative !important;
+    background-color: #010309 !important;
+    color: #ffffff;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    scroll-behavior: smooth;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Completely reset container padding from global style.css */
+body.subpage-body.accom-page-body .subpage-main.accom-main-container,
 .subpage-main.accom-main-container {
     width: 100% !important;
-    max-width: 1040px !important;
-    margin: 0 auto !important;
-    padding: 110px 24px 70px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 40px !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
     position: relative !important;
     z-index: 2 !important;
     box-sizing: border-box !important;
-    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
 }
 
-/* Override global section absolute positioning from style.css */
-.accom-main-container section,
-.accom-main-container .rules-card-container,
-.accom-main-container .notice-callout-outer,
-.accom-main-container .guidelines-section,
-.accom-main-container .booking-section-container {
-    position: relative !important;
-    width: 100% !important;
-    height: auto !important;
-    min-height: 0 !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    transform: none !important;
+/* --------------------------------------------------------------------------
+   1. TALL SCROLL TRACK & PINNED STAGE (4 Walls = 450vh)
+   -------------------------------------------------------------------------- */
+.room-scroll-track {
+    width: 100%;
+    height: 450vh;
+    position: relative;
+    box-sizing: border-box;
     margin: 0 !important;
-    z-index: 1 !important;
-    box-sizing: border-box !important;
+    padding: 0 !important;
+    overflow: visible !important;
 }
 
-/* ============================================================
-   SECTION A: COMPACT HERO HEADER
-   ============================================================ */
-.accom-hero-header {
-    text-align: center;
-    margin-bottom: 4px;
+.room-sticky-stage {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    display: block;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+    overflow: hidden;
+    z-index: 10;
+}
+
+/* --------------------------------------------------------------------------
+   2. 3D ROOM VIEWPORT & PERSPECTIVE CAMERA (Wide FOV for High Depth)
+   -------------------------------------------------------------------------- */
+.room-viewport {
+    width: 100vw;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    perspective: 820px;
+    perspective-origin: 50% 50%;
+    position: relative;
+    overflow: hidden;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: radial-gradient(circle at 50% 50%, #060e28 0%, #020512 60%, #010206 100%);
+    box-shadow: none !important;
+    outline: none;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* --------------------------------------------------------------------------
+   3. UNIFIED 3D ROOM CHAMBER (Single Rigid Cube)
+   -------------------------------------------------------------------------- */
+.room-chamber {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    transform-style: preserve-3d;
+    transform: translateZ(var(--cam-z)) rotateY(0deg);
+    transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --------------------------------------------------------------------------
+   4. SHARED WALL FACE ARCHITECTURE (All 6 Faces)
+   -------------------------------------------------------------------------- */
+.room-wall-face {
+    position: absolute;
+    width: var(--room-s);
+    height: var(--room-h);
+    left: calc(-0.5 * var(--room-s));
+    top: calc(-0.5 * var(--room-h));
+    box-sizing: border-box;
+    transform-style: flat;
+    backface-visibility: hidden;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at 50% 50%, #050b22 0%, #02040b 100%);
+    border: 1px solid rgba(0, 242, 254, 0.25);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Ceiling, Floor, Rails, Pillars, and Ambient Dust never capture pointer events */
+.ceiling-face,
+.floor-face,
+.ceiling-face *,
+.floor-face *,
+.corner-rail,
+.corner-pillar,
+.room-ambient-particles,
+.wall-bg-circuit,
+.wall-bg-circuit * {
+    pointer-events: none !important;
+}
+
+/* Active front wall: Full content (heading, cards, form) visible, sharp and interactive */
+.room-wall-face.active-wall {
+    z-index: 60 !important;
+    pointer-events: auto !important;
+}
+
+.room-wall-face.active-wall .wall-glass-panel,
+.room-wall-face.active-wall .wall-content {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.45s ease;
+}
+
+.room-wall-face.active-wall .wall-glass-panel * {
+    pointer-events: auto !important;
+}
+
+.wall-face-4.active-wall {
+    z-index: 100 !important;
+    pointer-events: auto !important;
+}
+
+.wall-face-4.active-wall .wall-form-panel,
+.wall-face-4.active-wall #accommodationBookingForm,
+.wall-face-4.active-wall .form-grid-two,
+.wall-face-4.active-wall .form-group,
+.wall-face-4.active-wall .input-wrapper,
+.wall-face-4.active-wall input,
+.wall-face-4.active-wall select,
+.wall-face-4.active-wall label {
+    pointer-events: auto !important;
+    user-select: text !important;
+    -webkit-user-select: text !important;
+}
+
+/* Side walls (and any non-front wall): Hide text/content layer, show only ambient animated background */
+.room-wall-face.is-side-wall .wall-glass-panel,
+.room-wall-face.is-side-wall .wall-content,
+.room-wall-face:not(.active-wall) .wall-glass-panel,
+.room-wall-face:not(.active-wall) .wall-content {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+/* Inactive walls cannot block clicks or focus to the active wall */
+.room-wall-face:not(.active-wall) {
+    z-index: 1 !important;
+    pointer-events: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   5. 3D FACE POSITIONS (Seamless Cube Enclosure)
+   -------------------------------------------------------------------------- */
+
+/* CEILING: Overhead Face meeting top edge of walls */
+.ceiling-face {
+    width: var(--room-s);
+    height: var(--room-s);
+    left: calc(-0.5 * var(--room-s));
+    top: calc(-0.5 * var(--room-s));
+    transform: rotateX(-90deg) translateZ(calc(-1 * var(--half-h)));
+    background: radial-gradient(circle at 50% 50%, rgba(0, 242, 254, 0.14) 0%, rgba(2, 4, 11, 0.98) 75%);
+    border: 1px solid rgba(0, 242, 254, 0.25);
+}
+
+/* FLOOR: Bottom Face meeting bottom edge of walls */
+.floor-face {
+    width: var(--room-s);
+    height: var(--room-s);
+    left: calc(-0.5 * var(--room-s));
+    top: calc(-0.5 * var(--room-s));
+    transform: rotateX(90deg) translateZ(calc(-1 * var(--half-h)));
+    background: radial-gradient(circle at 50% 50%, rgba(0, 242, 254, 0.16) 0%, rgba(2, 4, 11, 0.98) 75%);
+    border: 1px solid rgba(0, 242, 254, 0.3);
+}
+
+/* WALL 1: Front Face at 0deg */
+.wall-face-1 {
+    transform: rotateY(0deg) translateZ(calc(-1 * var(--room-r)));
+}
+
+/* WALL 2: Right Face at 0deg */
+.wall-face-2 {
+    transform: rotateY(-90deg) translateZ(calc(-1 * var(--room-r)));
+}
+
+/* WALL 3: Back Face at 0deg */
+.wall-face-3 {
+    transform: rotateY(180deg) translateZ(calc(-1 * var(--room-r)));
+}
+
+/* WALL 4: Left Face at 0deg */
+.wall-face-4 {
+    transform: rotateY(90deg) translateZ(calc(-1 * var(--room-r)));
+}
+
+/* --------------------------------------------------------------------------
+   6. 3D GLOWING CORNER SEAMS & PERSPECTIVE RAILS (Visible Corner Structure)
+   -------------------------------------------------------------------------- */
+
+/* 4 Longitudinal Rails (Connecting Front Corners to Back Corners along Ceiling & Floor) */
+.corner-rail {
+    position: absolute;
+    width: 3px;
+    height: var(--room-s);
+    margin-left: -1.5px;
+    margin-top: calc(-0.5 * var(--room-s));
+    background: #00f2fe;
+    box-shadow: 0 0 12px #00f2fe, 0 0 25px rgba(0, 242, 254, 0.6);
+    pointer-events: none;
+    transform-style: preserve-3d;
+}
+
+/* Top-Left: Connects Front-Top-Left to Back-Top-Left along Ceiling & Left Wall */
+.rail-top-left {
+    transform: translate3d(calc(-1 * var(--room-r)), calc(-1 * var(--half-h)), 0) rotateX(90deg);
+}
+
+/* Top-Right: Connects Front-Top-Right to Back-Top-Right along Ceiling & Right Wall */
+.rail-top-right {
+    transform: translate3d(var(--room-r), calc(-1 * var(--half-h)), 0) rotateX(90deg);
+}
+
+/* Bottom-Left: Connects Front-Bottom-Left to Back-Bottom-Left along Floor & Left Wall */
+.rail-bottom-left {
+    transform: translate3d(calc(-1 * var(--room-r)), var(--half-h), 0) rotateX(90deg);
+}
+
+/* Bottom-Right: Connects Front-Bottom-Right to Back-Bottom-Right along Floor & Right Wall */
+.rail-bottom-right {
+    transform: translate3d(var(--room-r), var(--half-h), 0) rotateX(90deg);
+}
+
+/* 4 Vertical Corner Pillars (Connecting Ceiling to Floor at 4 Vertical Wall Seams) */
+.corner-pillar {
+    position: absolute;
+    width: 3px;
+    height: var(--room-h);
+    margin-left: -1.5px;
+    margin-top: calc(-0.5 * var(--room-h));
+    background: #00f2fe;
+    box-shadow: 0 0 12px #00f2fe, 0 0 25px rgba(0, 242, 254, 0.6);
+    pointer-events: none;
+    transform-style: preserve-3d;
+}
+
+.pillar-front-left {
+    transform: translate3d(calc(-1 * var(--room-r)), 0, calc(-1 * var(--room-r)));
+}
+
+.pillar-front-right {
+    transform: translate3d(var(--room-r), 0, calc(-1 * var(--room-r)));
+}
+
+.pillar-back-left {
+    transform: translate3d(calc(-1 * var(--room-r)), 0, var(--room-r));
+}
+
+.pillar-back-right {
+    transform: translate3d(var(--room-r), 0, var(--room-r));
+}
+
+/* --------------------------------------------------------------------------
+   7. SUBTLE 3D AMBIENT DUST PARTICLES
+   -------------------------------------------------------------------------- */
+.room-ambient-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    transform-style: preserve-3d;
+}
+
+.dust-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #00f2fe;
+    box-shadow: 0 0 8px #00f2fe;
+}
+
+.p1 { transform: translate3d(-180px, -70px, -120px); animation: driftP1 14s infinite ease-in-out alternate; }
+.p2 { transform: translate3d(200px, 80px, -90px); animation: driftP2 18s infinite ease-in-out alternate; }
+.p3 { transform: translate3d(-130px, 110px, 40px); animation: driftP3 16s infinite ease-in-out alternate; }
+.p4 { transform: translate3d(160px, -120px, 60px); animation: driftP4 20s infinite ease-in-out alternate; }
+.p5 { transform: translate3d(0px, -140px, -160px); animation: driftP5 15s infinite ease-in-out alternate; }
+.p6 { transform: translate3d(40px, 130px, -150px); animation: driftP6 17s infinite ease-in-out alternate; }
+
+@keyframes driftP1 { from { transform: translate3d(-180px, -70px, -120px); opacity: 0.3; } to { transform: translate3d(-150px, -100px, -100px); opacity: 0.7; } }
+@keyframes driftP2 { from { transform: translate3d(200px, 80px, -90px); opacity: 0.4; } to { transform: translate3d(230px, 50px, -70px); opacity: 0.8; } }
+@keyframes driftP3 { from { transform: translate3d(-130px, 110px, 40px); opacity: 0.3; } to { transform: translate3d(-100px, 130px, 60px); opacity: 0.6; } }
+@keyframes driftP4 { from { transform: translate3d(160px, -120px, 60px); opacity: 0.5; } to { transform: translate3d(180px, -100px, 80px); opacity: 0.2; } }
+@keyframes driftP5 { from { transform: translate3d(0px, -140px, -160px); opacity: 0.6; } to { transform: translate3d(30px, -120px, -140px); opacity: 0.3; } }
+@keyframes driftP6 { from { transform: translate3d(40px, 130px, -150px); opacity: 0.3; } to { transform: translate3d(10px, 110px, -130px); opacity: 0.7; } }
+
+/* --------------------------------------------------------------------------
+   8. UNIFIED WALL BACKGROUND (Subtle Moving Cyber Grid - ZERO Dots)
+   Animated neon cyan grid lines matching the ceiling and floor
+   -------------------------------------------------------------------------- */
+.wall-bg-circuit {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.wall-grid,
+.circuit-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(rgba(0, 242, 254, 0.11) 1.5px, transparent 1.5px),
+        linear-gradient(90deg, rgba(0, 242, 254, 0.11) 1.5px, transparent 1.5px);
+    background-size: 50px 50px;
+    animation: wallGridDrift 18s linear infinite;
+    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.45s ease;
+}
+
+/* Active front wall: Clean background with NO grid lines so content stands out clearly */
+.room-wall-face.active-wall .wall-grid,
+.room-wall-face.active-wall .circuit-grid,
+.room-wall-face.active-wall .laser-scanline {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    background-image: none !important;
+}
+
+/* Side walls (and any non-front wall): Keep moving grid lines visible */
+.room-wall-face.is-side-wall .wall-grid,
+.room-wall-face.is-side-wall .circuit-grid,
+.room-wall-face.is-side-wall .laser-scanline,
+.room-wall-face:not(.active-wall) .wall-grid,
+.room-wall-face:not(.active-wall) .circuit-grid,
+.room-wall-face:not(.active-wall) .laser-scanline {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Mirrored harmonious grid drift for side walls */
+.wall-face-2 .wall-grid,
+.wall-face-2 .circuit-grid {
+    animation: wallGridDriftRight 18s linear infinite;
+}
+
+.wall-face-4 .wall-grid,
+.wall-face-4 .circuit-grid {
+    animation: wallGridDriftLeft 18s linear infinite;
+}
+
+@keyframes wallGridDrift {
+    from { background-position: 0 0; }
+    to { background-position: 0 50px; }
+}
+
+@keyframes wallGridDriftRight {
+    from { background-position: 0 0; }
+    to { background-position: -50px 50px; }
+}
+
+@keyframes wallGridDriftLeft {
+    from { background-position: 0 0; }
+    to { background-position: 50px 50px; }
+}
+
+.laser-scanline {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(0, 242, 254, 0.55), transparent);
+    box-shadow: 0 0 12px rgba(0, 242, 254, 0.8);
+    animation: laserSweep 5s ease-in-out infinite;
+}
+
+@keyframes laserSweep {
+    0% { top: 0%; opacity: 0; }
+    50% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
+
+/* Ceiling Grid & Light Beam */
+.ceiling-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(rgba(0, 242, 254, 0.1) 1.5px, transparent 1.5px),
+        linear-gradient(90deg, rgba(0, 242, 254, 0.1) 1.5px, transparent 1.5px);
+    background-size: 50px 50px;
+    animation: ceilingShift 20s linear infinite;
+}
+
+@keyframes ceilingShift {
+    from { background-position: 0 0; }
+    to { background-position: 50px 50px; }
+}
+
+.ceiling-light-beam {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 242, 254, 0.22) 0%, transparent 70%);
+    filter: blur(28px);
+}
+
+/* Floor Grid & Runway */
+.floor-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(rgba(0, 242, 254, 0.15) 1.5px, transparent 1.5px),
+        linear-gradient(90deg, rgba(0, 242, 254, 0.15) 1.5px, transparent 1.5px);
+    background-size: 50px 50px;
+    animation: floorShift 14s linear infinite;
+}
+
+@keyframes floorShift {
+    from { background-position: 0 0; }
+    to { background-position: 0 50px; }
+}
+
+.floor-runway {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 260px;
+    border-left: 2px dashed rgba(0, 242, 254, 0.5);
+    border-right: 2px dashed rgba(0, 242, 254, 0.5);
+    background: linear-gradient(180deg, rgba(0, 242, 254, 0.18) 0%, transparent 100%);
+    box-shadow: 0 0 20px rgba(0, 242, 254, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   9. WALL CONTENT PANELS ATTACHED DIRECTLY ONTO WALL SURFACES
+   Positioned flush on each wall face (Z = 1px to avoid GPU z-fighting)
+   -------------------------------------------------------------------------- */
+.wall-glass-panel {
+    position: relative;
+    z-index: 10;
+    width: min(90%, 940px);
+    height: auto;
+    min-height: min(76%, 500px);
+    max-height: min(88%, 600px);
+    background: #030818; /* High-contrast solid dark background: eliminates blurriness */
+    border: 2px solid #00f2fe;
+    border-radius: 20px;
+    box-shadow: 
+        0 0 35px rgba(0, 242, 254, 0.35),
+        inset 0 0 20px rgba(0, 242, 254, 0.08);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
+    padding: 24px 30px;
+    box-sizing: border-box;
+    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.45s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow: hidden; /* Desktop does not scroll internally */
+    transform: none; /* Attached flush onto wall plane; NO float toward viewer */
 }
 
-.accom-hero-badge {
-    display: inline-flex;
+/* Integrated Corner Brackets */
+.wall-glass-panel::before,
+.wall-glass-panel::after {
+    content: '';
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    pointer-events: none;
+    border-color: #00f2fe;
+    border-style: solid;
+}
+
+.wall-glass-panel::before {
+    top: -2px;
+    left: -2px;
+    border-width: 3px 0 0 3px;
+    border-top-left-radius: 20px;
+}
+
+.wall-glass-panel::after {
+    bottom: -2px;
+    right: -2px;
+    border-width: 0 3px 3px 0;
+    border-bottom-right-radius: 20px;
+}
+
+.wall-glass-panel:hover {
+    border-color: #33f5ff;
+    box-shadow: 
+        0 0 45px rgba(0, 242, 254, 0.45),
+        inset 0 0 25px rgba(0, 242, 254, 0.12);
+}
+
+/* Active wall panel facing viewer is crisp, sharp and fully interactive */
+.room-wall-face.active-wall .wall-glass-panel {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+/* Inactive side walls remain attached and visible on the wall surface with subtle dimming */
+.room-wall-face:not(.active-wall) .wall-glass-panel {
+    opacity: 0.85;
+    pointer-events: none !important;
+}
+
+/* Panel Header */
+.panel-header-compact {
+    display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 4px 14px;
-    border-radius: 20px;
-    background: rgba(0, 242, 254, 0.08);
-    border: 1px solid rgba(0, 242, 254, 0.3);
-    color: #00f2fe;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(0, 242, 254, 0.25);
+    padding-bottom: 10px;
+    margin-bottom: 6px;
+    flex-shrink: 0;
+}
+
+.panel-index-tag {
     font-family: 'Orbitron', sans-serif;
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 2px;
-    text-transform: uppercase;
-    box-shadow: 0 0 12px rgba(0, 242, 254, 0.15);
+    color: #00f2fe;
 }
 
-.accom-hero-title {
+.wall-section-title {
     font-family: 'Orbitron', sans-serif;
-    font-size: clamp(2.2rem, 4.5vw, 3.2rem);
-    font-weight: 900;
-    letter-spacing: 3px;
+    font-size: clamp(1.15rem, 2.2vw, 1.7rem);
+    font-weight: 800;
+    letter-spacing: 2.5px;
     color: #ffffff;
-    text-transform: uppercase;
     margin: 0;
-    line-height: 1.1;
-    text-shadow: 0 0 20px rgba(0, 242, 254, 0.45);
+    text-shadow: none;
+    -webkit-font-smoothing: antialiased;
 }
 
-.accom-hero-subtitle {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.98rem;
-    color: rgba(255, 255, 255, 0.75);
-    line-height: 1.5;
-    margin: 0;
-    max-width: 650px;
-}
-
-/* ============================================================
-   SECTION B: IMPORTANT ACCOMMODATION RULES CARD (SCREENSHOT 1)
-   ============================================================ */
-.rules-card-container {
-    background: rgba(10, 14, 28, 0.72) !important;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1.5px solid #00f2fe !important;
-    border-radius: 18px !important;
-    padding: 36px 44px !important;
-    box-shadow: 0 0 28px rgba(0, 242, 254, 0.22), inset 0 0 15px rgba(0, 242, 254, 0.04) !important;
-    box-sizing: border-box !important;
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
-}
-
-.rules-card-container:hover {
-    box-shadow: 0 0 38px rgba(0, 242, 254, 0.35), inset 0 0 20px rgba(0, 242, 254, 0.08) !important;
-    border-color: #33f5ff !important;
-}
-
-.rules-card-header {
-    display: flex;
-    align-items: center;
+/* --------------------------------------------------------------------------
+   WALL 1: OVERVIEW HERO CONTENT (Centered, No Buttons)
+   -------------------------------------------------------------------------- */
+.wall-overview-panel {
     justify-content: center;
-    gap: 12px;
-    margin-bottom: 28px;
-}
-
-.rules-card-header .warning-icon {
-    font-size: 1.7rem;
-    line-height: 1;
-}
-
-.rules-card-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(1.35rem, 2.8vw, 1.85rem);
-    font-weight: 700;
-    color: #00f2fe;
-    margin: 0;
-    letter-spacing: 1px;
-    text-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
-}
-
-.rules-arrow-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.rules-arrow-list li {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.98rem;
-    color: #ffffff;
-    line-height: 1.6;
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-}
-
-.rules-arrow-list li .cyan-arrow {
-    color: #00f2fe;
-    font-size: 1.15rem;
-    font-weight: 900;
-    line-height: 1.5;
-    flex-shrink: 0;
-    filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.6));
-}
-
-/* ============================================================
-   SECTION C: STUDENT EXEMPTION CALLOUT (SCREENSHOT 2)
-   ============================================================ */
-.notice-callout-outer {
-    background: rgba(10, 14, 28, 0.72) !important;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-radius: 18px !important;
-    padding: 40px 24px !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4) !important;
-    box-sizing: border-box !important;
-}
-
-.notice-inner-box {
-    border: 1.5px solid #00f2fe;
-    border-radius: 12px;
-    padding: 28px 40px;
-    background: rgba(0, 242, 254, 0.02);
-    box-shadow: 0 0 20px rgba(0, 242, 254, 0.15), inset 0 0 15px rgba(0, 242, 254, 0.04);
-    max-width: 600px;
-    width: 100%;
-    text-align: center;
-    box-sizing: border-box;
-}
-
-.notice-highlight-text {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.12rem;
-    font-weight: 700;
-    color: #00ff88;
-    margin: 0;
-    line-height: 1.6;
-    letter-spacing: 0.5px;
-    text-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
-}
-
-/* ============================================================
-   SECTION D: ACCOMMODATION GUIDELINES GRID (SCREENSHOT 3)
-   ============================================================ */
-.guidelines-section {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 28px !important;
-}
-
-.guidelines-main-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(1.7rem, 3.5vw, 2.3rem);
-    font-weight: 800;
-    color: #00f2fe;
-    margin: 0;
-    letter-spacing: 1.5px;
-    text-align: center;
-    text-shadow: 0 0 18px rgba(0, 242, 254, 0.45);
-}
-
-.dos-donts-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 28px;
-    width: 100%;
-    max-width: 860px;
-}
-
-.guideline-card {
-    background: rgba(10, 14, 28, 0.72);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1.5px solid #00f2fe;
-    border-radius: 18px;
-    padding: 36px 32px;
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    box-shadow: 0 0 24px rgba(0, 242, 254, 0.18), inset 0 0 15px rgba(0, 242, 254, 0.04);
-    box-sizing: border-box;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.guideline-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 34px rgba(0, 242, 254, 0.32);
-}
-
-.card-top-icon {
-    font-size: 2.6rem;
-    color: #00f2fe;
-    margin-bottom: 12px;
-    line-height: 1;
-    filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.5));
-}
-
-.card-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #00f2fe;
-    margin: 0 0 20px 0;
     text-align: center;
-    letter-spacing: 1px;
 }
 
-.bullet-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    width: 100%;
-}
-
-.bullet-list li {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.96rem;
-    color: rgba(255, 255, 255, 0.9);
-    line-height: 1.55;
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-}
-
-.bullet-list li .dot-marker {
-    color: #00f2fe;
-    font-size: 1.1rem;
-    line-height: 1.4;
-    flex-shrink: 0;
-}
-
-/* ============================================================
-   SECTION E: ACCOMMODATION BOOKING FORM
-   ============================================================ */
-.booking-section-container {
-    background: rgba(10, 14, 28, 0.72) !important;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1.5px solid #00f2fe !important;
-    border-radius: 18px !important;
-    padding: 38px 44px !important;
-    box-shadow: 0 0 30px rgba(0, 242, 254, 0.22), inset 0 0 15px rgba(0, 242, 254, 0.04) !important;
-    box-sizing: border-box !important;
-}
-
-.booking-header {
-    text-align: center;
-    margin-bottom: 28px;
-}
-
-.booking-section-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(1.4rem, 3vw, 1.9rem);
-    font-weight: 800;
-    color: #00f2fe;
-    margin: 0 0 8px 0;
-    letter-spacing: 1px;
-    text-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
-}
-
-.booking-section-sub {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.92rem;
-    color: rgba(255, 255, 255, 0.7);
-    margin: 0;
-}
-
-.booking-form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    width: 100%;
-}
-
-.form-field-group {
-    display: flex;
-    flex-direction: column;
+.panel-badge {
+    display: inline-flex;
+    align-items: center;
     gap: 8px;
-}
-
-.form-field-group.full-width {
-    grid-column: 1 / -1;
-}
-
-.form-label {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: #00f2fe;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-.form-input,
-.form-select {
-    width: 100%;
-    background: rgba(0, 242, 254, 0.04);
-    border: 1.5px solid rgba(0, 242, 254, 0.3);
-    border-radius: 10px;
-    padding: 12px 16px;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
-    color: #ffffff;
-    box-sizing: border-box;
-    outline: none;
-    transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
-}
-
-.form-input::placeholder {
-    color: rgba(255, 255, 255, 0.35);
-}
-
-.form-input:focus,
-.form-select:focus {
-    border-color: #00f2fe;
-    box-shadow: 0 0 15px rgba(0, 242, 254, 0.35);
     background: rgba(0, 242, 254, 0.08);
+    border: 1px solid rgba(0, 242, 254, 0.4);
+    border-radius: 30px;
+    padding: 6px 16px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    color: #00f2fe;
+    margin-bottom: 16px;
 }
 
-.form-select option {
-    background: #060c16;
+.badge-pulse {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #00f2fe;
+    box-shadow: 0 0 8px #00f2fe;
+    animation: badgeBlink 1.8s infinite ease-in-out;
+}
+
+@keyframes badgeBlink {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.4); }
+}
+
+.wall-main-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+    font-weight: 900;
+    letter-spacing: 5px;
     color: #ffffff;
-    padding: 10px;
+    margin: 0 0 8px 0;
+    text-shadow: none;
+    -webkit-font-smoothing: antialiased;
 }
 
-.form-select:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    border-color: rgba(255, 255, 255, 0.15);
+.wall-subheading {
+    font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+    color: #cbd5e1;
+    margin: 0 0 18px 0;
+    max-width: 600px;
 }
 
-.fee-display-box {
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(0, 242, 254, 0.2);
-    border-radius: 12px;
-    padding: 18px 24px;
-    text-align: center;
-    margin-top: 10px;
+.terminal-status-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(5, 12, 30, 0.85);
+    border: 1px solid rgba(0, 242, 254, 0.35);
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-family: 'Inter', monospace;
+    font-size: 0.82rem;
+    color: #00f2fe;
+    margin-bottom: 14px;
+    box-shadow: none;
 }
 
-.fee-status-badge {
-    display: inline-block;
+.status-icon {
+    font-size: 0.85rem;
+    color: #00f2fe;
+}
+
+.status-prefix {
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.important-notice-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(207, 58, 214, 0.1);
+    border: 1px solid rgba(207, 58, 214, 0.4);
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-size: 0.84rem;
+    color: #f1b2ff;
+    margin-bottom: 0;
+}
+
+.notice-icon {
+    color: #cf3ad6;
+}
+
+/* --------------------------------------------------------------------------
+   WALL 2: GUIDELINES CHECKLIST (Clean 2-Column Responsive Cards - NO Table / NO Scroll)
+   -------------------------------------------------------------------------- */
+.guidelines-checklist {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 16px;
+    margin-top: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.guideline-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(6, 14, 34, 0.7);
+    border: 1px solid rgba(0, 242, 254, 0.22);
+    border-radius: 8px;
+    padding: 10px 14px;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.guideline-item:hover {
+    border-color: rgba(0, 242, 254, 0.5);
+    background: rgba(8, 18, 44, 0.9);
+}
+
+.guide-num {
     font-family: 'Orbitron', sans-serif;
     font-size: 0.88rem;
     font-weight: 800;
     color: #00f2fe;
-    letter-spacing: 1px;
-    text-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+    flex-shrink: 0;
+    line-height: 1;
 }
 
-.payment-action-block {
+.guide-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    color: #e2e8f0;
+    line-height: 1.35;
+    margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   WALL 3: DO'S AND DON'TS SIDE-BY-SIDE PANELS (NO Scroll)
+   -------------------------------------------------------------------------- */
+.dodont-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.dodont-box {
+    border-radius: 12px;
+    padding: 16px 18px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    margin-top: 8px;
 }
 
-.disabled-payment-btn {
-    display: inline-flex;
+.dos-box {
+    background: rgba(3, 24, 20, 0.55);
+    border: 1.5px solid #00f2fe;
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
+}
+
+.donts-box {
+    background: rgba(28, 6, 20, 0.55);
+    border: 1.5px solid #ff2a6d;
+    box-shadow: 0 0 15px rgba(255, 42, 109, 0.15);
+}
+
+.dodont-box-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dos-box .dodont-box-header {
+    color: #00f2fe;
+}
+
+.donts-box .dodont-box-header {
+    color: #ff2a6d;
+}
+
+.dodont-box-header h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.86rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin: 0;
+}
+
+.dodont-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dodont-items li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.83rem;
+    color: #e2e8f0;
+    line-height: 1.35;
+}
+
+.dos-box .check-icon {
+    color: #00ff88;
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+.donts-box .cross-icon {
+    color: #ff2a6d;
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   WALL 4: ALLOCATION FORM & REAL INTERACTIVE INPUTS (NO Scroll on Desktop)
+   -------------------------------------------------------------------------- */
+.accom-booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 50;
+    pointer-events: auto !important;
+}
+
+.form-grid-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.form-group label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #cbd5e1;
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    cursor: pointer;
+    pointer-events: auto !important;
+}
+
+.form-group label .req {
+    color: #ff2a6d;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    z-index: 10;
+    pointer-events: auto !important;
+}
+
+.input-icon {
+    position: absolute;
+    left: 11px;
+    color: #00f2fe;
+    font-size: 0.8rem;
+    pointer-events: none;
+    z-index: 12;
+}
+
+.input-wrapper input,
+.input-wrapper select {
+    width: 100%;
+    background: #060e28 !important;
+    border: 1.5px solid rgba(0, 242, 254, 0.45) !important;
+    border-radius: 8px;
+    padding: 8px 12px 8px 32px;
+    color: #ffffff !important;
+    font-size: 0.84rem;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    cursor: text !important;
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    pointer-events: auto !important;
+    position: relative;
+    z-index: 20;
+}
+
+.input-wrapper select {
+    cursor: pointer !important;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300f2fe'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding-right: 30px;
+}
+
+.input-wrapper select option {
+    background: #060e28;
+    color: #ffffff;
+}
+
+.input-wrapper input:focus,
+.input-wrapper select:focus {
+    background: #091538 !important;
+    border-color: #00f2fe !important;
+    box-shadow: 0 0 12px rgba(0, 242, 254, 0.6) !important;
+    outline: 2px solid #00f2fe !important;
+}
+
+.input-wrapper input.has-error,
+.input-wrapper select.has-error {
+    border-color: #ff2a6d !important;
+    box-shadow: 0 0 10px rgba(255, 42, 109, 0.5) !important;
+}
+
+.input-wrapper input:disabled,
+.input-wrapper select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+}
+
+.field-error {
+    font-size: 0.68rem;
+    color: #ff5287;
+    min-height: 14px;
+    line-height: 1.2;
+}
+
+.fee-status-display {
+    background: rgba(0, 242, 254, 0.06);
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-sizing: border-box;
+}
+
+.fee-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.fee-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 1.5px;
+    color: #94a3b8;
+}
+
+.fee-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: #00f2fe;
+    text-shadow: 0 0 8px rgba(0, 242, 254, 0.5);
+}
+
+.booking-notice {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.7rem;
+    color: #e6a8ff;
+    line-height: 1.3;
+}
+
+.booking-notice i {
+    color: #cf3ad6;
+    flex-shrink: 0;
+}
+
+.portal-btn-disabled {
+    width: 100%;
+    background: rgba(25, 30, 48, 0.7);
+    border: 1.5px solid rgba(163, 168, 204, 0.3);
+    border-radius: 8px;
+    padding: 10px 18px;
+    color: #8b92b8;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    cursor: not-allowed;
+    opacity: 0.8;
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    padding: 15px 34px;
-    border-radius: 50px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1.5px solid rgba(255, 255, 255, 0.2);
-    color: rgba(255, 255, 255, 0.5);
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 800;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    cursor: not-allowed;
-    user-select: none;
-    box-shadow: none;
-    outline: none;
+    box-sizing: border-box;
 }
 
-.payment-notice-text {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.6);
-    text-align: center;
-    margin: 0;
-    max-width: 580px;
-    line-height: 1.5;
-}
-
-/* Footer Flow Override */
-.accom-main-container .pravaah-full-footer {
-    position: relative !important;
-    width: 100% !important;
-    margin-top: 20px !important;
-    z-index: 5 !important;
-}
-
-/* ============================================================
-   RESPONSIVE MEDIA QUERIES
-   ============================================================ */
+/* --------------------------------------------------------------------------
+   10. MOBILE RESPONSIVE FALLBACK (<= 850px) & REDUCED MOTION
+   Clean vertical stacked layout on mobile viewports: WALL 1 to WALL 4
+   -------------------------------------------------------------------------- */
 @media (max-width: 850px) {
     .subpage-main.accom-main-container {
-        padding-top: 100px !important;
+        padding-top: 110px !important;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+        min-height: auto !important;
+    }
+
+    .room-scroll-track {
+        height: auto !important;
+    }
+
+    .room-sticky-stage {
+        position: static !important;
+        height: auto !important;
+        width: 100% !important;
+        display: block !important;
+        overflow: visible !important;
+    }
+
+    .room-viewport {
+        height: auto !important;
+        min-height: 0 !important;
+        perspective: none !important;
+        overflow: visible !important;
+        border: none !important;
+        background: none !important;
+        box-shadow: none !important;
+    }
+
+    .room-chamber {
+        position: static !important;
+        transform: none !important;
+        width: 100% !important;
+        height: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
         gap: 32px !important;
     }
 
-    .rules-card-container,
-    .booking-section-container {
-        padding: 30px 22px !important;
+    /* Hide ceiling, floor, corner rails, pillars, and ambient particles on mobile */
+    .ceiling-face,
+    .floor-face,
+    .corner-rail,
+    .corner-pillar,
+    .room-ambient-particles {
+        display: none !important;
     }
 
-    .booking-form-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
+    /* Stack walls vertically: 1, 2, 3, 4 */
+    .wall-face-1,
+    .wall-face-2,
+    .wall-face-3,
+    .wall-face-4 {
+        position: static !important;
+        width: 100% !important;
+        height: auto !important;
+        left: auto !important;
+        top: auto !important;
+        transform: none !important;
+        border-radius: 20px !important;
+        padding: 0 !important;
+        background: none !important;
+        border: none !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
     }
 
-    .dos-donts-grid {
-        grid-template-columns: 1fr;
-        gap: 22px;
+    .wall-glass-panel,
+    .wall-content {
+        position: static !important;
+        display: flex !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        max-height: none !important;
+        padding: 20px 16px !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        filter: none !important;
+        pointer-events: auto !important;
+        overflow: visible !important;
+        transform: none !important;
     }
 
-    .guideline-card {
-        padding: 30px 22px;
-    }
-
-    .notice-inner-box {
-        padding: 22px 18px;
-    }
-
-    .notice-highlight-text {
-        font-size: 1rem;
+    .guidelines-checklist,
+    .dodont-columns,
+    .form-grid-two {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
     }
 }
 
-@media (max-width: 500px) {
-    .subpage-main.accom-main-container {
-        padding-top: 90px !important;
-        padding-left: 16px !important;
-        padding-right: 16px !important;
-        gap: 28px !important;
+@media (prefers-reduced-motion: reduce) {
+    .room-scroll-track {
+        height: auto !important;
     }
 
-    .rules-card-header {
-        flex-direction: column;
-        text-align: center;
-        gap: 6px;
+    .room-sticky-stage {
+        position: static !important;
+        height: auto !important;
     }
 
-    .rules-arrow-list li {
-        font-size: 0.92rem;
+    .room-viewport {
+        perspective: none !important;
+        height: auto !important;
     }
 
-    .disabled-payment-btn {
-        width: 100%;
-        box-sizing: border-box;
-        padding: 14px 18px;
-        font-size: 0.78rem;
+    .room-chamber {
+        transition: none !important;
+    }
+
+    .ceiling-grid,
+    .floor-grid,
+    .wall-grid,
+    .circuit-grid,
+    .laser-scanline,
+    .dust-particle {
+        animation: none !important;
     }
 }
