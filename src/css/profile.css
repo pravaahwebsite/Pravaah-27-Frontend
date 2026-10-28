@@ -651,7 +651,7 @@ body.subpage-body .profile-wrapper {
 }
 
 .pf-qr-laser {
-    position: absolute;
+    position: absolute !important;
     left: 0;
     top: 0;
     width: 100%;
@@ -2257,28 +2257,292 @@ body.subpage-body .profile-wrapper {
 }
 
 /* ==========================================================================
-   17. RESPONSIVE BREAKPOINTS
+   17. COMPREHENSIVE RESPONSIVE ENGINE
    ========================================================================== */
+
+/* 1. Large Laptops & Desktop Displays (<= 1200px) */
+@media (max-width: 1200px) {
+    .profile-wrapper {
+        max-width: 100% !important;
+        padding: 0 10px;
+    }
+    .pf-console-layout {
+        grid-template-columns: 320px minmax(0, 1fr) !important;
+        gap: 18px !important;
+    }
+    .pf-metrics-grid {
+        gap: 12px !important;
+    }
+}
+
+/* 2. Tablet Landscape & Medium Displays (<= 1080px) */
 @media (max-width: 1080px) {
     .pf-console-layout {
         grid-template-columns: 1fr !important;
+        gap: 20px !important;
     }
     .pf-metrics-grid {
         grid-template-columns: repeat(2, 1fr) !important;
+        gap: 14px !important;
     }
     .pf-pass-showcase,
     .pf-accom-grid,
     .pf-karma-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .pf-sidebar {
+        max-width: 100%;
+    }
+    .pf-actions-box {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+    .pf-box-title {
+        grid-column: 1 / -1;
+    }
+    .pf-tabs-nav {
+        justify-content: flex-start;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+    }
+    .pf-tab-btn {
+        flex: 0 0 auto;
+        white-space: nowrap;
+    }
+}
+
+/* 3. Medium Tablets & Small Laptops (<= 868px) */
+@media (max-width: 868px) {
+    body.subpage-body .subpage-main {
+        padding: 95px 16px 60px 16px !important;
+    }
+    .profile-wrapper {
+        gap: 22px !important;
+    }
+    .pf-hero-title {
+        font-size: clamp(1.8rem, 5vw, 2.7rem);
+    }
+    .pf-hero-subtitle {
+        font-size: 0.9rem;
+        max-width: 90%;
+    }
+    .pf-countdown-bar {
+        gap: 12px;
+        padding: 12px 18px;
+    }
+    .pf-countdown-left {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .pf-actions-box {
         grid-template-columns: 1fr;
     }
 }
 
+/* 4. Small Tablets & Large Phones (<= 680px) */
 @media (max-width: 680px) {
     body.subpage-body .subpage-main {
-        padding: 95px 14px 60px 14px !important;
+        padding: 85px 14px 50px 14px !important;
     }
+    .profile-wrapper {
+        gap: 18px !important;
+    }
+    .pf-hero {
+        margin-bottom: 0 !important;
+    }
+    .pf-hero-tag {
+        font-size: 0.62rem;
+        letter-spacing: 0.1em;
+        padding: 5px 14px;
+        max-width: 100%;
+        text-align: center;
+        white-space: normal;
+        line-height: 1.4;
+    }
+    .pf-hero-title {
+        font-size: clamp(1.5rem, 5.8vw, 2.2rem);
+        letter-spacing: 0.03em;
+        word-break: break-word;
+    }
+    .pf-hero-subtitle {
+        font-size: 0.85rem;
+        line-height: 1.5;
+        padding: 0 6px;
+    }
+    
+    /* Countdown HUD Bar */
+    .pf-countdown-bar {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 12px;
+        padding: 12px 14px;
+    }
+    .pf-countdown-left {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+    }
+    .pf-countdown-timer {
+        justify-content: center;
+    }
+    .pf-countdown-right {
+        width: 100%;
+        justify-content: center;
+        font-size: 0.72rem;
+    }
+
+    /* Metrics */
     .pf-metrics-grid {
         grid-template-columns: 1fr !important;
+        gap: 10px !important;
+    }
+    .pf-metric-card {
+        padding: 14px 16px;
+        gap: 14px;
+    }
+    .pf-metric-subtext {
+        white-space: normal;
+        line-height: 1.35;
+    }
+
+    /* Tabs & Panels */
+    .pf-tabs-nav {
+        justify-content: flex-start;
+        padding: 5px;
+        gap: 5px;
+    }
+    .pf-tab-btn {
+        font-size: 0.65rem;
+        padding: 8px 10px;
+        flex: 0 0 auto;
+    }
+    .pf-tab-panel {
+        padding: 18px 14px;
+        border-radius: 16px;
+        gap: 16px;
+    }
+    .pf-panel-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        padding-bottom: 12px;
+    }
+    .pf-panel-title {
+        font-size: 0.96rem;
+    }
+    .pf-panel-desc {
+        font-size: 0.76rem;
+    }
+
+    /* Filter Controls & Search */
+    .pf-filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    .pf-filter-pills {
+        width: 100%;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 4px;
+    }
+    .pf-filter-pill {
+        flex-shrink: 0;
+    }
+    .pf-search-box {
+        width: 100%;
+        min-width: 0;
+    }
+
+    /* Event Cards */
+    .pf-event-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 14px 16px;
+    }
+    .pf-event-left {
+        width: 100%;
+        gap: 12px;
+    }
+    .pf-event-actions {
+        width: 100%;
+        display: flex;
+        gap: 8px;
+        justify-content: stretch;
+    }
+    .pf-event-actions .pf-event-btn {
+        flex: 1;
+        justify-content: center;
+        text-align: center;
+        padding: 8px 6px;
+        font-size: 0.64rem;
+    }
+
+    /* Pass Showcase */
+    .pf-dynamic-token-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 12px 14px;
+    }
+    .pf-nfc-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+        padding: 14px 16px;
+    }
+    #generateDownloadPassBtn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Accommodation & Mess */
+    .pf-meal-day-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 10px 12px;
+    }
+    .pf-meal-pills {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+    .pf-meal-pill {
+        flex: 1 1 calc(50% - 6px);
+        text-align: center;
+        padding: 6px 4px;
+        font-size: 0.6rem;
+    }
+    .pf-wifi-card,
+    .pf-roommate-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        text-align: left;
+    }
+    .pf-wifi-card button,
+    .pf-roommate-card a {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Squad & Vault Grid */
+    .pf-squad-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px;
+    }
+    .pf-squad-code-pill {
+        width: 100%;
+        justify-content: center;
     }
     .pf-members-grid,
     .pf-vault-grid,
@@ -2286,23 +2550,275 @@ body.subpage-body .profile-wrapper {
     .pf-form-row {
         grid-template-columns: 1fr;
     }
+    .pf-cert-top {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    /* Modals */
+    .pf-modal-dialog {
+        padding: 22px 16px;
+        border-radius: 18px;
+        max-height: 85vh;
+    }
+    .pf-modal-title {
+        font-size: 0.98rem;
+        padding-right: 24px;
+    }
+    .pf-toast {
+        left: 16px;
+        right: 16px;
+        bottom: 20px;
+        font-size: 0.72rem;
+        padding: 10px 14px;
+        justify-content: center;
+        text-align: center;
+    }
+}
+
+/* 5. Standard Mobile Devices (<= 480px) */
+@media (max-width: 480px) {
+    body.subpage-body .subpage-main {
+        padding: 78px 10px 40px 10px !important;
+    }
+    .profile-wrapper {
+        gap: 14px !important;
+    }
+    .pf-hero-title {
+        font-size: clamp(1.35rem, 6.5vw, 1.75rem);
+        letter-spacing: 0.02em;
+    }
+    .pf-hero-tag {
+        font-size: 0.56rem;
+        letter-spacing: 0.06em;
+        padding: 4px 10px;
+        gap: 6px;
+    }
+    .pf-hero-subtitle {
+        font-size: 0.78rem;
+        line-height: 1.42;
+        padding: 0 4px;
+    }
+
+    /* Live Countdown */
+    .pf-countdown-bar {
+        padding: 10px 12px;
+        gap: 8px;
+    }
+    .pf-countdown-label {
+        font-size: 0.65rem;
+    }
+    .pf-countdown-timer {
+        gap: 6px;
+    }
+    .pf-time-unit {
+        min-width: 38px;
+        padding: 3px 5px;
+    }
+    .pf-time-unit .t-val {
+        font-size: 0.85rem;
+    }
+    .pf-time-unit .t-lbl {
+        font-size: 0.46rem;
+    }
+
+    /* ID Card Badge */
+    .pf-id-card {
+        padding: 16px 12px;
+        border-radius: 16px;
+        gap: 14px;
+    }
+    .pf-user-strip {
+        gap: 10px;
+    }
+    .pf-avatar-wrapper {
+        width: 58px;
+        height: 58px;
+        min-width: 58px;
+    }
+    .pf-avatar-initials {
+        font-size: 1.2rem;
+    }
+    .pf-user-name {
+        font-size: 1.02rem;
+        white-space: normal;
+        word-break: break-word;
+    }
+    .pf-user-college {
+        font-size: 0.74rem;
+    }
+    .pf-id-matrix {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    .pf-matrix-cell {
+        padding: 7px 10px;
+    }
+    .pf-qr-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 12px;
+        padding: 12px;
+    }
+    .pf-qr-actions-row {
+        width: 100%;
+        justify-content: center;
+        gap: 6px;
+    }
+    .pf-qr-actions-row .pf-mini-btn {
+        flex: 1;
+        justify-content: center;
+        padding: 6px 4px;
+        font-size: 0.6rem;
+    }
+
+    /* Tabs Bar */
     .pf-tabs-nav {
-        justify-content: flex-start;
+        padding: 4px;
+        gap: 4px;
     }
     .pf-tab-btn {
-        font-size: 0.65rem;
-        padding: 8px 10px;
+        font-size: 0.6rem;
+        padding: 6px 9px;
+        gap: 4px;
     }
-    .pf-event-card {
-        flex-direction: column;
-        align-items: flex-start;
+    .pf-tab-badge {
+        font-size: 0.54rem;
+        padding: 1px 4px;
     }
-    .pf-event-actions {
+    .pf-tab-panel {
+        padding: 14px 10px;
+        border-radius: 14px;
+        gap: 12px;
+    }
+
+    /* Gate Pass Card */
+    .pf-pass-visual {
+        padding: 16px 12px;
+        gap: 12px;
+    }
+    .pf-fake-barcode {
+        height: 26px;
         width: 100%;
-        justify-content: flex-end;
     }
-    .pf-countdown-bar {
-        flex-direction: column;
-        align-items: flex-start;
+    .pf-barcode-code {
+        font-size: 0.52rem;
+        letter-spacing: 0.08em;
+        text-align: center;
+        word-break: break-all;
+    }
+
+    /* Hostel & Accom */
+    .pf-hostel-card,
+    .pf-mess-box {
+        padding: 14px 10px;
+        gap: 12px;
+    }
+    .pf-hostel-details-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    .pf-day-name {
+        font-size: 0.65rem;
+    }
+
+    /* Karma Badges & Leaderboard */
+    .pf-karma-box {
+        padding: 14px 10px;
+        gap: 12px;
+    }
+    .pf-badges-grid {
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        gap: 8px;
+    }
+    .pf-badge-item {
+        padding: 10px 4px;
+    }
+    .pf-badge-icon {
+        font-size: 1.25rem;
+    }
+    .pf-badge-name {
+        font-size: 0.58rem;
+    }
+    .pf-badge-desc {
+        font-size: 0.52rem;
+    }
+    .pf-leaderboard-table th,
+    .pf-leaderboard-table td {
+        padding: 7px 4px;
+        font-size: 0.68rem;
+    }
+    .pf-rank-pill {
+        padding: 1px 5px;
+        font-size: 0.58rem;
+    }
+
+    /* Modals */
+    .pf-modal-overlay {
+        padding: 8px;
+    }
+    .pf-modal-dialog {
+        padding: 18px 12px;
+        border-radius: 16px;
+    }
+    .pf-modal-title {
+        font-size: 0.92rem;
+    }
+    .pf-modal-subtitle {
+        font-size: 0.7rem;
+        margin-bottom: 12px;
+    }
+    #qrEnlargeModal svg {
+        width: 130px;
+        height: 130px;
+    }
+}
+
+/* 6. Extra-Narrow Mobile Screens (<= 360px) */
+@media (max-width: 360px) {
+    .pf-hero-title {
+        font-size: 1.22rem;
+    }
+    .pf-hero-tag {
+        font-size: 0.5rem;
+        letter-spacing: 0.04em;
+        padding: 3px 8px;
+    }
+    .pf-time-unit {
+        min-width: 34px;
+        padding: 2px 4px;
+    }
+    .pf-time-unit .t-val {
+        font-size: 0.78rem;
+    }
+    .pf-metric-card {
+        padding: 10px 12px;
+        gap: 10px;
+    }
+    .pf-metric-icon {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        font-size: 0.95rem;
+    }
+    .pf-metric-number {
+        font-size: 1.05rem;
+    }
+    .pf-tab-btn {
+        font-size: 0.56rem;
+        padding: 5px 7px;
+    }
+}
+
+/* 7. Touch Performance & Interaction Smoothing */
+@media (hover: none) {
+    .pf-metric-card:hover,
+    .pf-event-card:hover,
+    .pf-cert-card:hover,
+    .pf-btn-primary:hover,
+    .pf-btn-outline:hover,
+    .pf-badge-item.unlocked:hover {
+        transform: none !important;
     }
 }
