@@ -310,4 +310,146 @@ document.addEventListener('DOMContentLoaded', () => {
     if (navWheel) {
         navWheel.addEventListener('mouseleave', hideHoverPill);
     }
+
+    // 6. Mobile Navigation & Side Drawer Controller (Techfest Style for Phones)
+    function initMobileNav() {
+        const menuTrigger = document.getElementById('mobile-menu-trigger');
+        const menuClose = document.getElementById('mobile-menu-close');
+        const sideMenu = document.getElementById('mobile-side-menu');
+        const backdrop = document.getElementById('mobile-menu-backdrop');
+
+        function openSideMenu() {
+            if (sideMenu) {
+                sideMenu.classList.add('is-open');
+                sideMenu.setAttribute('aria-hidden', 'false');
+            }
+            if (backdrop) {
+                backdrop.classList.add('is-open');
+                backdrop.setAttribute('aria-hidden', 'false');
+            }
+            if (menuTrigger) {
+                menuTrigger.setAttribute('aria-expanded', 'true');
+            }
+            document.body.classList.add('side-menu-locked');
+        }
+
+        function closeSideMenu() {
+            if (sideMenu) {
+                sideMenu.classList.remove('is-open');
+                sideMenu.setAttribute('aria-hidden', 'true');
+            }
+            if (backdrop) {
+                backdrop.classList.remove('is-open');
+                backdrop.setAttribute('aria-hidden', 'true');
+            }
+            if (menuTrigger) {
+                menuTrigger.setAttribute('aria-expanded', 'false');
+            }
+            document.body.classList.remove('side-menu-locked');
+        }
+
+        if (menuTrigger) {
+            menuTrigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (sideMenu && sideMenu.classList.contains('is-open')) {
+                    closeSideMenu();
+                } else {
+                    openSideMenu();
+                }
+            });
+        }
+
+        if (menuClose) {
+            menuClose.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                closeSideMenu();
+            });
+        }
+
+        if (backdrop) {
+            backdrop.addEventListener('click', (e) => {
+                e.preventDefault();
+                closeSideMenu();
+            });
+        }
+
+        // Close on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && sideMenu && sideMenu.classList.contains('is-open')) {
+                closeSideMenu();
+            }
+        });
+
+        // Close side drawer when any mobile link is clicked
+        document.querySelectorAll('.side-menu-link, .bottom-nav-item:not(.menu-trigger-btn)').forEach(link => {
+            link.addEventListener('click', () => {
+                closeSideMenu();
+            });
+        });
+
+        // Touch swipe-to-close gesture support on mobile side menu
+        let touchStartX = 0;
+        let touchEndX = 0;
+        if (sideMenu) {
+            sideMenu.addEventListener('touchstart', (e) => {
+                if (e.changedTouches && e.changedTouches[0]) {
+                    touchStartX = e.changedTouches[0].screenX;
+                }
+            }, { passive: true });
+
+            sideMenu.addEventListener('touchend', (e) => {
+                if (e.changedTouches && e.changedTouches[0]) {
+                    touchEndX = e.changedTouches[0].screenX;
+                    if (touchEndX - touchStartX > 50) {
+                        closeSideMenu();
+                    }
+                }
+            }, { passive: true });
+        }
+
+        // Sync active states across bottom nav and side menu based on current URL
+        function syncMobileActiveNav() {
+            const rawPath = window.location.pathname.split('/').pop() || 'index.html';
+            const normalizedPath = (rawPath === '' || rawPath === '/') ? 'index.html' : rawPath;
+
+            // Sync Bottom Navigation items
+            document.querySelectorAll('.bottom-nav-item[href]').forEach(item => {
+                const href = item.getAttribute('href');
+                if (href === normalizedPath) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+
+            // If on inner pages, highlight MENU button pip
+            const subpages = ['accommodation.html', 'photo-gallery.html', 'sponsors.html', 'contact.html'];
+            const menuBtn = document.getElementById('mobile-menu-trigger');
+            if (menuBtn) {
+                if (subpages.includes(normalizedPath)) {
+                    menuBtn.classList.add('has-active-subpage');
+                } else {
+                    menuBtn.classList.remove('has-active-subpage');
+                }
+            }
+
+            // Sync Side Menu items
+            document.querySelectorAll('.side-menu-link[href]').forEach(item => {
+                const href = item.getAttribute('href');
+                if (href === normalizedPath) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        syncMobileActiveNav();
+        window.addEventListener('popstate', syncMobileActiveNav);
+    }
+
+    initMobileNav();
+
 });
