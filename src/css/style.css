@@ -154,8 +154,12 @@ section {
     background: transparent !important;
 }
 
-.glow-core {
-    position: absolute;
+.glow-core,
+.snap-page > .glow-core {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
     width: 400px;
     height: 400px;
     background: radial-gradient(circle, rgba(230, 38, 120, 0.25) 0%, rgba(59, 98, 216, 0.18) 50%, transparent 70%);
@@ -163,6 +167,7 @@ section {
     filter: blur(40px);
     z-index: 1;
     animation: pulse 8s infinite alternate;
+    pointer-events: none !important;
 }
 
 .splash-content {
@@ -15995,7 +16000,7 @@ body.subpage-body>.pravaah-full-footer {
     .gallery-footer,
     .sponsors-footer-section,
     .contact-footer-section,
-    footer {
+    footer:not(.room-bottom-hud) {
         margin-bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
     }
 
@@ -16005,6 +16010,7 @@ body.subpage-body>.pravaah-full-footer {
 
     .room-bottom-hud {
         bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
+        margin-bottom: 0 !important;
     }
 }
 
@@ -16461,4 +16467,189 @@ body.subpage-body>.pravaah-full-footer {
 body.side-menu-locked {
     overflow: hidden !important;
     touch-action: none;
+}
+
+/* ==========================================================================
+   MOBILE VIEWPORT REFINEMENTS: HOMEPAGE SPLASH & EVENTS PAGE CENTERING
+   ========================================================================== */
+
+@media (max-width: 900px) {
+    /* 1. HOMEPAGE MOBILE FLOW & CENTERING */
+    #splash-screen.portal-warp-section,
+    #splash-screen.snap-page,
+    #splash-screen {
+        min-height: auto !important;
+        height: auto !important;
+        padding-top: 24px !important;
+        padding-bottom: 95px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+        position: relative !important;
+    }
+
+    #splash-screen .glow-core {
+        top: 200px !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 320px !important;
+        height: 320px !important;
+        pointer-events: none !important;
+    }
+
+    .splash-content {
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        padding: 0 16px !important;
+        gap: 20px !important;
+        min-height: auto !important;
+        height: auto !important;
+        box-sizing: border-box !important;
+    }
+
+    .splash-logo-column {
+        order: 1 !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 auto 10px auto !important;
+    }
+
+    .big-septagon-portal-container {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
+        width: clamp(220px, 64vw, 270px) !important;
+        height: clamp(220px, 64vw, 270px) !important;
+        margin: 0 auto 8px auto !important;
+    }
+
+    .logo-container {
+        margin-top: -24px !important;
+        z-index: 5 !important;
+        position: relative !important;
+        text-align: center !important;
+    }
+
+    .logo-pravaah {
+        font-size: clamp(1.4rem, 6.2vw, 1.85rem) !important;
+    }
+
+    .logo-title {
+        font-size: clamp(2.4rem, 10.5vw, 3.2rem) !important;
+    }
+
+    .multiverse-countdown-container {
+        margin: 12px auto 0 auto !important;
+        padding: 8px 12px !important;
+        max-width: 95% !important;
+    }
+
+    .home-swipe-prompt {
+        margin: 14px auto 0 auto !important;
+    }
+
+    .splash-highlights-panel,
+    .splash-status-panel {
+        order: 2 !important;
+        width: 100% !important;
+        max-width: 370px !important;
+        margin: 0 auto !important;
+        box-sizing: border-box !important;
+    }
+
+    .splash-status-panel {
+        order: 3 !important;
+    }
+
+    /* 2. EVENTS PAGE MOBILE CENTERING & FIT */
+    .events-page-body .events-portal-hero,
+    .events-portal-hero {
+        width: 100% !important;
+        max-width: 100vw !important;
+        padding: 0 12px !important;
+        margin: 0 auto !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+
+    .events-hero-header-box {
+        width: 100% !important;
+        margin: 0 auto 12px auto !important;
+        text-align: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .events-hero-title {
+        font-size: clamp(1.4rem, 6.2vw, 2rem) !important;
+        text-align: center !important;
+        letter-spacing: 0.08em !important;
+        margin: 0 auto !important;
+    }
+
+    .events-page-body .standalone-network-viewport,
+    .standalone-network-viewport {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 520px !important;
+        min-height: 520px !important;
+        margin: 0 auto !important;
+        border-radius: 18px !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .events-page-body .portal-network-container,
+    .portal-network-container {
+        width: 100% !important;
+        height: 100% !important;
+        position: relative !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 auto !important;
+    }
+
+    .core-deploy-prompt {
+        max-width: 90% !important;
+        left: 50% !important;
+        transform: translate(-50%, 0) !important;
+        white-space: normal !important;
+        text-align: center !important;
+        padding: 8px 14px !important;
+        box-sizing: border-box !important;
+    }
+
+    .portal-hud-tip {
+        width: calc(100% - 32px) !important;
+        max-width: 320px !important;
+        white-space: normal !important;
+        text-align: center !important;
+        font-size: 0.58rem !important;
+        line-height: 1.4 !important;
+        padding: 6px 10px !important;
+        bottom: 12px !important;
+        justify-content: center !important;
+    }
+
+    .telemetry-box {
+        display: none !important;
+    }
 }
