@@ -15971,7 +15971,8 @@ body.subpage-body>.pravaah-full-footer {
 @media (min-width: 901px) {
     .mobile-bottom-nav,
     .mobile-side-menu,
-    .mobile-menu-backdrop {
+    .mobile-menu-backdrop,
+    .mobile-top-menu-btn {
         display: none !important;
     }
 }
@@ -16012,6 +16013,69 @@ body.subpage-body>.pravaah-full-footer {
         bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
         margin-bottom: 0 !important;
     }
+}
+
+
+/* Mobile Top-Left Menu Trigger Button (Phone Only, No Text) */
+.mobile-top-menu-btn {
+    position: fixed;
+    top: calc(14px + env(safe-area-inset-top, 0px));
+    left: 14px;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(6, 8, 22, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1.5px solid rgba(0, 242, 254, 0.4);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.65), 0 0 12px rgba(0, 242, 254, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #00f2fe;
+    cursor: pointer;
+    z-index: 1250;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+    padding: 0;
+}
+
+.mobile-top-menu-btn .top-menu-icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+}
+
+.mobile-top-menu-btn svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+    transition: stroke 0.22s ease, transform 0.22s ease;
+}
+
+.mobile-top-menu-btn:hover {
+    background: rgba(0, 242, 254, 0.16);
+    border-color: #00f2fe;
+    box-shadow: 0 0 22px rgba(0, 242, 254, 0.55);
+    transform: scale(1.06);
+}
+
+.mobile-top-menu-btn:active {
+    transform: scale(0.92);
+}
+
+.mobile-top-menu-btn.has-active-subpage .top-menu-active-dot {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ff007f;
+    box-shadow: 0 0 8px #ff007f;
 }
 
 /* 1. MOBILE BOTTOM NAVIGATION BAR */
@@ -16184,7 +16248,8 @@ body.subpage-body>.pravaah-full-footer {
 .mobile-side-menu {
     position: fixed;
     top: 0;
-    right: 0;
+    left: 0;
+    right: auto;
     bottom: 0;
     width: min(340px, 86vw);
     height: 100vh;
@@ -16192,15 +16257,16 @@ body.subpage-body>.pravaah-full-footer {
     background: linear-gradient(180deg, rgba(10, 11, 26, 0.98) 0%, rgba(5, 6, 16, 0.99) 100%);
     backdrop-filter: blur(28px) saturate(190%);
     -webkit-backdrop-filter: blur(28px) saturate(190%);
-    border-left: 1px solid rgba(0, 242, 254, 0.3);
+    border-right: 1px solid rgba(0, 242, 254, 0.3);
+    border-left: none;
     box-shadow: 
-        -16px 0 50px rgba(0, 0, 0, 0.92),
-        -2px 0 25px rgba(0, 242, 254, 0.22),
-        inset 1px 0 0 rgba(255, 255, 255, 0.08);
+        16px 0 50px rgba(0, 0, 0, 0.92),
+        2px 0 25px rgba(0, 242, 254, 0.22),
+        inset -1px 0 0 rgba(255, 255, 255, 0.08);
     z-index: 1350;
     display: flex;
     flex-direction: column;
-    transform: translateX(105%);
+    transform: translateX(-105%);
     transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
     visibility: hidden;
     box-sizing: border-box;
