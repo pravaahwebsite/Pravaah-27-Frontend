@@ -402,7 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
             sideMenu.addEventListener('touchend', (e) => {
                 if (e.changedTouches && e.changedTouches[0]) {
                     touchEndX = e.changedTouches[0].screenX;
-                    if (touchEndX - touchStartX > 50) {
+                    if (touchStartX - touchEndX > 50) { // swipe left to close drawer
                         closeSideMenu();
                     }
                 }
@@ -425,7 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             // If on inner pages, highlight MENU button pip
-            const subpages = ['accommodation.html', 'photo-gallery.html', 'sponsors.html', 'contact.html'];
+            const subpages = ['accommodation.html', 'sponsors.html', 'contact.html'];
             const menuBtn = document.getElementById('mobile-menu-trigger');
             if (menuBtn) {
                 if (subpages.includes(normalizedPath)) {

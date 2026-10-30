@@ -100,6 +100,23 @@
     <!-- =========================================================
          MOBILE BOTTOM NAVIGATION (TECHFEST-STYLE DOCK)
          ========================================================= -->
+            <!-- =========================================================
+         MOBILE TOP-LEFT MENU BUTTON (PHONE VIEWPORTS ONLY)
+         ========================================================= -->
+    <button type="button" class="mobile-top-menu-btn" id="mobile-menu-trigger" aria-label="Open Side Menu">
+        <div class="top-menu-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </div>
+        <span class="top-menu-active-dot"></span>
+    </button>
+
+    <!-- =========================================================
+         MOBILE BOTTOM NAVIGATION (TECHFEST-STYLE DOCK)
+         ========================================================= -->
     <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Mobile Navigation">
         <div class="bottom-nav-track">
             <a href="index.html" class="bottom-nav-item" data-nav="home">
@@ -138,6 +155,18 @@
                 <span class="nav-active-pip"></span>
             </a>
 
+            <a href="photo-gallery.html" class="bottom-nav-item" data-nav="gallery">
+                <div class="nav-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                </div>
+                <span class="nav-label">GALLERY</span>
+                <span class="nav-active-pip"></span>
+            </a>
+
             <a href="profile.html" class="bottom-nav-item" data-nav="profile">
                 <div class="nav-icon-box">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -148,18 +177,6 @@
                 <span class="nav-label">PROFILE</span>
                 <span class="nav-active-pip"></span>
             </a>
-
-            <button type="button" class="bottom-nav-item menu-trigger-btn" id="mobile-menu-trigger" aria-label="Open Side Menu">
-                <div class="nav-icon-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="3" y1="6" x2="21" y2="6"/>
-                        <line x1="3" y1="12" x2="21" y2="12"/>
-                        <line x1="3" y1="18" x2="21" y2="18"/>
-                    </svg>
-                </div>
-                <span class="nav-label">MENU</span>
-                <span class="nav-active-pip"></span>
-            </button>
         </div>
     </nav>
 
