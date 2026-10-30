@@ -1,229 +1,270 @@
-/* =========================================================
-   OVERRIDE DOCUMENT ABSOLUTE FLOW BLOCKS (PREVENTS OVERLAPS)
-========================================================= */
-section, 
-.subpage-main, 
-.contact-main-container,
-.contact-workspace-grid,
-.dispatch-form-card,
-.campus-gps-card {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    transform: none !important;
-    width: 100% !important;
-    height: auto !important;
-    min-height: 0 !important;
-    max-height: none !important;
-    display: flex !important;
-    flex-direction: column !important;
-    box-sizing: border-box !important;
-}
+/**
+ * PRAVAAH 2026 — TEAM & CONTACT DIRECTORY
+ * Inspired by Srijan 2026 Card Layout, Adapted to Pravaah Multiverse Theme
+ * Cyber Cyan & Neon Gradient Aesthetic with Full-Bleed Portrait Cards
+ */
 
 /* =========================================================
-   MAIN CORE VIEWPORT CONFIGURATIONS
-========================================================= */
-.contact-main-container {
-    padding-top: 120px !important; /* CLEARS COGNITIVE NAVIGATION OVERLAYS */
-    padding-bottom: 60px !important;
-    max-width: 1240px !important;
-    margin: 0 auto !important;
-    align-items: center !important;
-}
-
-.contact-hero-header {
-    text-align: center !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin: 0 auto 36px auto !important;
-    width: 100% !important;
-    max-width: 800px !important;
-    padding: 0 20px !important;
-}
-
-/* =========================================================
-   DIRECT FUNCTIONAL HEADS (CHIPS LIST SEGMENT)
-========================================================= */
-.team-leads-section {
-    width: 94% !important;
-    max-width: 1200px !important;
-    margin: 0 auto 40px auto !important;
-}
-
-.team-cards-grid {
-    display: grid !important;
-    grid-template-columns: repeat(4, minmax(220px, 1fr)) !important;
-    gap: 20px !important;
-    width: 100% !important;
-}
-
-.team-lead-card {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-    padding: 24px 20px !important;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
-}
-
-.lead-avatar {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-shrink: 0 !important;
-}
-
-.lead-details {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 6px !important;
-    width: 100% !important;
-}
-
-/* =========================================================
-   WORKSPACE SYMETRICAL BLOCKS DEPLOYMENT
-========================================================= */
-.contact-workspace-grid {
-    display: grid !important;
-    grid-template-columns: 1fr 380px !important; /* SYMMETRIC TWO-COLUMN SIDEBAR SPLIT */
-    gap: 28px !important;
-    width: 94% !important;
-    max-width: 1200px !important;
-    margin: 0 auto 50px auto !important;
-    align-items: start !important;
-}
-
-.dispatch-form-card {
-    padding: 32px !important;
-    box-shadow: 0 14px 45px rgba(0, 0, 0, 0.55) !important;
-}
-
-.dispatch-signal-lbl {
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    margin-bottom: 24px !important;
-}
-
-/* =========================================================
-   DYNAMIC INPUT GRID FORM FIELDS
-========================================================= */
-.proposal-form {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 20px 16px !important;
-    width: 100% !important;
-}
-
-.full-width {
-    grid-column: 1 / -1 !important;
-}
-
-.input-field {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 6px !important;
-}
-
-.input-field input,
-.input-field select,
-.input-field textarea {
-    width: 100% !important;
-    box-sizing: border-box !important;
-}
-
-.input-field textarea {
-    min-height: 120px !important;
-}
-
-.form-submit-bar {
-    grid-column: 1 / -1 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: flex-end !important;
-    margin-top: 8px !important;
-    padding-top: 20px !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
-}
-
-/* =========================================================
-   CAMPUS TELEMETRY RIGHT PANEL SIDEBAR
-========================================================= */
-.campus-gps-card {
-    padding: 28px !important;
-    gap: 24px !important;
-    box-shadow: 0 14px 45px rgba(0, 0, 0, 0.55) !important;
-}
-
-.gps-coords-box {
-    padding: 20px 16px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-}
-
-.transport-routes-list {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 12px !important;
-    width: 100% !important;
-}
-
-.route-item {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    gap: 14px !important;
-    width: 100% !important;
-}
-
-.r-info {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 2px !important;
-}
-
-.gmaps-nav-btn {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
-    padding: 14px !important;
-    box-shadow: 0 0 15px rgba(0, 242, 254, 0.3) !important;
-}
-
-/* =========================================================
-   RESPONSIVE DESIGN SYSTEM BREAKPOINTS
-========================================================= */
-@media (max-width: 1100px) {
-    .team-cards-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    }
-}
-
-@media (max-width: 1024px) {
-    .contact-workspace-grid {
-        grid-template-columns: 1fr !important; /* FLATTENS CONTAINER INTO ONE STREAM FOR HOVER BLOCKS */
-        gap: 28px !important;
-    }
+   1. GLOBAL TOKENS & OVERRIDES
+   ========================================================= */
+:root {
+    --pr-cyan: #00f2fe;
+    --pr-cyan-glow: rgba(0, 242, 254, 0.6);
+    --pr-blue: #0066ff;
+    --pr-purple: #b026ff;
+    --pr-magenta: #cf3ad6;
+    --pr-dark-bg: #08061e;
     
-    .campus-gps-card {
-        width: 100% !important;
-    }
+    --pr-font-orbitron: 'Orbitron', -apple-system, BlinkMacSystemFont, sans-serif;
+    --pr-font-inter: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --pr-transition: all 0.32s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Page Background: Pravaah Deep Multiverse Gradient */
+.contact-page-body {
+    background: linear-gradient(180deg, #050414 0%, #0d0826 35%, #180b38 70%, #08061e 100%) !important;
+    background-attachment: fixed !important;
+    color: #ffffff;
+    font-family: var(--pr-font-inter);
+    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Subpage grid & atmosphere overlays */
+.subpage-bg {
+    opacity: 0.18 !important;
+}
+
+.subpage-grid-overlay {
+    opacity: 0.12 !important;
+}
+
+/* Main Container */
+.contact-main-container {
+    padding-top: 130px !important;
+    padding-bottom: 90px !important;
+    max-width: 1240px !important;
+    width: 92% !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
+    position: relative;
+    z-index: 5;
+}
+
+/* =========================================================
+   2. HERO HEADER SECTION
+   ========================================================= */
+.srijan-team-header {
+    text-align: center;
+    width: 100%;
+    max-width: 820px;
+    margin: 0 auto 52px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.srijan-team-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--pr-font-orbitron);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--pr-cyan);
+    background: rgba(0, 242, 254, 0.08);
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    padding: 6px 18px;
+    border-radius: 50px;
+    margin-bottom: 16px;
+    box-shadow: 0 0 16px rgba(0, 242, 254, 0.2);
+}
+
+.srijan-team-title {
+    font-family: var(--pr-font-orbitron);
+    font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    color: var(--pr-cyan);
+    text-shadow: 0 0 25px var(--pr-cyan-glow), 0 0 50px rgba(0, 102, 255, 0.4);
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+}
+
+.srijan-team-subtitle {
+    font-family: var(--pr-font-inter);
+    font-size: clamp(0.95rem, 2vw, 1.15rem);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.75);
+    letter-spacing: 0.02em;
+    margin: 0;
+}
+
+/* =========================================================
+   3. SRIJAN-STYLE FULL-BLEED CARDS (PRAVAAH CYBERPALETTE)
+   ========================================================= */
+.srijan-team-section {
+    width: 100%;
+    margin-bottom: 60px;
+}
+
+/* Flex wrap container matching Srijan 2026: max-width ensures exactly 3 cards per row */
+.srijan-team-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 32px 28px;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Outer Gradient Card Wrapper (Pravaah Cyan/Blue Gradient Border) */
+.srijan-card-wrapper {
+    position: relative;
+    border-radius: 20px;
+    padding: 2px 2px 28px 2px;
+    width: 275px;
+    background: linear-gradient(135deg, var(--pr-cyan) 0%, var(--pr-blue) 55%, var(--pr-purple) 100%);
+    box-shadow: 0 0 22px rgba(0, 242, 254, 0.42), 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: var(--pr-transition);
+    flex-shrink: 0;
+}
+
+.srijan-card-wrapper:hover {
+    transform: translateY(-8px) scale(1.04);
+    box-shadow: 0 0 35px var(--pr-cyan-glow), 0 16px 45px rgba(0, 0, 0, 0.7);
+}
+
+/* Inner Card Container with Full Background Photo */
+.srijan-card-inner {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 360px;
+    background-color: #0c0920;
+    background-position: center 20%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: transform 0.4s ease;
+}
+
+/* Dark Gradient Overlay over Photo (Disabled so total photo is completely clear) */
+.srijan-card-overlay {
+    display: none;
+}
+
+/* Top-Right Floating Social Action Icons (LinkedIn & Instagram) */
+.srijan-card-actions {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 20;
+}
+
+.srijan-action-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1.5px solid var(--pr-cyan);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--pr-cyan);
+    background: rgba(8, 6, 30, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+    transition: var(--pr-transition);
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.srijan-action-btn:hover {
+    background: var(--pr-cyan);
+    color: #050414;
+    box-shadow: 0 0 18px var(--pr-cyan-glow);
+    transform: scale(1.12);
+}
+
+/* Bottom Card Details (Name & Designation) - Solid Black Background */
+.srijan-card-content {
+    position: relative;
+    z-index: 20;
+    width: 100%;
+    box-sizing: border-box;
+    background: #000000;
+    border-top: 1px solid rgba(0, 242, 254, 0.25);
+    padding: 16px 14px 18px 14px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.srijan-card-name {
+    font-family: var(--pr-font-orbitron);
+    font-size: 1.22rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: var(--pr-cyan);
+    text-shadow: 0 0 12px rgba(0, 242, 254, 0.7);
+    margin: 0;
+    line-height: 1.25;
+    text-transform: uppercase;
+}
+
+.srijan-card-role {
+    font-family: var(--pr-font-inter);
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: #e2e8f0;
+    letter-spacing: 0.03em;
+    margin: 0;
+    line-height: 1.3;
+}
+
+/* =========================================================
+   4. RESPONSIVE DESIGN SYSTEM
+   ========================================================= */
 @media (max-width: 650px) {
-    .team-cards-grid,
-    .proposal-form {
-        grid-template-columns: 1fr !important; /* COMPRESSED STREAM FOR SMARTPHONE MOBILE RESOLUTIONS */
-    }
-
     .contact-main-container {
-        padding-top: 100px !important;
+        padding-top: 105px !important;
+        padding-bottom: 95px !important;
+        width: 92% !important;
     }
 
-    .dispatch-form-card {
-        padding: 20px !important;
+    .srijan-team-header {
+        margin-bottom: 36px;
+    }
+
+    .srijan-team-title {
+        font-size: 2.2rem;
+    }
+
+    .srijan-team-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .srijan-card-wrapper {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .srijan-card-inner {
+        height: 380px;
     }
 }
