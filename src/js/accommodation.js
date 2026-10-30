@@ -34,7 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const chamber = document.getElementById("roomChamber");
     const wallFaces = document.querySelectorAll(".room-wall-face[data-wall-index]");
 
-    const isDesktop3D = () => window.innerWidth > 850 && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isRoomActive = () => !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isDesktop3D = isRoomActive;
 
     // Rotate the ENTIRE 4-wall room chamber around the viewer's position
     function setWall(targetIndex) {
@@ -129,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
             stage.style.top = '0px';
             stage.style.left = '0px';
             stage.style.width = '100%';
-            stage.style.height = '100vh';
+            stage.style.height = `${window.innerHeight}px`;
 
             // Calculate progress through room track [0, 1]
             const progress = Math.max(0, Math.min(1, scrollY / maxScroll));
@@ -159,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
             stage.style.top = `${maxScroll}px`;
             stage.style.left = '0px';
             stage.style.width = '100%';
-            stage.style.height = '100vh';
+            stage.style.height = `${window.innerHeight}px`;
 
             if (currentWallIndex !== 4) {
                 setWall(4);
@@ -302,12 +303,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.addEventListener("touchstart", (e) => {
         if (!isDesktop3D() || e.touches.length !== 1) return;
+        // Do not intercept swipe when interacting with form controls or links
+        if (e.target && e.target.closest("input, select, textarea, button, a")) return;
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
     }, { passive: true });
 
     window.addEventListener("touchend", (e) => {
         if (!isDesktop3D() || isGestureLocked || !track) return;
+        if (e.target && e.target.closest("input, select, textarea, button, a")) return;
 
         const touchEndX = e.changedTouches[0].clientX;
         const touchEndY = e.changedTouches[0].clientY;
@@ -315,8 +319,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const diffY = touchStartY - touchEndY;
         const maxScroll = Math.max(1, track.offsetHeight - window.innerHeight);
 
-        if (Math.abs(diffX) > 40 || Math.abs(diffY) > 40) {
-            if (diffX > 40 || diffY > 40) {
+        // If touching inside a scrollable panel, prioritize vertical scrolling of the card;
+        // only horizontal swipe turns the room. Outside the panel, both horizontal and vertical swipes turn the room.
+        const inPanel = e.target && e.target.closest(".wall-glass-panel");
+        const isHorizontalSwipe = Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY) * 1.1;
+        const isVerticalSwipe = !inPanel && Math.abs(diffY) > 40;
+
+        if (isHorizontalSwipe || isVerticalSwipe) {
+            if ((isHorizontalSwipe && diffX > 40) || (isVerticalSwipe && diffY > 40)) {
                 // Swipe forward -> Turn room right (1 -> 2 -> 3 -> 4 -> footer)
                 if (currentWallIndex === 1) {
                     isGestureLocked = true;
@@ -331,7 +341,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     isGestureLocked = true;
                     smoothScrollTo(maxScroll + 180, () => { isGestureLocked = false; });
                 }
-            } else if (diffX < -40 || diffY < -40) {
+            } else if ((isHorizontalSwipe && diffX < -40) || (isVerticalSwipe && diffY < -40)) {
                 // Swipe backward -> Turn room left (4 -> 3 -> 2 -> 1)
                 if (currentWallIndex === 4) {
                     isGestureLocked = true;
