@@ -1638,6 +1638,8 @@ body.photo-gallery-body {
     color: #ff2d95;
     text-shadow: 0 0 10px rgba(255, 45, 149, 0.7);
     text-transform: uppercase;
+    text-align: center;
+    margin-right: -0.28em;
 }
 
 .loader-status {
