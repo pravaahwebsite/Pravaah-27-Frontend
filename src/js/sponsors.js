@@ -48,8 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (becomeSponsorBtn) {
         becomeSponsorBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            // Opens email client prefilled for sponsorship lead, with fallback to contact page
-            window.location.href = "mailto:coord.pravaah@iitbbs.ac.in?subject=Pravaah%202026%20Sponsorship%20Inquiry";
+            window.location.href = "become-sponsor.html";
         });
     }
 });
