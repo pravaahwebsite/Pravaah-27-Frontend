@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PRAVAAH '26 — Corporate Alliances & Global Sponsors</title>
+    <title>Pravaah 2026 | Our Sponsors & Partners — KAIROS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -17,12 +17,10 @@
     <div class="global-bg-layer subpage-bg"></div>
     <div class="subpage-grid-overlay"></div>
 
-    <!-- Ambient Multiverse Atmosphere Glows -->
-    <div class="sponsors-ambient-atmosphere" aria-hidden="true">
-        <div class="ambient-plasma-orb orb-cyan"></div>
-        <div class="ambient-plasma-orb orb-magenta"></div>
-        <div class="ambient-plasma-orb orb-amber"></div>
-        <div class="cyber-grid-scanline"></div>
+    <!-- Subtle Ambient Starfield Layer -->
+    <div class="sponsors-multiverse-atmosphere" aria-hidden="true">
+        <div class="nebula-glow nebula-cyan"></div>
+        <div class="nebula-glow nebula-magenta"></div>
     </div>
 
     <!-- Cosmic Subpage Hamburger Navigation -->
@@ -103,142 +101,304 @@
         </div>
     </nav>
 
+    <!-- =========================================================
+         MOBILE BOTTOM NAVIGATION (TECHFEST-STYLE DOCK)
+         ========================================================= -->
+            <!-- =========================================================
+         MOBILE TOP-LEFT MENU BUTTON (PHONE VIEWPORTS ONLY)
+         ========================================================= -->
+    <button type="button" class="mobile-top-menu-btn" id="mobile-menu-trigger" aria-label="Open Side Menu">
+        <div class="top-menu-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </div>
+        <span class="top-menu-active-dot"></span>
+    </button>
+
+    <!-- =========================================================
+         MOBILE BOTTOM NAVIGATION (TECHFEST-STYLE DOCK)
+         ========================================================= -->
+    <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Mobile Navigation">
+        <div class="bottom-nav-track">
+            <a href="index.html" class="bottom-nav-item" data-nav="home">
+                <div class="nav-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1V9.5z"/>
+                    </svg>
+                </div>
+                <span class="nav-label">HOME</span>
+                <span class="nav-active-pip"></span>
+            </a>
+
+            <a href="events.html" class="bottom-nav-item" data-nav="events">
+                <div class="nav-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+                    </svg>
+                </div>
+                <span class="nav-label">EVENTS</span>
+                <span class="nav-active-pip"></span>
+            </a>
+
+            <a href="register.html" class="bottom-nav-item" data-nav="register">
+                <div class="nav-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+                        <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+                        <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+                        <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+                    </svg>
+                </div>
+                <span class="nav-label">REGISTER</span>
+                <span class="nav-active-pip"></span>
+            </a>
+
+            <a href="photo-gallery.html" class="bottom-nav-item" data-nav="gallery">
+                <div class="nav-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                </div>
+                <span class="nav-label">GALLERY</span>
+                <span class="nav-active-pip"></span>
+            </a>
+
+            <a href="profile.html" class="bottom-nav-item" data-nav="profile">
+                <div class="nav-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </div>
+                <span class="nav-label">PROFILE</span>
+                <span class="nav-active-pip"></span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- =========================================================
+         MOBILE SIDE DRAWER MENU (TECHFEST-STYLE PHONE DRAWER)
+         ========================================================= -->
+    <div class="mobile-menu-backdrop" id="mobile-menu-backdrop" aria-hidden="true"></div>
+
+    <aside class="mobile-side-menu" id="mobile-side-menu" aria-label="Mobile Directory Navigation" aria-hidden="true">
+        <div class="side-menu-header">
+            <div class="side-menu-brand">
+                <span class="side-brand-title">PRAVAAH '26</span>
+                <span class="side-brand-subtitle">THE MULTIVERSE FEST</span>
+            </div>
+            <button type="button" class="side-menu-close-btn" id="mobile-menu-close" aria-label="Close Side Menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="side-menu-body">
+            <nav class="side-menu-links">
+                <a href="index.html" class="side-menu-link" data-nav="home">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1V9.5z"/></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">HOME</span>
+                        <span class="side-link-desc">Main Gateway & Highlights</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+
+                <a href="events.html" class="side-menu-link" data-nav="events">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">EVENTS</span>
+                        <span class="side-link-desc">Tech, Cult, Gaming & E-Cell</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+
+                <a href="register.html" class="side-menu-link" data-nav="register">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">REGISTER</span>
+                        <span class="side-link-desc">Entry Passes & Hackathons</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+
+                <a href="accommodation.html" class="side-menu-link" data-nav="accommodation">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">ACCOMMODATION</span>
+                        <span class="side-link-desc">Stay, Hostels & Travel</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+
+                <a href="photo-gallery.html" class="side-menu-link" data-nav="gallery">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">PHOTO GALLERY</span>
+                        <span class="side-link-desc">Fest Archives & Memories</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+
+                <a href="sponsors.html" class="side-menu-link" data-nav="sponsors">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">SPONSORS</span>
+                        <span class="side-link-desc">Multiverse Partners</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+
+                <a href="contact.html" class="side-menu-link" data-nav="contact">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">CONTACT US</span>
+                        <span class="side-link-desc">Team Leads & Query Desk</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+
+                <a href="profile.html" class="side-menu-link" data-nav="profile">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">PROFILE</span>
+                        <span class="side-link-desc">My Passport & Badges</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="side-menu-footer">
+            <div class="side-footer-dates">
+                <span class="dates-label">DATES // MARCH 20-22, 2026</span>
+            </div>
+            <div class="side-footer-sub">
+                <span>WARPING DIMENSIONS // PRAVAAH</span>
+            </div>
+            <a href="register.html" class="side-footer-cta">GET FESTIVAL PASS</a>
+        </div>
+    </aside>
+
+
     <!-- Main Sponsors Shell -->
     <main class="subpage-main sponsors-main-container">
         
         <!-- Hero Header Box -->
         <header class="sponsors-hero-header">
-            <div class="hero-live-badge">
-                <span class="live-pulse-dot"></span>
-                <span>SECURE ALLIANCE TELEMETRY // PRAVAAH '26</span>
-                <span class="badge-code">[IIT BHUBANESWAR]</span>
+            <h1 class="sponsors-hero-title spider-title" data-text="OUR SPONSORS">OUR SPONSORS</h1>
+            <div class="logo-subtitle-container sponsors-subtitle-wrap">
+                <div class="logo-subtitle">worlds unbound</div>
+                <div class="subtitle-line">
+                    <span class="line-dot"></span>
+                    <span class="line-bar"></span>
+                    <span class="line-sparkle">✦</span>
+                    <span class="line-bar"></span>
+                    <span class="line-dot"></span>
+                </div>
             </div>
-            
-            <h1 class="sponsors-hero-title cyber-glitch-title" data-text="OUR SPONSORS">OUR SPONSORS</h1>
             <p class="sponsors-hero-subtitle">Partnering with industry titans, tech pioneers, and global lifestyle brands empowering 30,000+ student visionaries across India.</p>
 
             <!-- Metrics Telemetry Ticker -->
             <div class="sponsors-metrics-strip">
                 <div class="metric-card" data-metric="footfall">
-                    <span class="m-icon-wrap"><i class="fa-solid fa-users"></i></span>
+                    <span class="hud-corner top-left"></span>
+                    <span class="hud-corner top-right"></span>
+                    <span class="hud-corner bottom-left"></span>
+                    <span class="hud-corner bottom-right"></span>
+                    <span class="m-icon-wrap"><i class="fa-solid fa-users-rays"></i></span>
                     <span class="m-val" data-counter-target="50000">50,000+</span>
                     <span class="m-lbl">STUDENT FOOTFALL</span>
                 </div>
-                <div class="metric-sep"></div>
                 <div class="metric-card" data-metric="brands">
+                    <span class="hud-corner top-left"></span>
+                    <span class="hud-corner top-right"></span>
+                    <span class="hud-corner bottom-left"></span>
+                    <span class="hud-corner bottom-right"></span>
                     <span class="m-icon-wrap"><i class="fa-solid fa-crown"></i></span>
                     <span class="m-val" data-counter-target="15">15+</span>
                     <span class="m-lbl">GLOBAL BRANDS</span>
                 </div>
-                <div class="metric-sep"></div>
                 <div class="metric-card" data-metric="prizes">
+                    <span class="hud-corner top-left"></span>
+                    <span class="hud-corner top-right"></span>
+                    <span class="hud-corner bottom-left"></span>
+                    <span class="hud-corner bottom-right"></span>
                     <span class="m-icon-wrap"><i class="fa-solid fa-trophy"></i></span>
                     <span class="m-val">₹15L+</span>
                     <span class="m-lbl">PRIZE ALLIANCE</span>
                 </div>
-                <div class="metric-sep"></div>
                 <div class="metric-card" data-metric="reach">
+                    <span class="hud-corner top-left"></span>
+                    <span class="hud-corner top-right"></span>
+                    <span class="hud-corner bottom-left"></span>
+                    <span class="hud-corner bottom-right"></span>
                     <span class="m-icon-wrap"><i class="fa-solid fa-satellite-dish"></i></span>
                     <span class="m-val">5M+</span>
                     <span class="m-lbl">DIGITAL REACH</span>
                 </div>
             </div>
 
-            <!-- Dynamic Cyber Sponsor Marquee Stream -->
-            <div class="sponsors-marquee-container" aria-label="Official Brand Marquee">
-                <div class="marquee-badge-label">
-                    <span class="live-dot"></span>
-                    <span>ALLIANCE FEED</span>
-                </div>
-                <div class="marquee-track-wrapper">
-                    <div class="marquee-track" id="allianceMarqueeTrack">
-                        <button type="button" class="marquee-chip" data-target="sponsor-quantum"><span class="m-icon">⚡</span> QUANTUM DYNAMICS</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-neuromatrix"><span class="m-icon">🧠</span> NEUROMATRIX LABS</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-intel"><span class="m-icon">🤖</span> INTEL INNOVATION</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-github"><span class="m-icon"><i class="fa-brands fa-github"></i></span> GITHUB</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-cyberwave"><span class="m-icon">🎮</span> CYBERWAVE ESPORTS</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-nvidia"><span class="m-icon">⚡</span> NVIDIA AI STUDIO</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-venture"><span class="m-icon">💎</span> VENTURE MATRIX</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-mtv"><span class="m-icon"><i class="fa-solid fa-tv"></i></span> MTV INDIA</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-redfm"><span class="m-icon"><i class="fa-solid fa-radio"></i></span> RED FM 93.5</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-redbull"><span class="m-icon"><i class="fa-solid fa-bolt"></i></span> REDBULL</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-dominos"><span class="m-icon"><i class="fa-solid fa-pizza-slice"></i></span> DOMINO'S PIZZA</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-boat"><span class="m-icon"><i class="fa-solid fa-headphones"></i></span> BOAT AUDIO</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-spotify"><span class="m-icon"><i class="fa-brands fa-spotify"></i></span> SPOTIFY CAMPUS</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-oneplus"><span class="m-icon">📱</span> ONEPLUS INDIA</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-bewakoof"><span class="m-icon"><i class="fa-solid fa-shirt"></i></span> BEWAKOOF</button>
-                        <span class="marquee-sep">✦</span>
-                        <!-- Seamless Duplicate Sequence -->
-                        <button type="button" class="marquee-chip" data-target="sponsor-quantum"><span class="m-icon">⚡</span> QUANTUM DYNAMICS</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-neuromatrix"><span class="m-icon">🧠</span> NEUROMATRIX LABS</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-intel"><span class="m-icon">🤖</span> INTEL INNOVATION</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-github"><span class="m-icon"><i class="fa-brands fa-github"></i></span> GITHUB</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-cyberwave"><span class="m-icon">🎮</span> CYBERWAVE ESPORTS</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-nvidia"><span class="m-icon">⚡</span> NVIDIA AI STUDIO</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-venture"><span class="m-icon">💎</span> VENTURE MATRIX</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-mtv"><span class="m-icon"><i class="fa-solid fa-tv"></i></span> MTV INDIA</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-redfm"><span class="m-icon"><i class="fa-solid fa-radio"></i></span> RED FM 93.5</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-redbull"><span class="m-icon"><i class="fa-solid fa-bolt"></i></span> REDBULL</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-dominos"><span class="m-icon"><i class="fa-solid fa-pizza-slice"></i></span> DOMINO'S PIZZA</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-boat"><span class="m-icon"><i class="fa-solid fa-headphones"></i></span> BOAT AUDIO</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-spotify"><span class="m-icon"><i class="fa-brands fa-spotify"></i></span> SPOTIFY CAMPUS</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-oneplus"><span class="m-icon">📱</span> ONEPLUS INDIA</button>
-                        <span class="marquee-sep">✦</span>
-                        <button type="button" class="marquee-chip" data-target="sponsor-bewakoof"><span class="m-icon"><i class="fa-solid fa-shirt"></i></span> BEWAKOOF</button>
-                        <span class="marquee-sep">✦</span>
-                    </div>
-                </div>
-            </div>
+            
 
             <!-- Controls Panel: Filter Pills & Instant Cyber Search Bar -->
             <div class="sponsor-controls-dock">
                 <!-- Interactive Category Filter Bar -->
                 <div class="sponsor-category-filters" id="sponsorCategoryFilters">
                     <button type="button" class="cat-filter-btn active" data-filter="all">
-                        <span>✦ ALL SPONSORS</span>
+                        <span class="filter-dot"></span>
+                        <i class="fa-solid fa-layer-group filter-icon"></i>
+                        <span>ALL SPONSORS</span>
                         <span class="filter-count">15</span>
                     </button>
                     <button type="button" class="cat-filter-btn" data-filter="title">
-                        <span>⚡ TITLE PARTNER</span>
+                        <span class="filter-dot"></span>
+                        <i class="fa-solid fa-crown filter-icon"></i>
+                        <span>TITLE PARTNER</span>
                         <span class="filter-count">1</span>
                     </button>
                     <button type="button" class="cat-filter-btn" data-filter="tech">
-                        <span>🤖 TECH & AI</span>
+                        <span class="filter-dot"></span>
+                        <i class="fa-solid fa-microchip filter-icon"></i>
+                        <span>TECH & AI</span>
                         <span class="filter-count">6</span>
                     </button>
                     <button type="button" class="cat-filter-btn" data-filter="lifestyle">
-                        <span>🥤 MEDIA & LIFESTYLE</span>
+                        <span class="filter-dot"></span>
+                        <i class="fa-solid fa-photo-film filter-icon"></i>
+                        <span>MEDIA & LIFESTYLE</span>
                         <span class="filter-count">8</span>
                     </button>
                     <button type="button" class="cat-filter-btn highlight" data-filter="proposal">
-                        <span>💼 BECOME A SPONSOR</span>
+                        <span class="filter-dot"></span>
+                        <i class="fa-solid fa-handshake filter-icon"></i>
+                        <span>BECOME A SPONSOR</span>
                     </button>
                 </div>
 
@@ -327,12 +487,12 @@
             </div>
 
             <!-- ========================================================
-                 2. PLATINUM & TECHNOLOGY PARTNERS (HIGH-RES VECTOR LOGOS)
+                 2. PLATINUM & TECHNOLOGY PARTNERS (REDUCED & STREAMLINED)
                  ======================================================== -->
             <div class="sponsor-tier-block" data-category="tech">
                 <div class="tier-label-header">
                     <span class="tier-star">✦</span>
-                    <h2>PLATINUM & TECHNOLOGY ALLIANCES</h2>
+                    <h2><i class="fa-solid fa-microchip tier-title-icon"></i> PLATINUM & TECHNOLOGY ALLIANCES <i class="fa-solid fa-atom tier-title-icon"></i></h2>
                     <span class="tier-star">✦</span>
                 </div>
 
@@ -345,8 +505,8 @@
                         <span class="hud-corner bottom-left"></span>
                         <span class="hud-corner bottom-right"></span>
                         <div class="card-shimmer-sweep"></div>
-                        <div class="sponsor-brand-stage" style="--brand-glow: rgba(0, 242, 254, 0.35);">
-                            <div class="vector-logo-wrap">
+                        <div class="sponsor-card-top">
+                            <div class="card-logo-box" style="--brand-glow: rgba(0, 242, 254, 0.4);">
                                 <svg class="brand-svg-logo" viewBox="0 0 100 100" fill="none">
                                     <path d="M50 15 L78 30 L78 70 L50 85 L22 70 L22 30 Z" stroke="#00f2fe" stroke-width="2.5" fill="rgba(0, 242, 254, 0.05)"/>
                                     <circle cx="50" cy="35" r="5" fill="#00f2fe"/>
@@ -365,10 +525,9 @@
                             <h4 class="brand-title">NEUROMATRIX LABS</h4>
                             <span class="brand-category">AI & Deep Compute Partner</span>
                         </div>
-                        <p class="card-desc">Powering the AI Odyssey and high-performance neural hackathons with enterprise GPU cluster nodes.</p>
-                        <div class="card-footer-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <div class="card-footer-row">
                             <div class="card-perk-pill">
-                                <i class="fa-solid fa-server"></i> 10,000 GPU Compute Hours
+                                <i class="fa-solid fa-server"></i> 10,000 GPU Hours
                             </div>
                             <button type="button" class="card-dossier-trigger" data-dossier-id="neuromatrix" aria-label="View Neuromatrix Dossier">
                                 <i class="fa-solid fa-shield-halved"></i> DOSSIER
@@ -383,8 +542,8 @@
                         <span class="hud-corner bottom-left"></span>
                         <span class="hud-corner bottom-right"></span>
                         <div class="card-shimmer-sweep"></div>
-                        <div class="sponsor-brand-stage" style="--brand-glow: rgba(0, 113, 197, 0.45);">
-                            <div class="vector-logo-wrap">
+                        <div class="sponsor-card-top">
+                            <div class="card-logo-box" style="--brand-glow: rgba(0, 113, 197, 0.45);">
                                 <svg class="brand-svg-logo" viewBox="0 0 100 100" fill="none">
                                     <rect x="15" y="25" width="70" height="50" rx="8" stroke="#0071C5" stroke-width="2.5" fill="rgba(0, 113, 197, 0.1)"/>
                                     <path d="M30 40 V60 M40 46 V60 M40 40 H40.5 M50 40 V60 M60 46 V60 M70 40 V60" stroke="#00C7FD" stroke-width="3" stroke-linecap="round"/>
@@ -392,16 +551,15 @@
                                     <path d="M22 18 V25 M78 18 V25 M22 75 V82 M78 75 V82" stroke="#0071C5" stroke-width="2"/>
                                 </svg>
                             </div>
-                            <span class="partner-tier-badge" style="border-color: #0071c5; color: #00C7FD;">HARDWARE</span>
+                            <span class="partner-tier-badge" style="border-color: #0071c5; color: #00C7FD; background: rgba(0, 113, 197, 0.12);">HARDWARE</span>
                         </div>
                         <div class="card-brand-details">
                             <h4 class="brand-title">INTEL INNOVATION</h4>
                             <span class="brand-category">Hardware Acceleration Partner</span>
                         </div>
-                        <p class="card-desc">Providing edge AI Core Ultra chips, developer kits, and high-framerate workstation rigs for creators.</p>
-                        <div class="card-footer-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <div class="card-footer-row">
                             <div class="card-perk-pill">
-                                <i class="fa-solid fa-microchip"></i> Core Ultra Rigs & Dev Kits
+                                <i class="fa-solid fa-microchip"></i> Core Ultra Kits
                             </div>
                             <button type="button" class="card-dossier-trigger" data-dossier-id="intel" aria-label="View Intel Dossier">
                                 <i class="fa-solid fa-shield-halved"></i> DOSSIER
@@ -416,22 +574,21 @@
                         <span class="hud-corner bottom-left"></span>
                         <span class="hud-corner bottom-right"></span>
                         <div class="card-shimmer-sweep"></div>
-                        <div class="sponsor-brand-stage" style="--brand-glow: rgba(163, 113, 247, 0.4);">
-                            <div class="vector-logo-wrap">
+                        <div class="sponsor-card-top">
+                            <div class="card-logo-box" style="--brand-glow: rgba(163, 113, 247, 0.4);">
                                 <svg class="brand-svg-logo" viewBox="0 0 100 100" fill="none">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M50 15C30.67 15 15 30.67 15 50C15 65.47 25.03 78.58 38.97 83.22C40.72 83.54 41.36 82.46 41.36 81.54C41.36 80.72 41.33 78.07 41.31 75.2C31.57 77.32 29.52 71.01 29.52 71.01C27.93 66.97 25.64 65.89 25.64 65.89C22.46 63.72 25.88 63.76 25.88 63.76C29.4 64.01 31.25 67.38 31.25 67.38C34.38 72.74 39.46 71.19 41.45 70.3C41.77 68.04 42.68 66.49 43.68 65.61C35.91 64.73 27.73 61.73 27.73 48.33C27.73 44.51 29.09 41.39 31.33 38.94C30.97 38.05 29.77 34.5 31.67 29.7C31.67 29.7 34.61 28.76 41.28 33.28C44.07 32.5 47.07 32.11 50.05 32.1C53.03 32.11 56.03 32.5 58.83 33.28C65.5 28.76 68.44 29.7 68.44 29.7C70.34 34.5 69.14 38.05 68.78 38.94C71.02 41.39 72.38 44.51 72.38 48.33C72.38 61.77 64.19 64.72 56.4 65.58C57.65 66.66 58.77 68.79 58.77 72.06C58.77 76.74 58.73 80.52 58.73 81.54C58.73 82.47 59.36 83.57 61.14 83.22C75.05 78.56 85.06 65.46 85.06 50C85.06 30.67 69.39 15 50 15Z" fill="#F0F6FC"/>
                                 </svg>
                             </div>
-                            <span class="partner-tier-badge" style="border-color: #a371f7; color: #a371f7;">OPEN SOURCE</span>
+                            <span class="partner-tier-badge" style="border-color: #a371f7; color: #a371f7; background: rgba(163, 113, 247, 0.12);">OPEN SOURCE</span>
                         </div>
                         <div class="card-brand-details">
                             <h4 class="brand-title">GITHUB</h4>
                             <span class="brand-category">Platform & Community Partner</span>
                         </div>
-                        <p class="card-desc">Empowering student developers with Student Developer Packs, GitHub Copilot subscriptions, and hackathon tooling.</p>
-                        <div class="card-footer-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <div class="card-footer-row">
                             <div class="card-perk-pill">
-                                <i class="fa-brands fa-github"></i> Student Developer Packs
+                                <i class="fa-brands fa-github"></i> Student Dev Packs
                             </div>
                             <button type="button" class="card-dossier-trigger" data-dossier-id="github" aria-label="View GitHub Dossier">
                                 <i class="fa-solid fa-shield-halved"></i> DOSSIER
@@ -446,8 +603,8 @@
                         <span class="hud-corner bottom-left"></span>
                         <span class="hud-corner bottom-right"></span>
                         <div class="card-shimmer-sweep"></div>
-                        <div class="sponsor-brand-stage" style="--brand-glow: rgba(243, 85, 218, 0.4);">
-                            <div class="vector-logo-wrap">
+                        <div class="sponsor-card-top">
+                            <div class="card-logo-box" style="--brand-glow: rgba(243, 85, 218, 0.4);">
                                 <svg class="brand-svg-logo" viewBox="0 0 100 100" fill="none">
                                     <path d="M50 16 L84 32 L74 76 L50 88 L26 76 L16 32 Z" stroke="#f355da" stroke-width="2.5" fill="rgba(243, 85, 218, 0.08)"/>
                                     <path d="M30 46 C30 40 40 38 50 38 C60 38 70 40 70 46 L66 64 C64 68 58 68 54 64 L50 60 L46 64 C42 68 36 68 34 64 Z" fill="#00f2fe"/>
@@ -455,16 +612,15 @@
                                     <circle cx="60" cy="50" r="2.5" fill="#060c1c"/>
                                 </svg>
                             </div>
-                            <span class="partner-tier-badge" style="border-color: #f355da; color: #f355da;">ESPORTS</span>
+                            <span class="partner-tier-badge" style="border-color: #f355da; color: #f355da; background: rgba(243, 85, 218, 0.12);">ESPORTS</span>
                         </div>
                         <div class="card-brand-details">
                             <h4 class="brand-title">CYBERWAVE ESPORTS</h4>
                             <span class="brand-category">Gaming Arena Partner</span>
                         </div>
-                        <p class="card-desc">Hosting the high-stakes Gaming Verse championships: BGMI, Valorant 5v5, and Tekken 8 arena showdowns.</p>
-                        <div class="card-footer-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <div class="card-footer-row">
                             <div class="card-perk-pill">
-                                <i class="fa-solid fa-gamepad"></i> Official 240Hz LAN Arena
+                                <i class="fa-solid fa-gamepad"></i> 240Hz LAN Arena
                             </div>
                             <button type="button" class="card-dossier-trigger" data-dossier-id="cyberwave" aria-label="View Cyberwave Esports Dossier">
                                 <i class="fa-solid fa-shield-halved"></i> DOSSIER
@@ -479,24 +635,23 @@
                         <span class="hud-corner bottom-left"></span>
                         <span class="hud-corner bottom-right"></span>
                         <div class="card-shimmer-sweep"></div>
-                        <div class="sponsor-brand-stage" style="--brand-glow: rgba(118, 185, 0, 0.45);">
-                            <div class="vector-logo-wrap">
+                        <div class="sponsor-card-top">
+                            <div class="card-logo-box" style="--brand-glow: rgba(118, 185, 0, 0.45);">
                                 <svg class="brand-svg-logo" viewBox="0 0 100 100" fill="none">
                                     <path d="M50 20 C68 20 82 34 82 50 C82 66 68 80 50 80 C32 80 18 66 18 50 C18 34 32 20 50 20 Z" stroke="#76B900" stroke-width="3" fill="rgba(118, 185, 0, 0.08)"/>
                                     <path d="M50 32 C60 32 68 40 68 50 C68 60 60 68 50 68" stroke="#76B900" stroke-width="4" stroke-linecap="round"/>
                                     <path d="M50 42 C54 42 58 46 58 50 C58 54 54 58 50 58" fill="#76B900"/>
                                 </svg>
                             </div>
-                            <span class="partner-tier-badge" style="border-color: #76B900; color: #76B900;">DEEP LEARNING</span>
+                            <span class="partner-tier-badge" style="border-color: #76B900; color: #76B900; background: rgba(118, 185, 0, 0.12);">DEEP LEARNING</span>
                         </div>
                         <div class="card-brand-details">
                             <h4 class="brand-title">NVIDIA AI STUDIO</h4>
                             <span class="brand-category">Deep Learning & Graphics</span>
                         </div>
-                        <p class="card-desc">Powering ray-tracing graphics competitions and deep learning workshops with NVIDIA RTX workstations.</p>
-                        <div class="card-footer-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <div class="card-footer-row">
                             <div class="card-perk-pill">
-                                <i class="fa-solid fa-bolt"></i> RTX Ray-Tracing Clusters
+                                <i class="fa-solid fa-bolt"></i> RTX GPU Clusters
                             </div>
                             <button type="button" class="card-dossier-trigger" data-dossier-id="nvidia" aria-label="View NVIDIA Dossier">
                                 <i class="fa-solid fa-shield-halved"></i> DOSSIER
@@ -511,24 +666,23 @@
                         <span class="hud-corner bottom-left"></span>
                         <span class="hud-corner bottom-right"></span>
                         <div class="card-shimmer-sweep"></div>
-                        <div class="sponsor-brand-stage" style="--brand-glow: rgba(255, 215, 0, 0.4);">
-                            <div class="vector-logo-wrap">
+                        <div class="sponsor-card-top">
+                            <div class="card-logo-box" style="--brand-glow: rgba(255, 215, 0, 0.4);">
                                 <svg class="brand-svg-logo" viewBox="0 0 100 100" fill="none">
                                     <polygon points="50,18 82,36 50,54 18,36" stroke="#FFD700" stroke-width="2.5" fill="rgba(255, 215, 0, 0.15)"/>
                                     <polygon points="18,36 50,54 50,84 18,66" stroke="#FFD700" stroke-width="2.5" fill="rgba(255, 215, 0, 0.08)"/>
                                     <polygon points="82,36 50,54 50,84 82,66" stroke="#00f2fe" stroke-width="2.5" fill="rgba(0, 242, 254, 0.08)"/>
                                 </svg>
                             </div>
-                            <span class="partner-tier-badge" style="border-color: #FFD700; color: #FFD700;">ANGEL SEED</span>
+                            <span class="partner-tier-badge" style="border-color: #FFD700; color: #FFD700; background: rgba(255, 215, 0, 0.12);">ANGEL SEED</span>
                         </div>
                         <div class="card-brand-details">
                             <h4 class="brand-title">VENTURE MATRIX</h4>
                             <span class="brand-category">Incubation & Angel Partner</span>
                         </div>
-                        <p class="card-desc">Backing high-potential student founders with ₹25L+ seed grant commitments in the B-Plan Pitch Tank.</p>
-                        <div class="card-footer-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <div class="card-footer-row">
                             <div class="card-perk-pill">
-                                <i class="fa-solid fa-coins"></i> ₹25L+ Angel Pitch Tank
+                                <i class="fa-solid fa-coins"></i> ₹25L+ Pitch Tank
                             </div>
                             <button type="button" class="card-dossier-trigger" data-dossier-id="venture" aria-label="View Venture Matrix Dossier">
                                 <i class="fa-solid fa-shield-halved"></i> DOSSIER
@@ -545,7 +699,7 @@
             <div class="sponsor-tier-block" data-category="lifestyle">
                 <div class="tier-label-header">
                     <span class="tier-star">✦</span>
-                    <h2>MEDIA, FOOD & LIFESTYLE PARTNERS</h2>
+                    <h2><i class="fa-solid fa-photo-film tier-title-icon"></i> MEDIA & <i class="fa-solid fa-icons tier-title-icon"></i> LIFESTYLE PARTNERS</h2>
                     <span class="tier-star">✦</span>
                 </div>
 
@@ -565,7 +719,7 @@
                         </div>
                         <div class="mini-info">
                             <h4>MTV INDIA</h4>
-                            <span>Official Youth Media</span>
+                            <span><i class="fa-solid fa-tv"></i> Official Youth Media</span>
                         </div>
                         <button type="button" class="card-dossier-trigger mini-dossier-trigger" data-dossier-id="mtv" aria-label="View MTV India Dossier" style="margin-left: auto; padding: 4px 8px;">
                             <i class="fa-solid fa-shield-halved"></i>
@@ -588,7 +742,7 @@
                         </div>
                         <div class="mini-info">
                             <h4>RED FM 93.5</h4>
-                            <span>Radio & Audio Partner</span>
+                            <span><i class="fa-solid fa-radio"></i> Radio & Audio Partner</span>
                         </div>
                         <button type="button" class="card-dossier-trigger mini-dossier-trigger" data-dossier-id="redfm" aria-label="View Red FM Dossier" style="margin-left: auto; padding: 4px 8px;">
                             <i class="fa-solid fa-shield-halved"></i>
@@ -610,7 +764,7 @@
                         </div>
                         <div class="mini-info">
                             <h4>REDBULL</h4>
-                            <span>Energy Fuel Partner</span>
+                            <span><i class="fa-solid fa-bolt-lightning"></i> Energy Fuel Partner</span>
                         </div>
                         <button type="button" class="card-dossier-trigger mini-dossier-trigger" data-dossier-id="redbull" aria-label="View RedBull Dossier" style="margin-left: auto; padding: 4px 8px;">
                             <i class="fa-solid fa-shield-halved"></i>
@@ -636,7 +790,7 @@
                         </div>
                         <div class="mini-info">
                             <h4>DOMINO'S PIZZA</h4>
-                            <span>Official Food Partner</span>
+                            <span><i class="fa-solid fa-pizza-slice"></i> Official Food Partner</span>
                         </div>
                         <button type="button" class="card-dossier-trigger mini-dossier-trigger" data-dossier-id="dominos" aria-label="View Domino's Pizza Dossier" style="margin-left: auto; padding: 4px 8px;">
                             <i class="fa-solid fa-shield-halved"></i>
@@ -657,7 +811,7 @@
                         </div>
                         <div class="mini-info">
                             <h4>BOAT AUDIO</h4>
-                            <span>Sound & Wearables</span>
+                            <span><i class="fa-solid fa-headphones"></i> Sound & Wearables</span>
                         </div>
                         <button type="button" class="card-dossier-trigger mini-dossier-trigger" data-dossier-id="boat" aria-label="View boAt Audio Dossier" style="margin-left: auto; padding: 4px 8px;">
                             <i class="fa-solid fa-shield-halved"></i>
@@ -680,7 +834,7 @@
                         </div>
                         <div class="mini-info">
                             <h4>SPOTIFY CAMPUS</h4>
-                            <span>Music Streaming Partner</span>
+                            <span><i class="fa-brands fa-spotify"></i> Music Streaming Partner</span>
                         </div>
                         <button type="button" class="card-dossier-trigger mini-dossier-trigger" data-dossier-id="spotify" aria-label="View Spotify Campus Dossier" style="margin-left: auto; padding: 4px 8px;">
                             <i class="fa-solid fa-shield-halved"></i>
@@ -702,7 +856,7 @@
                         </div>
                         <div class="mini-info">
                             <h4>ONEPLUS INDIA</h4>
-                            <span>Smartphone & Tech</span>
+                            <span><i class="fa-solid fa-mobile-screen-button"></i> Smartphone & Tech</span>
                         </div>
                         <button type="button" class="card-dossier-trigger mini-dossier-trigger" data-dossier-id="oneplus" aria-label="View OnePlus India Dossier" style="margin-left: auto; padding: 4px 8px;">
                             <i class="fa-solid fa-shield-halved"></i>
@@ -726,7 +880,7 @@
                         </div>
                         <div class="mini-info">
                             <h4>BEWAKOOF</h4>
-                            <span>Apparel & Official Merch</span>
+                            <span><i class="fa-solid fa-shirt"></i> Apparel & Official Merch</span>
                         </div>
                         <button type="button" class="card-dossier-trigger mini-dossier-trigger" data-dossier-id="bewakoof" aria-label="View Bewakoof Dossier" style="margin-left: auto; padding: 4px 8px;">
                             <i class="fa-solid fa-shield-halved"></i>
@@ -742,10 +896,14 @@
         <section class="sponsor-proposal-section" id="proposalSection">
             
             <div class="proposal-card-container holo-glow-card">
+                    <span class="hud-corner top-left"></span>
+                    <span class="hud-corner top-right"></span>
+                    <span class="hud-corner bottom-left"></span>
+                    <span class="hud-corner bottom-right"></span>
                 <div class="proposal-header">
                     <span class="step-num">01</span>
                     <div>
-                        <h2>PARTNER WITH PRAVAAH '26</h2>
+                        <h2 class="spider-title" data-text="PARTNER WITH PRAVAAH '26">PARTNER WITH PRAVAAH '26</h2>
                         <p>Connect your brand with 30,000+ engineers, creators, and entrepreneurs across India.</p>
                     </div>
                 </div>

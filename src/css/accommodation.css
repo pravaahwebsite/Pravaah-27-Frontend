@@ -4,21 +4,23 @@
    ========================================================================== */
 
 :root {
-    --room-s: clamp(940px, 62vw, 1180px);      /* Square horizontal dimension (Width & Depth) */
+    --room-s: clamp(900px, 60vw, 1120px);      /* Square horizontal dimension (Width & Depth) */
     --room-r: calc(var(--room-s) / 2);         /* Radius from center to each wall */
-    --room-h: clamp(580px, 72vh, 720px);       /* Height of the room */
+    --room-h: clamp(560px, 72vh, 680px);       /* Height of the room */
     --half-h: calc(var(--room-h) / 2);         /* Half height */
-    --cam-z: calc(var(--room-r) - 110px);      /* Camera depth: keeps active wall prominent & reveals corners */
+    --cam-z: var(--room-r);                    /* Active front wall sits at Z = 0 (1:1 pixel scale, zero blur) */
 }
 
 /* --------------------------------------------------------------------------
    0. Body & HTML Scoped Overrides
    -------------------------------------------------------------------------- */
 html {
+    overflow-x: hidden !important;
     overflow-x: clip !important;
 }
 
 body.subpage-body.accom-page-body {
+    overflow-x: hidden !important;
     overflow-x: clip !important;
     overflow-y: visible !important;
     min-height: 100% !important;
@@ -96,9 +98,9 @@ body.subpage-body.accom-page-body .subpage-main.accom-main-container,
     box-shadow: none !important;
     outline: none;
     box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+    text-rendering: geometricPrecision;
 }
 
 /* --------------------------------------------------------------------------
@@ -133,9 +135,9 @@ body.subpage-body.accom-page-body .subpage-main.accom-main-container,
     justify-content: center;
     background: radial-gradient(ellipse at 50% 50%, #050b22 0%, #02040b 100%);
     border: 1px solid rgba(0, 242, 254, 0.25);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+    text-rendering: geometricPrecision;
 }
 
 /* Ceiling, Floor, Rails, Pillars, and Ambient Dust never capture pointer events */
@@ -151,10 +153,12 @@ body.subpage-body.accom-page-body .subpage-main.accom-main-container,
     pointer-events: none !important;
 }
 
-/* Active front wall: Full content (heading, cards, form) visible, sharp and interactive */
+/* Active front wall: Full content (heading, cards, form) visible, razor-sharp and interactive */
 .room-wall-face.active-wall {
     z-index: 60 !important;
     pointer-events: auto !important;
+    backface-visibility: visible !important;
+    overflow: visible !important;
 }
 
 .room-wall-face.active-wall .wall-glass-panel,
@@ -163,10 +167,16 @@ body.subpage-body.accom-page-body .subpage-main.accom-main-container,
     visibility: visible !important;
     pointer-events: auto !important;
     transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.45s ease;
+    -webkit-font-smoothing: subpixel-antialiased !important;
+    -moz-osx-font-smoothing: auto !important;
+    text-rendering: geometricPrecision !important;
 }
 
 .room-wall-face.active-wall .wall-glass-panel * {
     pointer-events: auto !important;
+    -webkit-font-smoothing: subpixel-antialiased !important;
+    -moz-osx-font-smoothing: auto !important;
+    text-rendering: geometricPrecision !important;
 }
 
 .wall-face-4.active-wall {
@@ -369,27 +379,6 @@ body.subpage-body.accom-page-body .subpage-main.accom-main-container,
         linear-gradient(90deg, rgba(0, 242, 254, 0.11) 1.5px, transparent 1.5px);
     background-size: 50px 50px;
     animation: wallGridDrift 18s linear infinite;
-    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.45s ease;
-}
-
-/* Active front wall: Clean background with NO grid lines so content stands out clearly */
-.room-wall-face.active-wall .wall-grid,
-.room-wall-face.active-wall .circuit-grid,
-.room-wall-face.active-wall .laser-scanline {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    background-image: none !important;
-}
-
-/* Side walls (and any non-front wall): Keep moving grid lines visible */
-.room-wall-face.is-side-wall .wall-grid,
-.room-wall-face.is-side-wall .circuit-grid,
-.room-wall-face.is-side-wall .laser-scanline,
-.room-wall-face:not(.active-wall) .wall-grid,
-.room-wall-face:not(.active-wall) .circuit-grid,
-.room-wall-face:not(.active-wall) .laser-scanline {
-    opacity: 1 !important;
-    visibility: visible !important;
 }
 
 /* Mirrored harmonious grid drift for side walls */
@@ -506,16 +495,15 @@ body.subpage-body.accom-page-body .subpage-main.accom-main-container,
     border: 2px solid #00f2fe;
     border-radius: 20px;
     box-shadow: 
-        0 0 35px rgba(0, 242, 254, 0.35),
-        inset 0 0 20px rgba(0, 242, 254, 0.08);
+        0 0 35px rgba(0, 242, 254, 0.35);
     display: flex;
     flex-direction: column;
     padding: 24px 30px;
     box-sizing: border-box;
     transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.45s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: subpixel-antialiased !important;
+    -moz-osx-font-smoothing: auto !important;
+    text-rendering: geometricPrecision !important;
     overflow: hidden; /* Desktop does not scroll internally */
     transform: none; /* Attached flush onto wall plane; NO float toward viewer */
 }
@@ -548,21 +536,13 @@ body.subpage-body.accom-page-body .subpage-main.accom-main-container,
 
 .wall-glass-panel:hover {
     border-color: #33f5ff;
-    box-shadow: 
-        0 0 45px rgba(0, 242, 254, 0.45),
-        inset 0 0 25px rgba(0, 242, 254, 0.12);
+    box-shadow: 0 0 45px rgba(0, 242, 254, 0.45);
 }
 
 /* Active wall panel facing viewer is crisp, sharp and fully interactive */
 .room-wall-face.active-wall .wall-glass-panel {
     opacity: 1 !important;
     pointer-events: auto !important;
-}
-
-/* Inactive side walls remain attached and visible on the wall surface with subtle dimming */
-.room-wall-face:not(.active-wall) .wall-glass-panel {
-    opacity: 0.85;
-    pointer-events: none !important;
 }
 
 /* Panel Header */
@@ -591,8 +571,10 @@ body.subpage-body.accom-page-body .subpage-main.accom-main-container,
     letter-spacing: 2.5px;
     color: #ffffff;
     margin: 0;
-    text-shadow: none;
-    -webkit-font-smoothing: antialiased;
+    text-shadow: none !important;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+    text-rendering: geometricPrecision;
 }
 
 /* --------------------------------------------------------------------------
@@ -640,15 +622,19 @@ body.subpage-body.accom-page-body .subpage-main.accom-main-container,
     letter-spacing: 5px;
     color: #ffffff;
     margin: 0 0 8px 0;
-    text-shadow: none;
-    -webkit-font-smoothing: antialiased;
+    text-shadow: none !important;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+    text-rendering: geometricPrecision;
 }
 
 .wall-subheading {
     font-size: clamp(0.95rem, 1.8vw, 1.15rem);
-    color: #cbd5e1;
+    color: #f8fafc;
+    font-weight: 500;
     margin: 0 0 18px 0;
     max-width: 600px;
+    text-shadow: none !important;
 }
 
 .terminal-status-line {
@@ -735,9 +721,11 @@ body.subpage-body.accom-page-body .subpage-main.accom-main-container,
 .guide-text {
     font-family: 'Inter', sans-serif;
     font-size: 0.82rem;
-    color: #e2e8f0;
+    font-weight: 500;
+    color: #ffffff;
     line-height: 1.35;
     margin: 0;
+    text-shadow: none !important;
 }
 
 /* --------------------------------------------------------------------------
@@ -811,8 +799,10 @@ body.subpage-body.accom-page-body .subpage-main.accom-main-container,
     align-items: flex-start;
     gap: 10px;
     font-size: 0.83rem;
-    color: #e2e8f0;
+    font-weight: 500;
+    color: #ffffff;
     line-height: 1.35;
+    text-shadow: none !important;
 }
 
 .dos-box .check-icon {
@@ -860,7 +850,8 @@ body.subpage-body.accom-page-body .subpage-main.accom-main-container,
     font-weight: 600;
     letter-spacing: 1px;
     text-transform: uppercase;
-    color: #cbd5e1;
+    color: #e2e8f0;
+    text-shadow: none !important;
     user-select: text !important;
     -webkit-user-select: text !important;
     cursor: pointer;
@@ -981,7 +972,7 @@ body.subpage-body.accom-page-body .subpage-main.accom-main-container,
     font-size: 0.88rem;
     font-weight: 800;
     color: #00f2fe;
-    text-shadow: 0 0 8px rgba(0, 242, 254, 0.5);
+    text-shadow: none !important;
 }
 
 .booking-notice {
@@ -1019,99 +1010,411 @@ body.subpage-body.accom-page-body .subpage-main.accom-main-container,
 }
 
 /* --------------------------------------------------------------------------
-   10. MOBILE RESPONSIVE FALLBACK (<= 850px) & REDUCED MOTION
-   Clean vertical stacked layout on mobile viewports: WALL 1 to WALL 4
+   10. RESPONSIVE 3D CHAMBER & MOBILE PHONE ADAPTATIONS
+   Preserves full 3D room experience with seamless scaling for tablets & phones (360px-430px)
    -------------------------------------------------------------------------- */
+
+/* Tablet Viewports (601px to 850px) */
 @media (max-width: 850px) {
-    .subpage-main.accom-main-container {
-        padding-top: 110px !important;
-        padding-left: 16px !important;
-        padding-right: 16px !important;
-        min-height: auto !important;
-    }
-
-    .room-scroll-track {
-        height: auto !important;
-    }
-
-    .room-sticky-stage {
-        position: static !important;
-        height: auto !important;
-        width: 100% !important;
-        display: block !important;
-        overflow: visible !important;
+    :root {
+        --room-s: clamp(540px, 86vw, 740px);
+        --room-r: calc(var(--room-s) / 2);
+        --room-h: clamp(520px, 72vh, 660px);
+        --half-h: calc(var(--room-h) / 2);
+        --cam-z: var(--room-r);
     }
 
     .room-viewport {
-        height: auto !important;
-        min-height: 0 !important;
-        perspective: none !important;
-        overflow: visible !important;
-        border: none !important;
-        background: none !important;
-        box-shadow: none !important;
+        perspective: 700px;
+        touch-action: manipulation;
     }
 
     .room-chamber {
-        position: static !important;
-        transform: none !important;
-        width: 100% !important;
-        height: auto !important;
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .wall-glass-panel {
+        width: min(92%, 660px);
+        padding: 20px 22px;
+        min-height: min(78%, 460px);
+        max-height: min(90%, 580px);
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .wall-main-title {
+        font-size: clamp(2rem, 5vw, 3rem);
+        letter-spacing: 3px;
+    }
+
+    .wall-section-title {
+        font-size: clamp(1rem, 2.5vw, 1.35rem);
+        letter-spacing: 2px;
+    }
+
+    .guidelines-checklist {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px 12px;
+    }
+
+    .dodont-columns {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .form-grid-two {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px 12px;
+    }
+}
+
+/* Mobile Phones (<= 600px, specifically 360px - 430px) */
+@media (max-width: 600px) {
+    :root {
+        --room-s: clamp(310px, 88vw, 420px);
+        --room-r: calc(var(--room-s) / 2);
+        --room-h: clamp(480px, 72vh, 580px);
+        --half-h: calc(var(--room-h) / 2);
+        --cam-z: var(--room-r);
+    }
+
+    .room-viewport {
+        perspective: 520px;
+        overflow-x: hidden !important;
+        touch-action: manipulation;
+    }
+
+    .room-chamber {
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Ambient and ceiling/floor adjustments */
+    .ceiling-light-beam {
+        width: 200px;
+        height: 200px;
+        filter: blur(18px);
+    }
+
+    .floor-runway {
+        width: 140px;
+    }
+
+    .p1 { transform: translate3d(-80px, -40px, -60px); }
+    .p2 { transform: translate3d(90px, 50px, -50px); }
+    .p3 { transform: translate3d(-60px, 60px, 20px); }
+    .p4 { transform: translate3d(70px, -60px, 30px); }
+    .p5 { transform: translate3d(0px, -70px, -80px); }
+    .p6 { transform: translate3d(20px, 60px, -70px); }
+
+    .corner-rail {
+        width: 2px;
+        margin-left: -1px;
+        box-shadow: 0 0 8px #00f2fe, 0 0 16px rgba(0, 242, 254, 0.5);
+    }
+
+    .corner-pillar {
+        width: 2px;
+        margin-left: -1px;
+        box-shadow: 0 0 8px #00f2fe, 0 0 16px rgba(0, 242, 254, 0.5);
+    }
+
+    /* Panel Card */
+    .wall-glass-panel {
+        width: 95%;
+        padding: 16px 12px;
+        min-height: min(80%, 420px);
+        max-height: min(92%, 530px);
+        border-radius: 14px;
+        border-width: 1.5px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(0, 242, 254, 0.4) transparent;
+    }
+
+    .wall-glass-panel::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .wall-glass-panel::-webkit-scrollbar-track {
+        background: rgba(0, 242, 254, 0.04);
+        border-radius: 4px;
+    }
+
+    .wall-glass-panel::-webkit-scrollbar-thumb {
+        background: rgba(0, 242, 254, 0.4);
+        border-radius: 4px;
+    }
+
+    .wall-glass-panel::before,
+    .wall-glass-panel::after {
+        width: 18px;
+        height: 18px;
+    }
+    .wall-glass-panel::before {
+        border-top-left-radius: 14px;
+    }
+    .wall-glass-panel::after {
+        border-bottom-right-radius: 14px;
+    }
+
+    /* Wall 1 Overview */
+    .panel-badge {
+        font-size: 0.64rem;
+        letter-spacing: 1px;
+        padding: 4px 10px;
+        margin-bottom: 8px;
+        max-width: 100%;
+        line-height: 1.25;
+    }
+
+    .wall-main-title {
+        font-size: clamp(1.4rem, 6.8vw, 1.85rem) !important;
+        letter-spacing: 2px !important;
+        margin: 0 0 6px 0 !important;
+        line-height: 1.15;
+    }
+
+    .wall-subheading {
+        font-size: 0.78rem !important;
+        line-height: 1.35;
+        margin: 0 0 10px 0 !important;
+    }
+
+    .terminal-status-line {
         display: flex !important;
-        flex-direction: column !important;
-        gap: 32px !important;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 6px 10px !important;
+        font-size: 0.68rem !important;
+        line-height: 1.35;
+        margin-bottom: 8px !important;
+        text-align: left;
+        width: 100%;
+        box-sizing: border-box;
     }
 
-    /* Hide ceiling, floor, corner rails, pillars, and ambient particles on mobile */
-    .ceiling-face,
-    .floor-face,
-    .corner-rail,
-    .corner-pillar,
-    .room-ambient-particles {
-        display: none !important;
+    .terminal-status-line .status-icon {
+        margin-top: 2px;
+        flex-shrink: 0;
     }
 
-    /* Stack walls vertically: 1, 2, 3, 4 */
-    .wall-face-1,
-    .wall-face-2,
-    .wall-face-3,
-    .wall-face-4 {
-        position: static !important;
-        width: 100% !important;
-        height: auto !important;
-        left: auto !important;
-        top: auto !important;
-        transform: none !important;
-        border-radius: 20px !important;
-        padding: 0 !important;
-        background: none !important;
-        border: none !important;
-        opacity: 1 !important;
-        pointer-events: auto !important;
-    }
-
-    .wall-glass-panel,
-    .wall-content {
-        position: static !important;
+    .important-notice-card {
         display: flex !important;
-        width: 100% !important;
-        height: auto !important;
-        min-height: auto !important;
-        max-height: none !important;
-        padding: 20px 16px !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        filter: none !important;
-        pointer-events: auto !important;
-        overflow: visible !important;
-        transform: none !important;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 6px 10px !important;
+        font-size: 0.7rem !important;
+        line-height: 1.35;
+        text-align: left;
+        width: 100%;
+        box-sizing: border-box;
     }
 
-    .guidelines-checklist,
-    .dodont-columns,
+    .important-notice-card .notice-icon {
+        margin-top: 2px;
+        flex-shrink: 0;
+    }
+
+    /* Wall 2 Guidelines */
+    .panel-header-compact {
+        padding-bottom: 6px;
+        margin-bottom: 4px;
+    }
+
+    .panel-index-tag {
+        font-size: 0.62rem;
+        letter-spacing: 1px;
+    }
+
+    .wall-section-title {
+        font-size: clamp(0.85rem, 3.8vw, 1.05rem) !important;
+        letter-spacing: 1px !important;
+    }
+
+    .guidelines-checklist {
+        grid-template-columns: 1fr !important;
+        gap: 5px !important;
+        margin-top: 6px !important;
+    }
+
+    .guideline-item {
+        padding: 5px 8px !important;
+        gap: 8px !important;
+        border-radius: 6px;
+    }
+
+    .guide-num {
+        font-size: 0.72rem !important;
+    }
+
+    .guide-text {
+        font-size: 0.7rem !important;
+        line-height: 1.25;
+    }
+
+    /* Wall 3 Do's and Don'ts */
+    .dodont-columns {
+        grid-template-columns: 1fr !important;
+        gap: 6px !important;
+        margin-top: 6px !important;
+    }
+
+    .dodont-box {
+        padding: 8px 10px !important;
+        border-radius: 8px !important;
+    }
+
+    .dodont-box-header {
+        gap: 6px !important;
+        margin-bottom: 6px !important;
+        padding-bottom: 4px !important;
+    }
+
+    .dodont-box-header h3 {
+        font-size: 0.72rem !important;
+        letter-spacing: 1px !important;
+    }
+
+    .dodont-box-header .dodont-icon {
+        font-size: 0.75rem;
+    }
+
+    .dodont-items {
+        gap: 4px !important;
+    }
+
+    .dodont-items li {
+        font-size: 0.7rem !important;
+        line-height: 1.25;
+        gap: 6px !important;
+    }
+
+    .dos-box .check-icon,
+    .donts-box .cross-icon {
+        margin-top: 2px;
+        font-size: 0.72rem;
+    }
+
+    /* Wall 4 Allocation Form */
+    .accom-booking-form {
+        gap: 4px !important;
+        margin-top: 4px !important;
+    }
+
     .form-grid-two {
         grid-template-columns: 1fr !important;
-        gap: 10px !important;
+        gap: 4px !important;
+    }
+
+    .form-group {
+        gap: 2px !important;
+    }
+
+    .form-group label {
+        font-size: 0.65rem !important;
+        letter-spacing: 0.5px !important;
+    }
+
+    .input-wrapper input,
+    .input-wrapper select {
+        padding: 6px 8px 6px 26px !important;
+        font-size: 0.78rem !important;
+        border-radius: 6px !important;
+        height: 32px !important;
+    }
+
+    .input-wrapper select {
+        background-position: right 8px center !important;
+        background-size: 14px !important;
+        padding-right: 26px !important;
+    }
+
+    .input-icon {
+        left: 8px !important;
+        font-size: 0.72rem !important;
+    }
+
+    .field-error {
+        min-height: 11px !important;
+        font-size: 0.6rem !important;
+        line-height: 1.1;
+    }
+
+    .fee-status-display {
+        padding: 5px 8px !important;
+        gap: 2px !important;
+        border-radius: 6px !important;
+    }
+
+    .fee-line {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+
+    .fee-label {
+        font-size: 0.62rem !important;
+        letter-spacing: 1px !important;
+    }
+
+    .fee-value {
+        font-size: 0.76rem !important;
+    }
+
+    .booking-notice {
+        font-size: 0.62rem !important;
+        gap: 6px !important;
+        line-height: 1.25;
+    }
+
+    .booking-notice i {
+        font-size: 0.65rem;
+    }
+
+    .portal-btn-disabled {
+        padding: 8px 12px !important;
+        font-size: 0.72rem !important;
+        letter-spacing: 1px !important;
+        border-radius: 6px !important;
+    }
+}
+
+/* Very Narrow Screens (<= 380px, e.g. Galaxy Fold, iPhone SE) */
+@media (max-width: 380px) {
+    :root {
+        --room-s: clamp(290px, 86vw, 340px);
+        --room-r: calc(var(--room-s) / 2);
+        --room-h: clamp(450px, 70vh, 530px);
+        --half-h: calc(var(--room-h) / 2);
+        --cam-z: var(--room-r);
+    }
+
+    .room-viewport {
+        perspective: 460px;
+        touch-action: manipulation;
+    }
+
+    .room-chamber {
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .wall-main-title {
+        font-size: 1.35rem !important;
+        letter-spacing: 1px !important;
+    }
+
+    .wall-section-title {
+        font-size: 0.8rem !important;
+        letter-spacing: 0.5px !important;
+    }
+
+    .panel-badge {
+        font-size: 0.58rem;
+        letter-spacing: 0.5px;
+        padding: 3px 8px;
     }
 }
 

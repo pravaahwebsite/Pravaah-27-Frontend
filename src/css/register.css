@@ -243,11 +243,11 @@ body.register-fullscreen-body {
 }
 
 .room-3d-arrow.arrow-left {
-    left: 30px;
+    left: 20px;
 }
 
 .room-3d-arrow.arrow-right {
-    right: 30px;
+    right: 20px;
 }
 
 .room-3d-arrow:hover {
@@ -452,7 +452,8 @@ body.register-fullscreen-body {
 /* Wall Content Wrapper (Spacious, Expansive, Centered) */
 .wall-content-wrapper {
     width: 100%;
-    max-width: 1320px;
+    max-width: min(1140px, calc(100vw - 200px));
+    margin: 0 auto;
     height: 100%;
     max-height: calc(100vh - 190px);
     display: flex;
@@ -463,7 +464,7 @@ body.register-fullscreen-body {
     box-sizing: border-box;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 6px 18px;
+    padding: 6px 20px;
     scrollbar-width: thin;
     scrollbar-color: rgba(0, 242, 254, 0.4) transparent;
 }
@@ -1133,7 +1134,16 @@ body.register-fullscreen-body {
     }
 
     .room-3d-arrow {
-        display: none;
+        display: inline-flex !important;
+        padding: 8px 12px;
+        font-size: 0.72rem;
+        z-index: 250;
+    }
+    .room-3d-arrow.arrow-left {
+        left: 10px;
+    }
+    .room-3d-arrow.arrow-right {
+        right: 10px;
     }
 }
 
@@ -1162,5 +1172,205 @@ body.register-fullscreen-body {
 
     .hud-interaction-hint {
         display: none;
+    }
+}
+
+/* Mobile Responsive 3D Room Refinements */
+@media (max-width: 768px) {
+    /* 0. Move Up Top Nav Bar For Phone (So Text Doesn't Get Blocked) */
+    .room-top-hud {
+        top: calc(10px + env(safe-area-inset-top, 0px)) !important;
+        gap: 6px !important;
+        z-index: 220 !important;
+    }
+
+    .chamber-tabs-nav {
+        padding: 4px 8px !important;
+        gap: 6px !important;
+        border-radius: 20px !important;
+    }
+
+    .chamber-tab-btn {
+        padding: 5px 12px !important;
+        font-size: 0.72rem !important;
+    }
+
+    /* 1. Side Navigation Arrows - Compact & Non-Obstructive */
+    .room-3d-arrow {
+        width: 38px !important;
+        height: 38px !important;
+        padding: 0 !important;
+        border-radius: 50% !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: rgba(6, 12, 28, 0.95) !important;
+        border: 1.5px solid rgba(0, 242, 254, 0.75) !important;
+        box-shadow: 0 0 16px rgba(0, 242, 254, 0.45) !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        z-index: 300 !important;
+    }
+
+    .room-3d-arrow .arrow-text {
+        display: none !important;
+    }
+
+    .room-3d-arrow i {
+        font-size: 0.95rem !important;
+        color: #00f2fe !important;
+        margin: 0 !important;
+    }
+
+    .room-3d-arrow.arrow-left {
+        left: 6px !important;
+    }
+
+    .room-3d-arrow.arrow-right {
+        right: 6px !important;
+    }
+
+    .room-3d-arrow:hover {
+        background: #00f2fe !important;
+        transform: translateY(-50%) scale(1.08) !important;
+    }
+
+    .room-3d-arrow:hover i {
+        color: #040916 !important;
+    }
+
+    /* 2. Remove Next and Back Buttons at Bottom of Page */
+    .wall-action-bar,
+    .wall-nav-cta,
+    .wall-back-cta,
+    .wall-reset-cta {
+        display: none !important;
+    }
+
+    /* 3. Drag Down the Four Dot Row Right Above Mobile Bottom Nav (Flush, No Extra Margin) */
+    .room-bottom-hud {
+        position: fixed !important;
+        bottom: calc(64px + env(safe-area-inset-bottom, 0px) + 2px) !important;
+        margin-bottom: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        box-shadow: none !important;
+        z-index: 250 !important;
+        pointer-events: none !important;
+        box-sizing: border-box !important;
+    }
+
+    .hud-interaction-hint {
+        display: none !important;
+    }
+
+    .hud-wall-indicators {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        padding: 6px 16px !important;
+        background: rgba(4, 8, 22, 0.88) !important;
+        border: 1px solid rgba(0, 242, 254, 0.35) !important;
+        border-radius: 20px !important;
+        backdrop-filter: blur(14px) !important;
+        -webkit-backdrop-filter: blur(14px) !important;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.8), 0 0 12px rgba(0, 242, 254, 0.2) !important;
+        pointer-events: auto !important;
+    }
+
+    .wall-pill-dot {
+        width: 10px !important;
+        height: 10px !important;
+    }
+
+    .wall-pill-dot.active {
+        width: 26px !important;
+        height: 10px !important;
+        border-radius: 8px !important;
+    }
+
+    /* 4. Wall Spacing and Scrolling Clearance (Never Blocks Content) */
+    .room-wall {
+        padding: 64px 0 115px 0 !important;
+        box-sizing: border-box !important;
+        align-items: flex-start !important;
+    }
+
+    .wall-content-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        gap: 12px !important;
+        padding: 4px 54px 36px 54px !important;
+        box-sizing: border-box !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+
+    /* 5. Mobile Compact Cards & Form Clearance */
+    .passes-showcase-row {
+        gap: 14px !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding-bottom: 20px !important;
+    }
+
+    .pass-tower-card {
+        padding: 16px 14px 18px 14px !important;
+        gap: 8px !important;
+        border-radius: 16px !important;
+    }
+
+    .pass-tower-card .pass-icon-box {
+        font-size: 1.8rem !important;
+        margin-bottom: 2px !important;
+    }
+
+    .pass-tower-card .pass-title {
+        font-size: 1.15rem !important;
+    }
+
+    .pass-tower-card .pass-price {
+        font-size: 0.95rem !important;
+        margin: 2px 0 !important;
+    }
+
+    .pass-tower-card .pass-desc {
+        font-size: 0.72rem !important;
+        line-height: 1.3 !important;
+    }
+
+    .pass-tower-card .btn-pass-select {
+        padding: 8px 18px !important;
+        font-size: 0.75rem !important;
+    }
+
+    .delegate-form {
+        gap: 10px !important;
+        padding-bottom: 24px !important;
+    }
+
+    .notes-arrow-list {
+        padding-bottom: 24px !important;
+    }
+
+    .selected-pass-container {
+        padding-bottom: 24px !important;
     }
 }
