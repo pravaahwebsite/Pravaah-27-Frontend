@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         </svg>
                     </div>
                     <div class="loader-info">
-                        <div class="loader-tag">PRAVAAH '26 // MULTIVERSE TRANSIT</div>
+                        <div class="loader-tag">PRAVAAH '27</div>
                         <div class="loader-status" id="loader-status-text">WARPING TO DIMENSIONS...</div>
                     </div>
                 </div>
