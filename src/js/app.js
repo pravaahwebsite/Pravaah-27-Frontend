@@ -310,52 +310,63 @@ document.addEventListener('DOMContentLoaded', () => {
     const portalVideo = document.getElementById('portal-video');
     const portalFlashOverlay = document.getElementById('portal-flash-overlay');
     const portalEntryTrigger = document.getElementById('portal-entry-trigger');
+    const portalSkipBtn = document.getElementById('portal-skip-btn');
+    const portalAudioBtn = document.getElementById('portal-audio-btn');
+    const iconSoundOff = document.getElementById('icon-sound-off');
+    const iconSoundOn = document.getElementById('icon-sound-on');
+    const portalLoaderBar = document.querySelector('.portal-loader-bar');
 
-    let startY = 0;
-    let isSwiping = false;
     let portalPlaybackActive = false;
-    let portalHasPlayedOnce = false;
+    let portalHasEntered = true; // Unlocked by default for continuous, smooth scrolling
     let flashTriggered = false;
 
-    // Enable multiverse environment while keeping all sections including Hero cleanly visible & scrollable
-    portalHasPlayedOnce = true;
-    document.documentElement.classList.add('portal-entered-fast');
+    // Check if user specifically requested video replay via query param
+    if (new URLSearchParams(window.location.search).get('firsttime') === 'true') {
+        portalHasEntered = false;
+        try { sessionStorage.removeItem('portalEntered'); } catch (e) {}
+    } else {
+        portalHasEntered = true;
+        try { sessionStorage.setItem('portalEntered', 'true'); } catch (e) {}
+    }
+
+    // Configure video element for reliable playback if replayed
+    if (portalVideo) {
+        portalVideo.muted = true;
+        portalVideo.defaultMuted = true;
+        portalVideo.volume = 0;
+        portalVideo.defaultPlaybackRate = 1.0;
+        portalVideo.playbackRate = 1.0;
+        portalVideo.controls = false;
+        portalVideo.removeAttribute('controls');
+        portalVideo.setAttribute('playsinline', '');
+        portalVideo.setAttribute('webkit-playsinline', '');
+    }
+
+    // Multiverse is unlocked by default for smooth scrolling
     document.body.classList.add('portal-entered');
+    document.documentElement.classList.add('portal-entered-fast');
     if (mainScrollContainer) {
         mainScrollContainer.classList.add('scroll-enabled');
     }
     const navWheel = document.getElementById('cosmic-nav-wheel');
     if (navWheel) {
         navWheel.classList.remove('hidden-nav');
-        setTimeout(updateNavPill, 120);
+        setTimeout(updateNavPill, 100);
     }
     setTimeout(() => {
         generateCalendarCube();
     }, 50);
 
-    if (portalVideo) {
-        portalVideo.muted = true;
-        portalVideo.volume = 0;
-        portalVideo.defaultPlaybackRate = 2.0;
-        portalVideo.playbackRate = 2.0;
-        portalVideo.controls = false;
-        portalVideo.removeAttribute('controls');
-    }
-
-    function handlePortalLaunch() {
-
-        if (portalHasPlayedOnce || portalPlaybackActive) {
+    function launchPortalVideo() {
+        if (portalHasEntered || portalPlaybackActive) {
+            if (portalHasEntered) {
+                smoothScrollToAbout();
+            }
             return;
         }
 
         portalPlaybackActive = true;
-        portalHasPlayedOnce = true;
         flashTriggered = false;
-
-        if (splashScreen) {
-            splashScreen.classList.remove('active-screen');
-            splashScreen.classList.add('hidden');
-        }
 
         if (loaderScreen) {
             loaderScreen.classList.remove('hidden');
@@ -368,18 +379,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (portalVideo) {
             portalVideo.currentTime = 0;
-            portalVideo.defaultPlaybackRate = 2.0;
-            portalVideo.playbackRate = 2.0;
-            portalVideo.muted = true;
-            portalVideo.volume = 0;
+            portalVideo.playbackRate = 1.0;
+            portalVideo.muted = true; // muted for 100% compliant autoplay
 
             const playPromise = portalVideo.play();
             if (playPromise !== undefined) {
                 playPromise.then(() => {
-                    portalVideo.playbackRate = 2.0;
+                    portalVideo.playbackRate = 1.0;
                 }).catch(e => {
-                    console.warn("Video play notice:", e);
-
+                    console.warn("Portal video playback notice:", e);
                     enterUniverse();
                 });
             }
@@ -388,24 +396,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 const currentTime = portalVideo.currentTime;
                 const duration = portalVideo.duration;
 
-                if (duration && isFinite(duration) && duration > 0.8) {
+                if (duration && isFinite(duration) && duration > 0.5) {
+                    if (portalLoaderBar) {
+                        const pct = Math.min(100, (currentTime / duration) * 100);
+                        portalLoaderBar.style.width = `${pct}%`;
+                    }
+
                     if (currentTime >= Math.max(0.2, duration - 0.45) && !flashTriggered) {
                         flashTriggered = true;
                         if (portalFlashOverlay) {
                             portalFlashOverlay.classList.add('active-flash');
                         }
                     }
-                    if (currentTime >= Math.max(0.4, duration - 0.1)) {
+
+                    if (currentTime >= Math.max(0.4, duration - 0.08)) {
                         enterUniverse();
                     }
                 } else {
-                    if (currentTime >= 8.6 && !flashTriggered) {
+                    if (currentTime >= 1.6 && !flashTriggered) {
                         flashTriggered = true;
                         if (portalFlashOverlay) {
                             portalFlashOverlay.classList.add('active-flash');
                         }
                     }
-                    if (currentTime >= 8.95) {
+                    if (currentTime >= 1.95) {
                         enterUniverse();
                     }
                 }
@@ -414,55 +428,33 @@ document.addEventListener('DOMContentLoaded', () => {
             portalVideo.onended = () => {
                 enterUniverse();
             };
+
+            // Safety fallback timer if video stalls or hangs (3.8s max)
+            setTimeout(() => {
+                if (portalPlaybackActive && !portalHasEntered) {
+                    enterUniverse();
+                }
+            }, 3800);
         } else {
             enterUniverse();
         }
     }
 
-    function smoothScrollToAbout() {
-        const aboutPage = document.getElementById('about-page');
-        if (aboutPage) {
-            aboutPage.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else if (mainScrollContainer) {
-            mainScrollContainer.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
-        }
-    }
-
-    if (portalEntryTrigger) {
-        portalEntryTrigger.addEventListener('click', (e) => {
-            e.preventDefault();
-            smoothScrollToAbout();
-        });
-        portalEntryTrigger.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                smoothScrollToAbout();
-            }
-        });
-    }
-
-    if (enterBtn) {
-        enterBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            smoothScrollToAbout();
-        });
-    }
-
     function enterUniverse() {
-        if (loaderScreen && !loaderScreen.classList.contains('active-screen') && !portalPlaybackActive) return;
+        if (portalHasEntered) return;
+        portalHasEntered = true;
+        portalPlaybackActive = false;
 
         try {
             sessionStorage.setItem('portalEntered', 'true');
-        } catch (e) {
-            console.warn(e);
-        }
+        } catch (e) {}
 
+        // Trigger blinding dimensional flash overlay
         if (portalFlashOverlay) {
             portalFlashOverlay.classList.add('active-flash');
         }
 
         setTimeout(() => {
-
             if (portalVideo) {
                 portalVideo.pause();
                 portalVideo.ontimeupdate = null;
@@ -474,12 +466,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 loaderScreen.classList.add('hidden');
             }
 
-            if (splashScreen) {
-                splashScreen.classList.add('hidden');
-                splashScreen.classList.remove('active-screen');
-            }
-
             document.body.classList.add('portal-entered');
+            document.documentElement.classList.add('portal-entered-fast');
 
             if (portalFlashOverlay) {
                 portalFlashOverlay.classList.add('fade-out');
@@ -490,11 +478,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (mainScrollContainer) {
                 mainScrollContainer.classList.add('scroll-enabled');
-                mainScrollContainer.scrollTop = 0;
             }
-
-            portalPlaybackActive = false;
-            isSwiping = false;
 
             const navWheel = document.getElementById('cosmic-nav-wheel');
             if (navWheel) {
@@ -503,7 +487,186 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             generateCalendarCube();
-        }, 350);
+
+            // Smoothly glide into the rest of the page / website
+            setTimeout(() => {
+                smoothScrollToAbout();
+            }, 120);
+        }, 320);
+    }
+
+    // Skip button click listener
+    if (portalSkipBtn) {
+        portalSkipBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            enterUniverse();
+        });
+    }
+
+    // Sound toggle listener
+    if (portalAudioBtn && portalVideo) {
+        portalAudioBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (portalVideo.muted) {
+                portalVideo.muted = false;
+                portalVideo.volume = 1;
+                if (iconSoundOff) iconSoundOff.style.display = 'none';
+                if (iconSoundOn) iconSoundOn.style.display = 'block';
+            } else {
+                portalVideo.muted = true;
+                if (iconSoundOff) iconSoundOff.style.display = 'block';
+                if (iconSoundOn) iconSoundOn.style.display = 'none';
+            }
+        });
+    }
+
+    // Keyboard navigation during portal playback: Escape/Space/Enter skips video
+    window.addEventListener('keydown', (e) => {
+        if (portalPlaybackActive) {
+            if (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                enterUniverse();
+            }
+        }
+    });
+
+    /* =========================================================
+       CINEMATIC SLOW SMOOTH SCROLL ENGINE
+       ========================================================= */
+    let isSlowScrolling = false;
+
+    function slowSmoothScrollTo(targetElementOrY, duration = 1400, onComplete) {
+        let targetY = 0;
+        const currentScroll = getScrollPosition();
+
+        if (typeof targetElementOrY === 'number') {
+            targetY = targetElementOrY;
+        } else if (targetElementOrY && targetElementOrY.getBoundingClientRect) {
+            const rect = targetElementOrY.getBoundingClientRect();
+            targetY = currentScroll + rect.top;
+        } else {
+            return;
+        }
+
+        const distance = targetY - currentScroll;
+        if (Math.abs(distance) < 2) {
+            if (typeof onComplete === 'function') onComplete();
+            return;
+        }
+
+        isSlowScrolling = true;
+        document.body.classList.add('multiverse-slow-glide');
+
+        const startTime = performance.now();
+
+        // Luxurious quintic ease-in-out for slow acceleration and majestic deceleration
+        function easeInOutQuint(t) {
+            return t < 0.5 ? 16 * t * t * t * t * t : 1 + 16 * (--t) * t * t * t * t;
+        }
+
+        function step(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1.0);
+            const eased = easeInOutQuint(progress);
+
+            const nextY = currentScroll + distance * eased;
+
+            window.scrollTo(0, nextY);
+            if (mainScrollContainer && mainScrollContainer.scrollTop !== undefined) {
+                mainScrollContainer.scrollTop = nextY;
+            }
+
+            handleParallaxAndNav();
+
+            if (progress < 1.0) {
+                requestAnimationFrame(step);
+            } else {
+                window.scrollTo(0, targetY);
+                if (mainScrollContainer && mainScrollContainer.scrollTop !== undefined) {
+                    mainScrollContainer.scrollTop = targetY;
+                }
+                handleParallaxAndNav();
+                isSlowScrolling = false;
+                document.body.classList.remove('multiverse-slow-glide');
+                if (typeof onComplete === 'function') onComplete();
+            }
+        }
+
+        requestAnimationFrame(step);
+    }
+
+    function smoothScrollToAbout() {
+        const aboutPage = document.getElementById('about-page');
+        if (aboutPage) {
+            slowSmoothScrollTo(aboutPage, 1400);
+        } else if (mainScrollContainer) {
+            slowSmoothScrollTo(window.innerHeight, 1400);
+        }
+    }
+
+    
+
+    if (portalEntryTrigger) {
+        portalEntryTrigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!portalHasEntered) {
+                launchPortalVideo();
+            } else {
+                smoothScrollToAbout();
+            }
+        });
+        portalEntryTrigger.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                if (!portalHasEntered) {
+                    launchPortalVideo();
+                } else {
+                    smoothScrollToAbout();
+                }
+            }
+        });
+    }
+
+    if (enterBtn) {
+        enterBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!portalHasEntered) {
+                launchPortalVideo();
+            } else {
+                smoothScrollToAbout();
+            }
+        });
+    }
+
+    const septagonPortalBox = document.querySelector('.big-septagon-portal-container');
+    if (septagonPortalBox) {
+        septagonPortalBox.setAttribute('title', 'Replay Multiverse Portal Warp');
+        septagonPortalBox.addEventListener('click', () => {
+            portalHasEntered = false;
+            launchPortalVideo();
+        });
+    }
+
+    // Slow Smooth Glide Trigger to Calendar
+    const guideToCalendarBtn = document.getElementById('guide-to-calendar-btn');
+    if (guideToCalendarBtn) {
+        guideToCalendarBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const calSec = document.getElementById('calendar-page');
+            if (calSec) {
+                slowSmoothScrollTo(calSec, 1500);
+            }
+        });
+        guideToCalendarBtn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const calSec = document.getElementById('calendar-page');
+                if (calSec) {
+                    slowSmoothScrollTo(calSec, 1500);
+                }
+            }
+        });
     }
 
     mainScrollContainer.addEventListener('scroll', () => {
@@ -566,6 +729,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         currentSnapIndex = closestIndex;
+        if (snapSections[closestIndex] && snapSections[closestIndex].id === 'calendar-page') {
+            snapSections[closestIndex].classList.add('is-revealed');
+        }
     }
 
     function smoothScrollToSection(index) {
@@ -575,8 +741,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!targetSec) return;
 
         currentSnapIndex = index;
-        targetSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        slowSmoothScrollTo(targetSec, 1400, () => {
+            if (targetSec.id === 'calendar-page') {
+                targetSec.classList.add('is-revealed');
+            }
+        });
     }
+
+    
 
     // Parallax & Dynamic Atmosphere Sync
     function handleParallaxAndNav() {
@@ -608,6 +780,97 @@ document.addEventListener('DOMContentLoaded', () => {
 
         syncCurrentIndexFromScroll();
 
+        // -------------------------------------------------------------
+        // SCROLL-DRIVEN REVELATION: ABOUT "GET TO KNOW ABOUT PRAVAAH" LINE & CARDS
+        // -------------------------------------------------------------
+        const aboutLead = document.getElementById('about-lead-container');
+        const aboutCardPravaah = document.getElementById('about-card-pravaah');
+        const aboutCardTheme = document.getElementById('about-card-theme');
+        const guideToCalendarBtn = document.getElementById('guide-to-calendar-btn');
+
+        if (aboutLead) {
+            const leadRect = aboutLead.getBoundingClientRect();
+            const leadCenter = leadRect.top + leadRect.height / 2;
+            const enterBottom = viewportH;
+            const targetMid = viewportH * 0.5;
+
+            // As line travels from bottom of viewport (viewportH) to middle of viewport (viewportH * 0.5):
+            // progress interpolates smoothly from 0.0 to 1.0
+            let p = (enterBottom - leadCenter) / (enterBottom - targetMid);
+            p = Math.max(0, Math.min(1.0, p));
+
+            if (leadCenter > targetMid) {
+                // Approaching middle of viewport: low opacity to full opacity
+                aboutLead.style.opacity = p.toFixed(3);
+                const ty = ((1 - p) * 45).toFixed(1);
+                const sc = (0.90 + p * 0.10).toFixed(3);
+                aboutLead.style.transform = `translateY(${ty}px) scale(${sc})`;
+                aboutLead.style.filter = `blur(${((1 - p) * 8).toFixed(1)}px)`;
+                aboutLead.classList.remove('is-centered');
+            } else {
+                // Line has reached or crossed the middle of the viewport
+                aboutLead.style.opacity = '1';
+                aboutLead.style.transform = 'translateY(0) scale(1)';
+                aboutLead.style.filter = 'blur(0px)';
+                aboutLead.classList.add('is-centered', 'is-revealed');
+            }
+
+            // Once the line comes to the middle of the viewport, the about elements glide in from the sides
+            if (leadCenter <= targetMid + 35 && leadRect.bottom > -80) {
+                if (aboutCardPravaah) aboutCardPravaah.classList.add('is-revealed');
+                if (aboutCardTheme) aboutCardTheme.classList.add('is-revealed');
+                if (guideToCalendarBtn) guideToCalendarBtn.classList.add('is-revealed');
+            } else if (leadCenter > targetMid + 90) {
+                // User scrolled back up above the middle of viewport
+                if (aboutCardPravaah) aboutCardPravaah.classList.remove('is-revealed');
+                if (aboutCardTheme) aboutCardTheme.classList.remove('is-revealed');
+                if (guideToCalendarBtn) guideToCalendarBtn.classList.remove('is-revealed');
+            }
+        }
+
+        // -------------------------------------------------------------
+        // SCROLL-DRIVEN REVELATION: CALENDAR HEADING & SIDE TICKERS
+        // -------------------------------------------------------------
+        const calHeading = document.getElementById('calendar-heading-container');
+        const calTickerLeft = document.getElementById('calendar-ticker-left');
+        const calTickerRight = document.getElementById('calendar-ticker-right');
+        const calLayout = document.getElementById('calendar-layout-container');
+
+        if (calHeading) {
+            const calRect = calHeading.getBoundingClientRect();
+            const calCenter = calRect.top + calRect.height / 2;
+            const enterBottom = viewportH;
+            const targetMid = viewportH * 0.5;
+
+            let cp = (enterBottom - calCenter) / (enterBottom - targetMid);
+            cp = Math.max(0, Math.min(1.0, cp));
+
+            if (calCenter > targetMid) {
+                calHeading.style.opacity = cp.toFixed(3);
+                const cty = ((1 - cp) * 45).toFixed(1);
+                const csc = (0.90 + cp * 0.10).toFixed(3);
+                calHeading.style.transform = `translateY(${cty}px) scale(${csc})`;
+                calHeading.style.filter = `blur(${((1 - cp) * 8).toFixed(1)}px)`;
+                calHeading.classList.remove('is-centered');
+            } else {
+                calHeading.style.opacity = '1';
+                calHeading.style.transform = 'translateY(0) scale(1)';
+                calHeading.style.filter = 'blur(0px)';
+                calHeading.classList.add('is-centered', 'is-revealed');
+            }
+
+            // Side tickers glide in from left & right to dock as heading reaches center
+            if (calCenter <= targetMid + 35 && calRect.bottom > -80) {
+                if (calTickerLeft) calTickerLeft.classList.add('is-revealed');
+                if (calTickerRight) calTickerRight.classList.add('is-revealed');
+                if (calLayout) calLayout.classList.add('is-revealed');
+            } else if (calCenter > targetMid + 90) {
+                if (calTickerLeft) calTickerLeft.classList.remove('is-revealed');
+                if (calTickerRight) calTickerRight.classList.remove('is-revealed');
+                if (calLayout) calLayout.classList.remove('is-revealed');
+            }
+        }
+
         // Cosmic nav indicator update
         const navItems = Array.from(document.querySelectorAll('.cosmic-nav-wheel .nav-item'));
         if (navItems.length > 0 && scrollTop < viewportH * 0.6) {
@@ -628,16 +891,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Scroll-Reveal intersection observer for all home page elements
-    const revealElements = document.querySelectorAll('.scroll-reveal, .about-intro-card, .calendar-layout-container, .gallery-columns-wrapper, .last-page-hero-container, .pravaah-full-footer');
+    const revealElements = document.querySelectorAll('.scroll-reveal, #about-lead-container, .about-intro-card, #guide-to-calendar-btn, #calendar-page, #calendar-heading-container, .calendar-page-heading, .calendar-sidebar-ticker, .calendar-layout-container, .gallery-columns-wrapper, .last-page-hero-container, .pravaah-full-footer');
     if ('IntersectionObserver' in window && revealElements.length > 0) {
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-revealed');
+                } else if (entry.boundingClientRect.top > window.innerHeight || entry.boundingClientRect.bottom < 0) {
+                    // Reset if scrolled back up above or down past the element so it re-animates from below on next scroll
+                    entry.target.classList.remove('is-revealed');
                 }
             });
         }, {
-            threshold: 0.08
+            threshold: 0.1,
+            rootMargin: '0px 0px -30px 0px'
         });
 
         revealElements.forEach(el => {
@@ -684,6 +951,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             smoothScrollToSection(0);
         } else if (e.key === 'End') {
+            if (!portalHasEntered) return;
             e.preventDefault();
             smoothScrollToSection(snapSections.length - 1);
         }

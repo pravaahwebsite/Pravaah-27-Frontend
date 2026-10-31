@@ -11,7 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="src/css/style.css">
     <script>
-        if (sessionStorage.getItem('portalEntered') === 'true') {
+        if (new URLSearchParams(window.location.search).get('firsttime') === 'true') {
+            sessionStorage.removeItem('portalEntered');
+        } else if (sessionStorage.getItem('portalEntered') === 'true' || new URLSearchParams(window.location.search).get('skipintro') === 'true') {
             document.documentElement.classList.add('portal-entered-fast');
         }
     </script>
@@ -20,7 +22,7 @@
     <div id="global-bg-layer" class="global-bg-layer"></div>
     <canvas id="starfield-canvas"></canvas>
 
-    <nav class="cosmic-nav-wheel" id="cosmic-nav-wheel">
+    <nav class="cosmic-nav-wheel hidden-nav" id="cosmic-nav-wheel">
         <div class="nav-wheel-track">
 
             <div class="nav-indicator-pill" id="nav-indicator-pill"></div>
@@ -45,12 +47,39 @@
         <div class="nav-wheel-glow"></div>
     </nav>
 
+    <!-- Portal Video Entrance Screen (Triggered on swipe down from hero) -->
     <section id="loader-screen" class="hidden portal-warp-section">
         <video id="portal-video" class="portal-video-element" playsinline preload="auto" muted>
             <source src="assets/videos/portal.mp4" type="video/mp4">
         </video>
 
         <div id="portal-flash-overlay" class="portal-flash-overlay"></div>
+
+        <div class="portal-controls-row">
+            <button id="portal-audio-btn" class="portal-audio-btn" type="button" aria-label="Toggle Sound" title="Toggle Sound">
+                <svg id="icon-sound-off" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <line x1="23" y1="9" x2="17" y2="15"></line>
+                    <line x1="17" y1="9" x2="23" y2="15"></line>
+                </svg>
+                <svg id="icon-sound-on" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg>
+            </button>
+
+            <button id="portal-skip-btn" class="portal-skip-btn" type="button" aria-label="Skip Intro Video">
+                <span>SKIP INTRO</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                    <line x1="19" y1="5" x2="19" y2="19"></line>
+                </svg>
+            </button>
+        </div>
+
+        <div class="portal-loader-indicator">
+            <div class="portal-loader-bar"></div>
+        </div>
     </section>
 
     <main id="main-scroll-container" class="scroll-enabled">
@@ -194,21 +223,37 @@
         <section id="about-page" class="snap-page">
 
             <div class="about-fullscreen-wrapper">
-                <h2 class="about-page-heading spider-title" data-text="FESTIVAL THEME & ABOUT">FESTIVAL THEME & ABOUT</h2>
+                <!-- Revelation Lead Line: "GET TO KNOW ABOUT PRAVAAH" -->
+                <div class="about-lead-container" id="about-lead-container">
+                    <div class="about-lead-badge">
+                        <span class="badge-dot pulse-cyan"></span>
+                        <span class="badge-text">PORTAL CONVERGENCE</span>
+                        <span class="badge-sparkle">✦</span>
+                    </div>
+                    <h2 class="about-page-heading about-lead-line spider-title" id="about-lead-line" data-text="GET TO KNOW ABOUT PRAVAAH">
+                        GET TO KNOW ABOUT PRAVAAH
+                    </h2>
+                    <div class="about-lead-decor">
+                        <span class="decor-line-bar"></span>
+                        <span class="decor-line-text">WORLDS UNBOUND • KAIROS 2026</span>
+                        <span class="decor-line-bar"></span>
+                    </div>
+                </div>
 
-                <div class="about-intro-grid">
-                    <div class="about-intro-card pravaah-sub-card">
+                <!-- About Page Elements: Pravaah from Left, Kairos Theme from Right -->
+                <div class="about-intro-grid" id="about-intro-grid">
+                    <div class="about-intro-card pravaah-sub-card from-left" id="about-card-pravaah">
                         <div class="about-card-badge-row">
                             <span class="about-card-badge badge-tech">ABOUT PRAVAAH</span>
                             <span class="sub-edition-tag">3<sup>rd</sup> EDITION</span>
                         </div>
                         <h3 class="about-card-title sub-title">ANNUAL FEST OF IIT BHUBANESWAR</h3>
                         <p class="about-card-text sub-text">
-                            PRAVAAH is the premier Annual Cultural & Technopreneurship Fest of IIT Bhubaneswar. Uniting visionary minds from across the nation, Pravaah fuses engineering challenges, robotics battlegrounds, musical stages, esports leagues, and startup incubation.
+                            PRAVAAH is the premier Annual Cultural &amp; Technopreneurship Fest of IIT Bhubaneswar. Uniting visionary minds from across the nation, Pravaah fuses engineering challenges, robotics battlegrounds, musical stages, esports leagues, and startup incubation.
                         </p>
                     </div>
 
-                    <div class="about-intro-card theme-card theme-highlight-card">
+                    <div class="about-intro-card theme-card theme-highlight-card from-right" id="about-card-theme">
                         <div class="theme-card-glow-bg"></div>
                         <div class="about-card-badge-row">
                             <span class="about-card-badge badge-cult-highlight">FESTIVAL THEME</span>
@@ -230,14 +275,45 @@
                         </p>
                     </div>
                 </div>
+
+                <!-- Slow Smooth Glide Trigger to Calendar -->
+                <div class="calendar-glide-guide" id="guide-to-calendar-btn" role="button" tabindex="0" title="Slow Smooth Scroll to Fest Calendar">
+                    <div class="glide-guide-halo"></div>
+                    <div class="glide-guide-content">
+                        <span class="glide-guide-tag">NEXT TEMPORAL NODE</span>
+                        <div class="glide-guide-title">
+                            <span>SLOW GLIDE TO CALENDAR</span>
+                            <span class="glide-guide-icon">✦</span>
+                        </div>
+                        <div class="glide-guide-arrow">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m7 10 5 5 5-5"/>
+                                <path d="m7 4 5 5 5-5"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
         <section id="calendar-page" class="snap-page">
 
-            <h2 class="calendar-page-heading spider-title" data-text="FEST CALENDAR">FEST CALENDAR</h2>
+            <div class="calendar-heading-container" id="calendar-heading-container">
+                <div class="calendar-heading-badge">
+                    <span class="badge-dot pulse-gold"></span>
+                    <span class="badge-text">TEMPORAL MATRIX</span>
+                    <span class="badge-sparkle">✦</span>
+                </div>
+                <h2 class="calendar-page-heading spider-title" id="calendar-lead-line" data-text="FEST CALENDAR">FEST CALENDAR</h2>
+                <div class="calendar-lead-decor">
+                    <span class="decor-line-bar"></span>
+                    <span class="decor-line-text">CYCLE 2026 • TEMPORAL TIMELINES &amp; EVENT DATES</span>
+                    <span class="decor-line-bar"></span>
+                </div>
+            </div>
 
-            <div class="calendar-sidebar-ticker ticker-left">
+            <div class="calendar-sidebar-ticker ticker-left from-left" id="calendar-ticker-left">
                 <div class="ticker-header">
                     <span class="ticker-dot pulse-gold"></span>
                     <span class="ticker-title">LIVE PROTOCOLS</span>
@@ -334,7 +410,7 @@
                 </div>
             </div>
 
-            <div class="calendar-sidebar-ticker ticker-right">
+            <div class="calendar-sidebar-ticker ticker-right from-right" id="calendar-ticker-right">
                 <div class="ticker-header">
                     <span class="ticker-dot pulse-gold"></span>
                     <span class="ticker-title">IMP UPDATES</span>

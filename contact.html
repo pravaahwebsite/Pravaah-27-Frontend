@@ -18,29 +18,82 @@
     <div class="global-bg-layer subpage-bg"></div>
     <div class="subpage-grid-overlay"></div>
 
-    <!-- Cosmic Nav Wheel -->
-    <nav class="cosmic-nav-wheel" id="cosmic-nav-wheel">
-        <div class="nav-wheel-track">
-            <div class="nav-indicator-pill" id="nav-indicator-pill"></div>
-            <div class="nav-hover-pill" id="nav-hover-pill"></div>
+    <!-- Cosmic Subpage Hamburger Navigation -->
+    <nav class="cosmic-subpage-nav" id="cosmic-subpage-nav" aria-label="Main Navigation">
+        <button class="cosmic-hamburger-btn" id="cosmic-hamburger-btn" aria-label="Toggle Navigation Menu" aria-expanded="false" type="button">
+            <div class="hamburger-box">
+                <span class="hamburger-bar bar-1"></span>
+                <span class="hamburger-bar bar-2"></span>
+                <span class="hamburger-bar bar-3"></span>
+            </div>
+            <span class="hamburger-label" id="hamburger-label">MENU</span>
+            <span class="hamburger-pulse-dot" aria-hidden="true"></span>
+        </button>
 
-            <a href="index.html" class="nav-item">HOME</a>
-            <div class="nav-divider"></div>
-            <a href="events.html" class="nav-item">EVENTS</a>
-            <div class="nav-divider"></div>
-            <a href="register.html" class="nav-item">REGISTER</a>
-            <div class="nav-divider"></div>
-            <a href="accommodation.html" class="nav-item">ACCOMMODATION</a>
-            <div class="nav-divider"></div>
-            <a href="photo-gallery.html" class="nav-item">PHOTO GALLERY</a>
-            <div class="nav-divider"></div>
-            <a href="sponsors.html" class="nav-item">SPONSORS</a>
-            <div class="nav-divider"></div>
-            <a href="contact.html" class="nav-item active">CONTACT US</a>
-            <div class="nav-divider"></div>
-            <a href="profile.html" class="nav-item">PROFILE</a>
+        <div class="cosmic-nav-backdrop" id="cosmic-nav-backdrop" aria-hidden="true"></div>
+
+        <div class="cosmic-hud-dropdown" id="cosmic-hud-dropdown" role="dialog" aria-modal="true" aria-label="Navigation Menu">
+            <div class="hud-dropdown-header">
+                <div class="hud-dropdown-tag">PRAVAAH '27 // HUD NAV</div>
+                <div class="hud-status-badge"><span class="status-live-dot"></span> ONLINE</div>
+            </div>
+            <div class="hud-dropdown-divider"></div>
+            <ul class="hud-nav-list" role="menu">
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="index.html" class="hud-nav-link nav-item" role="menuitem">
+                        <span class="hud-link-index">01</span>
+                        <span class="hud-link-text">HOME</span>
+                    </a>
+                </li>
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="events.html" class="hud-nav-link nav-item" role="menuitem">
+                        <span class="hud-link-index">02</span>
+                        <span class="hud-link-text">EVENTS</span>
+                    </a>
+                </li>
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="register.html" class="hud-nav-link nav-item" role="menuitem">
+                        <span class="hud-link-index">03</span>
+                        <span class="hud-link-text">REGISTER</span>
+                    </a>
+                </li>
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="accommodation.html" class="hud-nav-link nav-item" role="menuitem">
+                        <span class="hud-link-index">04</span>
+                        <span class="hud-link-text">ACCOMMODATION</span>
+                    </a>
+                </li>
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="photo-gallery.html" class="hud-nav-link nav-item" role="menuitem">
+                        <span class="hud-link-index">05</span>
+                        <span class="hud-link-text">PHOTO GALLERY</span>
+                    </a>
+                </li>
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="sponsors.html" class="hud-nav-link nav-item" role="menuitem">
+                        <span class="hud-link-index">06</span>
+                        <span class="hud-link-text">SPONSORS</span>
+                    </a>
+                </li>
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="contact.html" class="hud-nav-link nav-item active" role="menuitem">
+                        <span class="hud-link-index">07</span>
+                        <span class="hud-link-text">CONTACT US</span>
+                        <span class="hud-link-badge">ACTIVE</span>
+                    </a>
+                </li>
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="profile.html" class="hud-nav-link nav-item" role="menuitem">
+                        <span class="hud-link-index">08</span>
+                        <span class="hud-link-text">PROFILE</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="hud-dropdown-footer">
+                <span class="hud-footer-coord">DIMENSION // 2027</span>
+                <span class="hud-footer-sub">TRANSMISSION ACTIVE</span>
+            </div>
         </div>
-        <div class="nav-wheel-glow"></div>
     </nav>
 
     <!-- Main Contact Shell -->

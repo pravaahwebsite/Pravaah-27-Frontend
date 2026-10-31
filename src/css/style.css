@@ -1030,6 +1030,45 @@ body.portal-entered .home-swipe-prompt {
     /* Background defined in section backgrounds */
 }
 
+/* ==========================================================================
+   CALENDAR ENTRANCE ANIMATION (POP IN FROM BELOW ON SCROLL)
+   ========================================================================== */
+@keyframes popInFromBelow {
+    0% {
+        opacity: 0;
+        transform: translateY(80px) scale(0.85);
+        filter: blur(8px);
+    }
+    65% {
+        opacity: 1;
+        transform: translateY(-8px) scale(1.03);
+        filter: blur(0px);
+    }
+    82% {
+        transform: translateY(3px) scale(0.995);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+    }
+}
+
+@keyframes popInEventCard {
+    0% {
+        opacity: 0;
+        transform: translateY(28px) scale(0.92);
+    }
+    68% {
+        opacity: 1;
+        transform: translateY(-4px) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
 .calendar-layout-container {
     position: relative;
     width: 440px;
@@ -1039,7 +1078,45 @@ body.portal-entered .home-swipe-prompt {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: var(--transition-smooth);
+    opacity: 0;
+    transform: translateY(90px) scale(0.85);
+    filter: blur(8px);
+    transition: transform 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) 0.14s,
+                opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.14s,
+                filter 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.14s;
+    will-change: transform, opacity, filter;
+}
+
+.calendar-layout-container.is-revealed,
+#calendar-page.is-revealed .calendar-layout-container {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .calendar-layout-container,
+    .calendar-page-heading,
+    .calendar-sidebar-ticker,
+    .cube-month-tracker,
+    .month-pill,
+    .cube-rotate-btn,
+    .calendar-tip-hud,
+    .day-events-panel,
+    .calendar-event-card {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+        transition: none !important;
+        animation: none !important;
+    }
+    .cube-month-tracker,
+    .calendar-tip-hud {
+        transform: translateX(-50%) !important;
+    }
+    .cube-rotate-btn {
+        transform: translateY(-50%) !important;
+    }
 }
 
 .calendar-main-grid-panel {
@@ -1179,7 +1256,7 @@ body.portal-entered .home-swipe-prompt {
 .cube-rotate-btn {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(calc(-50% + 45px)) scale(0.72);
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -1193,9 +1270,16 @@ body.portal-entered .home-swipe-prompt {
     justify-content: center;
     cursor: pointer;
     z-index: 100;
-    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    opacity: 0;
+    transition: transform 0.75s cubic-bezier(0.34, 1.56, 0.64, 1),
+                opacity 0.6s ease-out,
+                background 0.35s ease,
+                border-color 0.35s ease,
+                box-shadow 0.35s ease,
+                color 0.35s ease;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 242, 254, 0.15);
     outline: none;
+    will-change: transform, opacity;
 }
 
 .cube-rotate-btn.btn-prev {
@@ -1206,16 +1290,40 @@ body.portal-entered .home-swipe-prompt {
     right: -85px;
 }
 
-.cube-rotate-btn:hover {
+.calendar-layout-container.is-revealed .cube-rotate-btn,
+#calendar-page.is-revealed .cube-rotate-btn,
+.cube-rotate-btn.is-revealed {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+}
+
+.calendar-layout-container.is-revealed .cube-rotate-btn.btn-prev,
+#calendar-page.is-revealed .cube-rotate-btn.btn-prev {
+    transition-delay: 0.34s;
+}
+
+.calendar-layout-container.is-revealed .cube-rotate-btn.btn-next,
+#calendar-page.is-revealed .cube-rotate-btn.btn-next {
+    transition-delay: 0.38s;
+}
+
+.cube-rotate-btn:hover,
+.calendar-layout-container.is-revealed .cube-rotate-btn:hover,
+#calendar-page.is-revealed .cube-rotate-btn:hover {
     border-color: var(--tech-color);
     background: rgba(0, 242, 254, 0.2);
     color: #fff;
     box-shadow: 0 0 25px var(--tech-glow), 0 0 45px rgba(0, 242, 254, 0.35);
-    transform: translateY(-50%) scale(1.15);
+    transform: translateY(-50%) scale(1.15) !important;
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition-delay: 0s !important;
 }
 
-.cube-rotate-btn:active {
-    transform: translateY(-50%) scale(0.92);
+.cube-rotate-btn:active,
+.calendar-layout-container.is-revealed .cube-rotate-btn:active,
+#calendar-page.is-revealed .cube-rotate-btn:active {
+    transform: translateY(-50%) scale(0.92) !important;
+    transition-delay: 0s !important;
 }
 
 .rotate-btn-label {
@@ -1241,7 +1349,7 @@ body.portal-entered .home-swipe-prompt {
     position: absolute;
     top: -65px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, 45px) scale(0.84);
     display: flex;
     align-items: center;
     gap: 6px;
@@ -1252,6 +1360,17 @@ body.portal-entered .home-swipe-prompt {
     border-radius: 30px;
     z-index: 90;
     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 242, 254, 0.1);
+    opacity: 0;
+    transition: transform 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) 0.26s,
+                opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.26s;
+    will-change: transform, opacity;
+}
+
+.calendar-layout-container.is-revealed .cube-month-tracker,
+#calendar-page.is-revealed .cube-month-tracker,
+.cube-month-tracker.is-revealed {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
 }
 
 .month-pill {
@@ -1265,9 +1384,37 @@ body.portal-entered .home-swipe-prompt {
     padding: 5px 12px;
     border-radius: 20px;
     cursor: pointer;
-    transition: all 0.3s ease;
     outline: none;
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+                opacity 0.5s ease-out,
+                background 0.3s ease,
+                border-color 0.3s ease,
+                color 0.3s ease,
+                box-shadow 0.3s ease;
+    will-change: transform, opacity;
 }
+
+.calendar-layout-container.is-revealed .month-pill,
+#calendar-page.is-revealed .month-pill,
+.month-pill.is-revealed {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.calendar-layout-container.is-revealed .month-pill:nth-child(1),
+#calendar-page.is-revealed .month-pill:nth-child(1) { transition-delay: 0.30s; }
+.calendar-layout-container.is-revealed .month-pill:nth-child(2),
+#calendar-page.is-revealed .month-pill:nth-child(2) { transition-delay: 0.34s; }
+.calendar-layout-container.is-revealed .month-pill:nth-child(3),
+#calendar-page.is-revealed .month-pill:nth-child(3) { transition-delay: 0.38s; }
+.calendar-layout-container.is-revealed .month-pill:nth-child(4),
+#calendar-page.is-revealed .month-pill:nth-child(4) { transition-delay: 0.42s; }
+.calendar-layout-container.is-revealed .month-pill:nth-child(5),
+#calendar-page.is-revealed .month-pill:nth-child(5) { transition-delay: 0.46s; }
+.calendar-layout-container.is-revealed .month-pill:nth-child(6),
+#calendar-page.is-revealed .month-pill:nth-child(6) { transition-delay: 0.50s; }
 
 .month-pill:hover {
     color: #fff;
@@ -1287,7 +1434,7 @@ body.portal-entered .home-swipe-prompt {
     position: absolute;
     bottom: -115px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, 55px) scale(0.88);
     display: flex;
     align-items: center;
     gap: 8px;
@@ -1301,6 +1448,20 @@ body.portal-entered .home-swipe-prompt {
     white-space: nowrap;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 15px rgba(0, 242, 254, 0.2);
     z-index: 21;
+    opacity: 0;
+    filter: blur(6px);
+    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.44s,
+                opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.44s,
+                filter 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.44s;
+    will-change: transform, opacity, filter;
+}
+
+.calendar-layout-container.is-revealed .calendar-tip-hud,
+#calendar-page.is-revealed .calendar-tip-hud,
+.calendar-tip-hud.is-revealed {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+    filter: blur(0px);
 }
 
 .tip-icon {
@@ -1541,15 +1702,19 @@ body.portal-entered .home-swipe-prompt {
 
     opacity: 0;
     pointer-events: none;
-    transform: scale(0.9) translateY(15px);
-    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(45px) scale(0.88);
+    filter: blur(6px);
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1),
+                filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.02);
 }
 
 .day-events-panel.panel-visible {
     opacity: 1;
     pointer-events: all;
-    transform: scale(1) translateY(0);
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
 }
 
 .panel-header-row {
@@ -1641,7 +1806,14 @@ body.portal-entered .home-swipe-prompt {
     flex-direction: column;
     gap: 8px;
     transition: var(--transition-smooth);
+    animation: popInEventCard 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
+
+.calendar-event-card:nth-child(1) { animation-delay: 0.06s; }
+.calendar-event-card:nth-child(2) { animation-delay: 0.13s; }
+.calendar-event-card:nth-child(3) { animation-delay: 0.20s; }
+.calendar-event-card:nth-child(4) { animation-delay: 0.27s; }
+.calendar-event-card:nth-child(5) { animation-delay: 0.34s; }
 
 .calendar-event-card:hover {
     background: rgba(10, 10, 25, 0.6);
@@ -2760,24 +2932,270 @@ body.portal-entered .home-swipe-prompt {
     z-index: 20;
 }
 
+/* ==========================================================================
+   PORTAL REVELATION LEAD LINE ("GET TO KNOW ABOUT PRAVAAH")
+   ========================================================================== */
+.about-lead-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    margin-bottom: 6px;
+    z-index: 25;
+    position: relative;
+    opacity: 0;
+    transform: translateY(45px) scale(0.92);
+    filter: blur(8px);
+    transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity, filter;
+}
+
+.about-lead-container.is-revealed,
+.about-lead-container.is-centered,
+#about-page.is-revealed .about-lead-container {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+}
+
+.about-lead-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    background: rgba(0, 242, 254, 0.08);
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--tech-color);
+    text-transform: uppercase;
+}
+
+.badge-dot.pulse-cyan {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--tech-color);
+    box-shadow: 0 0 8px var(--tech-color);
+    animation: neonPulse 1.8s infinite ease-in-out;
+}
+
+.badge-dot.pulse-gold {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ffd043;
+    box-shadow: 0 0 8px #ffd043;
+    animation: neonPulse 1.8s infinite ease-in-out;
+}
+
 .about-page-heading {
     font-family: 'Orbitron', sans-serif;
-    font-size: 1.6rem;
+    font-size: clamp(1.5rem, 3.8vw, 2.4rem);
     font-weight: 900;
     letter-spacing: 0.18em;
     color: #fff;
     text-transform: uppercase;
     text-align: center;
-    margin-bottom: 4px;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.25), 0 0 25px var(--tech-glow);
+    margin-bottom: 2px;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.35), 0 0 30px var(--tech-glow);
+    position: relative;
 }
 
+.about-lead-decor {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 2px;
+}
+
+.decor-line-bar {
+    width: 44px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 242, 254, 0.6), transparent);
+}
+
+.decor-line-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: rgba(255, 255, 255, 0.65);
+    text-transform: uppercase;
+}
+
+/* ==========================================================================
+   ABOUT PAGE ELEMENTS (SLIDE FROM SIDES TO CENTER WITH LOW OPACITY)
+   ========================================================================== */
 .about-intro-grid {
     display: grid;
     grid-template-columns: 1fr 1.65fr;
-    gap: 22px;
+    gap: 24px;
     align-items: stretch;
     width: 100%;
+    position: relative;
+}
+
+/* Pravaah card from Left - visible teaser state on side */
+.about-intro-card.pravaah-sub-card.from-left {
+    opacity: 0.28;
+    transform: translateX(-110px) scale(0.95);
+    filter: blur(3px);
+    transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.04s,
+                opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.04s,
+                filter 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.04s,
+                border-color 0.35s ease,
+                background 0.35s ease,
+                box-shadow 0.35s ease;
+    will-change: transform, opacity, filter;
+    pointer-events: auto;
+}
+
+/* Kairos card from Right - visible teaser state on side */
+.about-intro-card.theme-highlight-card.from-right {
+    opacity: 0.28;
+    transform: translateX(110px) scale(0.95);
+    filter: blur(3px);
+    transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.10s,
+                opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.10s,
+                filter 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.10s,
+                border-color 0.35s ease,
+                background 0.35s ease,
+                box-shadow 0.35s ease;
+    will-change: transform, opacity, filter;
+    pointer-events: auto;
+}
+
+.about-intro-card.from-left.is-revealed,
+.about-intro-card.from-right.is-revealed,
+#about-page.is-revealed .about-intro-card.from-left,
+#about-page.is-revealed .about-intro-card.from-right {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0px);
+    pointer-events: auto;
+}
+
+/* ==========================================================================
+   SLOW SMOOTH SCROLL GUIDE (PORTAL JOURNEY TO CALENDAR)
+   ========================================================================== */
+.calendar-glide-guide {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-top: 10px;
+    padding: 12px 28px;
+    background: linear-gradient(135deg, rgba(16, 10, 36, 0.78), rgba(6, 4, 18, 0.88));
+    border: 1px solid rgba(0, 242, 254, 0.35);
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 242, 254, 0.15);
+    backdrop-filter: blur(14px);
+    opacity: 0;
+    transform: translateY(30px) scale(0.92);
+    filter: blur(6px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s,
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+    z-index: 25;
+    user-select: none;
+    outline: none;
+}
+
+.calendar-glide-guide.is-revealed,
+#about-page.is-revealed .calendar-glide-guide {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+}
+
+.calendar-glide-guide:hover {
+    border-color: #00f2fe;
+    box-shadow: 0 10px 35px rgba(0, 242, 254, 0.35), 0 0 30px rgba(255, 0, 127, 0.25);
+    transform: translateY(-3px) scale(1.03);
+    background: linear-gradient(135deg, rgba(22, 12, 48, 0.9), rgba(10, 8, 26, 0.98));
+}
+
+.calendar-glide-guide:active {
+    transform: translateY(1px) scale(0.98);
+}
+
+.glide-guide-halo {
+    position: absolute;
+    inset: -3px;
+    border-radius: 34px;
+    background: linear-gradient(90deg, #00f2fe, #ff007f, #ffd043, #00f2fe);
+    background-size: 300% 100%;
+    opacity: 0;
+    filter: blur(8px);
+    transition: opacity 0.35s ease;
+    z-index: -1;
+    animation: gradientFlow 4s linear infinite;
+}
+
+.calendar-glide-guide:hover .glide-guide-halo {
+    opacity: 0.65;
+}
+
+.glide-guide-content {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.glide-guide-tag {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: var(--tech-color);
+    background: rgba(0, 242, 254, 0.12);
+    border: 1px solid rgba(0, 242, 254, 0.25);
+    padding: 2px 8px;
+    border-radius: 12px;
+}
+
+.glide-guide-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.glide-guide-icon {
+    color: #ffd043;
+    font-size: 0.75rem;
+    animation: neonPulse 1.6s infinite ease-in-out;
+}
+
+.glide-guide-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--tech-color);
+    animation: floatArrow 1.8s infinite ease-in-out;
+}
+
+@keyframes floatArrow {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(4px);
+    }
 }
 
 .about-card-badge-row {
@@ -3953,19 +4371,72 @@ body.portal-entered .home-swipe-prompt {
         opacity 1.2s ease-out;
 }
 
-.calendar-page-heading {
+/* ==========================================================================
+   CALENDAR HEADING & REVELATION CONTAINER
+   ========================================================================== */
+.calendar-heading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
+    gap: 8px;
+    margin-top: 20px;
+    margin-bottom: 22px;
+    z-index: 25;
+    position: relative;
+    opacity: 0;
+    transform: translateY(45px) scale(0.92);
+    filter: blur(8px);
+    transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity, filter;
+}
+
+.calendar-heading-container.is-revealed,
+.calendar-heading-container.is-centered,
+#calendar-page.is-revealed .calendar-heading-container {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+}
+
+.calendar-heading-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    background: rgba(255, 208, 67, 0.08);
+    border: 1px solid rgba(255, 208, 67, 0.3);
+    box-shadow: 0 0 15px rgba(255, 208, 67, 0.15);
     font-family: 'Orbitron', sans-serif;
-    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: #ffd043;
+    text-transform: uppercase;
+}
+
+.calendar-page-heading {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.6rem, 3.8vw, 2.4rem);
     font-weight: 900;
-    letter-spacing: 0.35em;
+    letter-spacing: 0.18em;
     color: #fff;
     text-transform: uppercase;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 0 20px var(--tech-glow);
-    margin-top: 35px;
-    margin-bottom: 5vw;
+    text-align: center;
+    margin-bottom: 2px;
     z-index: 10;
     position: relative;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.35), 0 0 25px rgba(255, 208, 67, 0.35);
+}
+
+.calendar-lead-decor {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 2px;
 }
 
 .core-click-prompt {
@@ -4007,24 +4478,45 @@ body.portal-entered .home-swipe-prompt {
     top: 110px;
     bottom: 40px;
     width: 240px;
-    background: rgba(10, 10, 25, 0.42);
-    backdrop-filter: blur(12px) saturate(120%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 14px;
+    background: rgba(10, 10, 25, 0.45);
+    backdrop-filter: blur(14px) saturate(120%);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 16px;
     padding: 14px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.01);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.02);
     z-index: 15;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    opacity: 0.22;
+    filter: blur(4px);
+    transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity, filter;
 }
 
-.calendar-sidebar-ticker.ticker-left {
+.calendar-sidebar-ticker.ticker-left,
+.calendar-sidebar-ticker.from-left {
     left: 4vw;
+    transform: translateX(-140px) scale(0.92);
+    transition-delay: 0.08s;
 }
 
-.calendar-sidebar-ticker.ticker-right {
+.calendar-sidebar-ticker.ticker-right,
+.calendar-sidebar-ticker.from-right {
     right: 4vw;
+    transform: translateX(140px) scale(0.92);
+    transition-delay: 0.16s;
+}
+
+.calendar-sidebar-ticker.is-revealed,
+.calendar-sidebar-ticker.from-left.is-revealed,
+.calendar-sidebar-ticker.from-right.is-revealed,
+#calendar-page.is-revealed .calendar-sidebar-ticker {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0px);
 }
 
 .ticker-header {
@@ -15952,5 +16444,29 @@ body.subpage-body>.pravaah-full-footer {
         grid-template-columns: minmax(0, 1fr) !important;
         gap: 25px !important;
         padding: 14px 4px 25px !important;
+    }
+}
+/* ==========================================================================
+   MULTIVERSE SLOW GLIDE CINEMATIC ATMOSPHERE
+   ========================================================================== */
+body.multiverse-slow-glide #global-bg-layer {
+    filter: brightness(1.15) contrast(1.1);
+    transition: filter 0.8s ease;
+}
+
+body.multiverse-slow-glide .cosmic-nav-wheel {
+    box-shadow: 0 0 35px rgba(0, 242, 254, 0.4);
+}
+
+@media (max-width: 768px) {
+    .about-intro-card.pravaah-sub-card.from-left {
+        transform: translateX(-50px) scale(0.95);
+    }
+    .about-intro-card.theme-highlight-card.from-right {
+        transform: translateX(50px) scale(0.95);
+    }
+    .about-intro-card.from-left.is-revealed,
+    .about-intro-card.from-right.is-revealed {
+        transform: translateX(0) scale(1);
     }
 }
