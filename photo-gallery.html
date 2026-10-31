@@ -371,8 +371,22 @@
     <div class="dossier-modal-overlay" id="photo-dossier-modal" aria-hidden="true">
         <div class="dossier-modal-card" role="dialog" aria-modal="true">
             <div class="modal-header">
-                <span class="modal-badge" id="modal-badge">TECH & ROBOTICS // FLAGSHIP</span>
-                <button class="modal-close-btn" id="modal-close-btn" type="button">[ CLOSE DOSSIER ]</button>
+                <div class="modal-header-actions">
+                    <button class="modal-download-btn" id="modal-download-btn" type="button" aria-label="Download Photo">
+                        <svg class="download-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        <span>DOWNLOAD</span>
+                    </button>
+                    <button class="modal-close-btn" id="modal-close-btn" type="button" aria-label="Close Dossier">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
             </div>
 
             <div class="modal-image-box">
@@ -382,31 +396,6 @@
             <h3 class="modal-title" id="modal-title">PHOTO TITLE</h3>
             <p class="modal-description" id="modal-description">Detailed description of the photo capture.</p>
 
-            <div class="modal-specs-grid">
-                <div class="spec-item">
-                    <span class="spec-label">EDITION</span>
-                    <span class="spec-value" id="spec-edition">PRAVAAH 2026</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">LOCATION</span>
-                    <span class="spec-value" id="spec-location">LHC Arena Complex</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">PHOTOGRAPHER</span>
-                    <span class="spec-value" id="spec-photographer">Media Team</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">RESOLUTION</span>
-                    <span class="spec-value" id="spec-resolution">6000 x 4000 (RAW)</span>
-                </div>
-            </div>
-
-            <div class="modal-highlights">
-                <h4 class="highlights-title">DOSSIER CAPTURE NOTES & HIGHLIGHTS</h4>
-                <ul class="highlights-list" id="modal-highlights-list">
-                    <!-- Dynamic highlights rendered by JS -->
-                </ul>
-            </div>
         </div>
     </div>
 
