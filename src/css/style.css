@@ -61,27 +61,24 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-image: url('../../assets/images/home_bg_new.jpg');
+    background-image: url('../../assets/images/home_portal_bg.jpg');
     background-size: cover;
-    background-position: center center;
+    background-position: center top;
     background-repeat: no-repeat;
     z-index: 0;
     pointer-events: none;
-    transform: scale(1.0);
-    filter: blur(0px);
+    transform: scale(1.08);
+    transform-origin: center center;
+    filter: none !important;
     opacity: 1 !important;
     display: block !important;
     visibility: visible !important;
-    transition: opacity 0.8s ease, filter 0.8s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: opacity, transform;
+    transition: opacity 0.8s ease;
+    will-change: transform, background-position;
 }
 
 .global-bg-layer::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 50% 45%, rgba(0, 242, 254, 0.08) 0%, rgba(157, 78, 221, 0.12) 40%, rgba(6, 3, 14, 0.65) 85%, rgba(6, 3, 14, 0.92) 100%);
-    pointer-events: none;
+    display: none !important;
 }
 
 #starfield-canvas {
@@ -100,15 +97,7 @@ body {
 }
 
 .universe-nebula-glow {
-    position: absolute;
-    width: 1400px;
-    height: 1400px;
-    background: radial-gradient(circle, rgba(230, 38, 120, 0.28) 0%, rgba(59, 98, 216, 0.22) 35%, rgba(0, 210, 255, 0.14) 65%, transparent 75%);
-    filter: blur(140px);
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 1.5s ease;
+    display: none !important;
 }
 
 body.universe-active .universe-nebula-glow {
@@ -156,18 +145,7 @@ section {
 
 .glow-core,
 .snap-page > .glow-core {
-    position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(230, 38, 120, 0.25) 0%, rgba(59, 98, 216, 0.18) 50%, transparent 70%);
-    border-radius: 50%;
-    filter: blur(40px);
-    z-index: 1;
-    animation: pulse 8s infinite alternate;
-    pointer-events: none !important;
+    display: none !important;
 }
 
 .splash-content {
@@ -910,16 +888,7 @@ body.portal-entered .home-swipe-prompt {
 }
 
 .snap-page::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at center, rgba(6, 3, 14, 0.1) 0%, rgba(6, 3, 14, 0.4) 75%, rgba(6, 3, 14, 0.7) 100%),
-        linear-gradient(to bottom, rgba(6, 3, 14, 0.4) 0%, transparent 15%, transparent 85%, rgba(6, 3, 14, 0.4) 100%);
-    pointer-events: none;
-    z-index: 2;
+    display: none !important;
 }
 
 .snap-page>* {
@@ -952,7 +921,6 @@ body.portal-entered .home-swipe-prompt {
 }
 
 .about-intro-grid,
-.calendar-layout-container,
 .gallery-columns-wrapper,
 .last-page-hero-container {
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1084,11 +1052,11 @@ body.portal-entered .home-swipe-prompt {
     align-items: center;
     justify-content: center;
     opacity: 0;
-    transform: translateY(90px) scale(0.85);
+    transform: translateY(95px) scale(0.84);
     filter: blur(8px);
-    transition: transform 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) 0.14s,
-                opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.14s,
-                filter 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.14s;
+    transition: transform 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) 0.10s,
+                opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.08s,
+                filter 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.08s;
     will-change: transform, opacity, filter;
 }
 
@@ -2899,15 +2867,17 @@ body.portal-entered .home-swipe-prompt {
     }
 }
 
+/* About Section Presentation */
 #about-page {
     background: transparent !important;
-    padding: 90px 20px 80px 20px !important;
+    padding: 130px 20px 180px 20px !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
     overflow: visible !important;
     position: relative !important;
+    min-height: 120vh !important;
     height: auto !important;
 }
 
@@ -2946,23 +2916,15 @@ body.portal-entered .home-swipe-prompt {
     align-items: center;
     text-align: center;
     gap: 10px;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     z-index: 25;
     position: relative;
     opacity: 0;
-    transform: translateY(45px) scale(0.92);
-    filter: blur(8px);
-    transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-                opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-                filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform, opacity, filter;
 }
 
-.about-lead-container.is-revealed,
-.about-lead-container.is-centered,
-#about-page.is-revealed .about-lead-container {
+.about-lead-container.is-centered {
     opacity: 1;
-    transform: translateY(0) scale(1);
     filter: blur(0px);
 }
 
@@ -3050,42 +3012,26 @@ body.portal-entered .home-swipe-prompt {
 
 /* Pravaah card from Left - visible teaser state on side */
 .about-intro-card.pravaah-sub-card.from-left {
-    opacity: 0.28;
-    transform: translateX(-110px) scale(0.95);
-    filter: blur(3px);
-    transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.04s,
-                opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.04s,
-                filter 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.04s,
-                border-color 0.35s ease,
-                background 0.35s ease,
-                box-shadow 0.35s ease;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
     will-change: transform, opacity, filter;
-    pointer-events: auto;
 }
 
 /* Kairos card from Right - visible teaser state on side */
 .about-intro-card.theme-highlight-card.from-right {
-    opacity: 0.28;
-    transform: translateX(110px) scale(0.95);
-    filter: blur(3px);
-    transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.10s,
-                opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.10s,
-                filter 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.10s,
-                border-color 0.35s ease,
-                background 0.35s ease,
-                box-shadow 0.35s ease;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
     will-change: transform, opacity, filter;
-    pointer-events: auto;
 }
 
 .about-intro-card.from-left.is-revealed,
-.about-intro-card.from-right.is-revealed,
-#about-page.is-revealed .about-intro-card.from-left,
-#about-page.is-revealed .about-intro-card.from-right {
+.about-intro-card.from-right.is-revealed {
     opacity: 1;
-    transform: translateX(0) scale(1);
-    filter: blur(0px);
+    visibility: visible;
     pointer-events: auto;
+    filter: blur(0px);
 }
 
 /* ==========================================================================
@@ -4493,8 +4439,8 @@ body.portal-entered .home-swipe-prompt {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    opacity: 0.22;
-    filter: blur(4px);
+    opacity: 0;
+    filter: blur(6px);
     transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1),
                 opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
                 filter 0.75s cubic-bezier(0.16, 1, 0.3, 1);
@@ -4707,12 +4653,13 @@ body.portal-entered .home-swipe-prompt {
 
 #gallery-page {
     background: transparent !important;
-    padding: 90px 20px 80px 20px !important;
+    padding: 100px 20px 100px 20px !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
     overflow: visible !important;
+    min-height: 120vh !important;
     height: auto !important;
 }
 
@@ -4737,6 +4684,17 @@ body.portal-entered .home-swipe-prompt {
     text-transform: uppercase;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 0 20px var(--social-glow);
     margin-bottom: 2px;
+    opacity: 0;
+    transform: translateY(44px) scale(0.90);
+    filter: blur(8px);
+    will-change: transform, opacity, filter;
+    transition: opacity 0.5s ease-out, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease-out;
+}
+
+.gallery-page-heading.is-centered {
+    opacity: 1 !important;
+    transform: translateY(0) scale(1) !important;
+    filter: blur(0px) !important;
 }
 
 .gallery-filters {
@@ -4781,9 +4739,11 @@ body.portal-entered .home-swipe-prompt {
     width: 100vw;
     height: 66vh;
     gap: clamp(20px, 3.5vw, 45px);
-    overflow: hidden;
+    overflow: visible;
     justify-content: center;
     padding: 0;
+    position: relative;
+    z-index: 10;
 }
 
 .gallery-column {
@@ -4791,6 +4751,73 @@ body.portal-entered .home-swipe-prompt {
     height: 100%;
     overflow: hidden;
     position: relative;
+    will-change: transform, opacity, filter;
+}
+
+/* ==========================================================================
+   PORTAL GALLERY POP-UP & SIDE ENTRANCE REVELATION
+   - Middle two columns (2 & 3) pop up from below with vibrant spring bounce
+   - Edge columns (1 & 4) glide in from side (left from left, right from right)
+   ========================================================================== */
+
+/* 1. Left Edge Column - glides in from side (left) */
+.gallery-column.col-edge-left,
+.gallery-column:nth-child(1) {
+    opacity: 0;
+    transform: translateX(-320px) scale(0.88);
+    filter: blur(10px);
+    transition: transform 1.05s cubic-bezier(0.16, 1.15, 0.3, 1) 0.12s,
+                opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.12s,
+                filter 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.12s;
+    will-change: transform, opacity, filter;
+}
+
+/* 2. Middle Left Column - pops up from below with vibrant spring bounce */
+.gallery-column.col-middle-left,
+.gallery-column:nth-child(2) {
+    opacity: 0;
+    transform: translateY(280px) scale(0.82);
+    filter: blur(10px);
+    transition: transform 1.05s cubic-bezier(0.34, 1.56, 0.64, 1) 0.04s,
+                opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.04s,
+                filter 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.04s;
+    will-change: transform, opacity, filter;
+}
+
+/* 3. Middle Right Column - pops up from below with vibrant spring bounce */
+.gallery-column.col-middle-right,
+.gallery-column:nth-child(3) {
+    opacity: 0;
+    transform: translateY(280px) scale(0.82);
+    filter: blur(10px);
+    transition: transform 1.05s cubic-bezier(0.34, 1.56, 0.64, 1) 0.10s,
+                opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.10s,
+                filter 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.10s;
+    will-change: transform, opacity, filter;
+}
+
+/* 4. Right Edge Column - glides in from side (right) */
+.gallery-column.col-edge-right,
+.gallery-column:nth-child(4) {
+    opacity: 0;
+    transform: translateX(320px) scale(0.88);
+    filter: blur(10px);
+    transition: transform 1.05s cubic-bezier(0.16, 1.15, 0.3, 1) 0.16s,
+                opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.16s,
+                filter 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.16s;
+    will-change: transform, opacity, filter;
+}
+
+/* REVEALED STATE (trigger on scroll into portal gallery) */
+.gallery-columns-wrapper.is-revealed .gallery-column.col-edge-left,
+.gallery-columns-wrapper.is-revealed .gallery-column.col-middle-left,
+.gallery-columns-wrapper.is-revealed .gallery-column.col-middle-right,
+.gallery-columns-wrapper.is-revealed .gallery-column.col-edge-right,
+.gallery-columns-wrapper.is-revealed .gallery-column {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+    filter: blur(0px);
+    pointer-events: auto;
 }
 
 .gallery-track {
@@ -5092,6 +5119,15 @@ body.portal-entered .home-swipe-prompt {
 }
 
 @media (max-width: 650px) {
+    .gallery-column.col-edge-left,
+    .gallery-column:nth-child(1) {
+        transform: translateY(160px) scale(0.90);
+    }
+    .gallery-columns-wrapper.is-revealed .gallery-column.col-edge-left,
+    .gallery-columns-wrapper.is-revealed .gallery-column:nth-child(1) {
+        transform: translateY(0) scale(1);
+    }
+
     .gallery-viewport {
         height: 85vh;
         gap: 10px;
@@ -16451,13 +16487,11 @@ body.subpage-body>.pravaah-full-footer {
         padding: 14px 4px 25px !important;
     }
 }
-<<<<<<< HEAD
 /* ==========================================================================
    MULTIVERSE SLOW GLIDE CINEMATIC ATMOSPHERE
    ========================================================================== */
 body.multiverse-slow-glide #global-bg-layer {
-    filter: brightness(1.15) contrast(1.1);
-    transition: filter 0.8s ease;
+    filter: none !important;
 }
 
 body.multiverse-slow-glide .cosmic-nav-wheel {
@@ -16474,7 +16508,8 @@ body.multiverse-slow-glide .cosmic-nav-wheel {
     .about-intro-card.from-left.is-revealed,
     .about-intro-card.from-right.is-revealed {
         transform: translateX(0) scale(1);
-=======
+    }
+}
 
 /* =========================================================
    TECHFEST-STYLE MOBILE NAVIGATION (BOTTOM BAR & SIDE MENU)
@@ -17233,6 +17268,7 @@ body.side-menu-locked {
 
     .telemetry-box {
         display: none !important;
->>>>>>> 9fc7b7e8f81e40b08615527e98711a0273d2025f
     }
 }
+
+

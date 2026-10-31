@@ -7,3 +7,4 @@ with open(r'C:\Users\mahes\.gemini\antigravity\brain\d8c4d1eb-ef00-4bee-a50c-b98
 pos = 487989
 # Print 6000 characters from pos
 print(js[pos:pos+6000])
+

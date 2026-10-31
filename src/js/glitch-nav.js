@@ -319,7 +319,6 @@ document.addEventListener('DOMContentLoaded', () => {
         navWheel.addEventListener('mouseleave', hideHoverPill);
     }
 
-<<<<<<< HEAD
     // 6. Cosmic Hamburger Navigation for All Subpages
     function initSubpageHamburgerNav() {
         if (isHomePage) return;
@@ -470,7 +469,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     initSubpageHamburgerNav();
-=======
     // 6. Mobile Navigation & Side Drawer Controller (Techfest Style for Phones)
     function initMobileNav() {
         const menuTrigger = document.getElementById('mobile-menu-trigger');
@@ -612,6 +610,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initMobileNav();
 
->>>>>>> 9fc7b7e8f81e40b08615527e98711a0273d2025f
 });
 

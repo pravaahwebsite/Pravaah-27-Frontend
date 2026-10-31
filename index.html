@@ -223,21 +223,37 @@
         <section id="about-page" class="snap-page">
 
             <div class="about-fullscreen-wrapper">
-                <h2 class="about-page-heading spider-title" data-text="FESTIVAL THEME & ABOUT">FESTIVAL THEME & ABOUT</h2>
+                <!-- Revelation Lead Line: "GET TO KNOW ABOUT PRAVAAH" -->
+                <div class="about-lead-container" id="about-lead-container">
+                    <div class="about-lead-badge">
+                        <span class="badge-dot pulse-cyan"></span>
+                        <span class="badge-text">PORTAL CONVERGENCE</span>
+                        <span class="badge-sparkle">✦</span>
+                    </div>
+                    <h2 class="about-page-heading about-lead-line spider-title" id="about-lead-line" data-text="GET TO KNOW ABOUT OUR FEST">
+                        GET TO KNOW ABOUT OUR FEST
+                    </h2>
+                    <div class="about-lead-decor">
+                        <span class="decor-line-bar"></span>
+                        <span class="decor-line-text">WORLDS UNBOUND • KAIROS 2026</span>
+                        <span class="decor-line-bar"></span>
+                    </div>
+                </div>
 
-                <div class="about-intro-grid">
-                    <div class="about-intro-card pravaah-sub-card">
+                <!-- About Page Elements: Pravaah from Left, Kairos Theme from Right -->
+                <div class="about-intro-grid" id="about-intro-grid">
+                    <div class="about-intro-card pravaah-sub-card from-left" id="about-card-pravaah">
                         <div class="about-card-badge-row">
                             <span class="about-card-badge badge-tech">ABOUT PRAVAAH</span>
                             <span class="sub-edition-tag">3<sup>rd</sup> EDITION</span>
                         </div>
                         <h3 class="about-card-title sub-title">ANNUAL FEST OF IIT BHUBANESWAR</h3>
                         <p class="about-card-text sub-text">
-                            PRAVAAH is the premier Annual Cultural & Technopreneurship Fest of IIT Bhubaneswar. Uniting visionary minds from across the nation, Pravaah fuses engineering challenges, robotics battlegrounds, musical stages, esports leagues, and startup incubation.
+                            PRAVAAH is the premier Annual Cultural &amp; Technopreneurship Fest of IIT Bhubaneswar. Uniting visionary minds from across the nation, Pravaah fuses engineering challenges, robotics battlegrounds, musical stages, esports leagues, and startup incubation.
                         </p>
                     </div>
 
-                    <div class="about-intro-card theme-card theme-highlight-card">
+                    <div class="about-intro-card theme-card theme-highlight-card from-right" id="about-card-theme">
                         <div class="theme-card-glow-bg"></div>
                         <div class="about-card-badge-row">
                             <span class="about-card-badge badge-cult-highlight">FESTIVAL THEME</span>
@@ -259,14 +275,45 @@
                         </p>
                     </div>
                 </div>
+
+                <!-- Slow Smooth Glide Trigger to Calendar -->
+                <div class="calendar-glide-guide" id="guide-to-calendar-btn" role="button" tabindex="0" title="Slow Smooth Scroll to Fest Calendar">
+                    <div class="glide-guide-halo"></div>
+                    <div class="glide-guide-content">
+                        <span class="glide-guide-tag">NEXT TEMPORAL NODE</span>
+                        <div class="glide-guide-title">
+                            <span>SLOW GLIDE TO CALENDAR</span>
+                            <span class="glide-guide-icon">✦</span>
+                        </div>
+                        <div class="glide-guide-arrow">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m7 10 5 5 5-5"/>
+                                <path d="m7 4 5 5 5-5"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
         <section id="calendar-page" class="snap-page">
 
-            <h2 class="calendar-page-heading spider-title" data-text="FEST CALENDAR">FEST CALENDAR</h2>
+            <div class="calendar-heading-container" id="calendar-heading-container">
+                <div class="calendar-heading-badge">
+                    <span class="badge-dot pulse-gold"></span>
+                    <span class="badge-text">TEMPORAL MATRIX</span>
+                    <span class="badge-sparkle">✦</span>
+                </div>
+                <h2 class="calendar-page-heading spider-title" id="calendar-lead-line" data-text="FEST CALENDAR">FEST CALENDAR</h2>
+                <div class="calendar-lead-decor">
+                    <span class="decor-line-bar"></span>
+                    <span class="decor-line-text">CYCLE 2026 • TEMPORAL TIMELINES &amp; EVENT DATES</span>
+                    <span class="decor-line-bar"></span>
+                </div>
+            </div>
 
-            <div class="calendar-sidebar-ticker ticker-left">
+            <div class="calendar-sidebar-ticker ticker-left from-left" id="calendar-ticker-left">
                 <div class="ticker-header">
                     <span class="ticker-dot pulse-gold"></span>
                     <span class="ticker-title">LIVE PROTOCOLS</span>
@@ -363,7 +410,7 @@
                 </div>
             </div>
 
-            <div class="calendar-sidebar-ticker ticker-right">
+            <div class="calendar-sidebar-ticker ticker-right from-right" id="calendar-ticker-right">
                 <div class="ticker-header">
                     <span class="ticker-dot pulse-gold"></span>
                     <span class="ticker-title">IMP UPDATES</span>
@@ -534,9 +581,9 @@
             <div class="gallery-viewport">
                 <h2 class="gallery-page-heading spider-title" data-text="PORTAL GALLERY">PORTAL GALLERY</h2>
 
-                <div class="gallery-columns-wrapper">
+                <div class="gallery-columns-wrapper" id="gallery-columns-wrapper">
 
-                    <div class="gallery-column col-down">
+                    <div class="gallery-column col-down col-edge-left">
                         <div class="gallery-track track-down">
 
                             <div class="gallery-group-vertical">
@@ -589,7 +636,7 @@
                         </div>
                     </div>
 
-                    <div class="gallery-column col-up">
+                    <div class="gallery-column col-up col-middle-left">
                         <div class="gallery-track track-up">
 
                             <div class="gallery-group-vertical">
@@ -642,7 +689,7 @@
                         </div>
                     </div>
 
-                    <div class="gallery-column col-down">
+                    <div class="gallery-column col-down col-middle-right">
                         <div class="gallery-track track-down">
 
                             <div class="gallery-group-vertical">
@@ -695,7 +742,7 @@
                         </div>
                     </div>
 
-                    <div class="gallery-column col-up">
+                    <div class="gallery-column col-up col-edge-right">
                         <div class="gallery-track track-up">
 
                             <div class="gallery-group-vertical">
