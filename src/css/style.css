@@ -3282,58 +3282,240 @@ body.portal-entered .home-swipe-prompt {
     color: #fff;
 }
 
-/* Centered Footer Layout */
-.pravaah-full-footer.footer-centered {
-    text-align: center;
-}
-
-.footer-columns-grid.grid-centered {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 80px;
-    flex-wrap: wrap;
-}
-
-.footer-col.col-centered {
-    align-items: center;
-    text-align: center;
-}
-
-.footer-links-list.list-centered {
-    align-items: center;
-    text-align: center;
-}
-
-.footer-links-list.list-centered a:hover {
-    padding-left: 0;
-    color: #00f2fe;
-}
-
-.footer-bottom-bar.bar-centered {
-    justify-content: center;
-    gap: 30px;
-    text-align: center;
-}
-
-/* Full Footer Stuck to Bottom */
+/* ==========================================================================
+   PRAVAAH NEW RESPONSIVE FOOTER (Matches Design Mockup)
+   ========================================================================== */
 .pravaah-full-footer {
     width: 100%;
-    background: rgba(6, 4, 16, 0.88);
+    background: rgba(7, 10, 18, 0.95);
     backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 20px 20px 0 0;
-    padding: 20px 40px 14px 40px;
+    padding: 34px 40px 16px 40px;
     margin-top: auto;
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    box-shadow: 0 -10px 35px rgba(0, 0, 0, 0.5);
+    align-items: center;
+    box-shadow: 0 -10px 35px rgba(0, 0, 0, 0.6);
     z-index: 30;
     flex-shrink: 0;
     box-sizing: border-box;
+    position: relative;
 }
 
+.pravaah-footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 960px;
+    width: 100%;
+    gap: 48px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/* Left Column: Brand & Register */
+.footer-col-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    flex-shrink: 0;
+}
+
+.footer-brand-logo-link {
+    display: inline-block;
+    text-decoration: none;
+    transition: transform 0.25s ease;
+}
+
+.footer-brand-logo-link:hover {
+    transform: scale(1.04);
+}
+
+.footer-brand-logo-img {
+    width: 105px;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.25));
+}
+
+.footer-btn-register {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(90deg, #6c24fc 0%, #39aaf0 100%);
+    color: #ffffff !important;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 9px 24px;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 4px 18px rgba(108, 36, 252, 0.45);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.footer-btn-register:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 25px rgba(57, 170, 240, 0.6), 0 0 20px rgba(108, 36, 252, 0.5);
+}
+
+/* Middle & Right Columns */
+.footer-col-links,
+.footer-col-contact {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.footer-col-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: #24e0ec;
+    margin: 0 0 14px 0;
+    letter-spacing: 0.01em;
+}
+
+.footer-nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-nav-list a {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.86rem;
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+}
+
+.footer-nav-list a:hover {
+    color: #24e0ec;
+    transform: translateX(3px);
+}
+
+/* Social Buttons */
+.footer-social-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.footer-social-box {
+    width: 38px;
+    height: 38px;
+    background: #111623;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff !important;
+    font-size: 1.05rem;
+    text-decoration: none;
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+}
+
+.footer-social-box:hover {
+    transform: translateY(-2px);
+    border-color: #24e0ec;
+    background: #172033;
+    box-shadow: 0 0 14px rgba(36, 224, 236, 0.45);
+    color: #24e0ec !important;
+}
+
+/* Divider & Bottom Credits */
+.footer-bottom-divider {
+    width: 100%;
+    max-width: 960px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.08);
+    margin: 24px auto 14px auto;
+}
+
+.footer-bottom-credits {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-align: center;
+    flex-wrap: wrap;
+    max-width: 960px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.credits-brand {
+    color: #24e0ec;
+    font-weight: 700;
+}
+
+.credits-separator {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.credits-team {
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+/* Responsive Footer Styles */
+@media (max-width: 768px) {
+    .pravaah-full-footer {
+        padding: 26px 20px 14px 20px;
+    }
+    .pravaah-footer-container {
+        gap: 24px;
+    }
+    .footer-brand-logo-img {
+        width: 95px;
+    }
+    .footer-btn-register {
+        padding: 8px 20px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .pravaah-footer-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 22px;
+    }
+    .footer-col-brand,
+    .footer-col-links,
+    .footer-col-contact {
+        align-items: center;
+    }
+    .footer-nav-list {
+        align-items: center;
+    }
+    .footer-nav-list a:hover {
+        transform: translateY(-1px);
+    }
+    .footer-social-row {
+        justify-content: center;
+    }
+    .footer-bottom-credits {
+        font-size: 0.68rem;
+        gap: 6px;
+    }
+}
 .footer-columns-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -5762,7 +5944,7 @@ body.portal-entered .home-swipe-prompt {
 
 .portal-hud-tip {
     position: absolute;
-    bottom: 20px;
+    bottom: 8px;
     left: 50%;
     transform: translateX(-50%);
     font-family: 'Orbitron', sans-serif;
@@ -10714,7 +10896,7 @@ body.subpage-body>.pravaah-full-footer {
 /* HUD Tip */
 .portal-hud-tip {
     position: absolute;
-    bottom: 14px;
+    bottom: 8px;
     left: 50%;
     transform: translateX(-50%);
     font-family: 'Orbitron', sans-serif;
@@ -13438,9 +13620,9 @@ body.subpage-body>.pravaah-full-footer {
         'Orbitron',
         sans-serif;
 
-    font-size: 0.74rem;
+    font-size: 1.05rem;
 
-    font-weight: 700;
+    font-weight: 800;
 
     line-height: 1.25;
 
@@ -14526,6 +14708,34 @@ body.subpage-body>.pravaah-full-footer {
 }
 
 
+
+.events-page-body .explorer-rulebook-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    width: 100%;
+    margin-bottom: 10px;
+    color: #ffffff;
+    background: linear-gradient(135deg, rgba(230, 80, 160, 0.25), rgba(255, 60, 120, 0.4));
+    border: 1px solid rgba(255, 105, 180, 0.65);
+    border-radius: 7px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    box-shadow: 0 0 18px rgba(255, 60, 120, 0.2);
+    transition: 0.3s ease;
+}
+
+.events-page-body .explorer-rulebook-btn:hover {
+    transform: translateY(-2px);
+    border-color: #ff69b4;
+    background: linear-gradient(135deg, rgba(255, 60, 120, 0.5), rgba(230, 80, 160, 0.4));
+    box-shadow: 0 8px 24px rgba(255, 60, 120, 0.35);
+}
+
 .events-page-body .explorer-register-btn:hover {
 
     transform:
@@ -14714,7 +14924,7 @@ body.subpage-body>.pravaah-full-footer {
     .events-page-body .reference-card-lower h3 {
 
         font-size:
-            0.72rem;
+            0.95rem;
 
     }
 
@@ -14784,530 +14994,341 @@ body.subpage-body>.pravaah-full-footer {
 }
 
 /* ==========================================================
-   EVENT CARD - HOVER DESCRIPTION FIX
+   EVENT CARD - HOVER BLURRED IMAGE & FULL DESCRIPTION
    ========================================================== */
 
-.events-page-body .reference-event-card:hover .reference-card-image-wrap {
-    z-index: 4;
-}
-
-.events-page-body .reference-event-card:hover .reference-card-hover-layer {
-    z-index: 5;
-    padding-bottom: 12px;
-}
-
-
-/* ==========================================================
-   REFERENCE CARD HOVER - EXACT LOWER PANEL BEHAVIOUR
-   ========================================================== */
-
-
-/* ----------------------------------------------------------
-   CARD DOES NOT ENLARGE
-   ---------------------------------------------------------- */
-
-.events-page-body
-.reference-event-card:hover
-.reference-card-frame {
-
-    transform: none !important;
-
-    box-shadow:
-        0 14px 28px
-        rgba(0, 0, 0, 0.58),
-
-        0 0 18px
-        color-mix(
-            in srgb,
-            var(--event-color, #00d2ff) 18%,
-            transparent
-        ) !important;
-
-}
-
-
-/* ----------------------------------------------------------
-   IMAGE STAYS STABLE
-   ---------------------------------------------------------- */
-
-.events-page-body
-.reference-event-card:hover
-.reference-card-image-wrap img {
-
-    transform: none !important;
-
-    filter:
-        brightness(0.88)
-        contrast(1.05)
-        saturate(0.92) !important;
-
-}
-
-
-/* ----------------------------------------------------------
-   TITLE / DESCRIPTION SHARED AREA
-   ---------------------------------------------------------- */
-
-.events-page-body
-.reference-card-title-area {
-
+/* 5. Fixed Card & Frame Geometry (Strictly locks size to prevent layout shifts & glitching) */
+.events-page-body .reference-event-card {
     position: relative;
-
     width: 100%;
-
-    height: 58px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    margin-bottom: 5px;
-
+    min-width: 0;
+    height: 360px !important;
+    min-height: 360px !important;
+    max-height: 360px !important;
+    box-sizing: border-box;
+    transform: none !important;
+    transition: none !important;
+    will-change: auto;
+    align-self: start;
 }
 
-
-/* ----------------------------------------------------------
-   EVENT TITLE
-   ---------------------------------------------------------- */
-
-.events-page-body
-.reference-card-title {
-
-    position: absolute;
-
-    inset: 0;
-
-    margin: 0;
-
-    padding:
-        0 8px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    text-align: center;
-
-    color:
-        #b9c8ff;
-
-    font-family:
-        'Orbitron',
-        sans-serif;
-
-    font-size:
-        0.74rem;
-
-    font-weight:
-        700;
-
-    line-height:
-        1.25;
-
-    letter-spacing:
-        0.01em;
-
-    text-shadow:
-        0 0 9px
-        rgba(66, 118, 255, 0.25);
-
-    opacity: 1;
-
-    transform:
-        translateY(0);
-
-    transition:
-        opacity 0.28s ease,
-        transform 0.32s
-        cubic-bezier(
-            0.16,
-            1,
-            0.3,
-            1
-        );
-
-}
-
-
-/* ----------------------------------------------------------
-   EVENT DESCRIPTION
-   ---------------------------------------------------------- */
-
-.events-page-body
-.reference-card-description {
-
-    position: absolute;
-
-    inset: 0;
-
-    margin: 0;
-
-    padding:
-        3px 10px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    text-align: center;
-
-    color:
-        rgba(255, 255, 255, 0.86);
-
-    font-family:
-        'Inter',
-        sans-serif;
-
-    font-size:
-        0.58rem;
-
-    font-weight:
-        500;
-
-    line-height:
-        1.38;
-
-    overflow:
-        hidden;
-
-    display: -webkit-box;
-
-    -webkit-box-orient:
-        vertical;
-
-    -webkit-line-clamp:
-        3;
-
-    opacity: 0;
-
-    transform:
-        translateY(8px);
-
-    transition:
-        opacity 0.32s ease,
-        transform 0.38s
-        cubic-bezier(
-            0.16,
-            1,
-            0.3,
-            1
-        );
-
-}
-
-
-/* ----------------------------------------------------------
-   HOVER = TITLE OUT / DESCRIPTION IN
-   ---------------------------------------------------------- */
-
-.events-page-body
-.reference-event-card:hover
-.reference-card-title {
-
-    opacity: 0;
-
-    transform:
-        translateY(-8px);
-
-}
-
-
-.events-page-body
-.reference-event-card:hover
-.reference-card-description {
-
-    opacity: 1;
-
-    transform:
-        translateY(0);
-
-}
-
-
-/* ----------------------------------------------------------
-   BLUE BUTTON ANIMATION
-   ---------------------------------------------------------- */
-
-.events-page-body
-.reference-explore-btn,
-.events-page-body
-.reference-register-btn {
-
-    position: relative;
-
-    overflow: hidden;
-
-    background:
-        linear-gradient(
-            90deg,
-            #edf4ff 0%,
-            #c9d5e7 38%,
-            #edf4ff 50%,
-            #c9d5e7 62%,
-            #edf4ff 100%
-        );
-
-    background-size:
-        240% 100%;
-
-    background-position:
-        100% 0;
-
-    transition:
-        background-position 0.55s
-        cubic-bezier(
-            0.16,
-            1,
-            0.3,
-            1
-        ),
-        color 0.25s ease,
-        box-shadow 0.35s ease,
-        transform 0.25s ease;
-
-}
-
-
-/* Blue sweep */
-
-.events-page-body
-.reference-explore-btn:hover,
-.events-page-body
-.reference-register-btn:hover {
-
-    background-position:
-        0 0;
-
-    color:
-        #ffffff;
-
-    transform:
-        translateY(-1px);
-
-    box-shadow:
-        0 0 0 1px
-        rgba(0, 210, 255, 0.7),
-
-        0 0 12px
-        rgba(0, 210, 255, 0.42),
-
-        inset 0 0 10px
-        rgba(0, 210, 255, 0.2);
-
-}
-
-
-/* ----------------------------------------------------------
-   KEEP CARD SIZE FIXED DURING HOVER
-   ---------------------------------------------------------- */
-
-.events-page-body
-.reference-event-card {
-
-    transform:
-        translateY(0)
-        scale(1);
-
-}
-
-
-.events-page-body
-.reference-event-card:hover {
-
-    transform:
-        translateY(0)
-        scale(1);
-
-}
-
-
-/* ----------------------------------------------------------
-   MOBILE
-   ---------------------------------------------------------- */
-
-@media (max-width: 600px) {
-
-    .events-page-body
-    .reference-card-title-area {
-
-        height:
-            62px;
-
-    }
-
-    .events-page-body
-    .reference-card-title {
-
-        font-size:
-            0.72rem;
-
-    }
-
-    .events-page-body
-    .reference-card-description {
-
-        font-size:
-            0.57rem;
-
-        -webkit-line-clamp:
-            3;
-
-    }
-
-}
-/* ==========================================================
-   REFERENCE HOVER - FIXED CARD GEOMETRY
-   ========================================================== */
-
-/* Card never changes position or size */
-.events-page-body .reference-event-card,
 .events-page-body .reference-event-card:hover {
-    transform: translateY(0) scale(1) !important;
+    height: 360px !important;
+    min-height: 360px !important;
+    max-height: 360px !important;
+    transform: none !important;
 }
 
-/* Frame never moves */
+.events-page-body .reference-card-top-ornament {
+    pointer-events: none !important;
+}
+
+.events-page-body .reference-card-frame {
+    position: relative;
+    width: 100%;
+    height: 340px !important;
+    min-height: 340px !important;
+    max-height: 340px !important;
+    padding: 9px 9px 10px;
+    background: linear-gradient(145deg, #e7e6a4, #d8d98d 45%, #b4b66e 100%);
+    border-radius: 8px;
+    box-shadow: 0 12px 22px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.16);
+    overflow: hidden;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transform: none !important;
+    transition: box-shadow 0.3s ease;
+}
+
 .events-page-body .reference-event-card:hover .reference-card-frame {
     transform: none !important;
-
+    height: 340px !important;
+    min-height: 340px !important;
+    max-height: 340px !important;
     box-shadow:
-        0 14px 28px rgba(0, 0, 0, 0.58),
-        0 0 18px color-mix(
-            in srgb,
-            var(--event-color, #00d2ff) 18%,
-            transparent
-        );
+        0 14px 28px rgba(0, 0, 0, 0.65),
+        0 0 20px color-mix(in srgb, var(--event-color, #00d2ff) 35%, transparent) !important;
 }
 
-/* Image stays fixed */
-.events-page-body .reference-event-card:hover .reference-card-image-wrap img {
-    transform: none !important;
-
-    filter:
-        brightness(0.88)
-        contrast(1.05)
-        saturate(0.92) !important;
-}
-
-/* The lower panel NEVER changes its position */
-.events-page-body .reference-card-lower {
-    margin-top: -22px !important;
-
+/* Base Image Wrapper (Expanded to showcase artwork without wasted space: 227px) */
+.events-page-body .reference-card-image-wrap {
     position: relative;
+    height: 227px !important;
+    flex: 0 0 227px !important;
+    width: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+    background: #070a14;
+    z-index: 1;
+    transition: filter 0.4s ease;
+}
+
+.events-page-body .reference-card-image-wrap img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: brightness(0.9) contrast(1.05) saturate(0.95);
+    transform: scale(1);
+    transition: filter 0.4s ease, transform 0.4s ease;
+}
+
+/* Dark contrast overlay over blurred image on hover */
+.events-page-body .reference-card-image-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(6, 12, 26, 0.45) 0%, rgba(2, 5, 12, 0.78) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
     z-index: 2;
 }
 
-/* Fixed area reserved for title/description */
+/* 3. HOVER: THE IMAGE BLURS AND SERVES AS THE FULL BACKGROUND FOR THE CARD DESCRIPTION */
+.events-page-body .reference-event-card:hover .reference-card-image-wrap {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 8px !important;
+    z-index: 1 !important;
+}
+
+.events-page-body .reference-event-card:hover .reference-card-image-wrap img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    filter: blur(8px) brightness(0.32) contrast(1.15) saturate(1.2) !important;
+    transform: scale(1.16) !important;
+}
+
+.events-page-body .reference-event-card:hover .reference-card-image-wrap::after {
+    opacity: 1 !important;
+}
+
+/* Base Lower Panel (Compact Heading Background: 227 - 14 + 108 + 19 = 340px) */
+.events-page-body .reference-card-lower {
+    position: relative;
+    margin-top: -14px !important;
+    height: 108px !important;
+    flex: 0 0 108px !important;
+    box-sizing: border-box !important;
+    padding: 15px 8px 6px !important;
+    background: linear-gradient(180deg, #07101a, #02050b);
+    clip-path: polygon(0 14px, 14px 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: background 0.3s ease;
+}
+
+/* 2. HOVER: LOWER PANEL EXPANDS OVER FULL CARD WITH PADDING */
+.events-page-body .reference-event-card:hover .reference-card-lower {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin-top: 0 !important;
+    padding: 16px 14px 12px !important;
+    background: transparent !important;
+    clip-path: none !important;
+    z-index: 3 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+}
+
+/* Title & Description Container */
 .events-page-body .reference-card-title-area {
     position: relative;
-
     width: 100%;
-    height: 58px;
-
-    margin: 0 0 13px 0;
-
-    overflow: hidden;
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 40px !important;
+    max-height: 50px !important;
+    margin: 0 0 5px 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
 }
 
-/* Title and description occupy EXACTLY the same area */
+/* Hover: Title area expands to take entire space above action buttons */
+.events-page-body .reference-event-card:hover .reference-card-title-area {
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 0 10px 0 !important;
+    display: flex !important;
+    align-items: stretch !important;
+    justify-content: stretch !important;
+    overflow: hidden !important;
+}
+
+/* 1. COMPACT & HIGH CONTRAST CARD HEADINGS */
 .events-page-body .reference-card-title,
-.events-page-body .reference-card-description {
-    position: absolute;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    margin: 0;
-    padding: 0 8px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-
-    transition:
-        opacity 0.42s ease,
-        transform 0.48s cubic-bezier(
-            0.16,
-            1,
-            0.3,
-            1
-        );
-}
-
-/* Normal title */
-.events-page-body .reference-card-title {
-    color: #b9c8ff;
-
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.74rem;
-    font-weight: 700;
-    line-height: 1.25;
-    letter-spacing: 0.01em;
-
+.events-page-body .reference-card-lower h3 {
+    margin: 0 !important;
+    padding: 0 4px !important;
+    min-height: 0 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    text-align: center !important;
+    color: #edf2ff !important;
+    font-family: 'Orbitron', sans-serif !important;
+    font-size: 1.02rem !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0.02em !important;
+    text-transform: uppercase !important;
     text-shadow:
-        0 0 9px rgba(66, 118, 255, 0.25);
-
+        0 0 14px rgba(66, 118, 255, 0.45),
+        0 2px 4px rgba(0, 0, 0, 0.95) !important;
     opacity: 1;
-
     transform: translateY(0);
+    transition: opacity 0.25s ease;
 }
 
-/* Hidden description */
+/* Hover: Heading hidden */
+.events-page-body .reference-event-card:hover .reference-card-title,
+.events-page-body .reference-event-card:hover .reference-card-lower h3 {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    display: none !important;
+}
+
+/* Normal state: description hidden */
 .events-page-body .reference-card-description {
-    color: rgba(255, 255, 255, 0.84);
-
-    font-family: 'Inter', sans-serif;
-    font-size: 0.58rem;
-    font-weight: 500;
-    line-height: 1.38;
-
-    overflow: hidden;
-
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-
+    display: none;
+    margin: 0;
+    padding: 0;
     opacity: 0;
-
-    transform: translateY(12px);
+    pointer-events: none;
 }
 
-/* Hover: title leaves */
-.events-page-body .reference-event-card:hover .reference-card-title {
-    opacity: 0;
-
-    transform: translateY(-12px);
-}
-
-/* Hover: description enters */
+/* 2 & 4. CARD DESCRIPTION TAKES ENTIRE CARD BOX OVER BLURRED IMAGE */
 .events-page-body .reference-event-card:hover .reference-card-description {
-    opacity: 1;
-
-    transform: translateY(0);
+    position: relative !important;
+    inset: auto !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    overflow-y: auto !important;
+    padding: 14px 12px !important;
+    box-sizing: border-box !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.90rem !important;
+    font-weight: 500 !important;
+    line-height: 1.55 !important;
+    letter-spacing: 0.015em !important;
+    color: #ffffff !important;
+    background: rgba(4, 9, 22, 0.65) !important;
+    backdrop-filter: blur(5px) !important;
+    -webkit-backdrop-filter: blur(5px) !important;
+    border: 1px solid rgba(82, 130, 255, 0.35) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55), inset 0 0 16px rgba(0, 210, 255, 0.08) !important;
+    text-shadow:
+        0 2px 10px rgba(0, 0, 0, 0.95),
+        0 0 18px rgba(0, 0, 0, 0.85) !important;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(82, 130, 255, 0.4) transparent;
 }
 
-/* Buttons stay at EXACT same position */
+/* 2. EXPLORE AND REGISTER BUTTONS KEPT AT BOTTOM */
 .events-page-body .reference-card-actions {
     position: relative;
-
-    height: 31px;
-    min-height: 31px;
-
-    margin:
-        0 2px
-        8px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+    height: 31px !important;
+    min-height: 31px !important;
+    max-height: 31px !important;
+    flex: 0 0 31px !important;
+    margin: 0 2px 2px !important;
+    z-index: 5;
 }
 
+.events-page-body .reference-event-card:hover .reference-card-actions {
+    flex: 0 0 31px !important;
+    height: 31px !important;
+    min-height: 31px !important;
+    max-height: 31px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    z-index: 5 !important;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+    .events-page-body .reference-event-card,
+    .events-page-body .reference-event-card:hover {
+        height: 360px !important;
+        min-height: 360px !important;
+        max-height: 360px !important;
+    }
+
+    .events-page-body .reference-card-frame,
+    .events-page-body .reference-event-card:hover .reference-card-frame {
+        height: 340px !important;
+        min-height: 340px !important;
+        max-height: 340px !important;
+    }
+
+    .events-page-body .reference-card-image-wrap {
+        height: 227px !important;
+        flex: 0 0 227px !important;
+    }
+
+    .events-page-body .reference-card-lower {
+        height: 108px !important;
+        flex: 0 0 108px !important;
+        margin-top: -14px !important;
+        padding: 14px 6px 5px !important;
+    }
+
+    .events-page-body .reference-card-title,
+    .events-page-body .reference-card-lower h3 {
+        font-size: 0.95rem !important;
+    }
+
+    .events-page-body .reference-event-card:hover .reference-card-description {
+        font-size: 0.84rem !important;
+        line-height: 1.5 !important;
+        padding: 12px 10px !important;
+    }
+
+    .events-page-body .reference-card-actions {
+        height: 31px !important;
+        min-height: 31px !important;
+        max-height: 31px !important;
+    }
+
+    .events-page-body .reference-explore-btn,
+    .events-page-body .reference-register-btn {
+        min-height: 31px !important;
+        height: 31px !important;
+        line-height: 31px !important;
+        padding: 0 !important;
+    }
+}
 
 
 /* ==========================================================
@@ -16711,7 +16732,7 @@ body.side-menu-locked {
         font-size: 0.58rem !important;
         line-height: 1.4 !important;
         padding: 6px 10px !important;
-        bottom: 12px !important;
+        bottom: 5px !important;
         justify-content: center !important;
     }
 

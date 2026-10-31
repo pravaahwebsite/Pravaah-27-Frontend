@@ -155,18 +155,21 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 'cult-1',
             verse: 'cult',
             verseName: 'CULT EVENT',
-            name: 'Step Up Group Dance',
+            name: 'Group Dance',
             icon: '💃',
-            desc: 'Unleash street dance, hip-hop, or classical choreography in a high-octane stage showdown.',
-            date: 'Oct 16, 06:00 PM',
-            day: '2',
-            venue: 'Main Arena Gate 1',
-            prize: '₹80,000',
-            team: '6 - 20 Members',
+            image: 'assets/Events_images/Group Dance.jpeg',
+            desc: 'Showcase coordination, creativity, and collective stage expression in the premier collegiate group dance championship.',
+            date: 'Feb 8, 2026',
+            day: '3',
+            venue: 'Auditorium, IIT Bhubaneswar',
+            prize: 'Mementos & Certificates',
+            team: '4 - 30 Members',
+            rulebookPage: 31,
             rules: [
-                'Time limit: 8 - 12 minutes including stage setup.',
-                'Props allowed with prior declaration.',
-                'Judged on synchronization, choreography, energy, and costumes.'
+                'Team Size: 4 to 30 participants per team. All dance forms permitted.',
+                'Performance time limit: 5 to 12 minutes including entry and stage exit.',
+                'Audio track or medley must be submitted to coordinators by 11:59 PM prior day.',
+                'Judged on Coordination (25%), Choreography (20%), Energy (20%), Expression (15%), and Creativity (10%).'
             ]
         },
 
@@ -174,18 +177,21 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 'cult-2',
             verse: 'cult',
             verseName: 'CULT EVENT',
-            name: 'Symphony Rock Battle',
-            icon: '🎸',
-            desc: 'The ultimate rock and fusion band championship. Feel acoustic decibels shake the multiverse.',
-            date: 'Oct 17, 07:00 PM',
-            day: '3',
-            venue: 'The Amphitheater',
-            prize: '₹100,000',
-            team: '3 - 8 Members',
+            name: 'Fashion Show',
+            icon: '✨',
+            image: 'assets/Events_images/Fashion Show.jpeg',
+            desc: 'Step onto the runway and express your creativity, embracing grace, theme-driven elegance, and haute couture.',
+            date: 'Feb 7, 2026',
+            day: '2',
+            venue: 'Auditorium, IIT Bhubaneswar',
+            prize: '₹10,000',
+            team: '6 - 20 Models + 3 Crew',
+            rulebookPage: 43,
             rules: [
-                'Performance slot: 20 minutes including 5 min line check.',
-                'At least one original composition or creative adaptation required.',
-                'Full drum kit and sound amplification provided.'
+                'Open Theme: Celebrate elegance, creativity, cultural sensitivity, and stage presence.',
+                'Time limit: Maximum 15 minutes including stage setup and live narration.',
+                'Judged on Ramp Walk & Choreography (35%), Costumes (35%), Theme Relevance (15%), and Stage Impact (15%).',
+                'Green rooms provided for makeup, changing, and backstage preparation.'
             ]
         },
 
@@ -193,17 +199,21 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 'cult-3',
             verse: 'cult',
             verseName: 'CULT EVENT',
-            name: 'Dramatics & Street Play',
-            icon: '🎭',
-            desc: 'Intense street theatre competition portraying contemporary social realities and cosmic satire.',
-            date: 'Oct 15, 12:00 PM',
-            day: '1',
-            venue: 'Central Plaza',
-            prize: '₹45,000',
-            team: '8 - 25 Members',
+            name: 'Street Battle',
+            icon: '🔥',
+            image: 'assets/Events_images/Street Battle.jpeg',
+            desc: 'Head-to-head knockout dance battles where dancers showcase high-energy freestyle skills, popping, and breaking.',
+            date: 'Feb 7, 2026',
+            day: '2',
+            venue: 'SAC Open Arena',
+            prize: '₹6,000',
+            team: 'Solo (Individual)',
+            rulebookPage: 35,
             rules: [
-                'Acoustic instruments and live vocals only (no mic/speakers).',
-                'Performance duration: 15 minutes max.'
+                'Solo street-style dance face-offs with knockout elimination format.',
+                'All street dance styles permitted (hip-hop, popping, locking, breaking, krump).',
+                'Three rounds of battle face-offs with spontaneous live music drops.',
+                'Judged on Choreography (35%), Energy (30%), Expressions (25%), and Technicality (10%).'
             ]
         },
 
@@ -211,17 +221,21 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 'cult-4',
             verse: 'cult',
             verseName: 'CULT EVENT',
-            name: 'Voice of Pravaah',
-            icon: '🎤',
-            desc: 'Solo vocal competition spanning classical, western pop, rock, and Bollywood melodies.',
-            date: 'Oct 16, 02:00 PM',
-            day: '2',
-            venue: 'Auditorium Prime',
-            prize: '₹30,000',
-            team: 'Solo + 1 Accompanist',
+            name: 'Abhinay',
+            icon: '🎭',
+            image: 'assets/Events_images/Abhinay.jpeg',
+            desc: 'Flagship stage play competition bringing original scripts, dramatic intensity, and gripping theatrical acting to life.',
+            date: 'Feb 6, 09:00 AM',
+            day: '1',
+            venue: 'Community Centre',
+            prize: '₹10,000',
+            team: 'Up to 30 Members',
+            rulebookPage: 39,
             rules: [
-                'Time limit: 5 minutes.',
-                'Backing tracks or 1 instrumentalist permitted.'
+                'Stage Play duration: 45 to 60 minutes from empty stage to empty stage.',
+                'Performance permitted in Hindi, English, or bilingual presentation.',
+                'Original scripts and adaptations welcome; team manages own audio/sound.',
+                'Judged on Script & Direction (35%), Acting (35%), Lights & Music (15%), and Creativity (10%).'
             ]
         },
 
@@ -229,17 +243,241 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 'cult-5',
             verse: 'cult',
             verseName: 'CULT EVENT',
-            name: 'Vogue Cosmic Fashion',
-            icon: '✨',
-            desc: 'Futuristic fashion runway reflecting themes of cyberpunk, neon retro-futurism, and sustainable haute couture.',
-            date: 'Oct 18, 08:00 PM',
-            day: '4',
-            venue: 'The Galaxy Runway',
-            prize: '₹90,000',
-            team: '10 - 18 Models + Crew',
+            name: 'Tamasha',
+            icon: '📢',
+            image: 'assets/Events_images/Tamasha.jpeg',
+            desc: 'Thunderous Nukkad Natak (street play) in a 30x30ft arena delivering sharp social messages with booming choruses.',
+            date: 'Feb 6, 2026',
+            day: '1',
+            venue: 'BB Court',
+            prize: '₹10,000',
+            team: 'Up to 25 Members',
+            rulebookPage: 41,
             rules: [
-                'Runway time: 12 - 15 minutes.',
-                'Original themed background music track and narration required.'
+                'Performed inside a taped 30ft x 30ft boundary circle.',
+                'Acoustic live instruments and powerful vocal projection only.',
+                'Time limit: Up to 30 minutes with strict stage boundary rules.',
+                'Judged on Acting, Energy & Voice (40%), Script (20%), Direction (20%), and Impact (20%).'
+            ]
+        },
+
+        {
+            id: 'cult-6',
+            verse: 'cult',
+            verseName: 'CULT EVENT',
+            name: 'Spotlight',
+            icon: '🎬',
+            image: 'assets/Events_images/Spotlight.jpeg',
+            desc: 'Commanding monoact theatrical competition celebrating solo dramatic range, character conviction, and stage delivery.',
+            date: 'Feb 7, 2026',
+            day: '2',
+            venue: 'Community Centre, IIT Bhubaneswar',
+            prize: '₹6,500',
+            team: 'Solo (Individual)',
+            rulebookPage: 37,
+            rules: [
+                'Solo acting performance in Hindi, English, or bilingual dialogue.',
+                'Performance time limit: Maximum 10 minutes.',
+                'Props permitted with prior declaration; team brings own laptop for sound cue.',
+                'Judged on Script & Direction (35%), Acting (35%), Creativity & Stage Setting (15%), and Lights & Music (10%).'
+            ]
+        },
+
+        {
+            id: 'cult-7',
+            verse: 'cult',
+            verseName: 'CULT EVENT',
+            name: 'Face Painting',
+            icon: '🎨',
+            image: 'assets/Events_images/Face Painting.jpeg',
+            desc: 'Transform human canvas with colors, brush strokes, and visionary imagination in this nocturnal creative contest.',
+            date: 'Feb 6, Night',
+            day: '1',
+            venue: 'Campus Arena',
+            prize: '₹3,000',
+            team: 'Individual / Duo',
+            rulebookPage: 45,
+            rules: [
+                'Paints and materials provided by Pravaah organizing team.',
+                'Conducted during the night with theme revealed at the start of the event.',
+                'Only one official high-resolution photograph submission allowed per individual.',
+                'Judged on Creativity (30%), Theme Relevance (30%), Execution & Technique (30%), and Color Palette (10%).'
+            ]
+        },
+
+        {
+            id: 'cult-8',
+            verse: 'cult',
+            verseName: 'CULT EVENT',
+            name: 'View Finder',
+            icon: '📷',
+            image: 'assets/Events_images/View Finder.jpeg',
+            desc: 'Creative photography competition spanning Infra Pulse architecture, Motion and Emotion storytelling, and Altered Reality.',
+            date: 'Feb 5 - 8, 2026',
+            day: '1-3',
+            venue: 'Campus Wide',
+            prize: '₹3,000 Per Theme',
+            team: 'Solo (Open to All)',
+            rulebookPage: 46,
+            rules: [
+                'Three themes: Infra Pulse (Architecture), Motion & Emotion, and Altered Reality (Photoshop Blend).',
+                'DSLRs, mirrorless cameras, and smartphones permitted.',
+                'Submission requires edited/non-edited JPEG with EXIF data along with RAW image.',
+                'Judged on Creativity, Composition & Framing, Theme Reflection, and Technical Execution.'
+            ]
+        },
+
+        {
+            id: 'cult-9',
+            verse: 'cult',
+            verseName: 'CULT EVENT',
+            name: 'Flow Frames',
+            icon: '📸',
+            image: 'assets/Events_images/Flow Frames.jpeg',
+            desc: 'Capture the spirit, pulsating energy, and fleeting aesthetic memories of Pravaah through your lens.',
+            date: 'Feb 5 - 8, 2026',
+            day: '1-3',
+            venue: 'IIT Bhubaneswar Campus',
+            prize: '₹4,000',
+            team: 'Individual',
+            rulebookPage: 48,
+            rules: [
+                'Photographs must be shot on campus during Pravaah 2026 (Feb 5-8).',
+                'Maximum 3 entries per participant, each accompanied by an English or Hindi caption.',
+                'Submit JPG/JPEG along with original unedited RAW files in a single zip package.',
+                'Judged on Creativity, Originality, and Adherence to Festival Spirit.'
+            ]
+        },
+
+        {
+            id: 'cult-10',
+            verse: 'cult',
+            verseName: 'CULT EVENT',
+            name: '51hr Film Making',
+            icon: '🎥',
+            image: 'assets/Events_images/51hr Film Making.jpeg',
+            desc: 'Conceive, shoot, edit, and score an original cinematic short film within a thrilling 51-hour creative countdown.',
+            date: 'Feb 6, 2026',
+            day: '1',
+            venue: 'IIT Bhubaneswar Campus',
+            prize: 'Awards & Festival Screening',
+            team: '4 - 17 Members',
+            rulebookPage: 50,
+            rules: [
+                'Short film runtime: 3 to 8 minutes including title and end credits.',
+                'Theme revealed at event kickoff; 51-hour submission deadline begins immediately.',
+                'Filmed exclusively within designated areas of IIT Bhubaneswar campus.',
+                'Judged on Cinematography & Direction (30%), Story & Screenplay (25%), Editing (25%), and Impact (15%).'
+            ]
+        },
+
+        {
+            id: 'cult-11',
+            verse: 'cult',
+            verseName: 'CULT EVENT',
+            name: 'Kavodyay',
+            icon: '🖋️',
+            image: 'assets/Events_images/Kavodyay.jpeg',
+            desc: 'Hindi Slam Poetry competition where poets evoke deep emotion, lyrical rhythm, and evocative spoken-word storytelling.',
+            date: 'Feb 6 - 7, 2026',
+            day: '1-2',
+            venue: 'Online / Live Stream',
+            prize: '₹6,000',
+            team: 'Solo (Individual)',
+            rulebookPage: 67,
+            rules: [
+                'Original self-composed poetry in Hindi only; plagiarism results in disqualification.',
+                'Each poet allotted a maximum of 5 minutes for reciting their piece.',
+                'Acoustic spoken-word delivery without background tracks or digital distortion.',
+                'Judged on Vocabulary & Language (30%), Performance & Diction (30%), Creativity (20%), and Impact (20%).'
+            ]
+        },
+
+        {
+            id: 'cult-12',
+            verse: 'cult',
+            verseName: 'CULT EVENT',
+            name: 'General Quiz',
+            icon: '🧠',
+            image: 'assets/Events_images/General Quiz.jpeg',
+            desc: 'Battle of sharpest collegiate minds navigating general trivia, science, history, cinema, pop culture, and business.',
+            date: 'Feb 7, 2026',
+            day: '2',
+            venue: 'Lecture Hall Complex',
+            prize: '₹10,000',
+            team: 'Up to 3 Members',
+            rulebookPage: 24,
+            rules: [
+                'Two-round competition: 20-question written Preliminary Round + Grand Stage Finals.',
+                'Top 8 qualifying teams advance to the live Quiz Master finals.',
+                'Questions centered around science, business, technology, arts, and world trivia.',
+                'Electronic devices and external assistance strictly prohibited.'
+            ]
+        },
+
+        {
+            id: 'cult-13',
+            verse: 'cult',
+            verseName: 'CULT EVENT',
+            name: 'Solo Dance',
+            icon: '🕺',
+            image: 'assets/Events_images/Solo Dance.jpeg',
+            desc: 'Command the central stage alone and mesmerize the crowd with technique, rhythm, expressive grace, and storytelling.',
+            date: 'Feb 8, 09:30 AM',
+            day: '3',
+            venue: 'Auditorium, IIT Bhubaneswar',
+            prize: 'Mementos, T-shirts & Certificates',
+            team: 'Solo (Individual)',
+            rulebookPage: 33,
+            rules: [
+                'Open to all dance styles (contemporary, classical, western, hip-hop, folk).',
+                'Performance time limit: 1 minute 30 seconds to 4 minutes including entry and exit.',
+                'Audio track or medley must be submitted to coordinators by 11:59 PM prior day.',
+                'Judged on Choreography (30%), Energy (25%), Expressions (20%), Creativity (15%), and Technicality (10%).'
+            ]
+        },
+
+        {
+            id: 'cult-14',
+            verse: 'cult',
+            verseName: 'CULT EVENT',
+            name: 'meme mania',
+            icon: '🤣',
+            image: 'assets/Events_images/meme mania.jpeg',
+            desc: 'Invoke the memer inside you and be the reason for laughter in this ultimate creative meme-making showdown.',
+            date: 'Feb 5 - 8, 2026',
+            day: '1-3',
+            venue: 'Online / Instagram @iitbbs.pravaah',
+            prize: '₹5,000 + Instagram Feature',
+            team: 'Solo / Creator',
+            rulebookPage: 65,
+            rules: [
+                'Submit original memes based on the given fest theme via the official Google Form.',
+                'No limit on the number of creative meme submissions per participant.',
+                'Top 3 memes featured on the official Instagram page @iitbbs.pravaah.',
+                'Judged on Creativity (40%), Theme Correctness (30%), and Audience Engagement (30%).'
+            ]
+        },
+
+        {
+            id: 'cult-15',
+            verse: 'cult',
+            verseName: 'CULT EVENT',
+            name: 'Sci and tech quiz',
+            icon: '🔬',
+            image: 'assets/Events_images/Sci and tech Quiz.jpeg',
+            desc: 'High-stakes battle of scientific minds testing knowledge across astronomy, modern physics, technology, and discoveries.',
+            date: 'Feb 7, 2026',
+            day: '2',
+            venue: 'Lecture Hall Complex',
+            prize: 'Cash Prizes & Certificates',
+            team: 'Up to 2 Members or Lone Wolves',
+            rulebookPage: 26,
+            rules: [
+                'Two-round contest: 20-question Preliminary Round followed by Grand Finals.',
+                'Teams of up to two members or individual lone wolf participants permitted.',
+                'Top 8 qualifying teams advance to the live audio-visual finals.',
+                'Questions centered around science, aerospace, engineering, and tech innovations.'
             ]
         },
 
@@ -375,33 +613,93 @@ document.addEventListener('DOMContentLoaded', () => {
         ],
 
         'cult-1': [
-            'Build synchronized group choreography.',
-            'Develop stage presence, movement, and creative direction.',
-            'Coordinate a large team under performance time limits.'
+            'Master high-synchronization group choreography under performance constraints.',
+            'Develop spatial awareness, stage formation transitions, and energy distribution.',
+            'Collaborate closely across large team dynamics under competition pressure.'
         ],
 
         'cult-2': [
-            'Arrange and perform music as a coordinated band.',
-            'Develop stage control, musical interpretation, and originality.',
-            'Work with live instrumentation and sound constraints.'
+            'Conceive a unified fashion aesthetic reflecting narrative theme and grace.',
+            'Master runway pacing, choreography, and confident couture presentation.',
+            'Coordinate costumes, hair, lighting, and narration seamlessly backstage.'
         ],
 
         'cult-3': [
-            'Develop a focused street-theatre narrative.',
-            'Use performance to communicate contemporary social ideas.',
-            'Coordinate cast, timing, and live-stage execution.'
+            'Sharpen spontaneous freestyle improvisation and musicality on live beat drops.',
+            'Develop aggressive yet respectful battle stage presence in face-off formats.',
+            'Execute advanced power moves, isolation, and street dance techniques.'
         ],
 
         'cult-4': [
-            'Improve vocal control and performance confidence.',
-            'Interpret different musical styles effectively.',
-            'Build a polished solo-stage presentation.'
+            'Execute dramatic script direction, character embodiment, and stage blocking.',
+            'Master voice modulation, projection, and emotional tempo in a large hall.',
+            'Operate coordinated theatrical lighting, live sound, and set transitions.'
         ],
 
         'cult-5': [
-            'Translate a theme into a complete visual concept.',
-            'Coordinate fashion, music, narration, and runway movement.',
-            'Build a cohesive futuristic presentation.'
+            'Harness the raw, acoustic power of street theatre in a 360-degree audience circle.',
+            'Deliver sharp social commentary with synchronized choral voice and physical formations.',
+            'Captivate spontaneous crowds with high energy, rhythm, and crisp dialogue delivery.'
+        ],
+
+        'cult-6': [
+            'Command the stage single-handedly with sustained emotional gravity and nuance.',
+            'Master solo dramatic timing, character transformation, and physical storytelling.',
+            'Deliver nuanced monologues under focused theatrical spotlight conditions.'
+        ],
+
+        'cult-7': [
+            'Translate creative concepts into living face-art compositions.',
+            'Work with skin-safe pigments, brush blending, highlighting, and contouring.',
+            'Deliver aesthetic storytelling through expressive human facial canvases.'
+        ],
+
+        'cult-8': [
+            'Master architectural geometry, perspective, and lighting composition.',
+            'Capture decisive emotion and motion through precision shutter timing.',
+            'Perform advanced digital blending and post-production techniques in Photoshop.'
+        ],
+
+        'cult-9': [
+            'Develop an instinct for photojournalism and authentic candid event coverage.',
+            'Work under rapidly changing concert lighting, pyrotechnics, and crowds.',
+            'Curate a cohesive portfolio capturing the soul and spirit of the festival.'
+        ],
+
+        'cult-10': [
+            'Conceive, storyboard, shoot, and cut a complete narrative under a 51-hour timer.',
+            'Manage fast guerrilla filmmaking production with real location constraints.',
+            'Perform high-pressure audio mixing, color grading, and subtitle delivery.'
+        ],
+
+        'cult-11': [
+            'Refine poetic metre, rhyme schemes, and linguistic depth in Hindi poetry.',
+            'Develop evocative spoken-word cadence, pauses, and emotional delivery.',
+            'Connect deeply with audiences through relatable, heartfelt verse.'
+        ],
+
+        'cult-12': [
+            'Synthesize broad general knowledge across disparate fields under time limits.',
+            'Develop strategic team deduction, risk analysis, and round-play tactics.',
+            'Handle rapid buzzer rounds and multi-layer lateral-thinking questions.'
+        ],
+
+        'cult-13': [
+            'Showcase individual technical virtuosity, flexibility, and physical stamina.',
+            'Convey powerful narrative arc and emotional depth through solo body movement.',
+            'Command the audience and judges with confident, charismatic stage presence.'
+        ],
+
+        'cult-14': [
+            'Master visual comedy, pop-culture satire, and viral storytelling.',
+            'Develop relatable, punchy digital content with creative timing.',
+            'Analyze audience resonance, social trends, and engagement metrics.'
+        ],
+
+        'cult-15': [
+            'Deepen cross-disciplinary knowledge in frontier science and technology.',
+            'Develop rapid deduction, logical inference, and round strategy.',
+            'Sharpen quick recall and precision under intense buzzer rounds.'
         ],
 
         'ent-1': [
@@ -1160,7 +1458,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div class="reference-card-image-wrap">
 
                                 <img
-                                    src="assets/images/page5_gallery.jpg"
+                                    src="${event.image ? encodeURI(event.image) : 'assets/images/page5_gallery.jpg'}"
                                     alt="${event.name}"
                                     loading="lazy"
                                 >
@@ -1185,13 +1483,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                                 <div class="reference-card-actions">
 
-                                    <button
-                                        type="button"
+                                    <a
                                         class="reference-explore-btn"
+                                        href="${event.rulebookPage ? rulebookHref(event) : '#'}"
+                                        ${event.rulebookPage ? 'target="_blank" rel="noopener noreferrer"' : ''}
                                         data-event-id="${event.id}"
                                     >
                                         EXPLORE
-                                    </button>
+                                    </a>
 
 
                                     <a
@@ -1201,14 +1500,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                         REGISTER
                                     </a>
 
-                                </div>
-
-
-                                <div class="reference-price-bar">
-                                    Prize:
-                                    <strong>
-                                        ${event.prize}
-                                    </strong>
                                 </div>
 
                             </div>
@@ -1246,6 +1537,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                             if (selectedEvent) {
 
+                                if (selectedEvent.rulebookPage) {
+                                    event.preventDefault();
+                                    const pdfUrl = rulebookHref(selectedEvent);
+                                    window.open(pdfUrl, '_blank', 'noopener,noreferrer');
+                                    return;
+                                }
+
                                 openExplorer(
                                     selectedEvent
                                 );
@@ -1264,6 +1562,16 @@ document.addEventListener('DOMContentLoaded', () => {
     /* =========================================================
        REGISTRATION
        ========================================================= */
+
+    function rulebookHref(
+        event
+    ) {
+        if (event && event.rulebookPage) {
+            return `assets/PRAVAAH'26%20Rulebook.pdf#page=${event.rulebookPage}`;
+        }
+        return `assets/PRAVAAH'26%20Rulebook.pdf`;
+    }
+
 
     function registrationHref(
         event
@@ -1340,7 +1648,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         explorerImage.src =
-            'assets/images/page5_gallery.jpg';
+            event.image ? encodeURI(event.image) : 'assets/images/page5_gallery.jpg';
 
 
         explorerImage.alt =
@@ -1380,6 +1688,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         explorerRegister.href =
             registrationHref(event);
+
+        const explorerRulebook = document.getElementById('explorer-rulebook');
+        if (explorerRulebook) {
+            if (event.rulebookPage) {
+                explorerRulebook.style.display = 'flex';
+                explorerRulebook.href = rulebookHref(event);
+                explorerRulebook.textContent = `RULEBOOK (PAGE ${event.rulebookPage}) ↗`;
+            } else {
+                explorerRulebook.style.display = 'none';
+            }
+        }
 
 
         eventsPortalHero?.classList.add(
