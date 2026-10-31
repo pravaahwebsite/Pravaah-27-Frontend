@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 targetWall = 4;
             }
 
-            if (targetWall !== currentWallIndex) {
+            if (!isGestureLocked && targetWall !== currentWallIndex) {
                 setWall(targetWall);
             }
         } else {
@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
             stage.style.width = '100%';
             stage.style.height = `${window.innerHeight}px`;
 
-            if (currentWallIndex !== 4) {
+            if (!isGestureLocked && currentWallIndex !== 4) {
                 setWall(4);
             }
         }
@@ -297,67 +297,176 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* ==========================================================================
        5. TOUCH SWIPE GESTURES (4 Walls)
+       Reliable, single-swipe room rotation for mobile devices
        ========================================================================== */
     let touchStartX = 0;
     let touchStartY = 0;
+    let touchCurrentX = 0;
+    let touchCurrentY = 0;
+    let isTrackingTouch = false;
+    let touchInitiatedOnForm = false;
+
+    // Single clear threshold for swipe detection (px)
+    const SWIPE_THRESHOLD = 40;
+    // Lock duration matching mobile 3D room rotation transition (ms)
+    const SWIPE_LOCK_DURATION = 600;
+
+    // Rotate exactly one wall on mobile and keep scroll track synchronized
+    function navigateWallMobile(targetWall) {
+        if (targetWall < 1 || targetWall > TOTAL_WALLS) return;
+        if (isGestureLocked || targetWall === currentWallIndex) return;
+
+        isGestureLocked = true;
+        setWall(targetWall);
+
+        // Keep page scroll position synchronized with the active wall
+        if (track) {
+            const maxScroll = Math.max(1, track.offsetHeight - window.innerHeight);
+            let targetY = 0;
+            if (targetWall === 1) targetY = 0;
+            else if (targetWall === 2) targetY = maxScroll * 0.35;
+            else if (targetWall === 3) targetY = maxScroll * 0.62;
+            else if (targetWall === 4) targetY = maxScroll * 0.88;
+
+            window.scrollTo(0, targetY);
+        }
+
+        setTimeout(() => {
+            isGestureLocked = false;
+        }, SWIPE_LOCK_DURATION);
+    }
 
     window.addEventListener("touchstart", (e) => {
         if (!isDesktop3D() || e.touches.length !== 1) return;
-        // Do not intercept swipe when interacting with form controls or links
-        if (e.target && e.target.closest("input, select, textarea, button, a")) return;
+
+        // Never intercept touch on navigation drawers, dock, or headers
+        if (e.target && e.target.closest("#mobile-bottom-nav, #mobile-side-menu, #mobile-menu-backdrop, #cosmic-nav-wheel, nav")) {
+            isTrackingTouch = false;
+            return;
+        }
+
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
+        touchCurrentX = touchStartX;
+        touchCurrentY = touchStartY;
+        isTrackingTouch = true;
+
+        // Check if touch started on an editable form control
+        touchInitiatedOnForm = !!(e.target && e.target.closest("input, select, textarea"));
     }, { passive: true });
 
-    window.addEventListener("touchend", (e) => {
-        if (!isDesktop3D() || isGestureLocked || !track) return;
-        if (e.target && e.target.closest("input, select, textarea, button, a")) return;
+    window.addEventListener("touchmove", (e) => {
+        if (!isTrackingTouch || e.touches.length !== 1) return;
 
-        const touchEndX = e.changedTouches[0].clientX;
-        const touchEndY = e.changedTouches[0].clientY;
-        const diffX = touchStartX - touchEndX;
-        const diffY = touchStartY - touchEndY;
-        const maxScroll = Math.max(1, track.offsetHeight - window.innerHeight);
+        touchCurrentX = e.touches[0].clientX;
+        touchCurrentY = e.touches[0].clientY;
 
-        // If touching inside a scrollable panel, prioritize vertical scrolling of the card;
-        // only horizontal swipe turns the room. Outside the panel, both horizontal and vertical swipes turn the room.
-        const inPanel = e.target && e.target.closest(".wall-glass-panel");
-        const isHorizontalSwipe = Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY) * 1.1;
-        const isVerticalSwipe = !inPanel && Math.abs(diffY) > 40;
+        const diffX = touchStartX - touchCurrentX;
+        const diffY = touchStartY - touchCurrentY;
+        const absX = Math.abs(diffX);
+        const absY = Math.abs(diffY);
 
-        if (isHorizontalSwipe || isVerticalSwipe) {
-            if ((isHorizontalSwipe && diffX > 40) || (isVerticalSwipe && diffY > 40)) {
-                // Swipe forward -> Turn room right (1 -> 2 -> 3 -> 4 -> footer)
-                if (currentWallIndex === 1) {
-                    isGestureLocked = true;
-                    smoothScrollTo(maxScroll * 0.35, () => { isGestureLocked = false; });
-                } else if (currentWallIndex === 2) {
-                    isGestureLocked = true;
-                    smoothScrollTo(maxScroll * 0.62, () => { isGestureLocked = false; });
-                } else if (currentWallIndex === 3) {
-                    isGestureLocked = true;
-                    smoothScrollTo(maxScroll * 0.88, () => { isGestureLocked = false; });
-                } else if (currentWallIndex === 4) {
-                    isGestureLocked = true;
-                    smoothScrollTo(maxScroll + 180, () => { isGestureLocked = false; });
+        const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+        const maxScroll = track ? Math.max(1, track.offsetHeight - window.innerHeight) : 0;
+
+        // When inside the 3D room, prevent background document scrolling once an intentional swipe begins
+        if (scrollY < maxScroll && !touchInitiatedOnForm) {
+            const panel = e.target && e.target.closest(".wall-glass-panel");
+            const hasVerticalScroll = panel && (panel.scrollHeight > panel.clientHeight + 10);
+
+            if (hasVerticalScroll) {
+                // If primarily horizontal, cancel native scroll to turn the room cleanly
+                if (absX > absY && absX > 15) {
+                    if (e.cancelable) e.preventDefault();
+                } else if (absY > 15) {
+                    // If vertical, only prevent native scroll when panel is at boundary
+                    const atTop = panel.scrollTop <= 2;
+                    const atBottom = panel.scrollTop + panel.clientHeight >= panel.scrollHeight - 4;
+                    if ((diffY < 0 && atTop) || (diffY > 0 && atBottom)) {
+                        if (e.cancelable) e.preventDefault();
+                    }
                 }
-            } else if ((isHorizontalSwipe && diffX < -40) || (isVerticalSwipe && diffY < -40)) {
-                // Swipe backward -> Turn room left (4 -> 3 -> 2 -> 1)
-                if (currentWallIndex === 4) {
-                    isGestureLocked = true;
-                    smoothScrollTo(maxScroll * 0.62, () => { isGestureLocked = false; });
-                } else if (currentWallIndex === 3) {
-                    isGestureLocked = true;
-                    smoothScrollTo(maxScroll * 0.35, () => { isGestureLocked = false; });
-                } else if (currentWallIndex === 2) {
-                    isGestureLocked = true;
-                    smoothScrollTo(0, () => { isGestureLocked = false; });
+            } else {
+                // Panel does not scroll: lock document scroll so 3D room swipe is immediate and solid
+                if ((absX > 10 || absY > 10) && e.cancelable) {
+                    e.preventDefault();
                 }
             }
         }
+    }, { passive: false });
+
+    window.addEventListener("touchend", (e) => {
+        if (!isTrackingTouch) return;
+        isTrackingTouch = false;
+
+        // Ignore if currently locked during transition animation
+        if (isGestureLocked) return;
+
+        const diffX = touchStartX - touchCurrentX;
+        const diffY = touchStartY - touchCurrentY;
+        const absX = Math.abs(diffX);
+        const absY = Math.abs(diffY);
+
+        // If touch was on form input and barely moved, let the native focus/click happen
+        if (touchInitiatedOnForm && absX < 15 && absY < 15) {
+            return;
+        }
+
+        // Single clear threshold check
+        const maxDistance = Math.max(absX, absY);
+        if (maxDistance < SWIPE_THRESHOLD) {
+            return;
+        }
+
+        const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+        const maxScroll = track ? Math.max(1, track.offsetHeight - window.innerHeight) : 0;
+
+        let isForward = false;
+        let isBackward = false;
+
+        if (absX >= absY) {
+            // Horizontal swipe: Left = Forward, Right = Backward
+            if (diffX > 0) isForward = true;
+            else if (diffX < 0) isBackward = true;
+        } else {
+            // Vertical swipe: Up = Forward, Down = Backward
+            const panel = e.target && e.target.closest(".wall-glass-panel");
+            const hasVerticalScroll = panel && (panel.scrollHeight > panel.clientHeight + 10);
+
+            if (hasVerticalScroll) {
+                const atTop = panel.scrollTop <= 4;
+                const atBottom = panel.scrollTop + panel.clientHeight >= panel.scrollHeight - 6;
+                if (diffY > 0 && atBottom) isForward = true;
+                else if (diffY < 0 && atTop) isBackward = true;
+            } else {
+                if (diffY > 0) isForward = true;
+                else if (diffY < 0) isBackward = true;
+            }
+        }
+
+        if (isForward) {
+            // One clean swipe moves exactly one wall forward
+            if (currentWallIndex < TOTAL_WALLS) {
+                navigateWallMobile(currentWallIndex + 1);
+            } else if (currentWallIndex === TOTAL_WALLS && scrollY < maxScroll) {
+                // On Wall 4, advance to footer
+                if (track) {
+                    isGestureLocked = true;
+                    smoothScrollTo(maxScroll + 180, () => {
+                        isGestureLocked = false;
+                    });
+                }
+            }
+        } else if (isBackward) {
+            // One clean swipe moves exactly one wall backward
+            if (scrollY >= maxScroll) {
+                // In footer, swipe backward returns to Wall 4
+                navigateWallMobile(TOTAL_WALLS);
+            } else if (currentWallIndex > 1) {
+                navigateWallMobile(currentWallIndex - 1);
+            }
+        }
     }, { passive: true });
-
-
 
     /* ==========================================================================
        7. WALL 4 FORM: INTERACTIVE INPUTS, DYNAMIC HOSTEL SELECTION & VALIDATION
