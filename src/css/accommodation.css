@@ -1026,6 +1026,11 @@ body.subpage-body.accom-page-body .subpage-main.accom-main-container,
 
     .room-viewport {
         perspective: 700px;
+        touch-action: manipulation;
+    }
+
+    .room-chamber {
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .wall-glass-panel {
@@ -1077,6 +1082,11 @@ body.subpage-body.accom-page-body .subpage-main.accom-main-container,
     .room-viewport {
         perspective: 520px;
         overflow-x: hidden !important;
+        touch-action: manipulation;
+    }
+
+    .room-chamber {
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     /* Ambient and ceiling/floor adjustments */
@@ -1384,6 +1394,11 @@ body.subpage-body.accom-page-body .subpage-main.accom-main-container,
 
     .room-viewport {
         perspective: 460px;
+        touch-action: manipulation;
+    }
+
+    .room-chamber {
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .wall-main-title {
