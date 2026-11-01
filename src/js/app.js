@@ -712,13 +712,111 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* =========================================================
-       CINEMATIC SLOW SMOOTH SCROLL ENGINE
+       CINEMATIC TIME-BOUNDED SCROLL ENGINE
+       Regardless of scroll volume or speed (continuous wheel ticks,
+       trackpad flings, rapid swipes), further scroll inputs are
+       blocked until the time required for scrolling is completed.
+       Original visual thresholds, entrance triggers, and parallax rules
+       remain 100% intact.
        ========================================================= */
+    const TIME_BOUNDED_SCROLL_DURATION = 1650; // Required glide duration (ms)
+    let isScrollLocked = false;
     let isSlowScrolling = false;
 
-    function slowSmoothScrollTo(targetElementOrY, duration = 2800, onComplete) {
+    function getScrollCheckpoints() {
+        const currentScroll = getScrollPosition();
+        const viewportH = window.innerHeight;
+        const maxScroll = Math.max(0, document.documentElement.scrollHeight - viewportH);
+        const targets = [0];
+
+        // 1. About Lead centered ("GET TO KNOW ABOUT OUR FEST")
+        const aboutLead = document.getElementById('about-lead-container');
+        if (aboutLead) {
+            const rect = aboutLead.getBoundingClientRect();
+            const elemCenter = currentScroll + rect.top + rect.height / 2;
+            const targetY = Math.max(0, Math.min(maxScroll, elemCenter - viewportH * 0.5));
+            targets.push(Math.round(targetY));
+        }
+
+        // 2. About Cards centered (cards meet in middle & button visible)
+        const aboutGrid = document.getElementById('about-intro-grid');
+        if (aboutGrid) {
+            const rect = aboutGrid.getBoundingClientRect();
+            const elemCenter = currentScroll + rect.top + rect.height / 2;
+            const targetY = Math.max(0, Math.min(maxScroll, elemCenter - viewportH * 0.5));
+            targets.push(Math.round(targetY));
+        }
+
+        // 3. Calendar Page (Heading ~10% below center & 3D Cube revealed in viewport)
+        const calLayout = document.getElementById('calendar-layout-container');
+        const calHeading = document.getElementById('calendar-heading-container');
+        const calPage = document.getElementById('calendar-page');
+        if (calLayout) {
+            const rect = calLayout.getBoundingClientRect();
+            const elemCenter = currentScroll + rect.top + rect.height / 2;
+            const targetY = Math.max(0, Math.min(maxScroll, elemCenter - viewportH * 0.5));
+            targets.push(Math.round(targetY));
+        } else if (calHeading) {
+            const rect = calHeading.getBoundingClientRect();
+            const elemCenter = currentScroll + rect.top + rect.height / 2;
+            const targetY = Math.max(0, Math.min(maxScroll, elemCenter - viewportH * 0.45));
+            targets.push(Math.round(targetY));
+        } else if (calPage) {
+            const rect = calPage.getBoundingClientRect();
+            targets.push(Math.round(Math.max(0, Math.min(maxScroll, currentScroll + rect.top))));
+        }
+
+        // 4. Gallery Page (Heading centered, columns pop up from bottom & sides)
+        const galleryWrapper = document.getElementById('gallery-columns-wrapper');
+        const galleryHeading = document.querySelector('#gallery-page .gallery-page-heading') || document.querySelector('.gallery-page-heading');
+        const galleryPage = document.getElementById('gallery-page');
+        if (galleryWrapper) {
+            const rect = galleryWrapper.getBoundingClientRect();
+            const elemCenter = currentScroll + rect.top + rect.height / 2;
+            const targetY = Math.max(0, Math.min(maxScroll, elemCenter - viewportH * 0.52));
+            targets.push(Math.round(targetY));
+        } else if (galleryHeading) {
+            const rect = galleryHeading.getBoundingClientRect();
+            const elemCenter = currentScroll + rect.top + rect.height / 2;
+            const targetY = Math.max(0, Math.min(maxScroll, elemCenter - viewportH * 0.45));
+            targets.push(Math.round(targetY));
+        } else if (galleryPage) {
+            const rect = galleryPage.getBoundingClientRect();
+            targets.push(Math.round(Math.max(0, Math.min(maxScroll, currentScroll + rect.top))));
+        }
+
+        // 5. Team Page / Register hero
+        const teamPage = document.getElementById('team-page');
+        if (teamPage) {
+            const rect = teamPage.getBoundingClientRect();
+            const targetY = Math.max(0, Math.min(maxScroll, currentScroll + rect.top));
+            targets.push(Math.round(targetY));
+        }
+
+        // Final Stop: Page Bottom
+        targets.push(maxScroll);
+
+        // Sort ascending and filter out stops that are too close (< 70px)
+        targets.sort((a, b) => a - b);
+        const unique = [];
+        for (let i = 0; i < targets.length; i++) {
+            const val = targets[i];
+            if (unique.length === 0) {
+                unique.push(val);
+            } else {
+                const prev = unique[unique.length - 1];
+                if (val - prev >= 70) {
+                    unique.push(val);
+                }
+            }
+        }
+        return unique;
+    }
+
+    function timeBoundedScrollTo(targetElementOrY, duration = TIME_BOUNDED_SCROLL_DURATION, onComplete) {
         let targetY = 0;
         const currentScroll = getScrollPosition();
+        const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
 
         if (typeof targetElementOrY === 'number') {
             targetY = targetElementOrY;
@@ -729,28 +827,37 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        targetY = Math.max(0, Math.min(maxScroll, targetY));
+
         const distance = targetY - currentScroll;
         if (Math.abs(distance) < 2) {
+            window.scrollTo(0, targetY);
+            if (mainScrollContainer && mainScrollContainer.scrollTop !== undefined) {
+                mainScrollContainer.scrollTop = targetY;
+            }
+            handleParallaxAndNav();
             if (typeof onComplete === 'function') onComplete();
             return;
         }
 
+        isScrollLocked = true;
         isSlowScrolling = true;
-        document.body.classList.add('multiverse-slow-glide');
+        document.body.classList.add('multiverse-slow-glide', 'time-bounded-scrolling');
 
         const startTime = performance.now();
+        const startY = currentScroll;
 
-        // Luxurious quintic ease-in-out curve: slow majestic start, fluid glide, soft buttery stop
-        function easeInOutQuint(t) {
-            return t < 0.5 ? 16 * t * t * t * t * t : 1 - Math.pow(-2 * t + 2, 5) / 2;
+        // Luxurious quartic ease-in-out curve: silky acceleration, fluid glide, soft deceleration
+        function easeInOutQuart(t) {
+            return t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2;
         }
 
         function step(now) {
             const elapsed = now - startTime;
             const progress = Math.min(elapsed / duration, 1.0);
-            const eased = easeInOutQuint(progress);
+            const eased = easeInOutQuart(progress);
 
-            const nextY = currentScroll + distance * eased;
+            const nextY = startY + distance * eased;
 
             window.scrollTo(0, nextY);
             if (mainScrollContainer && mainScrollContainer.scrollTop !== undefined) {
@@ -767,41 +874,79 @@ document.addEventListener('DOMContentLoaded', () => {
                     mainScrollContainer.scrollTop = targetY;
                 }
                 handleParallaxAndNav();
+                document.body.classList.remove('multiverse-slow-glide', 'time-bounded-scrolling');
                 isSlowScrolling = false;
-                document.body.classList.remove('multiverse-slow-glide');
                 if (typeof onComplete === 'function') onComplete();
+
+                // Grace cooldown to swallow residual trackpad / wheel inertial ticks
+                setTimeout(() => {
+                    isScrollLocked = false;
+                }, 120);
             }
         }
 
         requestAnimationFrame(step);
     }
 
+    function handleScrollInput(direction) {
+        if (isScrollLocked) return;
+
+        const currentScroll = getScrollPosition();
+        const checkpoints = getScrollCheckpoints();
+        const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+
+        let targetY = currentScroll;
+        const minStep = 45;
+
+        if (direction > 0) {
+            // Forward / Down
+            const next = checkpoints.find(cp => cp > currentScroll + minStep);
+            targetY = next !== undefined ? next : maxScroll;
+        } else {
+            // Backward / Up
+            const prevList = checkpoints.filter(cp => cp < currentScroll - minStep);
+            targetY = prevList.length > 0 ? prevList[prevList.length - 1] : 0;
+        }
+
+        if (Math.abs(targetY - currentScroll) > 5) {
+            timeBoundedScrollTo(targetY, TIME_BOUNDED_SCROLL_DURATION);
+        }
+    }
+
+    function slowSmoothScrollTo(targetElementOrY, duration = TIME_BOUNDED_SCROLL_DURATION, onComplete) {
+        timeBoundedScrollTo(targetElementOrY, duration, onComplete);
+    }
+
     function smoothScrollToAbout() {
-        const aboutLead = document.getElementById('about-lead-container');
-        const aboutPage = document.getElementById('about-page');
-        if (aboutLead) {
-            const currentScroll = getScrollPosition();
-            const rect = aboutLead.getBoundingClientRect();
-            const elemCenter = currentScroll + rect.top + rect.height / 2;
-            const targetY = Math.max(0, elemCenter - window.innerHeight * 0.5);
-            slowSmoothScrollTo(targetY, 2600);
-        } else if (aboutPage) {
-            slowSmoothScrollTo(aboutPage, 2200);
+        const currentScroll = getScrollPosition();
+        const checkpoints = getScrollCheckpoints();
+        const next = checkpoints.find(cp => cp > currentScroll + 40);
+        if (next !== undefined) {
+            timeBoundedScrollTo(next, TIME_BOUNDED_SCROLL_DURATION);
+        } else {
+            const aboutLead = document.getElementById('about-lead-container');
+            if (aboutLead) {
+                const rect = aboutLead.getBoundingClientRect();
+                timeBoundedScrollTo(currentScroll + rect.top + rect.height / 2 - window.innerHeight * 0.5, TIME_BOUNDED_SCROLL_DURATION);
+            }
         }
     }
 
     function smoothScrollToCalendar() {
+        const calLayout = document.getElementById('calendar-layout-container');
         const calHeading = document.getElementById('calendar-heading-container');
-        const calPage = document.getElementById('calendar-page');
-        if (calHeading) {
-            const currentScroll = getScrollPosition();
+        const currentScroll = getScrollPosition();
+        const viewportH = window.innerHeight;
+        const maxScroll = Math.max(0, document.documentElement.scrollHeight - viewportH);
+        let targetY = 0;
+        if (calLayout) {
+            const rect = calLayout.getBoundingClientRect();
+            targetY = Math.max(0, Math.min(maxScroll, currentScroll + rect.top + rect.height / 2 - viewportH * 0.5));
+        } else if (calHeading) {
             const rect = calHeading.getBoundingClientRect();
-            const elemCenter = currentScroll + rect.top + rect.height / 2;
-            const targetY = Math.max(0, elemCenter - window.innerHeight * 0.5);
-            slowSmoothScrollTo(targetY, 2600);
-        } else if (calPage) {
-            slowSmoothScrollTo(calPage, 2200);
+            targetY = Math.max(0, Math.min(maxScroll, currentScroll + rect.top + rect.height / 2 - viewportH * 0.45));
         }
+        timeBoundedScrollTo(targetY, TIME_BOUNDED_SCROLL_DURATION);
     }
 
     if (portalEntryTrigger) {
@@ -832,16 +977,51 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Scroll wheel on splash screen triggers portal video entry
+    // Global Scroll Wheel Listener: Splash portal entry + Time-bounded scroll lock
     window.addEventListener('wheel', (e) => {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+        if (e.ctrlKey) return;
+
+        // Skip if modal or lightbox is open
+        const modal = document.getElementById('event-modal');
+        const lightbox = document.getElementById('gallery-lightbox');
+        if ((modal && !modal.classList.contains('hidden')) || (lightbox && !lightbox.classList.contains('hidden'))) return;
+
+        // Skip if inside an internal scrollable element
+        if (e.target.closest('.panel-events-list, .ticker-viewport, .modal-container, .lightbox-content')) return;
+
+        const scrollTop = getScrollPosition();
+
+        // Splash screen portal video entry on initial scroll down
         if (scrollTop < 40 && e.deltaY > 20 && !portalPlaybackActive && !document.body.classList.contains('portal-entered')) {
             e.preventDefault();
             launchPortalVideo();
+            return;
         }
+
+        if (portalPlaybackActive) {
+            e.preventDefault();
+            return;
+        }
+
+        // TIME-BOUNDED SCROLL LOCK:
+        // Regardless of scroll volume, the page will NOT advance until the time required scrolling it is completed!
+        if (isScrollLocked) {
+            e.preventDefault();
+            return;
+        }
+
+        // Filter out tiny noise / trackpad drift
+        if (Math.abs(e.deltaY) < 12) {
+            e.preventDefault();
+            return;
+        }
+
+        e.preventDefault();
+        const direction = e.deltaY > 0 ? 1 : -1;
+        handleScrollInput(direction);
     }, { passive: false });
 
-    // Touch swipe down on splash screen triggers portal video entry
+    // Touch swipe handling with time-bounded scroll locking
     let heroTouchStartY = 0;
     window.addEventListener('touchstart', (e) => {
         if (e.touches && e.touches[0]) {
@@ -850,13 +1030,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     window.addEventListener('touchmove', (e) => {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+        if (isScrollLocked) {
+            e.preventDefault();
+            return;
+        }
+        const scrollTop = getScrollPosition();
         if (scrollTop < 40 && !portalPlaybackActive && !document.body.classList.contains('portal-entered')) {
             if (e.touches && e.touches[0]) {
                 const diff = heroTouchStartY - e.touches[0].clientY;
                 if (diff > 40) { // Swiped to enter fest
                     launchPortalVideo();
                 }
+            }
+        }
+    }, { passive: false });
+
+    window.addEventListener('touchend', (e) => {
+        if (isScrollLocked) return;
+        if (e.changedTouches && e.changedTouches[0]) {
+            const diff = heroTouchStartY - e.changedTouches[0].clientY;
+            if (Math.abs(diff) > 45) {
+                const scrollTop = getScrollPosition();
+                if (scrollTop < 40 && diff > 40 && !portalPlaybackActive && !document.body.classList.contains('portal-entered')) {
+                    launchPortalVideo();
+                    return;
+                }
+                handleScrollInput(diff > 0 ? 1 : -1);
             }
         }
     }, { passive: true });
@@ -1061,7 +1260,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Distance from grid center to the middle of viewport (targetMid)
                 const distanceToMid = gridCenter - targetMid;
-                const travelSpan = Math.max(180, Math.min(viewportH * 0.42, 320));
+                const travelSpan = Math.max(380, Math.min(viewportH * 0.65, 540));
 
                 if (distanceToMid > travelSpan) {
                     // Cards are still below their entrance threshold: parked at sides, hidden
@@ -1091,7 +1290,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     // As gridCenter moves towards targetMid, cards glide in from sides.
                     // When gridCenter == targetMid (cards are in middle of viewport), pCards = 1.0 -> they meet in the middle!
                     const pCards = Math.max(0, Math.min(1.0, 1 - (distanceToMid / travelSpan)));
-                    const easedCards = pCards < 0.5 ? 2 * pCards * pCards : 1 - Math.pow(-2 * pCards + 2, 2) / 2;
+                    const easedCards = pCards < 0.5 ? 4 * pCards * pCards * pCards : 1 - Math.pow(-2 * pCards + 2, 3) / 2;
 
                     const cardOpacity = (0.05 + easedCards * 0.95).toFixed(3);
                     const curOffset = ((1 - easedCards) * sideOffset).toFixed(1);
@@ -1330,15 +1529,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const currentPath = window.location.pathname;
             if (currentPath.endsWith('index.html') || currentPath.endsWith('/') || currentPath === '') {
                 e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                if (mainScrollContainer) {
-                    mainScrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
-                }
+                timeBoundedScrollTo(0, TIME_BOUNDED_SCROLL_DURATION);
             }
         });
     });
 
-    // Keyboard navigation (ArrowDown, ArrowUp, PageDown, PageUp, Home, End)
+    // Keyboard navigation with time-bounded scroll locking
     window.addEventListener('keydown', (e) => {
         const modal = document.getElementById('event-modal');
         const lightbox = document.getElementById('gallery-lightbox');
@@ -1350,22 +1546,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (e.key === 'ArrowDown' || e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey)) {
             e.preventDefault();
-            syncCurrentIndexFromScroll();
-            smoothScrollToSection(currentSnapIndex + 1);
+            if (!isScrollLocked) handleScrollInput(1);
         } else if (e.key === 'ArrowUp' || e.key === 'PageUp' || (e.key === ' ' && e.shiftKey)) {
             e.preventDefault();
-            syncCurrentIndexFromScroll();
-            smoothScrollToSection(currentSnapIndex - 1);
+            if (!isScrollLocked) handleScrollInput(-1);
         } else if (e.key === 'Home') {
             e.preventDefault();
-            smoothScrollToSection(0);
+            if (!isScrollLocked) timeBoundedScrollTo(0, TIME_BOUNDED_SCROLL_DURATION);
         } else if (e.key === 'End') {
             if (!portalHasEntered) return;
             e.preventDefault();
-            smoothScrollToSection(snapSections.length - 1);
+            const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+            if (!isScrollLocked) timeBoundedScrollTo(maxScroll, TIME_BOUNDED_SCROLL_DURATION);
         }
     });
-
 
     const observerOptions = {
         root: mainScrollContainer,
@@ -2248,70 +2442,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     tickOrbit();
-
-    /* =========================================================
-       CINEMATIC SMOOTH MOUSE WHEEL DAMPENER
-       Prolongs discrete scroll ticks into silky, luxurious gliding motion
-       ========================================================= */
-    function initCinematicSmoothWheel() {
-        let isWheelDampening = false;
-        let wheelTargetY = window.pageYOffset || document.documentElement.scrollTop;
-        let wheelCurrentY = wheelTargetY;
-
-        window.addEventListener('wheel', (e) => {
-            // Skip ctrl-zoom (pinch to zoom)
-            if (e.ctrlKey) return;
-
-            // Skip if modal or lightbox is open
-            const modal = document.getElementById('event-modal');
-            const lightbox = document.getElementById('gallery-lightbox');
-            if ((modal && !modal.classList.contains('hidden')) || (lightbox && !lightbox.classList.contains('hidden'))) return;
-
-            // Skip if inside an internal scrollable element
-            if (e.target.closest('.ticker-viewport, .modal-container, .lightbox-content')) return;
-
-            // Trackpads usually emit deltaMode === 0 with fine float deltas - let browser handle natively
-            const isPhysicalWheel = (e.deltaMode !== 0) || Math.abs(e.deltaY) >= 35 || (Number.isInteger(e.deltaY) && Math.abs(e.deltaY) >= 15);
-            if (!isPhysicalWheel) return;
-
-            e.preventDefault();
-            const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-
-            if (!isWheelDampening) {
-                wheelCurrentY = window.pageYOffset || document.documentElement.scrollTop;
-                wheelTargetY = wheelCurrentY;
-            }
-
-            // Prolong scroll distance so each wheel click glides smoothly
-            const delta = e.deltaMode === 1 ? e.deltaY * 34 : e.deltaY;
-            wheelTargetY = Math.max(0, Math.min(maxScroll, wheelTargetY + delta * 1.05));
-
-            if (!isWheelDampening) {
-                isWheelDampening = true;
-
-                function tickWheel() {
-                    const diff = wheelTargetY - wheelCurrentY;
-                    if (Math.abs(diff) < 0.5) {
-                        wheelCurrentY = wheelTargetY;
-                        window.scrollTo(0, wheelTargetY);
-                        handleParallaxAndNav();
-                        isWheelDampening = false;
-                        return;
-                    }
-
-                    // Gentle lerp factor for smooth, prolonged deceleration
-                    wheelCurrentY += diff * 0.082;
-                    window.scrollTo(0, wheelCurrentY);
-                    handleParallaxAndNav();
-                    requestAnimationFrame(tickWheel);
-                }
-                requestAnimationFrame(tickWheel);
-            }
-        }, { passive: false });
-    }
-
-    initCinematicSmoothWheel();
-
 
     /* =========================================================
        ABOUT ELEMENTS INTERACTIVE 3D HOVER & MOVEMENT ENGINE
