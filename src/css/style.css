@@ -683,13 +683,21 @@ section {
     transform: none !important;
 }
 
-html.portal-entered-fast #loader-screen,
-body.portal-entered #loader-screen {
+html.portal-entered-fast #loader-screen:not(.active-screen),
+body.portal-entered #loader-screen:not(.active-screen) {
     display: none !important;
     opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none !important;
     z-index: -9999 !important;
+}
+
+#loader-screen.active-screen {
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    z-index: 99999 !important;
 }
 
 .cosmic-nav-wheel {
@@ -753,6 +761,67 @@ body.portal-entered #loader-screen {
 
 .portal-flash-overlay.active-flash {
     opacity: 1;
+}
+
+
+/* Portal Video Controls & Skip Button */
+.portal-controls-row {
+    position: fixed;
+    top: 24px;
+    right: 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    z-index: 100000;
+    pointer-events: auto;
+}
+
+.portal-audio-btn,
+.portal-skip-btn {
+    pointer-events: auto;
+    cursor: pointer;
+    background: rgba(14, 8, 28, 0.75);
+    border: 1px solid rgba(0, 210, 255, 0.4);
+    color: #fff;
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    padding: 8px 18px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 210, 255, 0.2);
+}
+
+.portal-audio-btn:hover,
+.portal-skip-btn:hover {
+    background: rgba(0, 210, 255, 0.2);
+    border-color: #00d2ff;
+    box-shadow: 0 0 25px rgba(0, 210, 255, 0.5);
+    transform: scale(1.05);
+}
+
+.portal-loader-indicator {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 100000;
+    pointer-events: none;
+}
+
+.portal-loader-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #ff007f, #00f2fe, #9d4edd);
+    box-shadow: 0 0 10px #00f2fe;
+    transition: width 0.1s linear;
 }
 
 .portal-flash-overlay.fade-out {
@@ -17295,3 +17364,73 @@ body.side-menu-locked {
 }
 
 
+
+
+/* ==========================================================================
+   ABOUT ELEMENTS HOVER MOVEMENT & 3D INTERACTIVITY
+   ========================================================================== */
+.about-intro-card {
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.3s ease,
+                border-color 0.3s ease,
+                background 0.3s ease;
+    will-change: transform, box-shadow;
+}
+
+.about-intro-card.is-revealed:hover {
+    transform: translateY(-10px) scale(1.025);
+}
+
+.about-intro-card.pravaah-sub-card.is-revealed:hover {
+    border-color: rgba(0, 242, 254, 0.65) !important;
+    background: rgba(14, 14, 38, 0.75) !important;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75), 0 0 35px rgba(0, 210, 255, 0.35) !important;
+}
+
+.about-intro-card.pravaah-sub-card:hover .sub-title {
+    color: #ffffff !important;
+    text-shadow: 0 0 12px rgba(0, 242, 254, 0.6);
+}
+
+.about-intro-card.theme-highlight-card.is-revealed:hover {
+    border-color: rgba(255, 208, 67, 0.75) !important;
+    background: linear-gradient(135deg, rgba(32, 18, 62, 0.88) 0%, rgba(16, 16, 42, 0.94) 100%) !important;
+    box-shadow: 0 22px 55px rgba(0, 0, 0, 0.8), 0 0 45px rgba(255, 208, 67, 0.32) !important;
+}
+
+.about-intro-card.theme-highlight-card:hover .kairos-gold-title {
+    text-shadow: 0 0 25px rgba(255, 208, 67, 0.9), 0 0 50px rgba(207, 58, 214, 0.7);
+}
+
+/* About Lead Line Hover Float */
+.about-lead-container {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s ease;
+}
+
+.about-lead-container.is-centered:hover {
+    transform: translateY(-5px) scale(1.018) !important;
+}
+
+.about-lead-container.is-centered:hover .about-page-heading {
+    text-shadow: 0 0 20px rgba(0, 242, 254, 0.9), 0 0 45px rgba(207, 58, 214, 0.7);
+}
+
+/* Calendar Glide Guide Hover Float */
+.calendar-glide-guide {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
+}
+
+.calendar-glide-guide.is-revealed:hover {
+    transform: translateY(-8px) scale(1.04) !important;
+    border-color: #00d2ff !important;
+    box-shadow: 0 16px 40px rgba(0, 210, 255, 0.4), 0 0 30px rgba(230, 38, 120, 0.35) !important;
+}
+
+/* Trashed Calendar Sidebar Tickers */
+.calendar-sidebar-ticker {
+    display: none !important;
+}

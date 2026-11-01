@@ -519,19 +519,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const portalLoaderBar = document.querySelector('.portal-loader-bar');
 
     let portalPlaybackActive = false;
-    let portalHasEntered = true; // Unlocked by default for continuous, smooth scrolling
+    let portalHasEntered = false; // Starts false so entering website plays the portal video
     let flashTriggered = false;
 
-    // Check if user specifically requested video replay via query param
-    if (new URLSearchParams(window.location.search).get('firsttime') === 'true') {
-        portalHasEntered = false;
-        try { sessionStorage.removeItem('portalEntered'); } catch (e) {}
-    } else {
-        portalHasEntered = true;
-        try { sessionStorage.setItem('portalEntered', 'true'); } catch (e) {}
-    }
-
-    // Configure video element for reliable playback if replayed
+    // Configure video element for reliable compliant autoplay & fast playback
     if (portalVideo) {
         portalVideo.muted = true;
         portalVideo.defaultMuted = true;
@@ -542,34 +533,21 @@ document.addEventListener('DOMContentLoaded', () => {
         portalVideo.removeAttribute('controls');
         portalVideo.setAttribute('playsinline', '');
         portalVideo.setAttribute('webkit-playsinline', '');
+        portalVideo.preload = 'auto';
+        portalVideo.load();
     }
 
-    // Multiverse is unlocked by default for smooth scrolling
-    document.body.classList.add('portal-entered');
-    document.documentElement.classList.add('portal-entered-fast');
-    if (mainScrollContainer) {
-        mainScrollContainer.classList.add('scroll-enabled');
-    }
-    const navWheel = document.getElementById('cosmic-nav-wheel');
-    if (navWheel) {
-        navWheel.classList.remove('hidden-nav');
-        setTimeout(updateNavPill, 100);
-    }
+    // Generate calendar cube in advance so it is ready
     setTimeout(() => {
         generateCalendarCube();
     }, 50);
 
     function launchPortalVideo() {
-        if (portalHasEntered || portalPlaybackActive) {
-            if (portalHasEntered) {
-                smoothScrollToAbout();
-            }
-            return;
-        }
-
+        if (portalPlaybackActive) return;
         portalPlaybackActive = true;
         flashTriggered = false;
 
+        // Reveal full-screen portal warp video stage
         if (loaderScreen) {
             loaderScreen.classList.remove('hidden');
             loaderScreen.classList.add('active-screen');
@@ -582,7 +560,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (portalVideo) {
             portalVideo.currentTime = 0;
             portalVideo.playbackRate = 1.0;
-            portalVideo.muted = true; // muted for 100% compliant autoplay
+            portalVideo.muted = true; // muted allows 100% compliant autoplay in all browsers
 
             const playPromise = portalVideo.play();
             if (playPromise !== undefined) {
@@ -631,12 +609,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 enterUniverse();
             };
 
-            // Safety fallback timer if video stalls or hangs (3.8s max)
+            // Safety fallback timer if video stalls (4s max)
             setTimeout(() => {
                 if (portalPlaybackActive && !portalHasEntered) {
                     enterUniverse();
                 }
-            }, 3800);
+            }, 4000);
         } else {
             enterUniverse();
         }
@@ -829,20 +807,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (portalEntryTrigger) {
         portalEntryTrigger.addEventListener('click', (e) => {
             e.preventDefault();
-            if (!portalHasEntered) {
-                launchPortalVideo();
-            } else {
-                smoothScrollToAbout();
-            }
+            launchPortalVideo();
         });
         portalEntryTrigger.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                if (!portalHasEntered) {
-                    launchPortalVideo();
-                } else {
-                    smoothScrollToAbout();
-                }
+                launchPortalVideo();
             }
         });
     }
@@ -850,22 +820,46 @@ document.addEventListener('DOMContentLoaded', () => {
     if (enterBtn) {
         enterBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            if (!portalHasEntered) {
-                launchPortalVideo();
-            } else {
-                smoothScrollToAbout();
-            }
+            launchPortalVideo();
         });
     }
 
     const septagonPortalBox = document.querySelector('.big-septagon-portal-container');
     if (septagonPortalBox) {
-        septagonPortalBox.setAttribute('title', 'Replay Multiverse Portal Warp');
+        septagonPortalBox.setAttribute('title', 'Enter Multiverse Portal');
         septagonPortalBox.addEventListener('click', () => {
-            portalHasEntered = false;
             launchPortalVideo();
         });
     }
+
+    // Scroll wheel on splash screen triggers portal video entry
+    window.addEventListener('wheel', (e) => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+        if (scrollTop < 40 && e.deltaY > 20 && !portalPlaybackActive && !document.body.classList.contains('portal-entered')) {
+            e.preventDefault();
+            launchPortalVideo();
+        }
+    }, { passive: false });
+
+    // Touch swipe down on splash screen triggers portal video entry
+    let heroTouchStartY = 0;
+    window.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches[0]) {
+            heroTouchStartY = e.touches[0].clientY;
+        }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+        if (scrollTop < 40 && !portalPlaybackActive && !document.body.classList.contains('portal-entered')) {
+            if (e.touches && e.touches[0]) {
+                const diff = heroTouchStartY - e.touches[0].clientY;
+                if (diff > 40) { // Swiped to enter fest
+                    launchPortalVideo();
+                }
+            }
+        }
+    }, { passive: true });
 
     // Slow Smooth Glide Trigger to Calendar
     const guideToCalendarBtn = document.getElementById('guide-to-calendar-btn');
@@ -1055,9 +1049,11 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 // Sentence has reached the center of the viewport -> FULL OPACITY
                 aboutLead.style.opacity = '1';
-                aboutLead.style.transform = 'translateY(0) scale(1)';
                 aboutLead.style.filter = 'blur(0px)';
                 aboutLead.classList.add('is-centered');
+                if (!aboutLead.matches(':hover')) {
+                    aboutLead.style.transform = '';
+                }
 
                 // Phase 2: The elements (cards) meet at the middle WHEN THEY ARE IN THE MIDDLE OF THE VIEWPORT
                 const gridRect = aboutGrid ? aboutGrid.getBoundingClientRect() : null;
@@ -1106,19 +1102,33 @@ document.addEventListener('DOMContentLoaded', () => {
                         aboutCardPravaah.style.visibility = 'visible';
                         aboutCardPravaah.style.pointerEvents = 'auto';
                         aboutCardPravaah.style.opacity = cardOpacity;
-                        aboutCardPravaah.style.transform = `translateX(-${curOffset}px) scale(${curScale})`;
                         aboutCardPravaah.style.filter = `blur(${curBlur}px)`;
-                        if (pCards >= 0.95) aboutCardPravaah.classList.add('is-revealed');
-                        else aboutCardPravaah.classList.remove('is-revealed');
+                        if (pCards >= 0.95) {
+                            aboutCardPravaah.classList.add('is-revealed');
+                            // Free inline transform when revealed so hover movement and 3D tilt work dynamically
+                            if (!aboutCardPravaah.matches(':hover') && !aboutCardPravaah.classList.contains('card-hovered')) {
+                                aboutCardPravaah.style.transform = '';
+                            }
+                        } else {
+                            aboutCardPravaah.classList.remove('is-revealed');
+                            aboutCardPravaah.style.transform = `translateX(-${curOffset}px) scale(${curScale})`;
+                        }
                     }
                     if (aboutCardTheme) {
                         aboutCardTheme.style.visibility = 'visible';
                         aboutCardTheme.style.pointerEvents = 'auto';
                         aboutCardTheme.style.opacity = cardOpacity;
-                        aboutCardTheme.style.transform = `translateX(${curOffset}px) scale(${curScale})`;
                         aboutCardTheme.style.filter = `blur(${curBlur}px)`;
-                        if (pCards >= 0.95) aboutCardTheme.classList.add('is-revealed');
-                        else aboutCardTheme.classList.remove('is-revealed');
+                        if (pCards >= 0.95) {
+                            aboutCardTheme.classList.add('is-revealed');
+                            // Free inline transform when revealed so hover movement and 3D tilt work dynamically
+                            if (!aboutCardTheme.matches(':hover') && !aboutCardTheme.classList.contains('card-hovered')) {
+                                aboutCardTheme.style.transform = '';
+                            }
+                        } else {
+                            aboutCardTheme.classList.remove('is-revealed');
+                            aboutCardTheme.style.transform = `translateX(${curOffset}px) scale(${curScale})`;
+                        }
                     }
 
                     // Reveal Calendar Glide Button as the user scrolls past the middle
@@ -1129,10 +1139,16 @@ document.addEventListener('DOMContentLoaded', () => {
                             guideToCalendarBtn.style.visibility = 'visible';
                             guideToCalendarBtn.style.pointerEvents = 'auto';
                             guideToCalendarBtn.style.opacity = pGuide.toFixed(3);
-                            guideToCalendarBtn.style.transform = `translateY(${((1 - pGuide) * 18).toFixed(1)}px) scale(${(0.94 + pGuide * 0.06).toFixed(3)})`;
                             guideToCalendarBtn.style.filter = `blur(${((1 - pGuide) * 4).toFixed(1)}px)`;
-                            if (pGuide >= 0.85) guideToCalendarBtn.classList.add('is-revealed');
-                            else guideToCalendarBtn.classList.remove('is-revealed');
+                            if (pGuide >= 0.85) {
+                                guideToCalendarBtn.classList.add('is-revealed');
+                                if (!guideToCalendarBtn.matches(':hover')) {
+                                    guideToCalendarBtn.style.transform = '';
+                                }
+                            } else {
+                                guideToCalendarBtn.classList.remove('is-revealed');
+                                guideToCalendarBtn.style.transform = `translateY(${((1 - pGuide) * 18).toFixed(1)}px) scale(${(0.94 + pGuide * 0.06).toFixed(3)})`;
+                            }
                         }
                     } else if (guideToCalendarBtn) {
                         guideToCalendarBtn.style.opacity = '0';
@@ -1150,8 +1166,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Elements (3D cube & side tickers) pop up when calendar is about 10% below center of viewport (60vh).
         // -------------------------------------------------------------
         const calHeading = document.getElementById('calendar-heading-container');
-        const calTickerLeft = document.getElementById('calendar-ticker-left');
-        const calTickerRight = document.getElementById('calendar-ticker-right');
         const calLayout = document.getElementById('calendar-layout-container');
         const calPage = document.getElementById('calendar-page');
 
@@ -1187,7 +1201,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 calHeading.classList.add('is-centered', 'is-revealed');
             }
 
-            // Phase 2: Pop up when calendar reaches about 10% below center of viewport
+            // Phase 2: Pop up when calendar reaches about 10% below center of viewport (clean cube layout, no sidebars)
             if (calCenter <= triggerThreshold) {
                 if (calPage) calPage.classList.add('is-revealed');
                 if (calLayout) {
@@ -1196,20 +1210,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     calLayout.style.filter = '';
                     calLayout.classList.add('is-revealed');
                 }
-                if (calTickerLeft) {
-                    calTickerLeft.style.opacity = '';
-                    calTickerLeft.style.visibility = 'visible';
-                    calTickerLeft.style.transform = '';
-                    calTickerLeft.style.filter = '';
-                    calTickerLeft.classList.add('is-revealed');
-                }
-                if (calTickerRight) {
-                    calTickerRight.style.opacity = '';
-                    calTickerRight.style.visibility = 'visible';
-                    calTickerRight.style.transform = '';
-                    calTickerRight.style.filter = '';
-                    calTickerRight.classList.add('is-revealed');
-                }
             } else if (calCenter > unrevealThreshold) {
                 if (calPage) calPage.classList.remove('is-revealed');
                 if (calLayout) {
@@ -1217,20 +1217,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     calLayout.style.opacity = '';
                     calLayout.style.transform = '';
                     calLayout.style.filter = '';
-                }
-                if (calTickerLeft) {
-                    calTickerLeft.classList.remove('is-revealed');
-                    calTickerLeft.style.opacity = '';
-                    calTickerLeft.style.visibility = '';
-                    calTickerLeft.style.transform = '';
-                    calTickerLeft.style.filter = '';
-                }
-                if (calTickerRight) {
-                    calTickerRight.classList.remove('is-revealed');
-                    calTickerRight.style.opacity = '';
-                    calTickerRight.style.visibility = '';
-                    calTickerRight.style.transform = '';
-                    calTickerRight.style.filter = '';
                 }
             }
         }
@@ -2325,5 +2311,49 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     initCinematicSmoothWheel();
+
+
+    /* =========================================================
+       ABOUT ELEMENTS INTERACTIVE 3D HOVER & MOVEMENT ENGINE
+       ========================================================= */
+    function initAboutElementsMovementOnHover() {
+        const aboutCards = document.querySelectorAll('.about-intro-card');
+        aboutCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                if (card.classList.contains('is-revealed')) {
+                    card.classList.add('card-hovered');
+                }
+            });
+
+            card.addEventListener('mousemove', (e) => {
+                if (!card.classList.contains('is-revealed')) return;
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const cx = rect.width / 2;
+                const cy = rect.height / 2;
+
+                // Dynamic 3D tilt tracking cursor (-8deg to +8deg) + upward lift
+                const rotX = ((cy - y) / cy) * 8.0;
+                const rotY = ((x - cx) / cx) * 8.0;
+
+                card.style.transform = `perspective(1000px) translateY(-12px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale(1.028)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('card-hovered');
+                if (card.classList.contains('is-revealed')) {
+                    card.style.transform = 'perspective(1000px) translateY(0) rotateX(0deg) rotateY(0deg) scale(1)';
+                    setTimeout(() => {
+                        if (!card.matches(':hover') && card.classList.contains('is-revealed')) {
+                            card.style.transform = '';
+                        }
+                    }, 280);
+                }
+            });
+        });
+    }
+
+    initAboutElementsMovementOnHover();
 
 });
