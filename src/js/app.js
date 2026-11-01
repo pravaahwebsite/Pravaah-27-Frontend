@@ -130,10 +130,14 @@ document.addEventListener('DOMContentLoaded', () => {
         let width = (canvas.width = window.innerWidth);
         let height = (canvas.height = window.innerHeight);
 
-        let mouseX = 0;
-        let mouseY = 0;
-        let targetMouseX = 0;
-        let targetMouseY = 0;
+        // Normalized mouse offsets (-1.0 to +1.0) with smooth damping
+        let normX = 0;
+        let normY = 0;
+        let targetNormX = 0;
+        let targetNormY = 0;
+        let cursorClientX = width * 0.5;
+        let cursorClientY = height * 0.5;
+        let hasMouseMoved = false;
 
         function resize() {
             width = canvas.width = window.innerWidth;
@@ -142,62 +146,124 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('resize', resize);
 
         window.addEventListener('mousemove', (e) => {
-            targetMouseX = (e.clientX - width / 2) * 0.035;
-            targetMouseY = (e.clientY - height / 2) * 0.035;
+            hasMouseMoved = true;
+            cursorClientX = e.clientX;
+            cursorClientY = e.clientY;
+            targetNormX = (e.clientX - width * 0.5) / (width * 0.5);
+            targetNormY = (e.clientY - height * 0.5) / (height * 0.5);
         });
 
-        const numAmbient = 160;
+        window.addEventListener('touchmove', (e) => {
+            if (e.touches && e.touches[0]) {
+                hasMouseMoved = true;
+                cursorClientX = e.touches[0].clientX;
+                cursorClientY = e.touches[0].clientY;
+                targetNormX = ((e.touches[0].clientX - width * 0.5) / (width * 0.5)) * 0.6;
+                targetNormY = ((e.touches[0].clientY - height * 0.5) / (height * 0.5)) * 0.6;
+            }
+        }, { passive: true });
+
+        const colors = [
+            [0, 210, 255],   // Tech Cyan
+            [230, 38, 120],  // Neon Magenta
+            [255, 42, 75],   // Crimson Red
+            [255, 170, 0],   // Solar Gold
+            [255, 255, 255]  // Starlight White
+        ];
+
+        // 1. SPARSE AMBIENT TWINKLING STARS ACROSS THE WIDE SKY
+        const numAmbient = 100;
         const ambientStars = [];
         for (let i = 0; i < numAmbient; i++) {
             ambientStars.push({
-                x: Math.random() * 2500,
-                y: Math.random() * 1600,
-                size: 0.6 + Math.random() * 1.5,
-                depth: 0.15 + Math.random() * 0.65,
+                x: Math.random() * 2600,
+                y: Math.random() * 1800,
+                size: 0.5 + Math.random() * 1.4,
+                depth: 0.15 + Math.random() * 0.85,
                 twinkle: Math.random() * Math.PI * 2,
-                twinkleSpeed: 0.015 + Math.random() * 0.025,
-                color: i % 5 === 0 ? 'rgba(0, 210, 255,' : i % 8 === 0 ? 'rgba(230, 38, 120,' : 'rgba(255, 255, 255,'
+                twinkleSpeed: 0.012 + Math.random() * 0.022,
+                color: i % 6 === 0 ? 'rgba(0, 210, 255,' : i % 9 === 0 ? 'rgba(230, 38, 120,' : 'rgba(255, 255, 255,'
             });
         }
 
-        const colors = [
-            [0, 210, 255],
-            [230, 38, 120],
-            [255, 42, 75],
-            [255, 170, 0],
-            [255, 255, 255]
-        ];
-
-        const numOrbits = 130;
-        const orbitalParticles = [];
-        for (let i = 0; i < numOrbits; i++) {
+        // 2. SPARSE COSMIC MOTES (Distributed across entire screen, not clustered at center)
+        const numMotes = 32;
+        const cosmicMotes = [];
+        for (let i = 0; i < numMotes; i++) {
             const c = colors[Math.floor(Math.random() * colors.length)];
-            orbitalParticles.push({
-                radiusRel: 0.28 + Math.random() * 1.35,
-                angle: Math.random() * Math.PI * 2,
-                angularSpeed: (0.005 + Math.random() * 0.014) * (Math.random() < 0.15 ? -1 : 1),
-                radialAmp: 6 + Math.random() * 18,
-                radialFreq: 1.2 + Math.random() * 2.5,
-                phase: Math.random() * Math.PI * 2,
-                size: 1.1 + Math.random() * 2.0,
-                alpha: 0.35 + Math.random() * 0.55,
+            cosmicMotes.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                vx: (Math.random() - 0.5) * 0.35,
+                vy: (Math.random() - 0.5) * 0.28,
+                depth: 0.2 + Math.random() * 0.8,
+                size: 0.9 + Math.random() * 1.5,
+                alpha: 0.25 + Math.random() * 0.45,
                 color: c,
                 trail: []
             });
         }
 
-        const numHex = 28;
+        // 3. AIRY, SUBTLE HEX ENERGY STREAMERS AROUND PORTAL
+        const numHex = 7;
         const hexStreamers = [];
         for (let i = 0; i < numHex; i++) {
-            const ringScale = 0.55 + (i % 3) * 0.36;
+            const ringScale = 0.85 + (i % 3) * 0.55;
             const c = colors[i % colors.length];
             hexStreamers.push({
                 progress: Math.random(),
-                speed: 0.0016 + Math.random() * 0.0028,
+                speed: 0.0012 + Math.random() * 0.0020,
                 ringScale: ringScale,
                 color: c,
-                size: 1.4 + Math.random() * 1.8,
+                size: 1.2 + Math.random() * 1.2,
                 trail: []
+            });
+        }
+
+        // 4. ELEGANT LITTLE COMET (SHOOTING STAR) SYSTEM
+        const comets = [];
+        let nextCometTime = 0.8; // Pre-spawn first comet shortly after load
+
+        function spawnComet() {
+            const cometColors = [
+                [0, 235, 255],   // Cyan comet
+                [255, 255, 255], // Starlight white comet
+                [235, 120, 255], // Violet-pink comet
+                [255, 210, 80]   // Golden comet
+            ];
+            const c = cometColors[Math.floor(Math.random() * cometColors.length)];
+            const angle = Math.PI * 0.22 + (Math.random() - 0.5) * 0.25; // Diagonal streak (~30° to 50°)
+            comets.push({
+                x: Math.random() * (width * 1.1) - width * 0.05,
+                y: -30 - Math.random() * 40,
+                angle: angle,
+                speed: 5.2 + Math.random() * 3.6,
+                length: 65 + Math.random() * 85,
+                size: 1.6 + Math.random() * 1.2,
+                color: c,
+                life: 1.0,
+                decay: 0.005 + Math.random() * 0.004,
+                sparks: []
+            });
+        }
+
+        // 5. Interactive cursor stardust sparks
+        const cursorSparks = [];
+        const maxSparks = 22;
+        function spawnCursorSpark(x, y) {
+            if (cursorSparks.length >= maxSparks) return;
+            const c = colors[Math.floor(Math.random() * colors.length)];
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 0.5 + Math.random() * 1.8;
+            cursorSparks.push({
+                x: x + (Math.random() - 0.5) * 14,
+                y: y + (Math.random() - 0.5) * 14,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed - 0.2,
+                size: 0.9 + Math.random() * 1.6,
+                alpha: 0.75,
+                decay: 0.022 + Math.random() * 0.025,
+                color: c
             });
         }
 
@@ -225,21 +291,48 @@ document.addEventListener('DOMContentLoaded', () => {
         let time = 0;
         function render() {
             time += 0.016;
-            mouseX += (targetMouseX - mouseX) * 0.05;
-            mouseY += (targetMouseY - mouseY) * 0.05;
+
+            // Smooth interpolation for mouse offsets
+            normX += (targetNormX - normX) * 0.065;
+            normY += (targetNormY - normY) * 0.065;
+
+            // 1. DYNAMIC BACKGROUND PARALLAX WITH CURSOR + SCROLL
+            const globalBg = document.getElementById('global-bg-layer');
+            if (globalBg) {
+                const curScroll = window.pageYOffset || document.documentElement.scrollTop || 0;
+                const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+                const scrollProgress = Math.min(1, Math.max(0, curScroll / maxScroll));
+
+                // Smoothly unroll the extended background from 0% (portal hero) to 100% (deep cosmic abyss)
+                globalBg.style.backgroundPosition = `center ${(scrollProgress * 100).toFixed(2)}%`;
+
+                // Move background opposite to cursor for deep window depth
+                const bgShiftX = -normX * 32;
+                const bgShiftY = -normY * 24;
+                globalBg.style.transform = `scale(1.08) translate3d(${bgShiftX.toFixed(2)}px, ${bgShiftY.toFixed(2)}px, 0)`;
+            }
+
+            // Spawn ambient stardust around cursor when moving
+            if (hasMouseMoved && Math.random() < 0.45) {
+                spawnCursorSpark(cursorClientX, cursorClientY);
+            }
 
             ctx.clearRect(0, 0, width, height);
 
-            const portalCx = width * 0.5 + mouseX;
-            const portalCy = height * 0.46 + mouseY;
+            // 2. PARTICLE EFFECT PARALLAX WITH CURSOR
+            const portalCx = width * 0.5 + normX * 45;
+            const portalCy = height * 0.46 + normY * 35;
             const baseRadius = Math.min(width, height) * 0.24;
 
+            // A. Ambient starfield moving in 3D multi-plane depth across the whole screen
             for (let i = 0; i < numAmbient; i++) {
                 const s = ambientStars[i];
                 s.twinkle += s.twinkleSpeed;
-                const alpha = 0.2 + 0.6 * (0.5 + 0.5 * Math.sin(s.twinkle));
-                const sx = (s.x + mouseX * s.depth * 0.5 + width) % width;
-                const sy = (s.y + mouseY * s.depth * 0.5 + height) % height;
+                const alpha = 0.15 + 0.55 * (0.5 + 0.5 * Math.sin(s.twinkle));
+                const shiftX = normX * s.depth * 52;
+                const shiftY = normY * s.depth * 40;
+                const sx = (s.x + shiftX + width) % width;
+                const sy = (s.y + shiftY + height) % height;
 
                 ctx.fillStyle = s.color + alpha + ')';
                 ctx.beginPath();
@@ -247,6 +340,44 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.fill();
             }
 
+            // B. Sparse Cosmic Motes wandering gracefully across the entire screen
+            for (let i = 0; i < numMotes; i++) {
+                const m = cosmicMotes[i];
+                m.x += m.vx;
+                m.y += m.vy;
+
+                // Screen edge wrapping
+                if (m.x < -20) m.x = width + 20;
+                if (m.x > width + 20) m.x = -20;
+                if (m.y < -20) m.y = height + 20;
+                if (m.y > height + 20) m.y = -20;
+
+                const shiftX = normX * m.depth * 38;
+                const shiftY = normY * m.depth * 28;
+                const mx = m.x + shiftX;
+                const my = m.y + shiftY;
+
+                m.trail.push({ x: mx, y: my });
+                if (m.trail.length > 4) m.trail.shift();
+
+                if (m.trail.length > 1) {
+                    ctx.beginPath();
+                    ctx.moveTo(m.trail[0].x, m.trail[0].y);
+                    for (let k = 1; k < m.trail.length; k++) {
+                        ctx.lineTo(m.trail[k].x, m.trail[k].y);
+                    }
+                    ctx.strokeStyle = `rgba(${m.color[0]}, ${m.color[1]}, ${m.color[2]}, ${(m.alpha * 0.35).toFixed(2)})`;
+                    ctx.lineWidth = m.size * 0.7;
+                    ctx.stroke();
+                }
+
+                ctx.fillStyle = `rgba(${m.color[0]}, ${m.color[1]}, ${m.color[2]}, ${m.alpha.toFixed(2)})`;
+                ctx.beginPath();
+                ctx.arc(mx, my, m.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // C. Airy, subtle hexagonal portal energy rings
             for (let i = 0; i < numHex; i++) {
                 const h = hexStreamers[i];
                 h.progress += h.speed;
@@ -254,7 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const pos = getHexCoord(portalCx, portalCy, hexRadius, h.progress);
 
                 h.trail.push({ x: pos.x, y: pos.y });
-                if (h.trail.length > 7) h.trail.shift();
+                if (h.trail.length > 5) h.trail.shift();
 
                 if (h.trail.length > 1) {
                     ctx.beginPath();
@@ -262,42 +393,113 @@ document.addEventListener('DOMContentLoaded', () => {
                     for (let k = 1; k < h.trail.length; k++) {
                         ctx.lineTo(h.trail[k].x, h.trail[k].y);
                     }
-                    ctx.strokeStyle = 'rgba(' + h.color[0] + ',' + h.color[1] + ',' + h.color[2] + ', 0.4)';
-                    ctx.lineWidth = h.size * 0.8;
+                    ctx.strokeStyle = 'rgba(' + h.color[0] + ',' + h.color[1] + ',' + h.color[2] + ', 0.28)';
+                    ctx.lineWidth = h.size * 0.75;
                     ctx.stroke();
                 }
 
-                ctx.fillStyle = 'rgba(' + h.color[0] + ',' + h.color[1] + ',' + h.color[2] + ', 0.85)';
+                ctx.fillStyle = 'rgba(' + h.color[0] + ',' + h.color[1] + ',' + h.color[2] + ', 0.65)';
                 ctx.beginPath();
                 ctx.arc(pos.x, pos.y, h.size, 0, Math.PI * 2);
                 ctx.fill();
             }
 
-            for (let i = 0; i < numOrbits; i++) {
-                const p = orbitalParticles[i];
-                p.angle += p.angularSpeed;
+            // D. LITTLE COMET (SHOOTING STAR) EFFECT
+            if (time >= nextCometTime) {
+                spawnComet();
+                nextCometTime = time + 2.5 + Math.random() * 2.8; // Spawns every 2.5 to 5.3 seconds
+            }
 
-                const curRadius = baseRadius * p.radiusRel + Math.sin(time * p.radialFreq + p.phase) * p.radialAmp;
-                const px = portalCx + Math.cos(p.angle) * curRadius;
-                const py = portalCy + Math.sin(p.angle) * (curRadius * 0.88);
+            for (let i = comets.length - 1; i >= 0; i--) {
+                const c = comets[i];
+                c.x += Math.cos(c.angle) * c.speed;
+                c.y += Math.sin(c.angle) * c.speed;
+                c.life -= c.decay;
 
-                p.trail.push({ x: px, y: py });
-                if (p.trail.length > 6) p.trail.shift();
+                const tailX = c.x - Math.cos(c.angle) * (c.length * Math.max(0.2, c.life));
+                const tailY = c.y - Math.sin(c.angle) * (c.length * Math.max(0.2, c.life));
 
-                if (p.trail.length > 1) {
+                // Glowing tapered tail
+                if (c.life > 0.05) {
+                    const grad = ctx.createLinearGradient(c.x, c.y, tailX, tailY);
+                    grad.addColorStop(0, `rgba(${c.color[0]}, ${c.color[1]}, ${c.color[2]}, ${(0.85 * c.life).toFixed(2)})`);
+                    grad.addColorStop(0.22, `rgba(${c.color[0]}, ${c.color[1]}, ${c.color[2]}, ${(0.40 * c.life).toFixed(2)})`);
+                    grad.addColorStop(1, `rgba(${c.color[0]}, ${c.color[1]}, ${c.color[2]}, 0)`);
+
+                    ctx.strokeStyle = grad;
+                    ctx.lineWidth = c.size * 0.85;
+                    ctx.lineCap = 'round';
                     ctx.beginPath();
-                    ctx.moveTo(p.trail[0].x, p.trail[0].y);
-                    for (let k = 1; k < p.trail.length; k++) {
-                        ctx.lineTo(p.trail[k].x, p.trail[k].y);
-                    }
-                    ctx.strokeStyle = 'rgba(' + p.color[0] + ',' + p.color[1] + ',' + p.color[2] + ', ' + (p.alpha * 0.35) + ')';
-                    ctx.lineWidth = p.size * 0.7;
+                    ctx.moveTo(c.x, c.y);
+                    ctx.lineTo(tailX, tailY);
                     ctx.stroke();
+
+                    // Outer soft aura around comet nucleus
+                    ctx.fillStyle = `rgba(${c.color[0]}, ${c.color[1]}, ${c.color[2]}, ${(0.55 * c.life).toFixed(2)})`;
+                    ctx.beginPath();
+                    ctx.arc(c.x, c.y, c.size * 2.2, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Bright white-hot nucleus head
+                    ctx.fillStyle = `rgba(255, 255, 255, ${(0.95 * c.life).toFixed(2)})`;
+                    ctx.beginPath();
+                    ctx.arc(c.x, c.y, c.size * 1.05, 0, Math.PI * 2);
+                    ctx.fill();
                 }
 
-                ctx.fillStyle = 'rgba(' + p.color[0] + ',' + p.color[1] + ',' + p.color[2] + ', ' + p.alpha + ')';
+                // Shed subtle stardust sparks behind the comet
+                if (Math.random() < 0.35 && c.life > 0.3) {
+                    c.sparks.push({
+                        x: c.x - Math.cos(c.angle) * (Math.random() * 30),
+                        y: c.y - Math.sin(c.angle) * (Math.random() * 30),
+                        vx: (Math.random() - 0.5) * 0.6,
+                        vy: (Math.random() - 0.5) * 0.6,
+                        alpha: 0.75,
+                        size: 0.7 + Math.random() * 1.0
+                    });
+                }
+
+                // Render comet trail sparks
+                for (let k = c.sparks.length - 1; k >= 0; k--) {
+                    const sp = c.sparks[k];
+                    sp.x += sp.vx;
+                    sp.y += sp.vy;
+                    sp.alpha -= 0.035;
+                    sp.size *= 0.95;
+
+                    if (sp.alpha <= 0.02) {
+                        c.sparks.splice(k, 1);
+                        continue;
+                    }
+
+                    ctx.fillStyle = `rgba(${c.color[0]}, ${c.color[1]}, ${c.color[2]}, ${sp.alpha.toFixed(2)})`;
+                    ctx.beginPath();
+                    ctx.arc(sp.x, sp.y, sp.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                // Remove comet once it traverses off-screen or dissolves
+                if (c.y > height + 100 || c.x > width + 120 || c.life <= 0) {
+                    comets.splice(i, 1);
+                }
+            }
+
+            // E. Interactive cursor stardust trail
+            for (let i = cursorSparks.length - 1; i >= 0; i--) {
+                const sp = cursorSparks[i];
+                sp.x += sp.vx;
+                sp.y += sp.vy;
+                sp.alpha -= sp.decay;
+                sp.size *= 0.96;
+
+                if (sp.alpha <= 0.02 || sp.size <= 0.3) {
+                    cursorSparks.splice(i, 1);
+                    continue;
+                }
+
+                ctx.fillStyle = `rgba(${sp.color[0]}, ${sp.color[1]}, ${sp.color[2]}, ${sp.alpha.toFixed(2)})`;
                 ctx.beginPath();
-                ctx.arc(px, py, p.size, 0, Math.PI * 2);
+                ctx.arc(sp.x, sp.y, sp.size, 0, Math.PI * 2);
                 ctx.fill();
             }
 
@@ -310,53 +512,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const portalVideo = document.getElementById('portal-video');
     const portalFlashOverlay = document.getElementById('portal-flash-overlay');
     const portalEntryTrigger = document.getElementById('portal-entry-trigger');
+    const portalSkipBtn = document.getElementById('portal-skip-btn');
+    const portalAudioBtn = document.getElementById('portal-audio-btn');
+    const iconSoundOff = document.getElementById('icon-sound-off');
+    const iconSoundOn = document.getElementById('icon-sound-on');
+    const portalLoaderBar = document.querySelector('.portal-loader-bar');
 
-    let startY = 0;
-    let isSwiping = false;
     let portalPlaybackActive = false;
-    let portalHasPlayedOnce = false;
+    let portalHasEntered = false; // Starts false so entering website plays the portal video
     let flashTriggered = false;
 
-    // Enable multiverse environment while keeping all sections including Hero cleanly visible & scrollable
-    portalHasPlayedOnce = true;
-    document.documentElement.classList.add('portal-entered-fast');
-    document.body.classList.add('portal-entered');
-    if (mainScrollContainer) {
-        mainScrollContainer.classList.add('scroll-enabled');
+    // Configure video element for reliable compliant autoplay & fast playback
+    if (portalVideo) {
+        portalVideo.muted = true;
+        portalVideo.defaultMuted = true;
+        portalVideo.volume = 0;
+        portalVideo.defaultPlaybackRate = 1.0;
+        portalVideo.playbackRate = 1.0;
+        portalVideo.controls = false;
+        portalVideo.removeAttribute('controls');
+        portalVideo.setAttribute('playsinline', '');
+        portalVideo.setAttribute('webkit-playsinline', '');
+        portalVideo.preload = 'auto';
+        portalVideo.load();
     }
-    const navWheel = document.getElementById('cosmic-nav-wheel');
-    if (navWheel) {
-        navWheel.classList.remove('hidden-nav');
-        setTimeout(updateNavPill, 120);
-    }
+
+    // Generate calendar cube in advance so it is ready
     setTimeout(() => {
         generateCalendarCube();
     }, 50);
 
-    if (portalVideo) {
-        portalVideo.muted = true;
-        portalVideo.volume = 0;
-        portalVideo.defaultPlaybackRate = 2.0;
-        portalVideo.playbackRate = 2.0;
-        portalVideo.controls = false;
-        portalVideo.removeAttribute('controls');
-    }
-
-    function handlePortalLaunch() {
-
-        if (portalHasPlayedOnce || portalPlaybackActive) {
-            return;
-        }
-
+    function launchPortalVideo() {
+        if (portalPlaybackActive) return;
         portalPlaybackActive = true;
-        portalHasPlayedOnce = true;
         flashTriggered = false;
 
-        if (splashScreen) {
-            splashScreen.classList.remove('active-screen');
-            splashScreen.classList.add('hidden');
-        }
-
+        // Reveal full-screen portal warp video stage
         if (loaderScreen) {
             loaderScreen.classList.remove('hidden');
             loaderScreen.classList.add('active-screen');
@@ -368,18 +559,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (portalVideo) {
             portalVideo.currentTime = 0;
-            portalVideo.defaultPlaybackRate = 2.0;
-            portalVideo.playbackRate = 2.0;
-            portalVideo.muted = true;
-            portalVideo.volume = 0;
+            portalVideo.playbackRate = 1.0;
+            portalVideo.muted = true; // muted allows 100% compliant autoplay in all browsers
 
             const playPromise = portalVideo.play();
             if (playPromise !== undefined) {
                 playPromise.then(() => {
-                    portalVideo.playbackRate = 2.0;
+                    portalVideo.playbackRate = 1.0;
                 }).catch(e => {
-                    console.warn("Video play notice:", e);
-
+                    console.warn("Portal video playback notice:", e);
                     enterUniverse();
                 });
             }
@@ -388,24 +576,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 const currentTime = portalVideo.currentTime;
                 const duration = portalVideo.duration;
 
-                if (duration && isFinite(duration) && duration > 0.8) {
+                if (duration && isFinite(duration) && duration > 0.5) {
+                    if (portalLoaderBar) {
+                        const pct = Math.min(100, (currentTime / duration) * 100);
+                        portalLoaderBar.style.width = `${pct}%`;
+                    }
+
                     if (currentTime >= Math.max(0.2, duration - 0.45) && !flashTriggered) {
                         flashTriggered = true;
                         if (portalFlashOverlay) {
                             portalFlashOverlay.classList.add('active-flash');
                         }
                     }
-                    if (currentTime >= Math.max(0.4, duration - 0.1)) {
+
+                    if (currentTime >= Math.max(0.4, duration - 0.08)) {
                         enterUniverse();
                     }
                 } else {
-                    if (currentTime >= 8.6 && !flashTriggered) {
+                    if (currentTime >= 1.6 && !flashTriggered) {
                         flashTriggered = true;
                         if (portalFlashOverlay) {
                             portalFlashOverlay.classList.add('active-flash');
                         }
                     }
-                    if (currentTime >= 8.95) {
+                    if (currentTime >= 1.95) {
                         enterUniverse();
                     }
                 }
@@ -414,55 +608,33 @@ document.addEventListener('DOMContentLoaded', () => {
             portalVideo.onended = () => {
                 enterUniverse();
             };
+
+            // Safety fallback timer if video stalls (4s max)
+            setTimeout(() => {
+                if (portalPlaybackActive && !portalHasEntered) {
+                    enterUniverse();
+                }
+            }, 4000);
         } else {
             enterUniverse();
         }
     }
 
-    function smoothScrollToAbout() {
-        const aboutPage = document.getElementById('about-page');
-        if (aboutPage) {
-            aboutPage.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else if (mainScrollContainer) {
-            mainScrollContainer.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
-        }
-    }
-
-    if (portalEntryTrigger) {
-        portalEntryTrigger.addEventListener('click', (e) => {
-            e.preventDefault();
-            smoothScrollToAbout();
-        });
-        portalEntryTrigger.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                smoothScrollToAbout();
-            }
-        });
-    }
-
-    if (enterBtn) {
-        enterBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            smoothScrollToAbout();
-        });
-    }
-
     function enterUniverse() {
-        if (loaderScreen && !loaderScreen.classList.contains('active-screen') && !portalPlaybackActive) return;
+        if (portalHasEntered) return;
+        portalHasEntered = true;
+        portalPlaybackActive = false;
 
         try {
             sessionStorage.setItem('portalEntered', 'true');
-        } catch (e) {
-            console.warn(e);
-        }
+        } catch (e) {}
 
+        // Trigger blinding dimensional flash overlay
         if (portalFlashOverlay) {
             portalFlashOverlay.classList.add('active-flash');
         }
 
         setTimeout(() => {
-
             if (portalVideo) {
                 portalVideo.pause();
                 portalVideo.ontimeupdate = null;
@@ -474,12 +646,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 loaderScreen.classList.add('hidden');
             }
 
-            if (splashScreen) {
-                splashScreen.classList.add('hidden');
-                splashScreen.classList.remove('active-screen');
-            }
-
             document.body.classList.add('portal-entered');
+            document.documentElement.classList.add('portal-entered-fast');
 
             if (portalFlashOverlay) {
                 portalFlashOverlay.classList.add('fade-out');
@@ -490,11 +658,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (mainScrollContainer) {
                 mainScrollContainer.classList.add('scroll-enabled');
-                mainScrollContainer.scrollTop = 0;
             }
-
-            portalPlaybackActive = false;
-            isSwiping = false;
 
             const navWheel = document.getElementById('cosmic-nav-wheel');
             if (navWheel) {
@@ -503,7 +667,412 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             generateCalendarCube();
-        }, 350);
+
+            // Smoothly glide into the rest of the page / website
+            setTimeout(() => {
+                smoothScrollToAbout();
+            }, 120);
+        }, 320);
+    }
+
+    // Skip button click listener
+    if (portalSkipBtn) {
+        portalSkipBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            enterUniverse();
+        });
+    }
+
+    // Sound toggle listener
+    if (portalAudioBtn && portalVideo) {
+        portalAudioBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (portalVideo.muted) {
+                portalVideo.muted = false;
+                portalVideo.volume = 1;
+                if (iconSoundOff) iconSoundOff.style.display = 'none';
+                if (iconSoundOn) iconSoundOn.style.display = 'block';
+            } else {
+                portalVideo.muted = true;
+                if (iconSoundOff) iconSoundOff.style.display = 'block';
+                if (iconSoundOn) iconSoundOn.style.display = 'none';
+            }
+        });
+    }
+
+    // Keyboard navigation during portal playback: Escape/Space/Enter skips video
+    window.addEventListener('keydown', (e) => {
+        if (portalPlaybackActive) {
+            if (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                enterUniverse();
+            }
+        }
+    });
+
+    /* =========================================================
+       CINEMATIC TIME-BOUNDED SCROLL ENGINE
+       Regardless of scroll volume or speed (continuous wheel ticks,
+       trackpad flings, rapid swipes), further scroll inputs are
+       blocked until the time required for scrolling is completed.
+       Original visual thresholds, entrance triggers, and parallax rules
+       remain 100% intact.
+       ========================================================= */
+    const TIME_BOUNDED_SCROLL_DURATION = 1650; // Required glide duration (ms)
+    let isScrollLocked = false;
+    let isSlowScrolling = false;
+
+    function getScrollCheckpoints() {
+        const currentScroll = getScrollPosition();
+        const viewportH = window.innerHeight;
+        const maxScroll = Math.max(0, document.documentElement.scrollHeight - viewportH);
+        const targets = [0];
+
+        // 1. About Lead centered ("GET TO KNOW ABOUT OUR FEST")
+        const aboutLead = document.getElementById('about-lead-container');
+        if (aboutLead) {
+            const rect = aboutLead.getBoundingClientRect();
+            const elemCenter = currentScroll + rect.top + rect.height / 2;
+            const targetY = Math.max(0, Math.min(maxScroll, elemCenter - viewportH * 0.5));
+            targets.push(Math.round(targetY));
+        }
+
+        // 2. About Cards centered (cards meet in middle & button visible)
+        const aboutGrid = document.getElementById('about-intro-grid');
+        if (aboutGrid) {
+            const rect = aboutGrid.getBoundingClientRect();
+            const elemCenter = currentScroll + rect.top + rect.height / 2;
+            const targetY = Math.max(0, Math.min(maxScroll, elemCenter - viewportH * 0.5));
+            targets.push(Math.round(targetY));
+        }
+
+        // 3. Calendar Page (Heading ~10% below center & 3D Cube revealed in viewport)
+        const calLayout = document.getElementById('calendar-layout-container');
+        const calHeading = document.getElementById('calendar-heading-container');
+        const calPage = document.getElementById('calendar-page');
+        if (calLayout) {
+            const rect = calLayout.getBoundingClientRect();
+            const elemCenter = currentScroll + rect.top + rect.height / 2;
+            const targetY = Math.max(0, Math.min(maxScroll, elemCenter - viewportH * 0.5));
+            targets.push(Math.round(targetY));
+        } else if (calHeading) {
+            const rect = calHeading.getBoundingClientRect();
+            const elemCenter = currentScroll + rect.top + rect.height / 2;
+            const targetY = Math.max(0, Math.min(maxScroll, elemCenter - viewportH * 0.45));
+            targets.push(Math.round(targetY));
+        } else if (calPage) {
+            const rect = calPage.getBoundingClientRect();
+            targets.push(Math.round(Math.max(0, Math.min(maxScroll, currentScroll + rect.top))));
+        }
+
+        // 4. Gallery Page (Heading centered, columns pop up from bottom & sides)
+        const galleryWrapper = document.getElementById('gallery-columns-wrapper');
+        const galleryHeading = document.querySelector('#gallery-page .gallery-page-heading') || document.querySelector('.gallery-page-heading');
+        const galleryPage = document.getElementById('gallery-page');
+        if (galleryWrapper) {
+            const rect = galleryWrapper.getBoundingClientRect();
+            const elemCenter = currentScroll + rect.top + rect.height / 2;
+            const targetY = Math.max(0, Math.min(maxScroll, elemCenter - viewportH * 0.52));
+            targets.push(Math.round(targetY));
+        } else if (galleryHeading) {
+            const rect = galleryHeading.getBoundingClientRect();
+            const elemCenter = currentScroll + rect.top + rect.height / 2;
+            const targetY = Math.max(0, Math.min(maxScroll, elemCenter - viewportH * 0.45));
+            targets.push(Math.round(targetY));
+        } else if (galleryPage) {
+            const rect = galleryPage.getBoundingClientRect();
+            targets.push(Math.round(Math.max(0, Math.min(maxScroll, currentScroll + rect.top))));
+        }
+
+        // 5. Team Page / Register hero
+        const teamPage = document.getElementById('team-page');
+        if (teamPage) {
+            const rect = teamPage.getBoundingClientRect();
+            const targetY = Math.max(0, Math.min(maxScroll, currentScroll + rect.top));
+            targets.push(Math.round(targetY));
+        }
+
+        // Final Stop: Page Bottom
+        targets.push(maxScroll);
+
+        // Sort ascending and filter out stops that are too close (< 70px)
+        targets.sort((a, b) => a - b);
+        const unique = [];
+        for (let i = 0; i < targets.length; i++) {
+            const val = targets[i];
+            if (unique.length === 0) {
+                unique.push(val);
+            } else {
+                const prev = unique[unique.length - 1];
+                if (val - prev >= 70) {
+                    unique.push(val);
+                }
+            }
+        }
+        return unique;
+    }
+
+    function timeBoundedScrollTo(targetElementOrY, duration = TIME_BOUNDED_SCROLL_DURATION, onComplete) {
+        let targetY = 0;
+        const currentScroll = getScrollPosition();
+        const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+
+        if (typeof targetElementOrY === 'number') {
+            targetY = targetElementOrY;
+        } else if (targetElementOrY && targetElementOrY.getBoundingClientRect) {
+            const rect = targetElementOrY.getBoundingClientRect();
+            targetY = currentScroll + rect.top;
+        } else {
+            return;
+        }
+
+        targetY = Math.max(0, Math.min(maxScroll, targetY));
+
+        const distance = targetY - currentScroll;
+        if (Math.abs(distance) < 2) {
+            window.scrollTo(0, targetY);
+            if (mainScrollContainer && mainScrollContainer.scrollTop !== undefined) {
+                mainScrollContainer.scrollTop = targetY;
+            }
+            handleParallaxAndNav();
+            if (typeof onComplete === 'function') onComplete();
+            return;
+        }
+
+        isScrollLocked = true;
+        isSlowScrolling = true;
+        document.body.classList.add('multiverse-slow-glide', 'time-bounded-scrolling');
+
+        const startTime = performance.now();
+        const startY = currentScroll;
+
+        // Luxurious quartic ease-in-out curve: silky acceleration, fluid glide, soft deceleration
+        function easeInOutQuart(t) {
+            return t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2;
+        }
+
+        function step(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1.0);
+            const eased = easeInOutQuart(progress);
+
+            const nextY = startY + distance * eased;
+
+            window.scrollTo(0, nextY);
+            if (mainScrollContainer && mainScrollContainer.scrollTop !== undefined) {
+                mainScrollContainer.scrollTop = nextY;
+            }
+
+            handleParallaxAndNav();
+
+            if (progress < 1.0) {
+                requestAnimationFrame(step);
+            } else {
+                window.scrollTo(0, targetY);
+                if (mainScrollContainer && mainScrollContainer.scrollTop !== undefined) {
+                    mainScrollContainer.scrollTop = targetY;
+                }
+                handleParallaxAndNav();
+                document.body.classList.remove('multiverse-slow-glide', 'time-bounded-scrolling');
+                isSlowScrolling = false;
+                if (typeof onComplete === 'function') onComplete();
+
+                // Grace cooldown to swallow residual trackpad / wheel inertial ticks
+                setTimeout(() => {
+                    isScrollLocked = false;
+                }, 120);
+            }
+        }
+
+        requestAnimationFrame(step);
+    }
+
+    function handleScrollInput(direction) {
+        if (isScrollLocked) return;
+
+        const currentScroll = getScrollPosition();
+        const checkpoints = getScrollCheckpoints();
+        const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+
+        let targetY = currentScroll;
+        const minStep = 45;
+
+        if (direction > 0) {
+            // Forward / Down
+            const next = checkpoints.find(cp => cp > currentScroll + minStep);
+            targetY = next !== undefined ? next : maxScroll;
+        } else {
+            // Backward / Up
+            const prevList = checkpoints.filter(cp => cp < currentScroll - minStep);
+            targetY = prevList.length > 0 ? prevList[prevList.length - 1] : 0;
+        }
+
+        if (Math.abs(targetY - currentScroll) > 5) {
+            timeBoundedScrollTo(targetY, TIME_BOUNDED_SCROLL_DURATION);
+        }
+    }
+
+    function slowSmoothScrollTo(targetElementOrY, duration = TIME_BOUNDED_SCROLL_DURATION, onComplete) {
+        timeBoundedScrollTo(targetElementOrY, duration, onComplete);
+    }
+
+    function smoothScrollToAbout() {
+        const currentScroll = getScrollPosition();
+        const checkpoints = getScrollCheckpoints();
+        const next = checkpoints.find(cp => cp > currentScroll + 40);
+        if (next !== undefined) {
+            timeBoundedScrollTo(next, TIME_BOUNDED_SCROLL_DURATION);
+        } else {
+            const aboutLead = document.getElementById('about-lead-container');
+            if (aboutLead) {
+                const rect = aboutLead.getBoundingClientRect();
+                timeBoundedScrollTo(currentScroll + rect.top + rect.height / 2 - window.innerHeight * 0.5, TIME_BOUNDED_SCROLL_DURATION);
+            }
+        }
+    }
+
+    function smoothScrollToCalendar() {
+        const calLayout = document.getElementById('calendar-layout-container');
+        const calHeading = document.getElementById('calendar-heading-container');
+        const currentScroll = getScrollPosition();
+        const viewportH = window.innerHeight;
+        const maxScroll = Math.max(0, document.documentElement.scrollHeight - viewportH);
+        let targetY = 0;
+        if (calLayout) {
+            const rect = calLayout.getBoundingClientRect();
+            targetY = Math.max(0, Math.min(maxScroll, currentScroll + rect.top + rect.height / 2 - viewportH * 0.5));
+        } else if (calHeading) {
+            const rect = calHeading.getBoundingClientRect();
+            targetY = Math.max(0, Math.min(maxScroll, currentScroll + rect.top + rect.height / 2 - viewportH * 0.45));
+        }
+        timeBoundedScrollTo(targetY, TIME_BOUNDED_SCROLL_DURATION);
+    }
+
+    if (portalEntryTrigger) {
+        portalEntryTrigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            launchPortalVideo();
+        });
+        portalEntryTrigger.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                launchPortalVideo();
+            }
+        });
+    }
+
+    if (enterBtn) {
+        enterBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            launchPortalVideo();
+        });
+    }
+
+    const septagonPortalBox = document.querySelector('.big-septagon-portal-container');
+    if (septagonPortalBox) {
+        septagonPortalBox.setAttribute('title', 'Enter Multiverse Portal');
+        septagonPortalBox.addEventListener('click', () => {
+            launchPortalVideo();
+        });
+    }
+
+    // Global Scroll Wheel Listener: Splash portal entry + Time-bounded scroll lock
+    window.addEventListener('wheel', (e) => {
+        if (e.ctrlKey) return;
+
+        // Skip if modal or lightbox is open
+        const modal = document.getElementById('event-modal');
+        const lightbox = document.getElementById('gallery-lightbox');
+        if ((modal && !modal.classList.contains('hidden')) || (lightbox && !lightbox.classList.contains('hidden'))) return;
+
+        // Skip if inside an internal scrollable element
+        if (e.target.closest('.panel-events-list, .ticker-viewport, .modal-container, .lightbox-content')) return;
+
+        const scrollTop = getScrollPosition();
+
+        // Splash screen portal video entry on initial scroll down
+        if (scrollTop < 40 && e.deltaY > 20 && !portalPlaybackActive && !document.body.classList.contains('portal-entered')) {
+            e.preventDefault();
+            launchPortalVideo();
+            return;
+        }
+
+        if (portalPlaybackActive) {
+            e.preventDefault();
+            return;
+        }
+
+        // TIME-BOUNDED SCROLL LOCK:
+        // Regardless of scroll volume, the page will NOT advance until the time required scrolling it is completed!
+        if (isScrollLocked) {
+            e.preventDefault();
+            return;
+        }
+
+        // Filter out tiny noise / trackpad drift
+        if (Math.abs(e.deltaY) < 12) {
+            e.preventDefault();
+            return;
+        }
+
+        e.preventDefault();
+        const direction = e.deltaY > 0 ? 1 : -1;
+        handleScrollInput(direction);
+    }, { passive: false });
+
+    // Touch swipe handling with time-bounded scroll locking
+    let heroTouchStartY = 0;
+    window.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches[0]) {
+            heroTouchStartY = e.touches[0].clientY;
+        }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+        if (isScrollLocked) {
+            e.preventDefault();
+            return;
+        }
+        const scrollTop = getScrollPosition();
+        if (scrollTop < 40 && !portalPlaybackActive && !document.body.classList.contains('portal-entered')) {
+            if (e.touches && e.touches[0]) {
+                const diff = heroTouchStartY - e.touches[0].clientY;
+                if (diff > 40) { // Swiped to enter fest
+                    launchPortalVideo();
+                }
+            }
+        }
+    }, { passive: false });
+
+    window.addEventListener('touchend', (e) => {
+        if (isScrollLocked) return;
+        if (e.changedTouches && e.changedTouches[0]) {
+            const diff = heroTouchStartY - e.changedTouches[0].clientY;
+            if (Math.abs(diff) > 45) {
+                const scrollTop = getScrollPosition();
+                if (scrollTop < 40 && diff > 40 && !portalPlaybackActive && !document.body.classList.contains('portal-entered')) {
+                    launchPortalVideo();
+                    return;
+                }
+                handleScrollInput(diff > 0 ? 1 : -1);
+            }
+        }
+    }, { passive: true });
+
+    // Slow Smooth Glide Trigger to Calendar
+    const guideToCalendarBtn = document.getElementById('guide-to-calendar-btn');
+    if (guideToCalendarBtn) {
+        guideToCalendarBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            smoothScrollToCalendar();
+        });
+        guideToCalendarBtn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                smoothScrollToCalendar();
+            }
+        });
     }
 
     mainScrollContainer.addEventListener('scroll', () => {
@@ -566,6 +1135,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         currentSnapIndex = closestIndex;
+        if (snapSections[closestIndex] && snapSections[closestIndex].id === 'calendar-page') {
+            snapSections[closestIndex].classList.add('is-revealed');
+        }
     }
 
     function smoothScrollToSection(index) {
@@ -575,8 +1147,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!targetSec) return;
 
         currentSnapIndex = index;
-        targetSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (targetSec.id === 'about-page') {
+            smoothScrollToAbout();
+            return;
+        }
+        if (targetSec.id === 'calendar-page') {
+            smoothScrollToCalendar();
+            return;
+        }
+        slowSmoothScrollTo(targetSec, 1400, () => {
+            targetSec.classList.add('is-revealed');
+        });
     }
+
+    
 
     // Parallax & Dynamic Atmosphere Sync
     function handleParallaxAndNav() {
@@ -587,10 +1171,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const highlightsPanel = document.querySelector('.splash-highlights-panel');
         const statusPanel = document.querySelector('.splash-status-panel');
 
-        // Smooth cosmic background parallax
-        if (globalBg) {
-            globalBg.style.transform = `scale(1.04) translateY(-${scrollTop * 0.12}px)`;
-        }
+        // Smooth cosmic background parallax handled seamlessly in continuous render loop
 
         // Hero elements subtle depth floating
         if (scrollTop < viewportH * 1.3) {
@@ -608,6 +1189,293 @@ document.addEventListener('DOMContentLoaded', () => {
 
         syncCurrentIndexFromScroll();
 
+        // -------------------------------------------------------------
+        // SCROLL-DRIVEN REVELATION: ABOUT "GET TO KNOW ABOUT OUR FEST" & CARDS
+        // -------------------------------------------------------------
+        const aboutLead = document.getElementById('about-lead-container');
+        const aboutGrid = document.getElementById('about-intro-grid');
+        const aboutCardPravaah = document.getElementById('about-card-pravaah');
+        const aboutCardTheme = document.getElementById('about-card-theme');
+        const guideToCalendarBtn = document.getElementById('guide-to-calendar-btn');
+
+        if (aboutLead) {
+            const leadRect = aboutLead.getBoundingClientRect();
+            const leadCenter = leadRect.top + leadRect.height / 2;
+            const enterBottom = viewportH;
+            const targetMid = viewportH * 0.5;
+            const isMobile = window.innerWidth <= 768;
+            const sideOffset = isMobile ? Math.min(180, window.innerWidth * 0.38) : Math.min(450, Math.max(240, window.innerWidth * 0.32));
+
+            // Phase 1: Sentence travels from bottom of viewport to dead center (50vh)
+            let pLine = (enterBottom - leadCenter) / (enterBottom - targetMid);
+            pLine = Math.max(0, Math.min(1.0, pLine));
+
+            if (leadCenter > targetMid) {
+                // Sentence is approaching middle: opacity goes from low (0.04) to full opacity (1.0)
+                const lineOpacity = Math.max(0.04, pLine).toFixed(3);
+                const lineTy = ((1 - pLine) * 48).toFixed(1);
+                const lineScale = (0.90 + pLine * 0.10).toFixed(3);
+                const lineBlur = ((1 - pLine) * 8).toFixed(1);
+
+                aboutLead.style.opacity = lineOpacity;
+                aboutLead.style.transform = `translateY(${lineTy}px) scale(${lineScale})`;
+                aboutLead.style.filter = `blur(${lineBlur}px)`;
+                aboutLead.classList.remove('is-centered');
+
+                // Cards are strictly 100% invisible, hidden, parked at sides
+                if (aboutCardPravaah) {
+                    aboutCardPravaah.style.opacity = '0';
+                    aboutCardPravaah.style.visibility = 'hidden';
+                    aboutCardPravaah.style.pointerEvents = 'none';
+                    aboutCardPravaah.style.transform = `translateX(-${sideOffset}px) scale(0.92)`;
+                    aboutCardPravaah.style.filter = 'blur(8px)';
+                    aboutCardPravaah.classList.remove('is-revealed');
+                }
+                if (aboutCardTheme) {
+                    aboutCardTheme.style.opacity = '0';
+                    aboutCardTheme.style.visibility = 'hidden';
+                    aboutCardTheme.style.pointerEvents = 'none';
+                    aboutCardTheme.style.transform = `translateX(${sideOffset}px) scale(0.92)`;
+                    aboutCardTheme.style.filter = 'blur(8px)';
+                    aboutCardTheme.classList.remove('is-revealed');
+                }
+                if (guideToCalendarBtn) {
+                    guideToCalendarBtn.style.opacity = '0';
+                    guideToCalendarBtn.style.visibility = 'hidden';
+                    guideToCalendarBtn.style.pointerEvents = 'none';
+                    guideToCalendarBtn.classList.remove('is-revealed');
+                }
+            } else {
+                // Sentence has reached the center of the viewport -> FULL OPACITY
+                aboutLead.style.opacity = '1';
+                aboutLead.style.filter = 'blur(0px)';
+                aboutLead.classList.add('is-centered');
+                if (!aboutLead.matches(':hover')) {
+                    aboutLead.style.transform = '';
+                }
+
+                // Phase 2: The elements (cards) meet at the middle WHEN THEY ARE IN THE MIDDLE OF THE VIEWPORT
+                const gridRect = aboutGrid ? aboutGrid.getBoundingClientRect() : null;
+                const gridCenter = gridRect ? (gridRect.top + gridRect.height * 0.5) : (leadCenter + 260);
+
+                // Distance from grid center to the middle of viewport (targetMid)
+                const distanceToMid = gridCenter - targetMid;
+                const travelSpan = Math.max(380, Math.min(viewportH * 0.65, 540));
+
+                if (distanceToMid > travelSpan) {
+                    // Cards are still below their entrance threshold: parked at sides, hidden
+                    if (aboutCardPravaah) {
+                        aboutCardPravaah.style.opacity = '0';
+                        aboutCardPravaah.style.visibility = 'hidden';
+                        aboutCardPravaah.style.pointerEvents = 'none';
+                        aboutCardPravaah.style.transform = `translateX(-${sideOffset}px) scale(0.92)`;
+                        aboutCardPravaah.style.filter = 'blur(8px)';
+                        aboutCardPravaah.classList.remove('is-revealed');
+                    }
+                    if (aboutCardTheme) {
+                        aboutCardTheme.style.opacity = '0';
+                        aboutCardTheme.style.visibility = 'hidden';
+                        aboutCardTheme.style.pointerEvents = 'none';
+                        aboutCardTheme.style.transform = `translateX(${sideOffset}px) scale(0.92)`;
+                        aboutCardTheme.style.filter = 'blur(8px)';
+                        aboutCardTheme.classList.remove('is-revealed');
+                    }
+                    if (guideToCalendarBtn) {
+                        guideToCalendarBtn.style.opacity = '0';
+                        guideToCalendarBtn.style.visibility = 'hidden';
+                        guideToCalendarBtn.style.pointerEvents = 'none';
+                        guideToCalendarBtn.classList.remove('is-revealed');
+                    }
+                } else {
+                    // As gridCenter moves towards targetMid, cards glide in from sides.
+                    // When gridCenter == targetMid (cards are in middle of viewport), pCards = 1.0 -> they meet in the middle!
+                    const pCards = Math.max(0, Math.min(1.0, 1 - (distanceToMid / travelSpan)));
+                    const easedCards = pCards < 0.5 ? 4 * pCards * pCards * pCards : 1 - Math.pow(-2 * pCards + 2, 3) / 2;
+
+                    const cardOpacity = (0.05 + easedCards * 0.95).toFixed(3);
+                    const curOffset = ((1 - easedCards) * sideOffset).toFixed(1);
+                    const curScale = (0.92 + easedCards * 0.08).toFixed(3);
+                    const curBlur = ((1 - pCards) * 6).toFixed(1);
+
+                    if (aboutCardPravaah) {
+                        aboutCardPravaah.style.visibility = 'visible';
+                        aboutCardPravaah.style.pointerEvents = 'auto';
+                        aboutCardPravaah.style.opacity = cardOpacity;
+                        aboutCardPravaah.style.filter = `blur(${curBlur}px)`;
+                        if (pCards >= 0.95) {
+                            aboutCardPravaah.classList.add('is-revealed');
+                            // Free inline transform when revealed so hover movement and 3D tilt work dynamically
+                            if (!aboutCardPravaah.matches(':hover') && !aboutCardPravaah.classList.contains('card-hovered')) {
+                                aboutCardPravaah.style.transform = '';
+                            }
+                        } else {
+                            aboutCardPravaah.classList.remove('is-revealed');
+                            aboutCardPravaah.style.transform = `translateX(-${curOffset}px) scale(${curScale})`;
+                        }
+                    }
+                    if (aboutCardTheme) {
+                        aboutCardTheme.style.visibility = 'visible';
+                        aboutCardTheme.style.pointerEvents = 'auto';
+                        aboutCardTheme.style.opacity = cardOpacity;
+                        aboutCardTheme.style.filter = `blur(${curBlur}px)`;
+                        if (pCards >= 0.95) {
+                            aboutCardTheme.classList.add('is-revealed');
+                            // Free inline transform when revealed so hover movement and 3D tilt work dynamically
+                            if (!aboutCardTheme.matches(':hover') && !aboutCardTheme.classList.contains('card-hovered')) {
+                                aboutCardTheme.style.transform = '';
+                            }
+                        } else {
+                            aboutCardTheme.classList.remove('is-revealed');
+                            aboutCardTheme.style.transform = `translateX(${curOffset}px) scale(${curScale})`;
+                        }
+                    }
+
+                    // Reveal Calendar Glide Button as the user scrolls past the middle
+                    if (distanceToMid <= 0) {
+                        const pastMid = -distanceToMid;
+                        const pGuide = Math.min(1.0, Math.max(0, pastMid / Math.max(80, viewportH * 0.15)));
+                        if (guideToCalendarBtn) {
+                            guideToCalendarBtn.style.visibility = 'visible';
+                            guideToCalendarBtn.style.pointerEvents = 'auto';
+                            guideToCalendarBtn.style.opacity = pGuide.toFixed(3);
+                            guideToCalendarBtn.style.filter = `blur(${((1 - pGuide) * 4).toFixed(1)}px)`;
+                            if (pGuide >= 0.85) {
+                                guideToCalendarBtn.classList.add('is-revealed');
+                                if (!guideToCalendarBtn.matches(':hover')) {
+                                    guideToCalendarBtn.style.transform = '';
+                                }
+                            } else {
+                                guideToCalendarBtn.classList.remove('is-revealed');
+                                guideToCalendarBtn.style.transform = `translateY(${((1 - pGuide) * 18).toFixed(1)}px) scale(${(0.94 + pGuide * 0.06).toFixed(3)})`;
+                            }
+                        }
+                    } else if (guideToCalendarBtn) {
+                        guideToCalendarBtn.style.opacity = '0';
+                        guideToCalendarBtn.style.visibility = 'hidden';
+                        guideToCalendarBtn.style.pointerEvents = 'none';
+                        guideToCalendarBtn.classList.remove('is-revealed');
+                    }
+                }
+            }
+        }
+
+        // -------------------------------------------------------------
+        // SCROLL-DRIVEN REVELATION: FEST CALENDAR
+        // Heading fades in smoothly as it enters viewport.
+        // Elements (3D cube & side tickers) pop up when calendar is about 10% below center of viewport (60vh).
+        // -------------------------------------------------------------
+        const calHeading = document.getElementById('calendar-heading-container');
+        const calLayout = document.getElementById('calendar-layout-container');
+        const calPage = document.getElementById('calendar-page');
+
+        if (calHeading) {
+            const calRect = calHeading.getBoundingClientRect();
+            const calCenter = calRect.top + calRect.height / 2;
+            const enterBottom = viewportH;
+            // Center of viewport is 50vh (0.50 * viewportH)
+            // 10% below center of viewport is 60vh (0.60 * viewportH)
+            const triggerThreshold = viewportH * 0.60;
+            const unrevealThreshold = triggerThreshold + 35;
+
+            // Phase 1: Calendar heading approaches 10% below center of viewport
+            let p = (enterBottom - calCenter) / (enterBottom - triggerThreshold);
+            p = Math.max(0, Math.min(1.0, p));
+
+            if (calCenter > triggerThreshold) {
+                // Heading approaching: opacity goes from low (0.04) to full opacity (1.0)
+                const calOpacity = Math.max(0.04, p).toFixed(3);
+                const ty = ((1 - p) * 36).toFixed(1);
+                const sc = (0.91 + p * 0.09).toFixed(3);
+                const bl = ((1 - p) * 6).toFixed(1);
+
+                calHeading.style.opacity = calOpacity;
+                calHeading.style.transform = `translateY(${ty}px) scale(${sc})`;
+                calHeading.style.filter = `blur(${bl}px)`;
+                calHeading.classList.remove('is-centered', 'is-revealed');
+            } else {
+                // Heading has reached about 10% below center -> FULL OPACITY
+                calHeading.style.opacity = '1';
+                calHeading.style.transform = 'translateY(0) scale(1)';
+                calHeading.style.filter = 'blur(0px)';
+                calHeading.classList.add('is-centered', 'is-revealed');
+            }
+
+            // Phase 2: Pop up when calendar reaches about 10% below center of viewport (clean cube layout, no sidebars)
+            if (calCenter <= triggerThreshold) {
+                if (calPage) calPage.classList.add('is-revealed');
+                if (calLayout) {
+                    calLayout.style.opacity = '';
+                    calLayout.style.transform = '';
+                    calLayout.style.filter = '';
+                    calLayout.classList.add('is-revealed');
+                }
+            } else if (calCenter > unrevealThreshold) {
+                if (calPage) calPage.classList.remove('is-revealed');
+                if (calLayout) {
+                    calLayout.classList.remove('is-revealed');
+                    calLayout.style.opacity = '';
+                    calLayout.style.transform = '';
+                    calLayout.style.filter = '';
+                }
+            }
+        }
+
+        // -------------------------------------------------------------
+        // SCROLL-DRIVEN REVELATION: PORTAL GALLERY
+        // Until the photo gallery heading comes to center of the viewport (50vh),
+        // the photos do not appear.
+        // Once the heading reaches the center, middle columns pop up from below,
+        // and edge columns glide in from the sides.
+        // -------------------------------------------------------------
+        const galleryPage = document.getElementById('gallery-page');
+        const galleryHeading = document.querySelector('#gallery-page .gallery-page-heading') || document.querySelector('.gallery-page-heading');
+        const galleryColumnsWrapper = document.getElementById('gallery-columns-wrapper') || document.querySelector('.gallery-columns-wrapper');
+
+        if (galleryHeading && galleryColumnsWrapper) {
+            const headingRect = galleryHeading.getBoundingClientRect();
+            const headingCenter = headingRect.top + headingRect.height / 2;
+            const enterBottom = viewportH;
+            const targetMid = viewportH * 0.5;
+
+            if (headingCenter > targetMid) {
+                // Phase 1: Heading approaches center from bottom of viewport
+                let pHead = (enterBottom - headingCenter) / (enterBottom - targetMid);
+                pHead = Math.max(0, Math.min(1.0, pHead));
+
+                if (pHead > 0) {
+                    const headOpacity = Math.max(0.04, pHead).toFixed(3);
+                    const headTy = ((1 - pHead) * 44).toFixed(1);
+                    const headScale = (0.90 + pHead * 0.10).toFixed(3);
+                    const headBlur = ((1 - pHead) * 8).toFixed(1);
+
+                    galleryHeading.style.opacity = headOpacity;
+                    galleryHeading.style.transform = `translateY(${headTy}px) scale(${headScale})`;
+                    galleryHeading.style.filter = `blur(${headBlur}px)`;
+                } else {
+                    galleryHeading.style.opacity = '0';
+                    galleryHeading.style.transform = 'translateY(44px) scale(0.90)';
+                    galleryHeading.style.filter = 'blur(8px)';
+                }
+                galleryHeading.classList.remove('is-centered');
+
+                // UNTIL the photo gallery heading reaches center of viewport,
+                // the photos MUST NOT appear
+                galleryColumnsWrapper.classList.remove('is-revealed');
+                if (galleryPage) galleryPage.classList.remove('is-revealed');
+            } else {
+                // Phase 2: Heading has reached the center of the viewport -> FULL SOLID OPACITY
+                galleryHeading.style.opacity = '1';
+                galleryHeading.style.transform = 'translateY(0) scale(1)';
+                galleryHeading.style.filter = 'blur(0px)';
+                galleryHeading.classList.add('is-centered');
+
+                // The photos appear and STAY visible while viewing/scrolling forward;
+                // they only disappear if the user scrolls back up (handled when headingCenter > targetMid)
+                galleryColumnsWrapper.classList.add('is-revealed');
+                if (galleryPage) galleryPage.classList.add('is-revealed');
+            }
+        }
+
         // Cosmic nav indicator update
         const navItems = Array.from(document.querySelectorAll('.cosmic-nav-wheel .nav-item'));
         if (navItems.length > 0 && scrollTop < viewportH * 0.6) {
@@ -623,21 +1491,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.addEventListener('scroll', handleParallaxAndNav, { passive: true });
+    window.addEventListener('resize', handleParallaxAndNav, { passive: true });
     if (mainScrollContainer) {
         mainScrollContainer.addEventListener('scroll', handleParallaxAndNav, { passive: true });
     }
+    // Initial run to ensure perfect positioning on load
+    handleParallaxAndNav();
 
     // Scroll-Reveal intersection observer for all home page elements
-    const revealElements = document.querySelectorAll('.scroll-reveal, .about-intro-card, .calendar-layout-container, .gallery-columns-wrapper, .last-page-hero-container, .pravaah-full-footer');
+    const revealElements = document.querySelectorAll('.scroll-reveal, .last-page-hero-container, .pravaah-full-footer');
     if ('IntersectionObserver' in window && revealElements.length > 0) {
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-revealed');
+                } else if (entry.boundingClientRect.top > window.innerHeight || entry.boundingClientRect.bottom < 0) {
+                    // Reset if scrolled back up above or down past the element so it re-animates from below on next scroll
+                    entry.target.classList.remove('is-revealed');
                 }
             });
         }, {
-            threshold: 0.08
+            threshold: 0.1,
+            rootMargin: '0px 0px -30px 0px'
         });
 
         revealElements.forEach(el => {
@@ -654,15 +1529,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const currentPath = window.location.pathname;
             if (currentPath.endsWith('index.html') || currentPath.endsWith('/') || currentPath === '') {
                 e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                if (mainScrollContainer) {
-                    mainScrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
-                }
+                timeBoundedScrollTo(0, TIME_BOUNDED_SCROLL_DURATION);
             }
         });
     });
 
-    // Keyboard navigation (ArrowDown, ArrowUp, PageDown, PageUp, Home, End)
+    // Keyboard navigation with time-bounded scroll locking
     window.addEventListener('keydown', (e) => {
         const modal = document.getElementById('event-modal');
         const lightbox = document.getElementById('gallery-lightbox');
@@ -674,21 +1546,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (e.key === 'ArrowDown' || e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey)) {
             e.preventDefault();
-            syncCurrentIndexFromScroll();
-            smoothScrollToSection(currentSnapIndex + 1);
+            if (!isScrollLocked) handleScrollInput(1);
         } else if (e.key === 'ArrowUp' || e.key === 'PageUp' || (e.key === ' ' && e.shiftKey)) {
             e.preventDefault();
-            syncCurrentIndexFromScroll();
-            smoothScrollToSection(currentSnapIndex - 1);
+            if (!isScrollLocked) handleScrollInput(-1);
         } else if (e.key === 'Home') {
             e.preventDefault();
-            smoothScrollToSection(0);
+            if (!isScrollLocked) timeBoundedScrollTo(0, TIME_BOUNDED_SCROLL_DURATION);
         } else if (e.key === 'End') {
+            if (!portalHasEntered) return;
             e.preventDefault();
-            smoothScrollToSection(snapSections.length - 1);
+            const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+            if (!isScrollLocked) timeBoundedScrollTo(maxScroll, TIME_BOUNDED_SCROLL_DURATION);
         }
     });
-
 
     const observerOptions = {
         root: mainScrollContainer,
@@ -1571,4 +2442,48 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     tickOrbit();
+
+    /* =========================================================
+       ABOUT ELEMENTS INTERACTIVE 3D HOVER & MOVEMENT ENGINE
+       ========================================================= */
+    function initAboutElementsMovementOnHover() {
+        const aboutCards = document.querySelectorAll('.about-intro-card');
+        aboutCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                if (card.classList.contains('is-revealed')) {
+                    card.classList.add('card-hovered');
+                }
+            });
+
+            card.addEventListener('mousemove', (e) => {
+                if (!card.classList.contains('is-revealed')) return;
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const cx = rect.width / 2;
+                const cy = rect.height / 2;
+
+                // Dynamic 3D tilt tracking cursor (-8deg to +8deg) + upward lift
+                const rotX = ((cy - y) / cy) * 8.0;
+                const rotY = ((x - cx) / cx) * 8.0;
+
+                card.style.transform = `perspective(1000px) translateY(-12px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale(1.028)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('card-hovered');
+                if (card.classList.contains('is-revealed')) {
+                    card.style.transform = 'perspective(1000px) translateY(0) rotateX(0deg) rotateY(0deg) scale(1)';
+                    setTimeout(() => {
+                        if (!card.matches(':hover') && card.classList.contains('is-revealed')) {
+                            card.style.transform = '';
+                        }
+                    }, 280);
+                }
+            });
+        });
+    }
+
+    initAboutElementsMovementOnHover();
+
 });

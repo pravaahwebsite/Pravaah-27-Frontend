@@ -26,29 +26,82 @@
     <div class="gallery-cyber-bg"></div>
     <div class="gallery-grid-overlay"></div>
 
-    <!-- Cosmic Nav Wheel -->
-    <nav class="cosmic-nav-wheel" id="cosmic-nav-wheel">
-        <div class="nav-wheel-track">
-            <div class="nav-indicator-pill" id="nav-indicator-pill"></div>
-            <div class="nav-hover-pill" id="nav-hover-pill"></div>
+    <!-- Cosmic Subpage Hamburger Navigation -->
+    <nav class="cosmic-subpage-nav" id="cosmic-subpage-nav" aria-label="Main Navigation">
+        <button class="cosmic-hamburger-btn" id="cosmic-hamburger-btn" aria-label="Toggle Navigation Menu" aria-expanded="false" type="button">
+            <div class="hamburger-box">
+                <span class="hamburger-bar bar-1"></span>
+                <span class="hamburger-bar bar-2"></span>
+                <span class="hamburger-bar bar-3"></span>
+            </div>
+            <span class="hamburger-label" id="hamburger-label">MENU</span>
+            <span class="hamburger-pulse-dot" aria-hidden="true"></span>
+        </button>
 
-            <a href="index.html" class="nav-item">HOME</a>
-            <div class="nav-divider"></div>
-            <a href="events.html" class="nav-item">EVENTS</a>
-            <div class="nav-divider"></div>
-            <a href="register.html" class="nav-item">REGISTER</a>
-            <div class="nav-divider"></div>
-            <a href="accommodation.html" class="nav-item">ACCOMMODATION</a>
-            <div class="nav-divider"></div>
-            <a href="photo-gallery.html" class="nav-item active">PHOTO GALLERY</a>
-            <div class="nav-divider"></div>
-            <a href="sponsors.html" class="nav-item">SPONSORS</a>
-            <div class="nav-divider"></div>
-            <a href="contact.html" class="nav-item">CONTACT US</a>
-            <div class="nav-divider"></div>
-            <a href="profile.html" class="nav-item">PROFILE</a>
+        <div class="cosmic-nav-backdrop" id="cosmic-nav-backdrop" aria-hidden="true"></div>
+
+        <div class="cosmic-hud-dropdown" id="cosmic-hud-dropdown" role="dialog" aria-modal="true" aria-label="Navigation Menu">
+            <div class="hud-dropdown-header">
+                <div class="hud-dropdown-tag">PRAVAAH '27 // HUD NAV</div>
+                <div class="hud-status-badge"><span class="status-live-dot"></span> ONLINE</div>
+            </div>
+            <div class="hud-dropdown-divider"></div>
+            <ul class="hud-nav-list" role="menu">
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="index.html" class="hud-nav-link nav-item" role="menuitem">
+                        <span class="hud-link-index">01</span>
+                        <span class="hud-link-text">HOME</span>
+                    </a>
+                </li>
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="events.html" class="hud-nav-link nav-item" role="menuitem">
+                        <span class="hud-link-index">02</span>
+                        <span class="hud-link-text">EVENTS</span>
+                    </a>
+                </li>
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="register.html" class="hud-nav-link nav-item" role="menuitem">
+                        <span class="hud-link-index">03</span>
+                        <span class="hud-link-text">REGISTER</span>
+                    </a>
+                </li>
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="accommodation.html" class="hud-nav-link nav-item" role="menuitem">
+                        <span class="hud-link-index">04</span>
+                        <span class="hud-link-text">ACCOMMODATION</span>
+                    </a>
+                </li>
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="photo-gallery.html" class="hud-nav-link nav-item active" role="menuitem">
+                        <span class="hud-link-index">05</span>
+                        <span class="hud-link-text">PHOTO GALLERY</span>
+                        <span class="hud-link-badge">ACTIVE</span>
+                    </a>
+                </li>
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="sponsors.html" class="hud-nav-link nav-item" role="menuitem">
+                        <span class="hud-link-index">06</span>
+                        <span class="hud-link-text">SPONSORS</span>
+                    </a>
+                </li>
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="contact.html" class="hud-nav-link nav-item" role="menuitem">
+                        <span class="hud-link-index">07</span>
+                        <span class="hud-link-text">CONTACT US</span>
+                    </a>
+                </li>
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="profile.html" class="hud-nav-link nav-item" role="menuitem">
+                        <span class="hud-link-index">08</span>
+                        <span class="hud-link-text">PROFILE</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="hud-dropdown-footer">
+                <span class="hud-footer-coord">DIMENSION // 2027</span>
+                <span class="hud-footer-sub">TRANSMISSION ACTIVE</span>
+            </div>
         </div>
-        <div class="nav-wheel-glow"></div>
     </nav>
 
     <!-- =========================================================
@@ -374,7 +427,7 @@
         </div>
         <div class="footer-bottom-divider"></div>
         <div class="footer-bottom-credits">
-            <span class="credits-brand">@PRAVAAH'26 IIT BHUBANESWAR</span>
+            <span class="credits-brand">@PRAVAAH'27 IIT BHUBANESWAR</span>
             <span class="credits-separator">|</span>
             <span class="credits-team">MADE WITH 💜 BY WEB TEAM</span>
         </div>
@@ -384,8 +437,22 @@
     <div class="dossier-modal-overlay" id="photo-dossier-modal" aria-hidden="true">
         <div class="dossier-modal-card" role="dialog" aria-modal="true">
             <div class="modal-header">
-                <span class="modal-badge" id="modal-badge">TECH & ROBOTICS // FLAGSHIP</span>
-                <button class="modal-close-btn" id="modal-close-btn" type="button">[ CLOSE DOSSIER ]</button>
+                <div class="modal-header-actions">
+                    <button class="modal-download-btn" id="modal-download-btn" type="button" aria-label="Download Photo">
+                        <svg class="download-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        <span>DOWNLOAD</span>
+                    </button>
+                    <button class="modal-close-btn" id="modal-close-btn" type="button" aria-label="Close Dossier">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
             </div>
 
             <div class="modal-image-box">
@@ -395,31 +462,6 @@
             <h3 class="modal-title" id="modal-title">PHOTO TITLE</h3>
             <p class="modal-description" id="modal-description">Detailed description of the photo capture.</p>
 
-            <div class="modal-specs-grid">
-                <div class="spec-item">
-                    <span class="spec-label">EDITION</span>
-                    <span class="spec-value" id="spec-edition">PRAVAAH 2026</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">LOCATION</span>
-                    <span class="spec-value" id="spec-location">LHC Arena Complex</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">PHOTOGRAPHER</span>
-                    <span class="spec-value" id="spec-photographer">Media Team</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">RESOLUTION</span>
-                    <span class="spec-value" id="spec-resolution">6000 x 4000 (RAW)</span>
-                </div>
-            </div>
-
-            <div class="modal-highlights">
-                <h4 class="highlights-title">DOSSIER CAPTURE NOTES & HIGHLIGHTS</h4>
-                <ul class="highlights-list" id="modal-highlights-list">
-                    <!-- Dynamic highlights rendered by JS -->
-                </ul>
-            </div>
         </div>
     </div>
 

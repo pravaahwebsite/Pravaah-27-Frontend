@@ -13,10 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
             category: 'TECH & ROBOTICS',
             badge: 'FLAGSHIP TECH',
             edition: 'PRAVAAH 2026',
-            location: 'LHC Complex - Arena A',
-            photographer: 'Pravaah Media Team',
-            resolution: '6000 x 4000 (RAW)',
-            image: 'assets/images/gallery/C3182T01.jpg',
+            resolution: '3712 x 4100',
+            image: 'assets/images/gallery/DSC_1035.jpg',
             description: 'Intense micro-robotics arena competition captured during the finals of Robo Soccer. Autonomous and manual bots maneuvering under neon spotlight arrays.',
             highlights: [
                 'Captured during high-speed goal scoring sequence.',
@@ -30,8 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
             category: 'CULTURAL & PRONITES',
             badge: 'STAR NIGHT',
             edition: 'PRAVAAH 2026',
-            location: 'Main Stadium Grounds',
-            photographer: 'Ayan Mukherjee',
             resolution: '5472 x 3648 (RAW)',
             image: 'assets/images/gallery/C3182T01.jpg',
             description: '15,000+ roaring festival pass holders illuminating the central amphitheatre with phone flashlights during the headline EDM artist finale.',
@@ -47,8 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
             category: 'TECH & ROBOTICS',
             badge: 'COMBAT ARENA',
             edition: 'PRAVAAH 2026',
-            location: 'Open Air Cage Complex',
-            photographer: 'Rohan Sharma',
             resolution: '6000 x 4000 (RAW)',
             image: 'assets/images/gallery/C3182T01.jpg',
             description: '30kg heavyweight spinner bot impact moment inside the reinforced steel mesh arena, sending sparks flying across the spectator safety barrier.',
@@ -64,8 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
             category: 'ESPORTS ARENA',
             badge: '5v5 LAN',
             edition: 'PRAVAAH 2026',
-            location: 'Esports Pavilion Stage',
-            photographer: 'Devansh Verma',
             resolution: '5760 x 3840 (RAW)',
             image: 'assets/images/gallery/C3182T01.jpg',
             description: 'Grand final clutch moment on stage as the winning squad celebrates after locking down the match-winning defuse in front of live shoutcasters.',
@@ -81,8 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
             category: 'STAGE & SHOWCASE',
             badge: 'RUNWAY',
             edition: 'PRAVAAH 2026',
-            location: 'Main Auditorium Stage',
-            photographer: 'Sneha Mohanty',
             resolution: '6000 x 4000 (RAW)',
             image: 'assets/images/gallery/C3182T01.jpg',
             description: 'Avant-garde cyberpunk fashion couture spotlight entry featuring custom neon-infused fabrics and theatrical smoke effects.',
@@ -98,8 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
             category: 'CULTURAL & PRONITES',
             badge: 'LIVE MUSIC',
             edition: 'PRAVAAH 2026',
-            location: 'Amphitheatre Stage',
-            photographer: 'Kavya Sharma',
             resolution: '5184 x 3456 (RAW)',
             image: 'assets/images/gallery/C3182T01.jpg',
             description: 'Lead guitarist performing a solo breakdown under crimson spotlights during the collegiate rock and heavy metal finals.',
@@ -115,8 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
             category: 'STAGE & SHOWCASE',
             badge: 'VENTURE PITCH',
             edition: 'PRAVAAH 2026',
-            location: 'Auditorium Hall 2',
-            photographer: 'Arjun Das',
             resolution: '6000 x 4000 (RAW)',
             image: 'assets/images/gallery/C3182T01.jpg',
             description: 'Student startup founders presenting their AI prototype to a panel of venture capital investors and incubator mentors.',
@@ -132,8 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
             category: 'TECH & ROBOTICS',
             badge: 'FPV RACING',
             edition: 'PRAVAAH 2026',
-            location: 'Outdoor Stadium Track',
-            photographer: 'Priya Nayak',
             resolution: '6000 x 4000 (RAW)',
             image: 'assets/images/gallery/C3182T01.jpg',
             description: 'High-speed quadcopter passing through a illuminated neon gate during night obstacle course trials.',
@@ -149,8 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
             category: 'TECH & ROBOTICS',
             badge: 'HACKATHON',
             edition: 'PRAVAAH 2026',
-            location: 'Computer Center Lab 3',
-            photographer: 'Vikram Singh',
             resolution: '6000 x 4000 (RAW)',
             image: 'assets/images/gallery/C3182T01.jpg',
             description: 'Ethical hackers decoding cryptographic flags under low ambient matrix green terminal arrays during 24h CTF.',
@@ -166,8 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
             category: 'CULTURAL & PRONITES',
             badge: 'COSPLAY ARENA',
             edition: 'PRAVAAH 2026',
-            location: 'Convention Walkway',
-            photographer: 'Ananya Roy',
             resolution: '5760 x 3840 (RAW)',
             image: 'assets/images/gallery/C3182T01.jpg',
             description: 'Handcrafted sci-fi and anime character armor cosplayers gathering for the central festival parade walk.',
@@ -183,8 +163,6 @@ document.addEventListener('DOMContentLoaded', () => {
             category: 'ESPORTS ARENA',
             badge: 'MOBILE LAN',
             edition: 'PRAVAAH 2026',
-            location: 'Gaming Pavilion Hall B',
-            photographer: 'Devansh Verma',
             resolution: '6000 x 4000 (RAW)',
             image: 'assets/images/gallery/C3182T01.jpg',
             description: 'Final circle battle royale tense moment with dual shoutcaster commentary broadcast live across festival screens.',
@@ -200,8 +178,6 @@ document.addEventListener('DOMContentLoaded', () => {
             category: 'CULTURAL & PRONITES',
             badge: 'STREET DANCE',
             edition: 'PRAVAAH 2026',
-            location: 'Open Amphitheatre Plaza',
-            photographer: 'Kavya Sharma',
             resolution: '5184 x 3456 (RAW)',
             image: 'assets/images/gallery/C3182T01.jpg',
             description: 'High-energy popping & locking freestyle cipher battle surrounding by cheering student crowds under evening sun.',
@@ -217,8 +193,6 @@ document.addEventListener('DOMContentLoaded', () => {
             category: 'STAGE & SHOWCASE',
             badge: 'DESIGN EXPO',
             edition: 'PRAVAAH 2026',
-            location: 'Design Gallery Complex',
-            photographer: 'Sneha Mohanty',
             resolution: '6000 x 4000 (RAW)',
             image: 'assets/images/gallery/C3182T01.jpg',
             description: 'Generative AI visual artwork exhibition featuring ultra-high definition canvas prints created by student designers.',
@@ -234,8 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
             category: 'STAGE & SHOWCASE',
             badge: 'INAUGURATION',
             edition: 'PRAVAAH 2026',
-            location: 'Main Stage Auditorium',
-            photographer: 'Pravaah Media Team',
             resolution: '6000 x 4000 (RAW)',
             image: 'assets/images/gallery/C3182T01.jpg',
             description: 'Grand inaugural ceremony torch lighting up the holographic Multiverse logo to mark the start of Pravaah 2026.',
@@ -279,15 +251,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Modal Elements
     const modalOverlay = document.getElementById('photo-dossier-modal');
     const modalImage = document.getElementById('modal-img');
-    const modalBadge = document.getElementById('modal-badge');
     const modalTitle = document.getElementById('modal-title');
     const modalDescription = document.getElementById('modal-description');
-    const modalEdition = document.getElementById('spec-edition');
-    const modalLocation = document.getElementById('spec-location');
-    const modalPhotographer = document.getElementById('spec-photographer');
-    const modalResolution = document.getElementById('spec-resolution');
-    const modalHighlightsList = document.getElementById('modal-highlights-list');
+    const modalDownloadBtn = document.getElementById('modal-download-btn');
     const modalCloseBtn = document.getElementById('modal-close-btn');
+    let currentModalPhoto = null;
 
     // Build 3D Stage (14 Wall Cards on Left/Right walls + THE FINAL FRAME End Scene)
     function buildCorridorStage() {
@@ -343,20 +311,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 
                 <div class="card-text-body">
-                    <span class="card-category-tag">${photo.category}</span>
                     <h3 class="card-title">${photo.title}</h3>
                     <p class="card-description">${photo.description}</p>
-                </div>
-
-                <div class="card-details-row">
-                    <div class="meta-item">
-                        <span class="meta-icon">📍</span>
-                        <span class="truncate">${photo.location}</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-icon-magenta">📷</span>
-                        <span class="truncate">${photo.photographer}</span>
-                    </div>
                 </div>
 
                 <button class="card-action-btn" type="button">
@@ -639,27 +595,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Modal Operations
     function openDossierModal(photo) {
         if (!modalOverlay) return;
+        currentModalPhoto = photo;
 
         modalImage.src = photo.image;
         modalImage.alt = photo.title;
-        modalBadge.textContent = `${photo.category} // ${photo.badge}`;
         modalTitle.textContent = photo.title;
         modalDescription.textContent = photo.description;
-        
-        modalEdition.textContent = photo.edition;
-        modalLocation.textContent = photo.location;
-        modalPhotographer.textContent = photo.photographer;
-        modalResolution.textContent = photo.resolution;
-
-        // Render Highlights
-        modalHighlightsList.innerHTML = '';
-        if (photo.highlights && photo.highlights.length > 0) {
-            photo.highlights.forEach(item => {
-                const li = document.createElement('li');
-                li.textContent = item;
-                modalHighlightsList.appendChild(li);
-            });
-        }
 
         modalOverlay.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -1063,7 +1004,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Modal Close Button Handlers
+    // Modal Button Handlers
+    if (modalDownloadBtn) {
+        modalDownloadBtn.addEventListener('click', () => {
+            if (!currentModalPhoto || !currentModalPhoto.image) return;
+            const a = document.createElement('a');
+            a.href = currentModalPhoto.image;
+            a.download = (currentModalPhoto.title || 'pravaah-photo').toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.jpg';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+    }
+
     if (modalCloseBtn) {
         modalCloseBtn.addEventListener('click', closeDossierModal);
     }
