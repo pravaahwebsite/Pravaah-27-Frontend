@@ -9,13 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const photoCollection = [
         {
             id: 'photo-1',
-            title: 'ROBO SOCCER ARENA CLASH',
+            title: 'FASHION SHOW',
             category: 'TECH & ROBOTICS',
             badge: 'FLAGSHIP TECH',
             edition: 'PRAVAAH 2026',
             resolution: '3712 x 4100',
-            image: 'assets/images/gallery/DSC_1035.jpg',
-            description: 'Intense micro-robotics arena competition captured during the finals of Robo Soccer. Autonomous and manual bots maneuvering under neon spotlight arrays.',
+            image: 'assets/images/gallery/Fashion_show.jpg',
+            description: 'A high-energy stage event where students showcase creativity, costume design, and runway presence. It blends design, music, choreography, and dramatic lighting.',
             highlights: [
                 'Captured during high-speed goal scoring sequence.',
                 'Multi-angle arena lighting with cyan backdrop glow.',
@@ -24,13 +24,13 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             id: 'photo-2',
-            title: 'SINGULARITY PRONITE CROWD',
+            title: 'FACE PAINTING',
             category: 'CULTURAL & PRONITES',
             badge: 'STAR NIGHT',
             edition: 'PRAVAAH 2026',
             resolution: '5472 x 3648 (RAW)',
-            image: 'assets/images/gallery/C3182T01.jpg',
-            description: '15,000+ roaring festival pass holders illuminating the central amphitheatre with phone flashlights during the headline EDM artist finale.',
+            image: 'assets/images/gallery/Face_painting.jpg',
+            description: 'A vibrant, interactive art competition and stall activity commonly featured in college fests. It transforms the human face and neck into a live canvas to showcase creativity, storytelling, and technical skill.',
             highlights: [
                 'Wide-angle stadium capture from the central sound mixing tower.',
                 'Synchronized pyrotechnic laser beam array overhead.',
@@ -39,13 +39,13 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             id: 'photo-3',
-            title: 'MECHA COMBAT ARENA FINALS',
+            title: 'INFORMAL NIGHT',
             category: 'TECH & ROBOTICS',
             badge: 'COMBAT ARENA',
             edition: 'PRAVAAH 2026',
             resolution: '6000 x 4000 (RAW)',
-            image: 'assets/images/gallery/C3182T01.jpg',
-            description: '30kg heavyweight spinner bot impact moment inside the reinforced steel mesh arena, sending sparks flying across the spectator safety barrier.',
+            image: 'assets/images/gallery/Informal_night.jpg',
+            description: 'A energetic, relaxed, and highly interactive singing and dancing and star-studded concert nights',
             highlights: [
                 'High-speed shutter capture at 1/4000s.',
                 'Full arena spark ignition frame.',
@@ -54,13 +54,13 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             id: 'photo-4',
-            title: 'VALORANT LAN CHAMPIONSHIP',
+            title: 'GROUP DANCE',
             category: 'ESPORTS ARENA',
             badge: '5v5 LAN',
             edition: 'PRAVAAH 2026',
             resolution: '5760 x 3840 (RAW)',
-            image: 'assets/images/gallery/C3182T01.jpg',
-            description: 'Grand final clutch moment on stage as the winning squad celebrates after locking down the match-winning defuse in front of live shoutcasters.',
+            image: 'assets/images/gallery/Group_dance.jpg',
+            description: 'One of the most exciting and high-energy competitive events at a college cultural fest, bringing together synchronization, storytelling, and crowd appeal.',
             highlights: [
                 'Stage lighting synced to team color scheme.',
                 'Live shoutcasting booth visible in foreground background.',
@@ -69,13 +69,13 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             id: 'photo-5',
-            title: 'VERVE FUTURISTIC RUNWAY',
+            title: 'COMEDY NIGHT',
             category: 'STAGE & SHOWCASE',
             badge: 'RUNWAY',
             edition: 'PRAVAAH 2026',
             resolution: '6000 x 4000 (RAW)',
-            image: 'assets/images/gallery/C3182T01.jpg',
-            description: 'Avant-garde cyberpunk fashion couture spotlight entry featuring custom neon-infused fabrics and theatrical smoke effects.',
+            image: 'assets/images/gallery/Comedy_night.jpg',
+            description: ' Professional, well-known comedians are booked to perform a marquee set, often drawing the largest ticketed or open-air campus crowds.',
             highlights: [
                 'Dramatic low-angle runway perspective.',
                 'Custom neon LED attire illumination.',
@@ -84,13 +84,13 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             id: 'photo-6',
-            title: 'EUPHONY BATTLE OF BANDS',
+            title: 'ROBO LEAGUE',
             category: 'CULTURAL & PRONITES',
             badge: 'LIVE MUSIC',
             edition: 'PRAVAAH 2026',
             resolution: '5184 x 3456 (RAW)',
-            image: 'assets/images/gallery/C3182T01.jpg',
-            description: 'Lead guitarist performing a solo breakdown under crimson spotlights during the collegiate rock and heavy metal finals.',
+            image: 'assets/images/gallery/Robo_League.jpg',
+            description: 'One of the most popular and high-energy robotics competitions hosted during college technical festivals. In this event, student teams design, build, and control robots that compete in a fast-paced, soccer-style match inside a structured arena.',
             highlights: [
                 'Stage fog diffusion with atmospheric backlighting.',
                 'Action motion blur on drum kit background.',
@@ -99,13 +99,13 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             id: 'photo-7',
-            title: 'STARTUP PITCH SUMMIT',
+            title: 'BLAST OFF',
             category: 'STAGE & SHOWCASE',
             badge: 'VENTURE PITCH',
             edition: 'PRAVAAH 2026',
             resolution: '6000 x 4000 (RAW)',
-            image: 'assets/images/gallery/C3182T01.jpg',
-            description: 'Student startup founders presenting their AI prototype to a panel of venture capital investors and incubator mentors.',
+            image: 'assets/images/gallery/Blast_off.jpg',
+            description: ' Teams build custom aerodynamic rockets using plastic bottles. The propulsion system relies entirely on a mix of pressurized air and water.',
             highlights: [
                 'Interactive pitch deck slide projection overlay.',
                 'Q&A jury panel engaged response.',
@@ -114,13 +114,13 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             id: 'photo-8',
-            title: 'AUTONOMOUS DRONE CIRCUIT',
+            title: 'INNOVATIO EXPO',
             category: 'TECH & ROBOTICS',
             badge: 'FPV RACING',
             edition: 'PRAVAAH 2026',
             resolution: '6000 x 4000 (RAW)',
-            image: 'assets/images/gallery/C3182T01.jpg',
-            description: 'High-speed quadcopter passing through a illuminated neon gate during night obstacle course trials.',
+            image: 'assets/images/gallery/Innovatio_Expo.jpg',
+            description: 'A flagship technical event in a college fest where students showcase research, working models, and software prototypes. Participants present working prototypes and explain their methodology to visitors and peers.',
             highlights: [
                 'Motion track trail along LED gate border.',
                 'Autonomous flight path telemetry verified.',
@@ -129,13 +129,13 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             id: 'photo-9',
-            title: 'CYBERSECURITY CTF ARENA',
+            title: 'IPL AUCTION',
             category: 'TECH & ROBOTICS',
             badge: 'HACKATHON',
             edition: 'PRAVAAH 2026',
             resolution: '6000 x 4000 (RAW)',
-            image: 'assets/images/gallery/C3182T01.jpg',
-            description: 'Ethical hackers decoding cryptographic flags under low ambient matrix green terminal arrays during 24h CTF.',
+            image: 'assets/images/gallery/IPL_auction.jpg',
+            description: 'Simulates the excitement of a real-life cricket franchise auction, combining sports strategy, mental math, and tactical bidding.',
             highlights: [
                 'Jeopardy CTF scoreboard live update background.',
                 '24-hour non-stop hacking challenge.',
@@ -144,13 +144,13 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             id: 'photo-10',
-            title: 'COSPLAY ALLEY & ANIME VERSE',
+            title: 'CULT AND HANDMADE CRAFTS',
             category: 'CULTURAL & PRONITES',
             badge: 'COSPLAY ARENA',
             edition: 'PRAVAAH 2026',
             resolution: '5760 x 3840 (RAW)',
-            image: 'assets/images/gallery/C3182T01.jpg',
-            description: 'Handcrafted sci-fi and anime character armor cosplayers gathering for the central festival parade walk.',
+            image: 'assets/images/gallery/Startup_Expo.jpg',
+            description: 'Setting up an artisan or craft-centered stall like this at a college fest is a fantastic way to promote cultural heritage, support regional artisans, and offer students unique, sustainable souvenirs.',
             highlights: [
                 'Custom 3D printed mech armor details.',
                 'Crowd interaction and photography showcase.',
@@ -159,13 +159,13 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             id: 'photo-11',
-            title: 'BGMI ESPORTS SHOWDOWN',
+            title: 'FOOD STALL',
             category: 'ESPORTS ARENA',
             badge: 'MOBILE LAN',
             edition: 'PRAVAAH 2026',
             resolution: '6000 x 4000 (RAW)',
-            image: 'assets/images/gallery/C3182T01.jpg',
-            description: 'Final circle battle royale tense moment with dual shoutcaster commentary broadcast live across festival screens.',
+            image: 'assets/images/gallery/Food_stall.jpg',
+            description: 'Combine creative cooking, fast service, and a hands-on introduction to running a small business.',
             highlights: [
                 'Final circle clutch victory finish.',
                 'Live audience shouting reaction.',
@@ -174,13 +174,13 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             id: 'photo-12',
-            title: 'SOLO DANCE STREET CLASH',
+            title: 'GENERAL QUIZ',
             category: 'CULTURAL & PRONITES',
             badge: 'STREET DANCE',
             edition: 'PRAVAAH 2026',
             resolution: '5184 x 3456 (RAW)',
-            image: 'assets/images/gallery/C3182T01.jpg',
-            description: 'High-energy popping & locking freestyle cipher battle surrounding by cheering student crowds under evening sun.',
+            image: 'assets/images/gallery/General_quiz.jpg',
+            description: 'A high-energy competition that tests participants on a wide range of subjects beyond regular textbooks.',
             highlights: [
                 'Mid-air freeze frame capture.',
                 'Live beatbox background accompaniment.',
@@ -189,13 +189,13 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             id: 'photo-13',
-            title: 'AI ART & GRAPHIC EXPO',
+            title: 'DATA SCIENCE HACKATHON',
             category: 'STAGE & SHOWCASE',
             badge: 'DESIGN EXPO',
             edition: 'PRAVAAH 2026',
             resolution: '6000 x 4000 (RAW)',
-            image: 'assets/images/gallery/C3182T01.jpg',
-            description: 'Generative AI visual artwork exhibition featuring ultra-high definition canvas prints created by student designers.',
+            image: 'assets/images/gallery/Data_science_hackathon.jpg',
+            description: 'A competitive event where student teams use data analysis, statistics, and machine learning to solve real-world problems within a tight deadline',
             highlights: [
                 'Interactive digital screen artwork displays.',
                 'Generative prompt art gallery tour.',
@@ -204,13 +204,13 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             id: 'photo-14',
-            title: 'OPENING CEREMONY ILLUMINATION',
+            title: 'SOLO DANCE STREET CLASH',
             category: 'STAGE & SHOWCASE',
             badge: 'INAUGURATION',
             edition: 'PRAVAAH 2026',
             resolution: '6000 x 4000 (RAW)',
-            image: 'assets/images/gallery/C3182T01.jpg',
-            description: 'Grand inaugural ceremony torch lighting up the holographic Multiverse logo to mark the start of Pravaah 2026.',
+            image: 'assets/images/gallery/Street_Battle.jpg',
+            description: 'One of the most high-energy, crowd-pulling, and electrifying events at any college cultural festival. Unlike formal stage dance events, a street battle shifts the spotlight to raw, urban styles, freestyle improvisation, and face-to-face competitive confrontation. It brings an underground subculture right into the heart of campus life.',
             highlights: [
                 'Holographic logo lighting sequence.',
                 'Official festival launch ceremony moment.',
@@ -304,10 +304,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             card.innerHTML = `
                 <div class="corridor-card-img-box">
-                    <img src="${photo.image}" alt="${photo.title}" loading="lazy" />
+                    <img src="${photo.image}" alt="${photo.title}" loading="lazy" onerror="if (!this.dataset.fallback) { this.dataset.fallback = '1'; this.src = this.src.endsWith('.jpg') ? this.src.replace(/\.jpg$/i, '.JPG') : this.src.replace(/\.JPG$/i, '.jpg'); }" />
                     <div class="card-img-overlay"></div>
-                    <span class="card-badge-left">${photo.badge}</span>
-                    <span class="card-badge-right">${photo.edition}</span>
                 </div>
                 
                 <div class="card-text-body">
@@ -597,6 +595,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!modalOverlay) return;
         currentModalPhoto = photo;
 
+        modalImage.onerror = function() {
+            if (!this.dataset.fallback) {
+                this.dataset.fallback = '1';
+                this.src = this.src.endsWith('.jpg') ? this.src.replace(/\.jpg$/i, '.JPG') : this.src.replace(/\.JPG$/i, '.jpg');
+            }
+        };
+        modalImage.dataset.fallback = '';
         modalImage.src = photo.image;
         modalImage.alt = photo.title;
         modalTitle.textContent = photo.title;
