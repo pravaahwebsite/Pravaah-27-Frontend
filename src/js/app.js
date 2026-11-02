@@ -18,11 +18,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let hasAlreadyEnteredPortal = false;
     try {
-        hasAlreadyEnteredPortal = (sessionStorage.getItem('portalEntered') === 'true') || (new URLSearchParams(window.location.search).get('skipintro') === 'true');
+        if (new URLSearchParams(window.location.search).get('firsttime') === 'true' || new URLSearchParams(window.location.search).get('replay') === 'true') {
+            sessionStorage.removeItem('portalEntered');
+            hasAlreadyEnteredPortal = false;
+        } else {
+            hasAlreadyEnteredPortal = (sessionStorage.getItem('portalEntered') === 'true') || (new URLSearchParams(window.location.search).get('skipintro') === 'true');
+        }
     } catch (e) {}
     let portalPlaybackActive = false;
     let portalHasEntered = hasAlreadyEnteredPortal;
     let flashTriggered = false;
+    let splashAnimFrameId = null;
+    let cyberAudioInstance = null;
 
     const swipeTrigger = document.getElementById('swipe-trigger');
     const enterBtn = document.getElementById('enter-btn');
@@ -590,6 +597,673 @@ document.addEventListener('DOMContentLoaded', () => {
             splashScreen.classList.remove('hidden');
             splashScreen.classList.add('active-screen');
         }
+        initPravaahSplashAnimation();
+    }
+
+    /* =========================================================
+       PRAVAAH 3D HOLOGRAM GLITCH SCANNER INTRO (PURE BLACK BACKGROUND)
+       (Tier 1 Opener -> Then First Page of Website -> Then Home Page)
+       ========================================================= */
+    let introDismissed = false;
+
+    function proceedToFirstPage() {
+        if (introDismissed) return;
+        introDismissed = true;
+        const intro = document.getElementById('pravaah-intro-screen');
+        if (intro) {
+            intro.classList.add('intro-fade-out');
+            setTimeout(() => {
+                intro.classList.add('hidden');
+                stopPravaahSplashAnimation();
+            }, 650);
+        }
+    }
+    window.proceedToFirstPage = proceedToFirstPage;
+
+    function stopPravaahSplashAnimation() {
+        if (splashAnimFrameId) {
+            cancelAnimationFrame(splashAnimFrameId);
+            splashAnimFrameId = null;
+        }
+        if (cyberAudioInstance && cyberAudioInstance.ctx && cyberAudioInstance.ctx.state !== 'closed') {
+            try {
+                cyberAudioInstance.ctx.suspend();
+            } catch (err) {}
+        }
+    }
+
+    function initPravaahSplashAnimation() {
+        if (portalHasEntered) return;
+
+        const splashCanvas = document.getElementById('pravaah-glitch-canvas');
+        if (!splashCanvas) return;
+
+        const ctx = splashCanvas.getContext('2d');
+        const offCanvas = document.createElement('canvas');
+        const offCtx = offCanvas.getContext('2d');
+        const mosaicCanvas = document.createElement('canvas');
+        const mosaicCtx = mosaicCanvas.getContext('2d');
+
+        // Web Audio Synthesizer (No external mp3 dependencies)
+        class CyberAudio {
+            constructor() {
+                this.ctx = null;
+                this.enabled = false;
+                this.masterGain = null;
+            }
+
+            init() {
+                if (this.ctx) {
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+                    return;
+                }
+                try {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    this.ctx = new AudioContext();
+                    this.masterGain = this.ctx.createGain();
+                    this.masterGain.gain.setValueAtTime(0.35, this.ctx.currentTime);
+                    this.masterGain.connect(this.ctx.destination);
+                } catch (e) {}
+            }
+
+            toggle() {
+                this.init();
+                this.enabled = !this.enabled;
+                if (this.masterGain && this.ctx) {
+                    this.masterGain.gain.setValueAtTime(this.enabled ? 0.35 : 0, this.ctx.currentTime);
+                }
+                return this.enabled;
+            }
+
+            playGlitchCrunch() {
+                if (!this.enabled || !this.ctx) return;
+                try {
+                    const now = this.ctx.currentTime;
+                    const bufferSize = Math.floor(this.ctx.sampleRate * 0.07);
+                    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+                    const data = buffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) {
+                        data[i] = (Math.random() * 2 - 1) * 0.35;
+                    }
+                    const noise = this.ctx.createBufferSource();
+                    noise.buffer = buffer;
+
+                    const filter = this.ctx.createBiquadFilter();
+                    filter.type = 'bandpass';
+                    filter.frequency.setValueAtTime(1400 + Math.random() * 2200, now);
+                    filter.Q.setValueAtTime(3.5, now);
+
+                    const gain = this.ctx.createGain();
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+
+                    noise.connect(filter);
+                    filter.connect(gain);
+                    gain.connect(this.masterGain);
+                    noise.start(now);
+                } catch (e) {}
+            }
+
+            playScanLaser(progress) {
+                if (!this.enabled || !this.ctx) return;
+                if (Math.random() > 0.4) return;
+                try {
+                    const now = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+
+                    osc.type = 'sawtooth';
+                    const startFreq = 260 + progress * 550;
+                    osc.frequency.setValueAtTime(startFreq, now);
+                    osc.frequency.exponentialRampToValueAtTime(startFreq * 1.5, now + 0.05);
+
+                    gain.gain.setValueAtTime(0.06, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+
+                    osc.connect(gain);
+                    gain.connect(this.masterGain);
+                    osc.start(now);
+                    osc.stop(now + 0.05);
+                } catch (e) {}
+            }
+
+            playImpactBoom() {
+                if (!this.enabled || !this.ctx) return;
+                try {
+                    const now = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(130, now);
+                    osc.frequency.exponentialRampToValueAtTime(32, now + 0.8);
+
+                    gain.gain.setValueAtTime(0.48, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+
+                    osc.connect(gain);
+                    gain.connect(this.masterGain);
+                    osc.start(now);
+                    osc.stop(now + 0.8);
+
+                    this.playChime();
+                } catch (e) {}
+            }
+
+            playChime() {
+                if (!this.enabled || !this.ctx) return;
+                try {
+                    const now = this.ctx.currentTime;
+                    const freqs = [880, 1108, 1320, 1760];
+                    freqs.forEach((f, idx) => {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(f, now + idx * 0.06);
+
+                        gain.gain.setValueAtTime(0.08, now + idx * 0.06);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.9);
+
+                        osc.connect(gain);
+                        gain.connect(this.masterGain);
+                        osc.start(now + idx * 0.06);
+                        osc.stop(now + idx * 0.06 + 0.9);
+                    });
+                } catch (e) {}
+            }
+        }
+
+        const audio = new CyberAudio();
+        cyberAudioInstance = audio;
+
+        class SparkParticle {
+            constructor(x, y, vx, vy, size, color, life) {
+                this.x = x;
+                this.y = y;
+                this.vx = vx;
+                this.vy = vy;
+                this.size = size;
+                this.color = color;
+                this.life = life;
+                this.maxLife = life;
+                this.alpha = 1;
+            }
+            update(dt) {
+                this.x += this.vx * dt * 60;
+                this.y += this.vy * dt * 60;
+                this.vy += 0.02;
+                this.life -= dt;
+                this.alpha = Math.max(0, this.life / this.maxLife);
+            }
+            draw(targetCtx) {
+                if (this.alpha <= 0) return;
+                targetCtx.save();
+                targetCtx.globalAlpha = this.alpha;
+                targetCtx.fillStyle = this.color;
+                targetCtx.fillRect(this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
+                targetCtx.restore();
+            }
+        }
+
+        const state = {
+            currentLogo: 'gold',
+            isPlaying: true,
+            isLooping: true,
+            time: 0,
+            duration: 4.8,
+            scanStart: 0.3,
+            scanEnd: 2.1,
+            sheenStart: 2.15,
+            sheenEnd: 2.95,
+            speed: 1.0,
+            hasPlayedBoom: false,
+            targetTiltX: 0,
+            targetTiltY: 0,
+            currentTiltX: 0,
+            currentTiltY: 0,
+            particles: [],
+            images: {},
+            imagesLoaded: false
+        };
+
+        const imageSources = {
+            gold: 'assets/videos/pravaah animation/pravaah_gold.png',
+            edges: 'assets/videos/pravaah animation/pravaah_edges.png',
+            cyan2d: 'assets/videos/pravaah animation/pravaah_2d_cyan.png',
+            gold2d: 'assets/videos/pravaah animation/pravaah_2d_gold.png'
+        };
+
+        let loadedCount = 0;
+        const totalImages = Object.keys(imageSources).length;
+        for (const key in imageSources) {
+            const img = new Image();
+            img.onload = () => {
+                loadedCount++;
+                state.images[key] = img;
+                if (loadedCount === totalImages) {
+                    state.imagesLoaded = true;
+                }
+            };
+            img.src = imageSources[key];
+        }
+
+        function spawnScanSparks(x, y, count, color) {
+            for (let i = 0; i < count; i++) {
+                const angle = (Math.random() * Math.PI) + Math.PI;
+                const speed = 0.8 + Math.random() * 3.5;
+                const vx = Math.cos(angle) * speed + (Math.random() - 0.5) * 2;
+                const vy = Math.sin(angle) * speed * 0.8;
+                const size = 1.5 + Math.random() * 3.5;
+                const life = 0.4 + Math.random() * 0.6;
+                state.particles.push(new SparkParticle(x + (Math.random() - 0.5) * 40, y, vx, vy, size, color, life));
+            }
+            if (state.particles.length > 250) {
+                state.particles.splice(0, state.particles.length - 250);
+            }
+        }
+
+        const ambientDust = [];
+        for (let i = 0; i < 40; i++) {
+            ambientDust.push({
+                x: Math.random(),
+                y: Math.random(),
+                vx: (Math.random() - 0.5) * 0.0003,
+                vy: -0.0002 - Math.random() * 0.0004,
+                size: 1 + Math.random() * 2.2,
+                alpha: 0.15 + Math.random() * 0.45,
+                hue: Math.random() > 0.5 ? 'rgba(0, 242, 254, ' : 'rgba(255, 215, 0, '
+            });
+        }
+
+        let viewW = 0;
+        let viewH = 0;
+
+        function resize() {
+            if (portalHasEntered) return;
+            const rect = splashCanvas.getBoundingClientRect();
+            viewW = rect.width || window.innerWidth;
+            viewH = rect.height || window.innerHeight;
+            splashCanvas.width = viewW;
+            splashCanvas.height = viewH;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        window.addEventListener('mousemove', (e) => {
+            if (portalHasEntered) return;
+            state.targetTiltX = (e.clientX - viewW / 2) / (viewW / 2) * 12;
+            state.targetTiltY = (e.clientY - viewH / 2) / (viewH / 2) * 8;
+        }, { passive: true });
+
+        window.addEventListener('touchmove', (e) => {
+            if (portalHasEntered || !e.touches[0]) return;
+            state.targetTiltX = (e.touches[0].clientX - viewW / 2) / (viewW / 2) * 12;
+            state.targetTiltY = (e.touches[0].clientY - viewH / 2) / (viewH / 2) * 8;
+        }, { passive: true });
+
+        // Clicking canvas or bottom prompt proceeds to First Page of Website
+        splashCanvas.addEventListener('click', (e) => {
+            e.preventDefault();
+            proceedToFirstPage();
+        });
+
+        const introPrompt = document.getElementById('intro-proceed-prompt');
+        if (introPrompt) {
+            introPrompt.addEventListener('click', (e) => {
+                e.preventDefault();
+                proceedToFirstPage();
+            });
+        }
+
+        const introScreenEl = document.getElementById('pravaah-intro-screen');
+        if (introScreenEl) {
+            introScreenEl.addEventListener('click', (e) => {
+                if (e.target.closest('.intro-top-controls')) return;
+                proceedToFirstPage();
+            });
+        }
+
+        // Top sound toggle
+        const splashSoundBtn = document.getElementById('splash-sound-btn');
+        const splashSoundText = document.getElementById('splash-sound-text');
+        const soundIconOff = document.querySelector('.splash-sound-icon-off');
+        const soundIconOn = document.querySelector('.splash-sound-icon-on');
+        if (splashSoundBtn) {
+            splashSoundBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const enabled = audio.toggle();
+                if (splashSoundText) splashSoundText.textContent = enabled ? 'SOUND ON' : 'SOUND OFF';
+                if (soundIconOff) soundIconOff.style.display = enabled ? 'none' : 'block';
+                if (soundIconOn) soundIconOn.style.display = enabled ? 'block' : 'none';
+            });
+        }
+
+        // Replay button
+        const splashReplayBtn = document.getElementById('splash-replay-btn');
+        if (splashReplayBtn) {
+            splashReplayBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                state.time = 0;
+                state.isPlaying = true;
+                state.hasPlayedBoom = false;
+                introDismissed = false;
+                if (introScreenEl) {
+                    introScreenEl.classList.remove('intro-fade-out', 'hidden');
+                }
+                audio.init();
+            });
+        }
+
+        // Skip to first page of website
+        const splashSkipBtn = document.getElementById('splash-skip-btn');
+        if (splashSkipBtn) {
+            splashSkipBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                proceedToFirstPage();
+            });
+        }
+
+        function renderWetFloorReflection(logoX, logoY, logoW, logoH, horizonY) {
+            ctx.save();
+            const floorH = viewH - horizonY;
+            if (floorH <= 0) {
+                ctx.restore();
+                return;
+            }
+
+            const floorGrad = ctx.createLinearGradient(0, horizonY, 0, viewH);
+            floorGrad.addColorStop(0, 'rgba(0, 0, 0, 0.45)');
+            floorGrad.addColorStop(0.35, 'rgba(0, 0, 0, 0.88)');
+            floorGrad.addColorStop(1, '#000000');
+            ctx.fillStyle = floorGrad;
+            ctx.fillRect(0, horizonY, viewW, floorH);
+
+            const reflW = logoW * 1.05;
+            const reflH = logoH * 0.65;
+            const reflX = logoX - (reflW - logoW) / 2;
+            const reflY = horizonY;
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(0, horizonY, viewW, floorH);
+            ctx.clip();
+
+            ctx.translate(reflX + reflW / 2, reflY);
+            ctx.scale(1, -1);
+            ctx.translate(-(reflX + reflW / 2), -reflY);
+
+            ctx.globalAlpha = 0.28;
+            ctx.drawImage(offCanvas, reflX, reflY - reflH, reflW, reflH);
+            ctx.restore();
+
+            const horizonLine = ctx.createLinearGradient(viewW * 0.15, horizonY, viewW * 0.85, horizonY);
+            horizonLine.addColorStop(0, 'rgba(0, 242, 254, 0)');
+            horizonLine.addColorStop(0.5, 'rgba(0, 242, 254, 0.35)');
+            horizonLine.addColorStop(1, 'rgba(0, 242, 254, 0)');
+            ctx.strokeStyle = horizonLine;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(viewW * 0.15, horizonY);
+            ctx.lineTo(viewW * 0.85, horizonY);
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        let lastFrameTime = performance.now();
+
+        function renderSplashGlitch(now) {
+            if (portalHasEntered) {
+                stopPravaahSplashAnimation();
+                return;
+            }
+
+            splashAnimFrameId = requestAnimationFrame(renderSplashGlitch);
+            const dt = Math.min((now - lastFrameTime) / 1000, 0.1);
+            lastFrameTime = now;
+
+            if (state.isPlaying) {
+                state.time += dt * state.speed;
+                if (state.time >= 5.2 && !introDismissed) {
+                    proceedToFirstPage();
+                }
+                if (state.time >= state.duration) {
+                    if (state.isLooping) {
+                        state.time = 0;
+                        state.hasPlayedBoom = false;
+                    } else {
+                        state.time = state.duration;
+                        state.isPlaying = false;
+                    }
+                }
+            }
+
+            state.currentTiltX += (state.targetTiltX - state.currentTiltX) * 0.08;
+            state.currentTiltY += (state.targetTiltY - state.currentTiltY) * 0.08;
+
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, viewW, viewH);
+            if (!state.imagesLoaded) return;
+
+            const activeImg = state.images[state.currentLogo] || state.images.gold;
+            const edgeImg = state.images.edges;
+
+            const maxLogoW = Math.min(viewW * (viewW < 768 ? 0.84 : 0.58), 460);
+            const scale = maxLogoW / activeImg.width;
+            const logoW = activeImg.width * scale;
+            const logoH = activeImg.height * scale;
+
+            const logoCenterX = viewW / 2 + state.currentTiltX * 1.5;
+            const floatOffset = Math.sin(state.time * 2.2) * 4;
+            const logoCenterY = (viewH * (viewW < 768 ? 0.38 : 0.40)) + floatOffset + state.currentTiltY * 1.2;
+
+            const logoX = logoCenterX - logoW / 2;
+            const logoY = logoCenterY - logoH / 2;
+            const horizonY = logoCenterY + logoH * 0.62;
+
+            // Ambient radial halo
+            const radialGlow = ctx.createRadialGradient(logoCenterX, logoCenterY, 20, logoCenterX, logoCenterY, logoW * 0.85);
+            let glowAlpha = 0.22;
+            if (state.time > state.scanStart && state.time < state.scanEnd) {
+                glowAlpha = 0.36 + Math.sin(state.time * 25) * 0.1;
+                audio.playScanLaser((state.time - state.scanStart) / (state.scanEnd - state.scanStart));
+                if (Math.random() < 0.15) audio.playGlitchCrunch();
+            } else if (state.time >= state.sheenStart && state.time <= state.sheenEnd) {
+                glowAlpha = 0.48;
+                if (!state.hasPlayedBoom) {
+                    audio.playImpactBoom();
+                    state.hasPlayedBoom = true;
+                }
+            }
+            radialGlow.addColorStop(0, `rgba(0, 242, 254, ${glowAlpha})`);
+            radialGlow.addColorStop(0.5, `rgba(0, 120, 255, ${glowAlpha * 0.35})`);
+            radialGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+            ctx.fillStyle = radialGlow;
+            ctx.beginPath();
+            ctx.arc(logoCenterX, logoCenterY, logoW * 0.9, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Ambient cyber dust
+            ambientDust.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.y < 0) p.y = 1;
+                if (p.x < 0) p.x = 1;
+                if (p.x > 1) p.x = 0;
+                ctx.fillStyle = p.hue + p.alpha + ')';
+                ctx.beginPath();
+                ctx.arc(p.x * viewW, p.y * viewH, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            offCanvas.width = activeImg.width;
+            offCanvas.height = activeImg.height;
+            offCtx.clearRect(0, 0, offCanvas.width, offCanvas.height);
+
+            const natW = activeImg.width;
+            const natH = activeImg.height;
+
+            let scanProgress = 0;
+            if (state.time < state.scanStart) {
+                scanProgress = 0;
+            } else if (state.time >= state.scanEnd) {
+                scanProgress = 1;
+            } else {
+                const norm = (state.time - state.scanStart) / (state.scanEnd - state.scanStart);
+                scanProgress = norm < 0.5 ? 4 * norm * norm * norm : 1 - Math.pow(-2 * norm + 2, 3) / 2;
+            }
+
+            const scanCurrentY = scanProgress * natH;
+            const scanBandHeight = 65;
+
+            // Wireframe edges
+            if (scanProgress < 1.0) {
+                offCtx.save();
+                const edgeFlicker = 0.35 + Math.sin(state.time * 30 + Math.random()) * 0.15;
+                offCtx.globalAlpha = edgeFlicker;
+                offCtx.drawImage(edgeImg, 0, 0);
+                offCtx.restore();
+            }
+
+            // Revealed Logo portion
+            if (scanCurrentY > 0) {
+                const revealTopH = Math.max(0, scanCurrentY - scanBandHeight * 0.5);
+                if (revealTopH > 0) {
+                    offCtx.save();
+                    offCtx.beginPath();
+                    offCtx.rect(0, 0, natW, revealTopH);
+                    offCtx.clip();
+                    offCtx.drawImage(activeImg, 0, 0);
+                    offCtx.restore();
+                }
+            }
+
+            // Scan Band Glitch & Laser
+            if (scanProgress > 0 && scanProgress < 1.0) {
+                const bandTop = Math.max(0, scanCurrentY - scanBandHeight);
+                const bandBottom = Math.min(natH, scanCurrentY + scanBandHeight * 0.45);
+                const bandH = bandBottom - bandTop;
+
+                if (bandH > 0) {
+                    offCtx.save();
+                    offCtx.beginPath();
+                    offCtx.rect(0, bandTop, natW, bandH);
+                    offCtx.clip();
+
+                    const blockSize = 14;
+                    const downW = Math.max(1, Math.floor(natW / blockSize));
+                    const downH = Math.max(1, Math.floor(bandH / blockSize));
+                    mosaicCanvas.width = downW;
+                    mosaicCanvas.height = downH;
+                    mosaicCtx.imageSmoothingEnabled = false;
+                    mosaicCtx.drawImage(activeImg, 0, bandTop, natW, bandH, 0, 0, downW, downH);
+
+                    const chromOffset = Math.round(5 + Math.random() * 8);
+
+                    offCtx.save();
+                    offCtx.globalAlpha = 0.7;
+                    offCtx.imageSmoothingEnabled = false;
+                    offCtx.drawImage(mosaicCanvas, 0, 0, downW, downH, -chromOffset, bandTop, natW, bandH);
+                    offCtx.restore();
+
+                    offCtx.save();
+                    offCtx.globalAlpha = 0.7;
+                    offCtx.imageSmoothingEnabled = false;
+                    offCtx.drawImage(mosaicCanvas, 0, 0, downW, downH, chromOffset, bandTop, natW, bandH);
+                    offCtx.restore();
+
+                    offCtx.imageSmoothingEnabled = false;
+                    offCtx.drawImage(mosaicCanvas, 0, 0, downW, downH, 0, bandTop, natW, bandH);
+                    offCtx.imageSmoothingEnabled = true;
+
+                    // Neon Blocks & Sparks
+                    const cols = downW;
+                    const rows = downH;
+                    for (let r = 0; r < rows; r++) {
+                        const by = bandTop + r * blockSize;
+                        for (let c = 0; c < cols; c++) {
+                            const bx = c * blockSize;
+                            if (Math.random() < 0.35) {
+                                const isCyan = Math.random() < 0.65;
+                                offCtx.save();
+                                offCtx.fillStyle = isCyan ? '#00f2fe' : '#ffd700';
+                                offCtx.fillRect(bx, by, blockSize - 1, blockSize - 1);
+                                offCtx.restore();
+                                if (Math.random() < 0.08) {
+                                    spawnScanSparks(logoX + (bx / natW) * logoW, logoY + (by / natH) * logoH, 1, isCyan ? '#00f2fe' : '#ffd700');
+                                }
+                            }
+                        }
+                    }
+
+                    offCtx.restore();
+
+                    // Laser line
+                    offCtx.save();
+                    const laserGrad = offCtx.createLinearGradient(0, scanCurrentY - 6, 0, scanCurrentY + 6);
+                    laserGrad.addColorStop(0, 'rgba(0, 242, 254, 0)');
+                    laserGrad.addColorStop(0.5, 'rgba(255, 255, 255, 0.95)');
+                    laserGrad.addColorStop(1, 'rgba(0, 242, 254, 0)');
+                    offCtx.fillStyle = laserGrad;
+                    offCtx.fillRect(0, scanCurrentY - 4, natW, 8);
+                    offCtx.restore();
+                }
+            }
+
+            // Sheen Sweep
+            if (state.time >= state.sheenStart && state.time <= state.sheenEnd) {
+                const sheenNorm = (state.time - state.sheenStart) / (state.sheenEnd - state.sheenStart);
+                const sheenX = -natW * 0.4 + sheenNorm * (natW * 1.8);
+                const sheenWidth = 140;
+
+                offCtx.save();
+                offCtx.globalCompositeOperation = 'source-atop';
+                const sheenGrad = offCtx.createLinearGradient(sheenX - sheenWidth, 0, sheenX + sheenWidth, natH);
+                sheenGrad.addColorStop(0, 'rgba(255, 255, 255, 0)');
+                sheenGrad.addColorStop(0.4, 'rgba(0, 242, 254, 0.4)');
+                sheenGrad.addColorStop(0.5, 'rgba(255, 255, 255, 0.95)');
+                sheenGrad.addColorStop(0.6, 'rgba(255, 215, 0, 0.5)');
+                sheenGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                offCtx.fillStyle = sheenGrad;
+                offCtx.fillRect(0, 0, natW, natH);
+                offCtx.restore();
+            }
+
+            // Draw Primary Logo with 3D perspective tilt
+            ctx.save();
+            ctx.translate(logoCenterX, logoCenterY);
+            ctx.transform(
+                1, state.currentTiltY * 0.005,
+                state.currentTiltX * 0.005, 1,
+                0, 0
+            );
+            ctx.translate(-logoCenterX, -logoCenterY);
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+            ctx.shadowBlur = 25;
+            ctx.shadowOffsetY = 12;
+            ctx.drawImage(offCanvas, logoX, logoY, logoW, logoH);
+            ctx.restore();
+
+            // Draw Sparks
+            for (let i = state.particles.length - 1; i >= 0; i--) {
+                const p = state.particles[i];
+                p.update(dt);
+                if (p.alpha <= 0) {
+                    state.particles.splice(i, 1);
+                } else {
+                    p.draw(ctx);
+                }
+            }
+
+            // Reflection on wet floor
+            renderWetFloorReflection(logoX, logoY, logoW, logoH, horizonY);
+        }
+
+        splashAnimFrameId = requestAnimationFrame(renderSplashGlitch);
     }
 
     // Configure video element for reliable fast playback
@@ -603,7 +1277,7 @@ document.addEventListener('DOMContentLoaded', () => {
         portalVideo.removeAttribute('controls');
         portalVideo.setAttribute('playsinline', '');
         portalVideo.setAttribute('webkit-playsinline', '');
-        portalVideo.preload = 'auto';
+        portalVideo.preload = 'none';
     }
 
     // Generate calendar cube in advance so it is ready
@@ -611,13 +1285,87 @@ document.addEventListener('DOMContentLoaded', () => {
         generateCalendarCube();
     }, 50);
 
+    let portalSoundMuted = true;
+    let portalWarpTimer = null;
+    let portalAnimFrameId = null;
+    let portalAudioCtx = null;
+
+    function playPortalSFX() {
+        if (portalSoundMuted) return;
+        try {
+            if (!portalAudioCtx) {
+                portalAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (portalAudioCtx.state === 'suspended') {
+                portalAudioCtx.resume();
+            }
+            const now = portalAudioCtx.currentTime;
+
+            // 1. High Velocity Hyperspace Rush Drone
+            const osc = portalAudioCtx.createOscillator();
+            const gain = portalAudioCtx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(320, now);
+            osc.frequency.exponentialRampToValueAtTime(1100, now + 1.8);
+
+            const filter = portalAudioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(1200, now);
+            filter.frequency.exponentialRampToValueAtTime(8000, now + 1.8);
+
+            gain.gain.setValueAtTime(0.35, now);
+            gain.gain.linearRampToValueAtTime(0.55, now + 1.5);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 2.0);
+
+            osc.connect(filter);
+            filter.connect(gain);
+            gain.connect(portalAudioCtx.destination);
+            osc.start(now);
+            osc.stop(now + 2.1);
+
+            // 2. Heavy Sub-Bass Singularity Boom
+            const subOsc = portalAudioCtx.createOscillator();
+            const subGain = portalAudioCtx.createGain();
+            subOsc.type = 'sine';
+            subOsc.frequency.setValueAtTime(150, now + 1.9);
+            subOsc.frequency.exponentialRampToValueAtTime(30, now + 3.2);
+
+            subGain.gain.setValueAtTime(0, now);
+            subGain.gain.setValueAtTime(0.8, now + 1.9);
+            subGain.gain.exponentialRampToValueAtTime(0.001, now + 3.4);
+
+            subOsc.connect(subGain);
+            subGain.connect(portalAudioCtx.destination);
+            subOsc.start(now + 1.9);
+            subOsc.stop(now + 3.5);
+
+            // 3. Shimmering Crystal Harmonic Chords for Logo Materialization
+            [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+                const cOsc = portalAudioCtx.createOscillator();
+                const cGain = portalAudioCtx.createGain();
+                cOsc.type = 'triangle';
+                cOsc.frequency.setValueAtTime(freq, now + 2.2);
+
+                cGain.gain.setValueAtTime(0, now + 2.2);
+                cGain.gain.linearRampToValueAtTime(0.09, now + 2.6 + (i * 0.08));
+                cGain.gain.exponentialRampToValueAtTime(0.001, now + 5.0);
+
+                cOsc.connect(cGain);
+                cGain.connect(portalAudioCtx.destination);
+                cOsc.start(now + 2.2);
+                cOsc.stop(now + 5.1);
+            });
+        } catch (e) {}
+    }
+
     function launchPortalVideo() {
         if (portalHasEntered || portalPlaybackActive) return;
+        stopPravaahSplashAnimation();
         portalPlaybackActive = true;
         flashTriggered = false;
 
         if (loaderScreen) {
-            loaderScreen.classList.remove('hidden');
+            loaderScreen.classList.remove('hidden', 'fade-out-loader');
             loaderScreen.classList.add('active-screen');
         }
 
@@ -625,123 +1373,371 @@ document.addEventListener('DOMContentLoaded', () => {
             portalFlashOverlay.classList.remove('active-flash', 'fade-out');
         }
 
-        if (portalVideo) {
-            portalVideo.currentTime = 0;
-            portalVideo.playbackRate = 1.25;
-            portalVideo.muted = true;
+        // Pre-reveal about section in memory so switching has 0 layout recalculation
+        revealAboutSectionInstantly();
 
-            const playPromise = portalVideo.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(e => {
-                    console.warn("Portal video playback notice:", e);
-                    enterUniverse();
-                });
+        const canvas = document.getElementById('portal-warp-canvas');
+        if (!canvas) {
+            enterUniverse();
+            return;
+        }
+
+        const ctx = canvas.getContext('2d');
+        const stage = document.getElementById('portal-stage');
+        const shockwave1 = document.getElementById('portal-shockwave-ring');
+        const shockwave2 = document.getElementById('portal-shockwave-ring-2');
+        const glitchOverlay = document.getElementById('portal-glitch-overlay');
+        const septagonSvg = document.getElementById('portal-septagon-svg');
+        const polyGlow = document.getElementById('portal-poly-glow');
+        const polyCore = document.getElementById('portal-poly-core');
+        const auraGlow = document.getElementById('portal-aura-glow');
+        const codeLogoSvg = document.getElementById('portal-code-logo-svg');
+
+        const strokeLeft = document.getElementById('portal-bracket-left');
+        const coreLeft = document.getElementById('portal-bracket-left-core');
+        const strokeSlash = document.getElementById('portal-slash-center');
+        const coreSlash = document.getElementById('portal-slash-center-core');
+        const strokeRight = document.getElementById('portal-bracket-right');
+        const coreRight = document.getElementById('portal-bracket-right-core');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        let cx = width / 2;
+        let cy = height / 2;
+
+        const onResize = () => {
+            if (!portalPlaybackActive) return;
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            cx = width / 2;
+            cy = height / 2;
+        };
+        window.addEventListener('resize', onResize);
+
+        // Hardware-accelerated smooth progress bar transition (0% -> 100% in 4.7s)
+        if (portalLoaderBar) {
+            portalLoaderBar.style.transition = 'none';
+            portalLoaderBar.style.width = '0%';
+            requestAnimationFrame(() => {
+                portalLoaderBar.style.transition = 'width 4.7s linear';
+                portalLoaderBar.style.width = '100%';
+            });
+        }
+
+        // Reset visual elements
+        if (codeLogoSvg) codeLogoSvg.classList.remove('revealed');
+        if (auraGlow) auraGlow.classList.remove('active');
+        if (shockwave1) shockwave1.classList.remove('blast');
+        if (shockwave2) shockwave2.classList.remove('blast');
+        if (glitchOverlay) glitchOverlay.classList.remove('active');
+
+        if (polyGlow) polyGlow.style.strokeDashoffset = '600';
+        if (polyCore) polyCore.style.strokeDashoffset = '600';
+        if (septagonSvg) {
+            septagonSvg.style.transform = 'scale(0.15) rotate(180deg)';
+            septagonSvg.style.opacity = '0';
+        }
+
+        [strokeLeft, coreLeft, strokeSlash, coreSlash, strokeRight, coreRight].forEach(el => {
+            if (el) el.classList.remove('drawn');
+        });
+
+        playPortalSFX();
+
+        const STAR_COUNT = 380;
+        const stars = [];
+        const COLOR_PALETTE = ['#00f2fe', '#ff007f', '#ff5722', '#ffffff'];
+
+        class WarpStar {
+            constructor() {
+                this.reset(true);
+            }
+            reset(initial = false) {
+                this.x = (Math.random() - 0.5) * width * 2.2;
+                this.y = (Math.random() - 0.5) * height * 2.2;
+                this.z = initial ? Math.random() * 2000 : 2000;
+                this.pz = this.z;
+                const p = Math.random();
+                if (p < 0.40) this.colorIdx = 0;
+                else if (p < 0.70) this.colorIdx = 1;
+                else if (p < 0.88) this.colorIdx = 2;
+                else this.colorIdx = 3;
+                this.baseSize = Math.random() * 1.8 + 0.8;
+            }
+            update(speed) {
+                this.pz = this.z;
+                this.z -= speed;
+                if (this.z <= 1) this.reset(false);
+            }
+        }
+
+        for (let i = 0; i < STAR_COUNT; i++) stars.push(new WarpStar());
+
+        function drawAllStars(speed) {
+            for (let i = 0; i < STAR_COUNT; i++) stars[i].update(speed);
+            const isStreaking = speed > 10;
+            ctx.lineCap = 'round';
+
+            for (let c = 0; c < 4; c++) {
+                ctx.beginPath();
+                ctx.strokeStyle = COLOR_PALETTE[c];
+                ctx.fillStyle = COLOR_PALETTE[c];
+                let hasDrawn = false;
+
+                for (let i = 0; i < STAR_COUNT; i++) {
+                    const s = stars[i];
+                    if (s.colorIdx !== c) continue;
+                    const k = 420 / s.z;
+                    const px = s.x * k + cx;
+                    const py = s.y * k + cy;
+
+                    if (px < -80 || px > width + 80 || py < -80 || py > height + 80) continue;
+
+                    if (isStreaking) {
+                        const pk = 420 / s.pz;
+                        const ppx = s.x * pk + cx;
+                        const ppy = s.y * pk + cy;
+                        ctx.moveTo(ppx, ppy);
+                        ctx.lineTo(px, py);
+                        hasDrawn = true;
+                    } else {
+                        const size = Math.max(0.7, (1 - s.z / 2000) * s.baseSize);
+                        ctx.moveTo(px + size, py);
+                        ctx.arc(px, py, size, 0, Math.PI * 2);
+                        hasDrawn = true;
+                    }
+                }
+
+                if (hasDrawn) {
+                    if (isStreaking) {
+                        ctx.lineWidth = speed > 35 ? 2.2 : 1.5;
+                        ctx.stroke();
+                    } else {
+                        ctx.fill();
+                    }
+                }
+            }
+        }
+
+        const RING_COUNT = 14;
+        const tunnelRings = [];
+        for (let i = 0; i < RING_COUNT; i++) {
+            tunnelRings.push({
+                z: (i / RING_COUNT) * 1900,
+                angle: (i * 0.22)
+            });
+        }
+
+        function drawSeptagon(ctx, x, y, radius, rotation) {
+            ctx.beginPath();
+            const sides = 7;
+            for (let i = 0; i < sides; i++) {
+                const a = rotation + (i * Math.PI * 2 / sides);
+                const sx = x + Math.cos(a) * radius;
+                const sy = y + Math.sin(a) * radius;
+                if (i === 0) ctx.moveTo(sx, sy);
+                else ctx.lineTo(sx, sy);
+            }
+            ctx.closePath();
+        }
+
+        let animStartTime = performance.now();
+        let warpSpeed = 95;
+        let currentPhase = 'fast_warp';
+        let globalRotation = 0;
+        let frameCount = 0;
+
+        function renderPortalFrame(now) {
+            if (!portalPlaybackActive || portalHasEntered) return;
+            portalAnimFrameId = requestAnimationFrame(renderPortalFrame);
+            frameCount++;
+
+            const elapsed = (now - animStartTime) / 1000;
+
+            // Dark Void Motion Blur
+            ctx.fillStyle = warpSpeed > 30 ? 'rgba(3, 0, 20, 0.35)' : 'rgba(3, 0, 20, 0.65)';
+            ctx.fillRect(0, 0, width, height);
+
+            if (elapsed < 2.0) {
+                currentPhase = 'fast_warp';
+                warpSpeed = 90 + Math.sin(elapsed * 4) * 15;
+                if (glitchOverlay) {
+                    if (frameCount % 12 === 0) glitchOverlay.classList.add('active');
+                    else if (frameCount % 6 === 0) glitchOverlay.classList.remove('active');
+                }
+            } else if (elapsed >= 2.0 && elapsed < 2.3) {
+                currentPhase = 'singularity';
+                warpSpeed = 35 - ((elapsed - 2.0) / 0.3) * 30;
+                if (glitchOverlay) glitchOverlay.classList.add('active');
+            } else if (elapsed >= 2.3 && elapsed < 3.4) {
+                if (currentPhase !== 'breakout') {
+                    currentPhase = 'breakout';
+                    if (glitchOverlay) glitchOverlay.classList.remove('active');
+
+                    if (portalFlashOverlay) {
+                        portalFlashOverlay.classList.add('active-flash');
+                        setTimeout(() => {
+                            if (portalFlashOverlay) portalFlashOverlay.classList.remove('active-flash');
+                        }, 180);
+                    }
+
+                    if (shockwave1 && shockwave2) {
+                        shockwave1.classList.remove('blast');
+                        shockwave2.classList.remove('blast');
+                        requestAnimationFrame(() => {
+                            shockwave1.classList.add('blast');
+                            shockwave2.classList.add('blast');
+                        });
+                    }
+
+                    if (septagonSvg) {
+                        septagonSvg.style.opacity = '1';
+                        septagonSvg.style.transform = 'scale(1) rotate(0deg)';
+                    }
+                    if (polyGlow && polyCore) {
+                        polyGlow.style.transition = 'stroke-dashoffset 1.1s ease-out';
+                        polyCore.style.transition = 'stroke-dashoffset 1.1s ease-out';
+                        polyGlow.style.strokeDashoffset = '0';
+                        polyCore.style.strokeDashoffset = '0';
+                    }
+
+                    if (auraGlow) auraGlow.classList.add('active');
+
+                    setTimeout(() => {
+                        if (codeLogoSvg) codeLogoSvg.classList.add('revealed');
+                        [strokeLeft, coreLeft, strokeSlash, coreSlash, strokeRight, coreRight].forEach(el => {
+                            if (el) el.classList.add('drawn');
+                        });
+                    }, 250);
+                }
+                warpSpeed = 4;
+            } else if (elapsed >= 3.4 && elapsed < 4.75) {
+                currentPhase = 'stable';
+                warpSpeed = 2.2;
+            } else if (elapsed >= 4.75) {
+                // Transition to universe smoothly
+                if (!flashTriggered) {
+                    flashTriggered = true;
+                    if (portalFlashOverlay) {
+                        portalFlashOverlay.classList.add('active-flash');
+                    }
+                    setTimeout(() => {
+                        enterUniverse();
+                    }, 300);
+                }
+                return;
             }
 
-            portalVideo.ontimeupdate = () => {
-                const currentTime = portalVideo.currentTime;
-                const duration = portalVideo.duration;
+            drawAllStars(warpSpeed);
 
-                if (duration && isFinite(duration) && duration > 0.5) {
-                    if (portalLoaderBar) {
-                        const pct = Math.min(100, (currentTime / duration) * 100);
-                        portalLoaderBar.style.width = `${pct}%`;
-                    }
-                    if (currentTime >= Math.max(0.4, duration - 0.25) && !flashTriggered) {
-                        flashTriggered = true;
-                        if (portalFlashOverlay) {
-                            portalFlashOverlay.classList.add('active-flash');
-                        }
-                    }
-                    if (currentTime >= Math.max(0.4, duration - 0.08)) {
-                        enterUniverse();
+            if (currentPhase === 'fast_warp' || currentPhase === 'singularity') {
+                globalRotation += 0.030;
+                for (let i = 0; i < tunnelRings.length; i++) {
+                    const r = tunnelRings[i];
+                    r.z -= warpSpeed * 1.5;
+                    if (r.z <= 20) r.z += 1900;
+                    const k = 420 / r.z;
+                    const radius = 280 * k;
+
+                    if (radius > 1 && radius < width * 1.25) {
+                        ctx.lineWidth = Math.max(1, 3.5 * k);
+                        if (i % 3 === 0) ctx.strokeStyle = 'rgba(0, 242, 254, 0.55)';
+                        else if (i % 3 === 1) ctx.strokeStyle = 'rgba(255, 0, 127, 0.55)';
+                        else ctx.strokeStyle = 'rgba(255, 87, 34, 0.55)';
+                        drawSeptagon(ctx, cx, cy, radius, r.angle + globalRotation);
+                        ctx.stroke();
                     }
                 }
-            };
-
-            portalVideo.onended = () => {
-                enterUniverse();
-            };
-
-            // Fallback safety timeout (5.5s)
-            setTimeout(() => {
-                if (portalPlaybackActive && !portalHasEntered) {
-                    enterUniverse();
-                }
-            }, 5500);
-        } else {
-            enterUniverse();
+            }
         }
+
+        portalAnimFrameId = requestAnimationFrame(renderPortalFrame);
+
+        // Fallback safety timeout (6.0s)
+        setTimeout(() => {
+            if (portalPlaybackActive && !portalHasEntered) {
+                enterUniverse();
+            }
+        }, 6000);
     }
 
     function enterUniverse() {
         if (portalHasEntered) return;
         portalHasEntered = true;
         portalPlaybackActive = false;
+        stopPravaahSplashAnimation();
+
+        if (portalAnimFrameId) {
+            cancelAnimationFrame(portalAnimFrameId);
+            portalAnimFrameId = null;
+        }
 
         try {
             sessionStorage.setItem('portalEntered', 'true');
         } catch (e) {}
 
+        if (portalVideo) {
+            portalVideo.pause();
+            portalVideo.ontimeupdate = null;
+            portalVideo.onended = null;
+        }
+
+        // Behind the luminous flash, seamlessly switch into the home page
+        if (splashScreen) {
+            splashScreen.classList.add('hidden');
+            splashScreen.classList.remove('active-screen');
+        }
+
+        document.body.classList.add('portal-entered');
+        document.documentElement.classList.add('portal-entered-fast');
+
+        if (mainScrollContainer) {
+            mainScrollContainer.classList.add('scroll-enabled');
+        }
+
+        // Land cleanly at the top of the home page (About section)
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        if (mainScrollContainer) {
+            mainScrollContainer.scrollTo({ top: 0, behavior: 'instant' });
+        }
+
+        const navWheel = document.getElementById('cosmic-nav-wheel');
+        if (navWheel) {
+            navWheel.classList.remove('hidden-nav');
+            setTimeout(updateNavPill, 100);
+        }
+
+        revealAboutSectionInstantly();
+        const globalBg = document.getElementById('global-bg-layer');
+        if (globalBg) {
+            globalBg.style.backgroundImage = "url('assets/images/home_portal_bg.jpg')";
+        }
+        handleParallaxAndNav();
+
+        // Smoothly dissolve flash overlay (650ms cubic-bezier ease-out)
         if (portalFlashOverlay) {
-            portalFlashOverlay.classList.add('active-flash');
+            portalFlashOverlay.classList.add('fade-out');
+            setTimeout(() => {
+                portalFlashOverlay.classList.remove('active-flash', 'fade-out');
+            }, 700);
+        }
+
+        // Gracefully fade out the loader screen instead of an abrupt hide
+        if (loaderScreen) {
+            loaderScreen.classList.add('fade-out-loader');
+            setTimeout(() => {
+                loaderScreen.classList.remove('active-screen', 'fade-out-loader');
+                loaderScreen.classList.add('hidden');
+                const portalPravaahFrame = document.getElementById('portal-pravaah-frame');
+                if (portalPravaahFrame) {
+                    portalPravaahFrame.style.display = 'none';
+                }
+            }, 360);
         }
 
         setTimeout(() => {
-            if (portalVideo) {
-                portalVideo.pause();
-                portalVideo.ontimeupdate = null;
-                portalVideo.onended = null;
-            }
-
-            if (loaderScreen) {
-                loaderScreen.classList.remove('active-screen');
-                loaderScreen.classList.add('hidden');
-            }
-
-            // The one which was before portal (splash screen) is completely hidden and will NOT come again in home page
-            if (splashScreen) {
-                splashScreen.classList.add('hidden');
-                splashScreen.classList.remove('active-screen');
-            }
-
-            document.body.classList.add('portal-entered');
-            document.documentElement.classList.add('portal-entered-fast');
-
-            if (portalFlashOverlay) {
-                portalFlashOverlay.classList.add('fade-out');
-                setTimeout(() => {
-                    portalFlashOverlay.classList.remove('active-flash', 'fade-out');
-                }, 800);
-            }
-
-            if (mainScrollContainer) {
-                mainScrollContainer.classList.add('scroll-enabled');
-            }
-
-            // Land cleanly at the top of the home page (About section)
-            window.scrollTo({ top: 0, behavior: 'instant' });
-            if (mainScrollContainer) {
-                mainScrollContainer.scrollTo({ top: 0, behavior: 'instant' });
-            }
-
-            const navWheel = document.getElementById('cosmic-nav-wheel');
-            if (navWheel) {
-                navWheel.classList.remove('hidden-nav');
-                setTimeout(updateNavPill, 100);
-            }
-
-            revealAboutSectionInstantly();
-            const globalBg = document.getElementById('global-bg-layer');
-            if (globalBg) {
-                globalBg.style.backgroundImage = "url('assets/images/home_portal_bg.jpg')";
-            }
-            handleParallaxAndNav();
-
-            setTimeout(() => {
-                generateCalendarCube();
-            }, 60);
-        }, 250);
+            generateCalendarCube();
+        }, 120);
     }
 
     // Skip button click listener
@@ -752,20 +1748,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Sound toggle listener
-    if (portalAudioBtn && portalVideo) {
+    // Sound toggle listener for Pravaah animation
+    if (portalAudioBtn) {
         portalAudioBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            if (portalVideo.muted) {
-                portalVideo.muted = false;
-                portalVideo.volume = 1;
+            portalSoundMuted = !portalSoundMuted;
+            if (!portalSoundMuted) {
                 if (iconSoundOff) iconSoundOff.style.display = 'none';
                 if (iconSoundOn) iconSoundOn.style.display = 'block';
+                playPortalSFX();
             } else {
-                portalVideo.muted = true;
                 if (iconSoundOff) iconSoundOff.style.display = 'block';
                 if (iconSoundOn) iconSoundOn.style.display = 'none';
+                if (portalAudioCtx && portalAudioCtx.state !== 'closed') {
+                    try { portalAudioCtx.suspend(); } catch (err) {}
+                }
             }
         });
     }
@@ -842,8 +1840,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Scroll down on pre-portal screen triggers opening portal
+    // Scroll down on intro or pre-portal screen triggers progression
     window.addEventListener('wheel', (e) => {
+        if (!introDismissed) {
+            if (e.deltaY > 15) {
+                e.preventDefault();
+                proceedToFirstPage();
+            }
+            return;
+        }
         if (!portalHasEntered && !portalPlaybackActive) {
             if (e.deltaY > 15) {
                 e.preventDefault();
@@ -852,17 +1857,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, { passive: false });
 
-    // Touch swipe up on pre-portal screen triggers opening portal
+    // Touch swipe up triggers progression
     let prePortalTouchY = 0;
+    const pravaahIntro = document.getElementById('pravaah-intro-screen');
+    if (pravaahIntro) {
+        pravaahIntro.addEventListener('touchstart', (e) => {
+            if (e.touches && e.touches[0]) prePortalTouchY = e.touches[0].clientY;
+        }, { passive: true });
+        pravaahIntro.addEventListener('touchend', (e) => {
+            if (!introDismissed && e.changedTouches && e.changedTouches[0]) {
+                const diff = prePortalTouchY - e.changedTouches[0].clientY;
+                if (diff > 20 || Math.abs(diff) < 10) {
+                    proceedToFirstPage();
+                }
+            }
+        }, { passive: true });
+    }
+
     if (splashScreen) {
         splashScreen.addEventListener('touchstart', (e) => {
-            if (!portalHasEntered) {
+            if (!portalHasEntered && e.touches && e.touches[0]) {
                 prePortalTouchY = e.touches[0].clientY;
             }
         }, { passive: true });
 
         splashScreen.addEventListener('touchend', (e) => {
-            if (!portalHasEntered && !portalPlaybackActive) {
+            if (!introDismissed) {
+                proceedToFirstPage();
+                return;
+            }
+            if (!portalHasEntered && !portalPlaybackActive && e.changedTouches && e.changedTouches[0]) {
                 const diff = prePortalTouchY - e.changedTouches[0].clientY;
                 if (diff > 35) {
                     launchPortalVideo();
@@ -1154,13 +2178,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 const mobileMenuBackdrop = document.getElementById('mobile-menu-backdrop');
                 const mobileSideMenu = document.getElementById('mobile-side-menu');
-                if (mobileSideMenu && mobileSideMenu.classList.contains('menu-open')) {
-                    mobileSideMenu.classList.remove('menu-open');
+                if (mobileSideMenu) {
+                    mobileSideMenu.classList.remove('menu-open', 'is-open');
                     mobileSideMenu.setAttribute('aria-hidden', 'true');
                 }
-                if (mobileMenuBackdrop && mobileMenuBackdrop.classList.contains('backdrop-active')) {
-                    mobileMenuBackdrop.classList.remove('backdrop-active');
+                if (mobileMenuBackdrop) {
+                    mobileMenuBackdrop.classList.remove('backdrop-active', 'is-open');
                 }
+                document.body.classList.remove('side-menu-locked');
             }
         });
     });

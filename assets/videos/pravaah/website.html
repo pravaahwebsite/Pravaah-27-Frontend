@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pravaah 2026 | The Multiverse Fest</title>
+    <meta name="description" content="Enter the Pravaah 2026 Multiverse. Explore Tech, Cult, Game, Entrepreneur, and Social Verses. Browse event schedule grids and travel across planetary space dimensions.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="src/css/style.css">
+    <script>
+        // Check if user specifically requested video replay or if portal already entered in this session
+        if (new URLSearchParams(window.location.search).get('firsttime') === 'true' || new URLSearchParams(window.location.search).get('replay') === 'true') {
+            try { sessionStorage.removeItem('portalEntered'); } catch (e) {}
+        } else if (sessionStorage.getItem('portalEntered') === 'true' || new URLSearchParams(window.location.search).get('skipintro') === 'true') {
+            document.documentElement.classList.add('portal-entered-fast');
+        }
+    </script>
+</head>
+<body>
+    <div id="global-bg-layer" class="global-bg-layer"></div>
+    <canvas id="starfield-canvas"></canvas>
+
+    <nav class="cosmic-nav-wheel" id="cosmic-nav-wheel">
+        <div class="nav-wheel-track">
+
+            <div class="nav-indicator-pill" id="nav-indicator-pill"></div>
+            <div class="nav-hover-pill" id="nav-hover-pill"></div>
+
+            <a href="index.html" class="nav-item active">HOME</a>
+            <div class="nav-divider"></div>
+            <a href="events.html" class="nav-item">EVENTS</a>
+            <div class="nav-divider"></div>
+            <a href="register.html" class="nav-item">REGISTER</a>
+            <div class="nav-divider"></div>
+            <a href="accommodation.html" class="nav-item">ACCOMMODATION</a>
+            <div class="nav-divider"></div>
+            <a href="photo-gallery.html" class="nav-item">PHOTO GALLERY</a>
+            <div class="nav-divider"></div>
+            <a href="sponsors.html" class="nav-item">SPONSORS</a>
+            <div class="nav-divider"></div>
+            <a href="contact.html" class="nav-item">CONTACT US</a>
+            <div class="nav-divider"></div>
+            <a href="profile.html" class="nav-item">PROFILE</a>
+        </div>
+        <div class="nav-wheel-glow"></div>
+    </nav>
+
+    <!-- =========================================================
+         MOBILE TOP-LEFT MENU BUTTON (PHONE VIEWPORTS ONLY)
+         ========================================================= -->
+    <button type="button" class="mobile-top-menu-btn" id="mobile-menu-trigger" aria-label="Open Side Menu">
+        <div class="top-menu-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </div>
+        <span class="top-menu-active-dot"></span>
+    </button>
+
+    <!-- =========================================================
+         MOBILE BOTTOM NAVIGATION (TECHFEST-STYLE DOCK)
+         ========================================================= -->
+    <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Mobile Navigation">
+        <div class="bottom-nav-track">
+            <a href="index.html" class="bottom-nav-item active" data-nav="home">
+                <div class="nav-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1V9.5z"/>
+                    </svg>
+                </div>
+                <span class="nav-label">HOME</span>
+                <span class="nav-active-pip"></span>
+            </a>
+
+            <a href="events.html" class="bottom-nav-item" data-nav="events">
+                <div class="nav-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+                    </svg>
+                </div>
+                <span class="nav-label">EVENTS</span>
+                <span class="nav-active-pip"></span>
+            </a>
+
+            <a href="register.html" class="bottom-nav-item" data-nav="register">
+                <div class="nav-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+                        <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+                        <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+                        <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+                    </svg>
+                </div>
+                <span class="nav-label">REGISTER</span>
+                <span class="nav-active-pip"></span>
+            </a>
+
+            <a href="photo-gallery.html" class="bottom-nav-item" data-nav="gallery">
+                <div class="nav-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                </div>
+                <span class="nav-label">GALLERY</span>
+                <span class="nav-active-pip"></span>
+            </a>
+
+            <a href="profile.html" class="bottom-nav-item" data-nav="profile">
+                <div class="nav-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </div>
+                <span class="nav-label">PROFILE</span>
+                <span class="nav-active-pip"></span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- =========================================================
+         MOBILE SIDE DRAWER MENU (TECHFEST-STYLE PHONE DRAWER)
+         ========================================================= -->
+    <div class="mobile-menu-backdrop" id="mobile-menu-backdrop" aria-hidden="true"></div>
+
+    <aside class="mobile-side-menu" id="mobile-side-menu" aria-label="Mobile Directory Navigation" aria-hidden="true">
+        <div class="side-menu-header">
+            <div class="side-menu-brand">
+                <span class="side-brand-title">PRAVAAH '26</span>
+                <span class="side-brand-subtitle">THE MULTIVERSE FEST</span>
+            </div>
+            <button type="button" class="side-menu-close-btn" id="mobile-menu-close" aria-label="Close Side Menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="side-menu-body">
+            <nav class="side-menu-links">
+                <a href="index.html" class="side-menu-link active" data-nav="home">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1V9.5z"/></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">HOME</span>
+                        <span class="side-link-desc">Main Gateway & Highlights</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+
+                <a href="events.html" class="side-menu-link" data-nav="events">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">EVENTS</span>
+                        <span class="side-link-desc">Tech, Cult, Gaming & E-Cell</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+
+                <a href="register.html" class="side-menu-link" data-nav="register">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">REGISTER</span>
+                        <span class="side-link-desc">Entry Passes & Hackathons</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+
+                <a href="accommodation.html" class="side-menu-link" data-nav="accommodation">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">ACCOMMODATION</span>
+                        <span class="side-link-desc">Stay, Hostels & Travel</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+
+                <a href="photo-gallery.html" class="side-menu-link" data-nav="gallery">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">PHOTO GALLERY</span>
+                        <span class="side-link-desc">Fest Archives & Memories</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+
+                <a href="sponsors.html" class="side-menu-link" data-nav="sponsors">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">SPONSORS</span>
+                        <span class="side-link-desc">Multiverse Partners</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+
+                <a href="contact.html" class="side-menu-link" data-nav="contact">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">CONTACT US</span>
+                        <span class="side-link-desc">Team Leads & Query Desk</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+
+                <a href="profile.html" class="side-menu-link" data-nav="profile">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">PROFILE</span>
+                        <span class="side-link-desc">My Passport & Badges</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="side-menu-footer">
+            <div class="side-footer-dates">
+                <span class="dates-label">DATES // MARCH 20-22, 2026</span>
+            </div>
+            <div class="side-footer-sub">
+                <span>WARPING DIMENSIONS // PRAVAAH</span>
+            </div>
+            <a href="register.html" class="side-footer-cta">GET FESTIVAL PASS</a>
+        </div>
+    </aside>
+
+
+    <!-- Portal Video Entrance Screen (Triggered on swipe down from hero) -->
+    <section id="loader-screen" class="hidden portal-warp-section">
+        <video id="portal-video" class="portal-video-element" playsinline preload="auto" muted>
+            <source src="assets/videos/portal.mp4" type="video/mp4">
+        </video>
+
+        <div id="portal-flash-overlay" class="portal-flash-overlay"></div>
+
+        <div class="portal-controls-row">
+            <button id="portal-audio-btn" class="portal-audio-btn" type="button" aria-label="Toggle Sound" title="Toggle Sound">
+                <svg id="icon-sound-off" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <line x1="23" y1="9" x2="17" y2="15"></line>
+                    <line x1="17" y1="9" x2="23" y2="15"></line>
+                </svg>
+                <svg id="icon-sound-on" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg>
+            </button>
+
+            <button id="portal-skip-btn" class="portal-skip-btn" type="button" aria-label="Skip Intro Video">
+                <span>SKIP INTRO</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                    <line x1="19" y1="5" x2="19" y2="19"></line>
+                </svg>
+            </button>
+        </div>
+
+        <div class="portal-loader-indicator">
+            <div class="portal-loader-bar"></div>
+        </div>
+    </section>
+
+    <main id="main-scroll-container">
+
+        <section id="splash-screen" class="snap-page splash-screen-page active-screen">
+            <div class="glow-core"></div>
+            <div class="splash-content">
+
+                <div class="splash-highlights-panel scroll-reveal">
+                    <h3 class="splash-panel-title title-tech">FEST HIGHLIGHTS</h3>
+                    <div class="highlight-item">
+                        <span class="hl-badge badge-tech">TECH</span>
+                        <div class="hl-name">ROBO SOCCER</div>
+                        <div class="hl-desc">Futuristic robotic arena championship.</div>
+                    </div>
+                    <div class="highlight-item">
+                        <span class="hl-badge badge-cult">CULT</span>
+                        <div class="hl-name">SYMPHONY</div>
+                        <div class="hl-desc">Battle of the rock & fusion bands.</div>
+                    </div>
+                    <div class="highlight-item">
+                        <span class="hl-badge badge-game">GAME</span>
+                        <div class="hl-name">VALORANT LAN</div>
+                        <div class="hl-desc">High stakes tactical esports finals.</div>
+                    </div>
+                </div>
+
+                <div class="splash-logo-column">
+                    <div class="big-septagon-portal-container">
+                        <svg width="0" height="0" style="position: absolute;">
+                            <defs>
+                                <linearGradient id="septagon-neon-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#ff007f" />
+                                    <stop offset="40%" stop-color="#00f2fe" />
+                                    <stop offset="75%" stop-color="#9d4edd" />
+                                    <stop offset="100%" stop-color="#ff007f" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="big-septagon-rotator">
+                            <div class="big-septagon-artwork-box">
+                                <img src="assets/images/vertical_draft1.jpg" alt="Big Septagon Portal Artwork" class="big-septagon-img">
+                                <div class="big-septagon-edge-shadow"></div>
+                            </div>
+                            <svg viewBox="0 0 100 100" class="big-septagon-frame-svg">
+                                <polygon points="50,2.5 87.1,20.4 96.3,60.6 70.6,92.8 29.4,92.8 3.7,60.6 12.9,20.4" class="big-septagon-border-glow" />
+                                <polygon points="50,2.5 87.1,20.4 96.3,60.6 70.6,92.8 29.4,92.8 3.7,60.6 12.9,20.4" class="big-septagon-border-main" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="logo-container">
+                        <div class="logo-pravaah-container">
+                            <span class="logo-pravaah spider-title" data-text="PRAVAAH">PRAVAAH</span>
+                            <span class="logo-edition-tag">3<sup>rd</sup> EDITION</span>
+                        </div>
+                        <h1 class="logo-title spider-title" data-text="KAIROS">KAIROS</h1>
+                        <div class="logo-subtitle-container">
+                            <div class="logo-subtitle">worlds unbound</div>
+                            <div class="subtitle-line">
+                                <span class="line-dot"></span>
+                                <span class="line-bar"></span>
+                                <span class="line-sparkle">✦</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- High-Tech Multiverse Live Countdown Timer -->
+                    <div class="multiverse-countdown-container" id="multiverse-countdown">
+                        <div class="countdown-label">FESTIVAL IGNITION IN</div>
+                        <div class="countdown-units">
+                            <div class="countdown-card">
+                                <span class="count-val" id="cnt-days">00</span>
+                                <span class="count-lbl">DAYS</span>
+                            </div>
+                            <span class="countdown-sep">:</span>
+                            <div class="countdown-card">
+                                <span class="count-val" id="cnt-hours">00</span>
+                                <span class="count-lbl">HOURS</span>
+                            </div>
+                            <span class="countdown-sep">:</span>
+                            <div class="countdown-card">
+                                <span class="count-val" id="cnt-mins">00</span>
+                                <span class="count-lbl">MINS</span>
+                            </div>
+                            <span class="countdown-sep">:</span>
+                            <div class="countdown-card">
+                                <span class="count-val" id="cnt-secs">00</span>
+                                <span class="count-lbl">SECS</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="home-swipe-prompt" id="portal-entry-trigger" role="button" tabindex="0" title="Click or Scroll to Explore Multiverse">
+                        <div class="home-enter-btn-glow"></div>
+                        <div class="home-enter-btn-content">
+                            <span class="home-enter-icon">✦</span>
+                            <span class="home-swipe-text">EXPLORE MULTIVERSE</span>
+                            <span class="home-enter-tag">SCROLL OR CLICK</span>
+                        </div>
+                        <div class="arrow-down-glowing home-swipe-arrow">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="splash-status-panel scroll-reveal">
+                    <h3 class="splash-panel-title title-cult">PORTAL MATRIX</h3>
+                    <div class="status-row">
+                        <div class="status-meta">
+                            <span class="status-name">TECH GATE</span>
+                            <span class="status-stat status-online">ONLINE (98%)</span>
+                        </div>
+                        <div class="status-bar"><div class="status-bar-fill fill-tech" style="width: 98%;"></div></div>
+                    </div>
+                    <div class="status-row">
+                        <div class="status-meta">
+                            <span class="status-name">CULT GATE</span>
+                            <span class="status-stat status-online">ONLINE (95%)</span>
+                        </div>
+                        <div class="status-bar"><div class="status-bar-fill fill-cult" style="width: 95%;"></div></div>
+                    </div>
+                    <div class="status-row">
+                        <div class="status-meta">
+                            <span class="status-name">GAME GATE</span>
+                            <span class="status-stat status-online">ONLINE (92%)</span>
+                        </div>
+                        <div class="status-bar"><div class="status-bar-fill fill-game" style="width: 92%;"></div></div>
+                    </div>
+                    <div class="status-row">
+                        <div class="status-meta">
+                            <span class="status-name">ENTRE GATE</span>
+                            <span class="status-stat status-stable">STABLE</span>
+                        </div>
+                        <div class="status-bar"><div class="status-bar-fill fill-ent" style="width: 85%;"></div></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="about-page" class="snap-page">
+
+            <div class="about-fullscreen-wrapper">
+                <!-- Revelation Lead Line: "GET TO KNOW ABOUT PRAVAAH" -->
+                <div class="about-lead-container" id="about-lead-container">
+                    <div class="about-lead-badge">
+                        <span class="badge-dot pulse-cyan"></span>
+                        <span class="badge-text">PORTAL CONVERGENCE</span>
+                        <span class="badge-sparkle">✦</span>
+                    </div>
+                    <h2 class="about-page-heading about-lead-line spider-title" id="about-lead-line" data-text="GET TO KNOW ABOUT OUR FEST">
+                        GET TO KNOW ABOUT OUR FEST
+                    </h2>
+                    <div class="about-lead-decor">
+                        <span class="decor-line-bar"></span>
+                        <span class="decor-line-text">WORLDS UNBOUND • KAIROS 2026</span>
+                        <span class="decor-line-bar"></span>
+                    </div>
+                </div>
+
+                <!-- About Page Elements: Pravaah from Left, Kairos Theme from Right -->
+                <div class="about-intro-grid" id="about-intro-grid">
+                    <div class="about-intro-card pravaah-sub-card from-left" id="about-card-pravaah">
+                        <div class="about-card-badge-row">
+                            <span class="about-card-badge badge-tech">ABOUT PRAVAAH</span>
+                            <span class="sub-edition-tag">3<sup>rd</sup> EDITION</span>
+                        </div>
+                        <h3 class="about-card-title sub-title">ANNUAL FEST OF IIT BHUBANESWAR</h3>
+                        <p class="about-card-text sub-text">
+                            PRAVAAH is the premier Annual Cultural &amp; Technopreneurship Fest of IIT Bhubaneswar. Uniting visionary minds from across the nation, Pravaah fuses engineering challenges, robotics battlegrounds, musical stages, esports leagues, and startup incubation.
+                        </p>
+                    </div>
+
+                    <div class="about-intro-card theme-card theme-highlight-card from-right" id="about-card-theme">
+                        <div class="theme-card-glow-bg"></div>
+                        <div class="about-card-badge-row">
+                            <span class="about-card-badge badge-cult-highlight">FESTIVAL THEME</span>
+                            <span class="theme-pill-tag">✦ EDITION 2026 ✦</span>
+                        </div>
+                        <div class="theme-hero-title-box">
+                            <h3 class="kairos-gold-title spider-title" data-text="KAIROS">KAIROS</h3>
+                            <div class="theme-subtitle-wrap">
+                                <span class="kairos-theme-subtitle">worlds unbound</span>
+                                <div class="theme-accent-line">
+                                    <span class="theme-dot"></span>
+                                    <span class="theme-bar"></span>
+                                    <span class="theme-sparkle">✦</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="about-card-text theme-featured-text">
+                            Step through the dimensional portal into <strong>KAIROS</strong>—where parallel realities converge. From ancient retro-futuristic roots to high-tech quantum frontiers and artistic galaxies, enter an unbound continuum of innovation, live performances, and cosmic exploration celebrating the limitless potential of youth and creativity.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Slow Smooth Glide Trigger to Calendar -->
+                <div class="calendar-glide-guide" id="guide-to-calendar-btn" role="button" tabindex="0" title="Slow Smooth Scroll to Fest Calendar">
+                    <div class="glide-guide-halo"></div>
+                    <div class="glide-guide-content">
+                        <span class="glide-guide-tag">NEXT TEMPORAL NODE</span>
+                        <div class="glide-guide-title">
+                            <span>SLOW GLIDE TO CALENDAR</span>
+                            <span class="glide-guide-icon">✦</span>
+                        </div>
+                        <div class="glide-guide-arrow">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m7 10 5 5 5-5"/>
+                                <path d="m7 4 5 5 5-5"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="calendar-page" class="snap-page">
+
+            <div class="calendar-heading-container" id="calendar-heading-container">
+                <div class="calendar-heading-badge">
+                    <span class="badge-dot pulse-gold"></span>
+                    <span class="badge-text">TEMPORAL MATRIX</span>
+                    <span class="badge-sparkle">✦</span>
+                </div>
+                <h2 class="calendar-page-heading spider-title" id="calendar-lead-line" data-text="FEST CALENDAR">FEST CALENDAR</h2>
+                <div class="calendar-lead-decor">
+                    <span class="decor-line-bar"></span>
+                    <span class="decor-line-text">CYCLE 2026 • TEMPORAL TIMELINES &amp; EVENT DATES</span>
+                    <span class="decor-line-bar"></span>
+                </div>
+            </div>
+
+            <div class="calendar-layout-container" id="calendar-layout-container">
+
+                <div class="calendar-cube-viewport" id="calendar-cube-viewport">
+
+                    <div class="comet-orbit-ring ring-1">
+                        <div class="comet-spinner spinner-1">
+                            <div class="cube-comet comet-cyan"></div>
+                        </div>
+                    </div>
+                    <div class="comet-orbit-ring ring-2">
+                        <div class="comet-spinner spinner-2">
+                            <div class="cube-comet comet-pink"></div>
+                        </div>
+                    </div>
+                    <div class="comet-orbit-ring ring-3">
+                        <div class="comet-spinner spinner-3">
+                            <div class="cube-comet comet-gold"></div>
+                        </div>
+                    </div>
+
+                    <div class="cube-month-tracker" id="cube-month-tracker">
+                        <button class="month-pill" data-month-index="0">JAN</button>
+                        <button class="month-pill" data-month-index="1">FEB</button>
+                        <button class="month-pill" data-month-index="2">MAR</button>
+                        <button class="month-pill" data-month-index="3">APR</button>
+                        <button class="month-pill" data-month-index="4">MAY</button>
+                        <button class="month-pill" data-month-index="5">JUN</button>
+                    </div>
+
+                    <button class="cube-rotate-btn btn-prev" id="cube-btn-prev" aria-label="Rotate to Previous Month" title="Previous Month">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                        <span class="rotate-btn-label">PREV</span>
+                    </button>
+                    <button class="cube-rotate-btn btn-next" id="cube-btn-next" aria-label="Rotate to Next Month" title="Next Month">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                        <span class="rotate-btn-label">NEXT</span>
+                    </button>
+
+                    <div class="calendar-cube" id="calendar-cube">
+                        <div class="cube-face face-front" id="face-jan"></div>
+                        <div class="cube-face face-right" id="face-feb"></div>
+                        <div class="cube-face face-back" id="face-mar"></div>
+                        <div class="cube-face face-left" id="face-apr"></div>
+                        <div class="cube-face face-top" id="face-may"></div>
+                        <div class="cube-face face-bottom" id="face-jun"></div>
+                    </div>
+                </div>
+
+                <div class="calendar-tip-hud">
+                    <span class="tip-icon">💡</span>
+                    <span class="tip-text">SYSTEM NOTICE: USE PREV / NEXT BUTTONS TO ROTATE THE CUBE (JAN–JUN). CLICK ANY HIGHLIGHTED DATE CELL FOR DETAIL INDEX.</span>
+                </div>
+
+                <div class="day-events-panel" id="day-events-panel">
+                    <div class="panel-header-row">
+                        <h3 class="panel-title" id="calendar-panel-title">SELECT A TEMPORAL NODE</h3>
+                        <button id="back-to-cube-btn" class="back-cube-btn hidden-btn">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                            BACK
+                        </button>
+                    </div>
+                    <div class="panel-date" id="calendar-panel-date">No cycle loaded</div>
+                    <div class="panel-events-list" id="calendar-events-list">
+                        <div class="no-events-prompt">Click a highlighted day grid cell to query local verse event timelines.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery-page" class="snap-page">
+
+            <div class="gallery-viewport">
+                <h2 class="gallery-page-heading spider-title" data-text="PORTAL GALLERY">PORTAL GALLERY</h2>
+
+                <div class="gallery-columns-wrapper" id="gallery-columns-wrapper">
+
+                    <div class="gallery-column col-down col-edge-left">
+                        <div class="gallery-track track-down">
+
+                            <div class="gallery-group-vertical">
+                                <div class="gallery-card" data-category="tech">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Tech Robo Soccer" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-tech">TECH VERSE</span>
+                                        <h4 class="gallery-card-title">Robo Soccer Arena</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="cult">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Cult Live Concert" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
+                                        <h4 class="gallery-card-title">Main Arena Concert</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="cult">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Cult Band Battle" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
+                                        <h4 class="gallery-card-title">Symphony Rock Battle</h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-group-vertical">
+                                <div class="gallery-card" data-category="tech">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Tech Robo Soccer" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-tech">TECH VERSE</span>
+                                        <h4 class="gallery-card-title">Robo Soccer Arena</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="cult">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Cult Live Concert" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
+                                        <h4 class="gallery-card-title">Main Arena Concert</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="cult">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Cult Band Battle" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
+                                        <h4 class="gallery-card-title">Symphony Rock Battle</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-column col-up col-middle-left">
+                        <div class="gallery-track track-up">
+
+                            <div class="gallery-group-vertical">
+                                <div class="gallery-card" data-category="game">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Game Esports Valorant" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-game">GAME VERSE</span>
+                                        <h4 class="gallery-card-title">Valorant Esports Arena</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="cult">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Vogue Fashion Show" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
+                                        <h4 class="gallery-card-title">Vogue Galaxy Runway</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="tech">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Tech Keynote Sync" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-tech">TECH VERSE</span>
+                                        <h4 class="gallery-card-title">Multiverse Sync Demo</h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-group-vertical">
+                                <div class="gallery-card" data-category="game">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Game Esports Valorant" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-game">GAME VERSE</span>
+                                        <h4 class="gallery-card-title">Valorant Esports Arena</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="cult">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Vogue Fashion Show" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
+                                        <h4 class="gallery-card-title">Vogue Galaxy Runway</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="tech">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Tech Keynote Sync" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-tech">TECH VERSE</span>
+                                        <h4 class="gallery-card-title">Multiverse Sync Demo</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-column col-down col-middle-right">
+                        <div class="gallery-track track-down">
+
+                            <div class="gallery-group-vertical">
+                                <div class="gallery-card" data-category="ent">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Entrepreneur Pitch Battle" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-ent">ENTR VERSE</span>
+                                        <h4 class="gallery-card-title">B-Plan Pitch Battle</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="social">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Social Eco Initiative" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-social">SOCIAL VERSE</span>
+                                        <h4 class="gallery-card-title">Green Horizon Initiative</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="game">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Game FIFA Cup" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-game">GAME VERSE</span>
+                                        <h4 class="gallery-card-title">FIFA Console Zones</h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-group-vertical">
+                                <div class="gallery-card" data-category="ent">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Entrepreneur Pitch Battle" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-ent">ENTR VERSE</span>
+                                        <h4 class="gallery-card-title">B-Plan Pitch Battle</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="social">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Social Eco Initiative" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-social">SOCIAL VERSE</span>
+                                        <h4 class="gallery-card-title">Green Horizon Initiative</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="game">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Game FIFA Cup" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-game">GAME VERSE</span>
+                                        <h4 class="gallery-card-title">FIFA Console Zones</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-column col-up col-edge-right">
+                        <div class="gallery-track track-up">
+
+                            <div class="gallery-group-vertical">
+                                <div class="gallery-card" data-category="cult">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Cult Street Play" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
+                                        <h4 class="gallery-card-title">Street Dramatics Stage</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="tech">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Tech Hackathon AI" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-tech">TECH VERSE</span>
+                                        <h4 class="gallery-card-title">AI Odyssey Coding</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="ent">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Entrepreneur Shark Tank" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-ent">ENTR VERSE</span>
+                                        <h4 class="gallery-card-title">Shark Tank Pitching</h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-group-vertical">
+                                <div class="gallery-card" data-category="cult">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Cult Street Play" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
+                                        <h4 class="gallery-card-title">Street Dramatics Stage</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="tech">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Tech Hackathon AI" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-tech">TECH VERSE</span>
+                                        <h4 class="gallery-card-title">AI Odyssey Coding</h4>
+                                    </div>
+                                </div>
+                                <div class="gallery-card" data-category="ent">
+                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Entrepreneur Shark Tank" loading="lazy">
+                                    <div class="gallery-card-overlay">
+                                        <span class="gallery-card-tag tag-ent">ENTR VERSE</span>
+                                        <h4 class="gallery-card-title">Shark Tank Pitching</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="team-page" class="snap-page">
+
+            <div class="last-page-hero-container">
+                <span class="hero-brand-title spider-title" data-text="PRAVAAH 2026">PRAVAAH 2026</span>
+                <p class="hero-tagline">The Annual Cultural & Technopreneurship Fest of IIT Bhubaneswar</p>
+
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLScJp86gL9E-Pravaah2026MockForm/viewform" target="_blank" class="hero-register-btn">
+                    <span>REGISTER NOW</span>
+                    <span class="register-sparkle">✦</span>
+                </a>
+
+                <div class="hero-social-block">
+                    <a href="https://www.instagram.com/iitbbs.pravaah/?hl=en" target="_blank" class="hero-social-btn btn-insta" aria-label="Instagram" rel="noopener">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                        <span>INSTAGRAM</span>
+                    </a>
+                    <a href="https://www.linkedin.com/company/pravaah-iit-bhubaneswar/posts/?feedView=all" target="_blank" class="hero-social-btn btn-linkedin" aria-label="LinkedIn" rel="noopener">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                        <span>LINKEDIN</span>
+                    </a>
+                    <a href="https://youtube.com/@pravaahiitbbs?si=9zFAqSFCleCCECZ_" target="_blank" class="hero-social-btn btn-youtube" aria-label="YouTube" rel="noopener">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.41 19c1.71.46 8.59.46 8.59.46s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+                        <span>YOUTUBE</span>
+                    </a>
+                </div>
+            </div>
+
+            <footer class="pravaah-full-footer">
+                <div class="pravaah-footer-container">
+                    <div class="footer-col-brand">
+                        <a href="index.html" class="footer-brand-logo-link" aria-label="Pravaah 2026 Home">
+                            <img src="assets/images/pravaah_footer_logo.png" alt="PRAVAAH" class="footer-brand-logo-img">
+                        </a>
+                        <a href="register.html" class="footer-btn-register">Register Now</a>
+                    </div>
+                    <div class="footer-col-links">
+                        <h4 class="footer-col-title">Explore More</h4>
+                        <ul class="footer-nav-list">
+                            <li><a href="events.html">Events</a></li>
+                            <li><a href="photo-gallery.html">Gallery</a></li>
+                            <li><a href="sponsors.html">Brochure</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col-contact">
+                        <h4 class="footer-col-title">Reach Out to Us</h4>
+                        <ul class="footer-nav-list">
+                            <li><a href="contact.html">Contact Us</a></li>
+                        </ul>
+                        <div class="footer-social-row">
+                            <a href="https://www.instagram.com/iitbbs.pravaah/?hl=en" target="_blank" rel="noopener noreferrer" class="footer-social-box" aria-label="Instagram">
+                                <i class="fa-brands fa-instagram"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/company/pravaah-iit-bhubaneswar/posts/?feedView=all" target="_blank" rel="noopener noreferrer" class="footer-social-box" aria-label="LinkedIn">
+                                <i class="fa-brands fa-linkedin-in"></i>
+                            </a>
+                            <a href="https://youtube.com/@pravaahiitbbs?si=9zFAqSFCleCCECZ_" target="_blank" rel="noopener noreferrer" class="footer-social-box" aria-label="YouTube">
+                                <i class="fa-brands fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom-divider"></div>
+                <div class="footer-bottom-credits">
+                    <span class="credits-brand">@PRAVAAH'27 IIT BHUBANESWAR</span>
+                    <span class="credits-separator">|</span>
+                    <span class="credits-team">MADE WITH 💜 BY WEB TEAM</span>
+                </div>
+            </footer>
+        </section>
+    </main>
+
+    <div id="event-modal" class="modal-overlay hidden">
+        <div class="modal-glow-back"></div>
+        <div class="modal-container">
+            <button id="close-modal-btn" class="close-btn" aria-label="Close modal">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div class="modal-header">
+                <div class="verse-badge" id="modal-verse-badge">TECH VERSE</div>
+                <h2 id="modal-verse-title" class="verse-title">TECH VERSE EVENTS</h2>
+                <p id="modal-verse-desc" class="verse-desc">The dimensional portal of extreme machines and futuristic logic.</p>
+            </div>
+
+            <div class="events-grid" id="events-grid">
+
+            </div>
+        </div>
+    </div>
+
+    <div id="gallery-lightbox" class="lightbox-overlay hidden">
+        <button id="close-lightbox-btn" class="lightbox-close-btn" aria-label="Close Lightbox">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <button id="prev-lightbox-btn" class="lightbox-nav-btn nav-left" aria-label="Previous Image">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button id="next-lightbox-btn" class="lightbox-nav-btn nav-right" aria-label="Next Image">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="large preview">
+            <div class="lightbox-caption">
+                <span id="lightbox-tag" class="lightbox-tag">CATEGORY</span>
+                <h3 id="lightbox-title" class="lightbox-title">Image Title</h3>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-glitch-overlay" class="screen-glitch-overlay">
+        <div class="glitch-halftone"></div>
+        <div class="glitch-shard shard-1"></div>
+        <div class="glitch-shard shard-2"></div>
+        <div class="glitch-shard shard-3"></div>
+        <div class="glitch-shard shard-4"></div>
+        <div class="glitch-shard shard-5"></div>
+        <div class="glitch-shard shard-6"></div>
+        <div class="glitch-shard shard-7"></div>
+        <div class="glitch-shard shard-8"></div>
+        <div class="glitch-shard shard-9"></div>
+        <div class="glitch-shard shard-10"></div>
+        <div class="glitch-shard shard-11"></div>
+        <div class="glitch-shard shard-12"></div>
+        <div class="glitch-shard shard-13"></div>
+        <div class="glitch-shard shard-14"></div>
+        <div class="glitch-shard shard-15"></div>
+        <div class="glitch-shard shard-16"></div>
+        <div class="glitch-shard shard-17"></div>
+        <div class="glitch-shard shard-18"></div>
+        <div class="glitch-shard shard-19"></div>
+        <div class="glitch-shard shard-20"></div>
+        <div class="glitch-shard shard-21"></div>
+        <div class="glitch-shard shard-22"></div>
+        <div class="glitch-shard shard-23"></div>
+        <div class="glitch-shard shard-24"></div>
+        <div class="glitch-noise"></div>
+    </div>
+
+    <div id="toast-notification" class="toast-hidden">
+        <div class="toast-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <div class="toast-text">
+            <span class="toast-title">Transmission Successful</span>
+            <span class="toast-msg">Opening registration portal...</span>
+        </div>
+    </div>
+
+    <script src="src/js/app.js"></script>
+    <script src="src/js/glitch-nav.js"></script>
+</body>
+</html>
