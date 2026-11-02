@@ -7,6 +7,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const calendarPage = document.getElementById('calendar-page');
     const universePage = document.getElementById('universe-page');
 
+    const portalVideo = document.getElementById('portal-video');
+    const portalFlashOverlay = document.getElementById('portal-flash-overlay');
+    const portalEntryTrigger = document.getElementById('portal-entry-trigger');
+    const portalSkipBtn = document.getElementById('portal-skip-btn');
+    const portalAudioBtn = document.getElementById('portal-audio-btn');
+    const iconSoundOff = document.getElementById('icon-sound-off');
+    const iconSoundOn = document.getElementById('icon-sound-on');
+    const portalLoaderBar = document.querySelector('.portal-loader-bar');
+
+    let hasAlreadyEnteredPortal = false;
+    try {
+        hasAlreadyEnteredPortal = (sessionStorage.getItem('portalEntered') === 'true') || (new URLSearchParams(window.location.search).get('skipintro') === 'true');
+    } catch (e) {}
+    let portalPlaybackActive = false;
+    let portalHasEntered = hasAlreadyEnteredPortal;
+    let flashTriggered = false;
+
     const swipeTrigger = document.getElementById('swipe-trigger');
     const enterBtn = document.getElementById('enter-btn');
     const loaderPercentage = document.getElementById('loader-percentage');
@@ -303,8 +320,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
                 const scrollProgress = Math.min(1, Math.max(0, curScroll / maxScroll));
 
-                // Smoothly unroll the extended background from 0% (portal hero) to 100% (deep cosmic abyss)
-                globalBg.style.backgroundPosition = `center ${(scrollProgress * 100).toFixed(2)}%`;
+                // Smoothly unroll the extended background for home page, or center for pre-portal
+                if (portalHasEntered) {
+                    globalBg.style.backgroundPosition = `center ${(scrollProgress * 100).toFixed(2)}%`;
+                } else {
+                    globalBg.style.backgroundPosition = 'center center';
+                }
 
                 // Move background opposite to cursor for deep window depth
                 const bgShiftX = -normX * 32;
@@ -509,32 +530,80 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     initPortalSimulation();
 
-    const portalVideo = document.getElementById('portal-video');
-    const portalFlashOverlay = document.getElementById('portal-flash-overlay');
-    const portalEntryTrigger = document.getElementById('portal-entry-trigger');
-    const portalSkipBtn = document.getElementById('portal-skip-btn');
-    const portalAudioBtn = document.getElementById('portal-audio-btn');
-    const iconSoundOff = document.getElementById('icon-sound-off');
-    const iconSoundOn = document.getElementById('icon-sound-on');
-    const portalLoaderBar = document.querySelector('.portal-loader-bar');
+    function revealAboutSectionInstantly() {
+        const aboutLead = document.getElementById('about-lead-container');
+        const aboutCardPravaah = document.getElementById('about-card-pravaah');
+        const aboutCardTheme = document.getElementById('about-card-theme');
+        const guideToCal = document.getElementById('guide-to-calendar-btn');
+        if (aboutLead) {
+            aboutLead.style.opacity = '1';
+            aboutLead.style.transform = 'translateY(0) scale(1)';
+            aboutLead.style.filter = 'blur(0px)';
+            aboutLead.classList.add('is-centered');
+        }
+        if (aboutCardPravaah) {
+            aboutCardPravaah.style.visibility = 'visible';
+            aboutCardPravaah.style.pointerEvents = 'auto';
+            aboutCardPravaah.style.opacity = '1';
+            aboutCardPravaah.style.filter = 'blur(0px)';
+            aboutCardPravaah.classList.add('is-revealed');
+        }
+        if (aboutCardTheme) {
+            aboutCardTheme.style.visibility = 'visible';
+            aboutCardTheme.style.pointerEvents = 'auto';
+            aboutCardTheme.style.opacity = '1';
+            aboutCardTheme.style.filter = 'blur(0px)';
+            aboutCardTheme.classList.add('is-revealed');
+        }
+        if (guideToCal) {
+            guideToCal.classList.add('is-revealed');
+        }
+    }
 
-    let portalPlaybackActive = false;
-    let portalHasEntered = false; // Starts false so entering website plays the portal video
-    let flashTriggered = false;
+    if (portalHasEntered) {
+        document.body.classList.add('portal-entered');
+        document.documentElement.classList.add('portal-entered-fast');
+        if (mainScrollContainer) {
+            mainScrollContainer.classList.add('scroll-enabled');
+        }
+        if (splashScreen) {
+            splashScreen.classList.add('hidden');
+            splashScreen.classList.remove('active-screen');
+        }
+        const initialNavWheel = document.getElementById('cosmic-nav-wheel');
+        if (initialNavWheel) {
+            initialNavWheel.classList.remove('hidden-nav');
+        }
+        revealAboutSectionInstantly();
+        const globalBg = document.getElementById('global-bg-layer');
+        if (globalBg) {
+            globalBg.style.backgroundImage = "url('assets/images/home_portal_bg.jpg')";
+        }
+    } else {
+        const globalBg = document.getElementById('global-bg-layer');
+        if (globalBg) {
+            globalBg.style.backgroundImage = "url('assets/images/page1_hero.jpg')";
+        }
+        document.body.classList.remove('portal-entered');
+        document.documentElement.classList.remove('portal-entered-fast');
+        if (splashScreen) {
+            splashScreen.classList.remove('hidden');
+            splashScreen.classList.add('active-screen');
+        }
+    }
 
-    // Configure video element for reliable compliant autoplay & fast playback
+    // Configure video element for reliable fast playback
     if (portalVideo) {
         portalVideo.muted = true;
         portalVideo.defaultMuted = true;
         portalVideo.volume = 0;
-        portalVideo.defaultPlaybackRate = 1.0;
-        portalVideo.playbackRate = 1.0;
+        portalVideo.defaultPlaybackRate = 1.25;
+        portalVideo.playbackRate = 1.25;
         portalVideo.controls = false;
         portalVideo.removeAttribute('controls');
         portalVideo.setAttribute('playsinline', '');
         portalVideo.setAttribute('webkit-playsinline', '');
         portalVideo.preload = 'auto';
-        portalVideo.load();
     }
 
     // Generate calendar cube in advance so it is ready
@@ -543,11 +612,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 50);
 
     function launchPortalVideo() {
-        if (portalPlaybackActive) return;
+        if (portalHasEntered || portalPlaybackActive) return;
         portalPlaybackActive = true;
         flashTriggered = false;
 
-        // Reveal full-screen portal warp video stage
         if (loaderScreen) {
             loaderScreen.classList.remove('hidden');
             loaderScreen.classList.add('active-screen');
@@ -559,14 +627,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (portalVideo) {
             portalVideo.currentTime = 0;
-            portalVideo.playbackRate = 1.0;
-            portalVideo.muted = true; // muted allows 100% compliant autoplay in all browsers
+            portalVideo.playbackRate = 1.25;
+            portalVideo.muted = true;
 
             const playPromise = portalVideo.play();
             if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    portalVideo.playbackRate = 1.0;
-                }).catch(e => {
+                playPromise.catch(e => {
                     console.warn("Portal video playback notice:", e);
                     enterUniverse();
                 });
@@ -581,25 +647,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         const pct = Math.min(100, (currentTime / duration) * 100);
                         portalLoaderBar.style.width = `${pct}%`;
                     }
-
-                    if (currentTime >= Math.max(0.2, duration - 0.45) && !flashTriggered) {
+                    if (currentTime >= Math.max(0.4, duration - 0.25) && !flashTriggered) {
                         flashTriggered = true;
                         if (portalFlashOverlay) {
                             portalFlashOverlay.classList.add('active-flash');
                         }
                     }
-
                     if (currentTime >= Math.max(0.4, duration - 0.08)) {
-                        enterUniverse();
-                    }
-                } else {
-                    if (currentTime >= 1.6 && !flashTriggered) {
-                        flashTriggered = true;
-                        if (portalFlashOverlay) {
-                            portalFlashOverlay.classList.add('active-flash');
-                        }
-                    }
-                    if (currentTime >= 1.95) {
                         enterUniverse();
                     }
                 }
@@ -609,12 +663,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 enterUniverse();
             };
 
-            // Safety fallback timer if video stalls (4s max)
+            // Fallback safety timeout (5.5s)
             setTimeout(() => {
                 if (portalPlaybackActive && !portalHasEntered) {
                     enterUniverse();
                 }
-            }, 4000);
+            }, 5500);
         } else {
             enterUniverse();
         }
@@ -629,7 +683,6 @@ document.addEventListener('DOMContentLoaded', () => {
             sessionStorage.setItem('portalEntered', 'true');
         } catch (e) {}
 
-        // Trigger blinding dimensional flash overlay
         if (portalFlashOverlay) {
             portalFlashOverlay.classList.add('active-flash');
         }
@@ -646,6 +699,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 loaderScreen.classList.add('hidden');
             }
 
+            // The one which was before portal (splash screen) is completely hidden and will NOT come again in home page
+            if (splashScreen) {
+                splashScreen.classList.add('hidden');
+                splashScreen.classList.remove('active-screen');
+            }
+
             document.body.classList.add('portal-entered');
             document.documentElement.classList.add('portal-entered-fast');
 
@@ -660,19 +719,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 mainScrollContainer.classList.add('scroll-enabled');
             }
 
+            // Land cleanly at the top of the home page (About section)
+            window.scrollTo({ top: 0, behavior: 'instant' });
+            if (mainScrollContainer) {
+                mainScrollContainer.scrollTo({ top: 0, behavior: 'instant' });
+            }
+
             const navWheel = document.getElementById('cosmic-nav-wheel');
             if (navWheel) {
                 navWheel.classList.remove('hidden-nav');
                 setTimeout(updateNavPill, 100);
             }
 
-            generateCalendarCube();
+            revealAboutSectionInstantly();
+            const globalBg = document.getElementById('global-bg-layer');
+            if (globalBg) {
+                globalBg.style.backgroundImage = "url('assets/images/home_portal_bg.jpg')";
+            }
+            handleParallaxAndNav();
 
-            // Smoothly glide into the rest of the page / website
             setTimeout(() => {
-                smoothScrollToAbout();
-            }, 120);
-        }, 320);
+                generateCalendarCube();
+            }, 60);
+        }, 250);
     }
 
     // Skip button click listener
@@ -701,7 +770,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Keyboard navigation during portal playback: Escape/Space/Enter skips video
+    // Keyboard navigation during portal playback
     window.addEventListener('keydown', (e) => {
         if (portalPlaybackActive) {
             if (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter') {
@@ -712,252 +781,39 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* =========================================================
-       CINEMATIC TIME-BOUNDED SCROLL ENGINE
-       Regardless of scroll volume or speed (continuous wheel ticks,
-       trackpad flings, rapid swipes), further scroll inputs are
-       blocked until the time required for scrolling is completed.
-       Original visual thresholds, entrance triggers, and parallax rules
-       remain 100% intact.
+       NATURAL SMOOTH SCROLL & EXPLORATION NAVIGATION
        ========================================================= */
-    const TIME_BOUNDED_SCROLL_DURATION = 1650; // Required glide duration (ms)
-    let isScrollLocked = false;
-    let isSlowScrolling = false;
-
-    function getScrollCheckpoints() {
-        const currentScroll = getScrollPosition();
-        const viewportH = window.innerHeight;
-        const maxScroll = Math.max(0, document.documentElement.scrollHeight - viewportH);
-        const targets = [0];
-
-        // 1. About Lead centered ("GET TO KNOW ABOUT OUR FEST")
-        const aboutLead = document.getElementById('about-lead-container');
-        if (aboutLead) {
-            const rect = aboutLead.getBoundingClientRect();
-            const elemCenter = currentScroll + rect.top + rect.height / 2;
-            const targetY = Math.max(0, Math.min(maxScroll, elemCenter - viewportH * 0.5));
-            targets.push(Math.round(targetY));
-        }
-
-        // 2. About Cards centered (cards meet in middle & button visible)
-        const aboutGrid = document.getElementById('about-intro-grid');
-        if (aboutGrid) {
-            const rect = aboutGrid.getBoundingClientRect();
-            const elemCenter = currentScroll + rect.top + rect.height / 2;
-            const targetY = Math.max(0, Math.min(maxScroll, elemCenter - viewportH * 0.5));
-            targets.push(Math.round(targetY));
-        }
-
-        // 3. Calendar Page (Heading ~10% below center & 3D Cube revealed in viewport)
-        const calLayout = document.getElementById('calendar-layout-container');
-        const calHeading = document.getElementById('calendar-heading-container');
-        const calPage = document.getElementById('calendar-page');
-        if (calLayout) {
-            const rect = calLayout.getBoundingClientRect();
-            const elemCenter = currentScroll + rect.top + rect.height / 2;
-            const targetY = Math.max(0, Math.min(maxScroll, elemCenter - viewportH * 0.5));
-            targets.push(Math.round(targetY));
-        } else if (calHeading) {
-            const rect = calHeading.getBoundingClientRect();
-            const elemCenter = currentScroll + rect.top + rect.height / 2;
-            const targetY = Math.max(0, Math.min(maxScroll, elemCenter - viewportH * 0.45));
-            targets.push(Math.round(targetY));
-        } else if (calPage) {
-            const rect = calPage.getBoundingClientRect();
-            targets.push(Math.round(Math.max(0, Math.min(maxScroll, currentScroll + rect.top))));
-        }
-
-        // 4. Gallery Page (Heading centered, columns pop up from bottom & sides)
-        const galleryWrapper = document.getElementById('gallery-columns-wrapper');
-        const galleryHeading = document.querySelector('#gallery-page .gallery-page-heading') || document.querySelector('.gallery-page-heading');
-        const galleryPage = document.getElementById('gallery-page');
-        if (galleryWrapper) {
-            const rect = galleryWrapper.getBoundingClientRect();
-            const elemCenter = currentScroll + rect.top + rect.height / 2;
-            const targetY = Math.max(0, Math.min(maxScroll, elemCenter - viewportH * 0.52));
-            targets.push(Math.round(targetY));
-        } else if (galleryHeading) {
-            const rect = galleryHeading.getBoundingClientRect();
-            const elemCenter = currentScroll + rect.top + rect.height / 2;
-            const targetY = Math.max(0, Math.min(maxScroll, elemCenter - viewportH * 0.45));
-            targets.push(Math.round(targetY));
-        } else if (galleryPage) {
-            const rect = galleryPage.getBoundingClientRect();
-            targets.push(Math.round(Math.max(0, Math.min(maxScroll, currentScroll + rect.top))));
-        }
-
-        // 5. Team Page / Register hero
-        const teamPage = document.getElementById('team-page');
-        if (teamPage) {
-            const rect = teamPage.getBoundingClientRect();
-            const targetY = Math.max(0, Math.min(maxScroll, currentScroll + rect.top));
-            targets.push(Math.round(targetY));
-        }
-
-        // Final Stop: Page Bottom
-        targets.push(maxScroll);
-
-        // Sort ascending and filter out stops that are too close (< 70px)
-        targets.sort((a, b) => a - b);
-        const unique = [];
-        for (let i = 0; i < targets.length; i++) {
-            const val = targets[i];
-            if (unique.length === 0) {
-                unique.push(val);
-            } else {
-                const prev = unique[unique.length - 1];
-                if (val - prev >= 70) {
-                    unique.push(val);
-                }
-            }
-        }
-        return unique;
-    }
-
-    function timeBoundedScrollTo(targetElementOrY, duration = TIME_BOUNDED_SCROLL_DURATION, onComplete) {
-        let targetY = 0;
-        const currentScroll = getScrollPosition();
-        const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-
-        if (typeof targetElementOrY === 'number') {
-            targetY = targetElementOrY;
-        } else if (targetElementOrY && targetElementOrY.getBoundingClientRect) {
-            const rect = targetElementOrY.getBoundingClientRect();
-            targetY = currentScroll + rect.top;
-        } else {
-            return;
-        }
-
-        targetY = Math.max(0, Math.min(maxScroll, targetY));
-
-        const distance = targetY - currentScroll;
-        if (Math.abs(distance) < 2) {
-            window.scrollTo(0, targetY);
-            if (mainScrollContainer && mainScrollContainer.scrollTop !== undefined) {
-                mainScrollContainer.scrollTop = targetY;
-            }
-            handleParallaxAndNav();
-            if (typeof onComplete === 'function') onComplete();
-            return;
-        }
-
-        isScrollLocked = true;
-        isSlowScrolling = true;
-        document.body.classList.add('multiverse-slow-glide', 'time-bounded-scrolling');
-
-        const startTime = performance.now();
-        const startY = currentScroll;
-
-        // Luxurious quartic ease-in-out curve: silky acceleration, fluid glide, soft deceleration
-        function easeInOutQuart(t) {
-            return t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2;
-        }
-
-        function step(now) {
-            const elapsed = now - startTime;
-            const progress = Math.min(elapsed / duration, 1.0);
-            const eased = easeInOutQuart(progress);
-
-            const nextY = startY + distance * eased;
-
-            window.scrollTo(0, nextY);
-            if (mainScrollContainer && mainScrollContainer.scrollTop !== undefined) {
-                mainScrollContainer.scrollTop = nextY;
-            }
-
-            handleParallaxAndNav();
-
-            if (progress < 1.0) {
-                requestAnimationFrame(step);
-            } else {
-                window.scrollTo(0, targetY);
-                if (mainScrollContainer && mainScrollContainer.scrollTop !== undefined) {
-                    mainScrollContainer.scrollTop = targetY;
-                }
-                handleParallaxAndNav();
-                document.body.classList.remove('multiverse-slow-glide', 'time-bounded-scrolling');
-                isSlowScrolling = false;
-                if (typeof onComplete === 'function') onComplete();
-
-                // Grace cooldown to swallow residual trackpad / wheel inertial ticks
-                setTimeout(() => {
-                    isScrollLocked = false;
-                }, 120);
-            }
-        }
-
-        requestAnimationFrame(step);
-    }
-
-    function handleScrollInput(direction) {
-        if (isScrollLocked) return;
-
-        const currentScroll = getScrollPosition();
-        const checkpoints = getScrollCheckpoints();
-        const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-
-        let targetY = currentScroll;
-        const minStep = 45;
-
-        if (direction > 0) {
-            // Forward / Down
-            const next = checkpoints.find(cp => cp > currentScroll + minStep);
-            targetY = next !== undefined ? next : maxScroll;
-        } else {
-            // Backward / Up
-            const prevList = checkpoints.filter(cp => cp < currentScroll - minStep);
-            targetY = prevList.length > 0 ? prevList[prevList.length - 1] : 0;
-        }
-
-        if (Math.abs(targetY - currentScroll) > 5) {
-            timeBoundedScrollTo(targetY, TIME_BOUNDED_SCROLL_DURATION);
-        }
-    }
-
-    function slowSmoothScrollTo(targetElementOrY, duration = TIME_BOUNDED_SCROLL_DURATION, onComplete) {
-        timeBoundedScrollTo(targetElementOrY, duration, onComplete);
-    }
-
     function smoothScrollToAbout() {
-        const currentScroll = getScrollPosition();
-        const checkpoints = getScrollCheckpoints();
-        const next = checkpoints.find(cp => cp > currentScroll + 40);
-        if (next !== undefined) {
-            timeBoundedScrollTo(next, TIME_BOUNDED_SCROLL_DURATION);
-        } else {
-            const aboutLead = document.getElementById('about-lead-container');
-            if (aboutLead) {
-                const rect = aboutLead.getBoundingClientRect();
-                timeBoundedScrollTo(currentScroll + rect.top + rect.height / 2 - window.innerHeight * 0.5, TIME_BOUNDED_SCROLL_DURATION);
-            }
+        const aboutPage = document.getElementById('about-page');
+        if (aboutPage) {
+            aboutPage.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     }
 
     function smoothScrollToCalendar() {
-        const calLayout = document.getElementById('calendar-layout-container');
-        const calHeading = document.getElementById('calendar-heading-container');
-        const currentScroll = getScrollPosition();
-        const viewportH = window.innerHeight;
-        const maxScroll = Math.max(0, document.documentElement.scrollHeight - viewportH);
-        let targetY = 0;
-        if (calLayout) {
-            const rect = calLayout.getBoundingClientRect();
-            targetY = Math.max(0, Math.min(maxScroll, currentScroll + rect.top + rect.height / 2 - viewportH * 0.5));
-        } else if (calHeading) {
-            const rect = calHeading.getBoundingClientRect();
-            targetY = Math.max(0, Math.min(maxScroll, currentScroll + rect.top + rect.height / 2 - viewportH * 0.45));
+        const calPage = document.getElementById('calendar-page');
+        if (calPage) {
+            calPage.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-        timeBoundedScrollTo(targetY, TIME_BOUNDED_SCROLL_DURATION);
     }
 
     if (portalEntryTrigger) {
         portalEntryTrigger.addEventListener('click', (e) => {
             e.preventDefault();
-            launchPortalVideo();
+            if (!portalHasEntered) {
+                launchPortalVideo();
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         });
         portalEntryTrigger.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                launchPortalVideo();
+                if (!portalHasEntered) {
+                    launchPortalVideo();
+                } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
             }
         });
     }
@@ -965,100 +821,55 @@ document.addEventListener('DOMContentLoaded', () => {
     if (enterBtn) {
         enterBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            launchPortalVideo();
+            if (!portalHasEntered) {
+                launchPortalVideo();
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         });
     }
 
     const septagonPortalBox = document.querySelector('.big-septagon-portal-container');
     if (septagonPortalBox) {
-        septagonPortalBox.setAttribute('title', 'Enter Multiverse Portal');
+        septagonPortalBox.setAttribute('title', 'Open Pravaah Multiverse Portal');
+        septagonPortalBox.style.cursor = 'pointer';
         septagonPortalBox.addEventListener('click', () => {
-            launchPortalVideo();
+            if (!portalHasEntered) {
+                launchPortalVideo();
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         });
     }
 
-    // Global Scroll Wheel Listener: Splash portal entry + Time-bounded scroll lock
+    // Scroll down on pre-portal screen triggers opening portal
     window.addEventListener('wheel', (e) => {
-        if (e.ctrlKey) return;
-
-        // Skip if modal or lightbox is open
-        const modal = document.getElementById('event-modal');
-        const lightbox = document.getElementById('gallery-lightbox');
-        if ((modal && !modal.classList.contains('hidden')) || (lightbox && !lightbox.classList.contains('hidden'))) return;
-
-        // Skip if inside an internal scrollable element
-        if (e.target.closest('.panel-events-list, .ticker-viewport, .modal-container, .lightbox-content')) return;
-
-        const scrollTop = getScrollPosition();
-
-        // Splash screen portal video entry on initial scroll down
-        if (scrollTop < 40 && e.deltaY > 20 && !portalPlaybackActive && !document.body.classList.contains('portal-entered')) {
-            e.preventDefault();
-            launchPortalVideo();
-            return;
-        }
-
-        if (portalPlaybackActive) {
-            e.preventDefault();
-            return;
-        }
-
-        // TIME-BOUNDED SCROLL LOCK:
-        // Regardless of scroll volume, the page will NOT advance until the time required scrolling it is completed!
-        if (isScrollLocked) {
-            e.preventDefault();
-            return;
-        }
-
-        // Filter out tiny noise / trackpad drift
-        if (Math.abs(e.deltaY) < 12) {
-            e.preventDefault();
-            return;
-        }
-
-        e.preventDefault();
-        const direction = e.deltaY > 0 ? 1 : -1;
-        handleScrollInput(direction);
-    }, { passive: false });
-
-    // Touch swipe handling with time-bounded scroll locking
-    let heroTouchStartY = 0;
-    window.addEventListener('touchstart', (e) => {
-        if (e.touches && e.touches[0]) {
-            heroTouchStartY = e.touches[0].clientY;
-        }
-    }, { passive: true });
-
-    window.addEventListener('touchmove', (e) => {
-        if (isScrollLocked) {
-            e.preventDefault();
-            return;
-        }
-        const scrollTop = getScrollPosition();
-        if (scrollTop < 40 && !portalPlaybackActive && !document.body.classList.contains('portal-entered')) {
-            if (e.touches && e.touches[0]) {
-                const diff = heroTouchStartY - e.touches[0].clientY;
-                if (diff > 40) { // Swiped to enter fest
-                    launchPortalVideo();
-                }
+        if (!portalHasEntered && !portalPlaybackActive) {
+            if (e.deltaY > 15) {
+                e.preventDefault();
+                launchPortalVideo();
             }
         }
     }, { passive: false });
 
-    window.addEventListener('touchend', (e) => {
-        if (isScrollLocked) return;
-        if (e.changedTouches && e.changedTouches[0]) {
-            const diff = heroTouchStartY - e.changedTouches[0].clientY;
-            if (Math.abs(diff) > 45) {
-                const scrollTop = getScrollPosition();
-                if (scrollTop < 40 && diff > 40 && !portalPlaybackActive && !document.body.classList.contains('portal-entered')) {
-                    launchPortalVideo();
-                    return;
-                }
-                handleScrollInput(diff > 0 ? 1 : -1);
+    // Touch swipe up on pre-portal screen triggers opening portal
+    let prePortalTouchY = 0;
+    if (splashScreen) {
+        splashScreen.addEventListener('touchstart', (e) => {
+            if (!portalHasEntered) {
+                prePortalTouchY = e.touches[0].clientY;
             }
-        }
-    }, { passive: true });
+        }, { passive: true });
+
+        splashScreen.addEventListener('touchend', (e) => {
+            if (!portalHasEntered && !portalPlaybackActive) {
+                const diff = prePortalTouchY - e.changedTouches[0].clientY;
+                if (diff > 35) {
+                    launchPortalVideo();
+                }
+            }
+        }, { passive: true });
+    }
 
     // Slow Smooth Glide Trigger to Calendar
     const guideToCalendarBtn = document.getElementById('guide-to-calendar-btn');
@@ -1074,17 +885,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    mainScrollContainer.addEventListener('scroll', () => {
-        const scrollTop = mainScrollContainer.scrollTop;
-        const pageHeight = window.innerHeight;
-
-        if (scrollTop > pageHeight * 0.4) {
-            document.body.classList.add('universe-active');
-        } else {
-            document.body.classList.remove('universe-active');
-        }
-    });
 
     const glitchOverlay = document.getElementById('screen-glitch-overlay');
     function triggerPageGlitch(targetContainer) {
@@ -1112,8 +912,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* =========================================================
-       ULTRA-SMOOTH INERTIAL SCROLL & PARALLAX ENGINE (PRAVAAH HOME)
+       SMOOTH PARALLAX & SECTION REVELATION ENGINE
        ========================================================= */
+    function getVisibleSnapSections() {
+        return Array.from(document.querySelectorAll('.snap-page')).filter(sec => {
+            return sec.offsetParent !== null && window.getComputedStyle(sec).display !== 'none';
+        });
+    }
     const snapSections = Array.from(document.querySelectorAll('.snap-page'));
     let currentSnapIndex = 0;
 
@@ -1122,11 +927,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function syncCurrentIndexFromScroll() {
-        if (snapSections.length === 0) return;
+        const sections = getVisibleSnapSections();
+        if (sections.length === 0) return;
         const scrollTop = getScrollPosition();
         let closestIndex = 0;
         let minDiff = Infinity;
-        snapSections.forEach((sec, idx) => {
+        sections.forEach((sec, idx) => {
             const secTop = sec.getBoundingClientRect().top + scrollTop;
             const diff = Math.abs(secTop - scrollTop);
             if (diff < minDiff) {
@@ -1135,43 +941,30 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         currentSnapIndex = closestIndex;
-        if (snapSections[closestIndex] && snapSections[closestIndex].id === 'calendar-page') {
-            snapSections[closestIndex].classList.add('is-revealed');
+        if (sections[closestIndex] && sections[closestIndex].id === 'calendar-page') {
+            sections[closestIndex].classList.add('is-revealed');
         }
     }
 
     function smoothScrollToSection(index) {
-        if (snapSections.length === 0) return;
-        index = Math.max(0, Math.min(index, snapSections.length - 1));
-        const targetSec = snapSections[index];
+        const sections = getVisibleSnapSections();
+        if (sections.length === 0) return;
+        index = Math.max(0, Math.min(index, sections.length - 1));
+        const targetSec = sections[index];
         if (!targetSec) return;
 
         currentSnapIndex = index;
-        if (targetSec.id === 'about-page') {
-            smoothScrollToAbout();
-            return;
-        }
-        if (targetSec.id === 'calendar-page') {
-            smoothScrollToCalendar();
-            return;
-        }
-        slowSmoothScrollTo(targetSec, 1400, () => {
-            targetSec.classList.add('is-revealed');
-        });
+        targetSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        targetSec.classList.add('is-revealed');
     }
-
-    
 
     // Parallax & Dynamic Atmosphere Sync
     function handleParallaxAndNav() {
         const scrollTop = getScrollPosition();
         const viewportH = window.innerHeight;
-        const globalBg = document.getElementById('global-bg-layer');
         const septagonRotator = document.querySelector('.big-septagon-rotator');
         const highlightsPanel = document.querySelector('.splash-highlights-panel');
         const statusPanel = document.querySelector('.splash-status-panel');
-
-        // Smooth cosmic background parallax handled seamlessly in continuous render loop
 
         // Hero elements subtle depth floating
         if (scrollTop < viewportH * 1.3) {
@@ -1190,179 +983,60 @@ document.addEventListener('DOMContentLoaded', () => {
         syncCurrentIndexFromScroll();
 
         // -------------------------------------------------------------
-        // SCROLL-DRIVEN REVELATION: ABOUT "GET TO KNOW ABOUT OUR FEST" & CARDS
+        // ABOUT SECTION REVELATION
         // -------------------------------------------------------------
         const aboutLead = document.getElementById('about-lead-container');
         const aboutGrid = document.getElementById('about-intro-grid');
         const aboutCardPravaah = document.getElementById('about-card-pravaah');
         const aboutCardTheme = document.getElementById('about-card-theme');
-        const guideToCalendarBtn = document.getElementById('guide-to-calendar-btn');
+        const guideToCal = document.getElementById('guide-to-calendar-btn');
 
         if (aboutLead) {
             const leadRect = aboutLead.getBoundingClientRect();
-            const leadCenter = leadRect.top + leadRect.height / 2;
-            const enterBottom = viewportH;
-            const targetMid = viewportH * 0.5;
-            const isMobile = window.innerWidth <= 768;
-            const sideOffset = isMobile ? Math.min(180, window.innerWidth * 0.38) : Math.min(450, Math.max(240, window.innerWidth * 0.32));
-
-            // Phase 1: Sentence travels from bottom of viewport to dead center (50vh)
-            let pLine = (enterBottom - leadCenter) / (enterBottom - targetMid);
-            pLine = Math.max(0, Math.min(1.0, pLine));
-
-            if (leadCenter > targetMid) {
-                // Sentence is approaching middle: opacity goes from low (0.04) to full opacity (1.0)
-                const lineOpacity = Math.max(0.04, pLine).toFixed(3);
-                const lineTy = ((1 - pLine) * 48).toFixed(1);
-                const lineScale = (0.90 + pLine * 0.10).toFixed(3);
-                const lineBlur = ((1 - pLine) * 8).toFixed(1);
-
-                aboutLead.style.opacity = lineOpacity;
-                aboutLead.style.transform = `translateY(${lineTy}px) scale(${lineScale})`;
-                aboutLead.style.filter = `blur(${lineBlur}px)`;
-                aboutLead.classList.remove('is-centered');
-
-                // Cards are strictly 100% invisible, hidden, parked at sides
-                if (aboutCardPravaah) {
-                    aboutCardPravaah.style.opacity = '0';
-                    aboutCardPravaah.style.visibility = 'hidden';
-                    aboutCardPravaah.style.pointerEvents = 'none';
-                    aboutCardPravaah.style.transform = `translateX(-${sideOffset}px) scale(0.92)`;
-                    aboutCardPravaah.style.filter = 'blur(8px)';
-                    aboutCardPravaah.classList.remove('is-revealed');
-                }
-                if (aboutCardTheme) {
-                    aboutCardTheme.style.opacity = '0';
-                    aboutCardTheme.style.visibility = 'hidden';
-                    aboutCardTheme.style.pointerEvents = 'none';
-                    aboutCardTheme.style.transform = `translateX(${sideOffset}px) scale(0.92)`;
-                    aboutCardTheme.style.filter = 'blur(8px)';
-                    aboutCardTheme.classList.remove('is-revealed');
-                }
-                if (guideToCalendarBtn) {
-                    guideToCalendarBtn.style.opacity = '0';
-                    guideToCalendarBtn.style.visibility = 'hidden';
-                    guideToCalendarBtn.style.pointerEvents = 'none';
-                    guideToCalendarBtn.classList.remove('is-revealed');
-                }
-            } else {
-                // Sentence has reached the center of the viewport -> FULL OPACITY
+            if (leadRect.top < viewportH * 0.92) {
                 aboutLead.style.opacity = '1';
+                aboutLead.style.transform = 'translateY(0) scale(1)';
                 aboutLead.style.filter = 'blur(0px)';
                 aboutLead.classList.add('is-centered');
-                if (!aboutLead.matches(':hover')) {
-                    aboutLead.style.transform = '';
+            }
+        }
+
+        if (aboutGrid) {
+            const gridRect = aboutGrid.getBoundingClientRect();
+            if (gridRect.top < viewportH * 0.88) {
+                if (aboutCardPravaah) {
+                    aboutCardPravaah.style.visibility = 'visible';
+                    aboutCardPravaah.style.pointerEvents = 'auto';
+                    aboutCardPravaah.style.opacity = '1';
+                    aboutCardPravaah.style.filter = 'blur(0px)';
+                    aboutCardPravaah.classList.add('is-revealed');
+                    if (!aboutCardPravaah.matches(':hover') && !aboutCardPravaah.classList.contains('card-hovered')) {
+                        aboutCardPravaah.style.transform = '';
+                    }
                 }
-
-                // Phase 2: The elements (cards) meet at the middle WHEN THEY ARE IN THE MIDDLE OF THE VIEWPORT
-                const gridRect = aboutGrid ? aboutGrid.getBoundingClientRect() : null;
-                const gridCenter = gridRect ? (gridRect.top + gridRect.height * 0.5) : (leadCenter + 260);
-
-                // Distance from grid center to the middle of viewport (targetMid)
-                const distanceToMid = gridCenter - targetMid;
-                const travelSpan = Math.max(380, Math.min(viewportH * 0.65, 540));
-
-                if (distanceToMid > travelSpan) {
-                    // Cards are still below their entrance threshold: parked at sides, hidden
-                    if (aboutCardPravaah) {
-                        aboutCardPravaah.style.opacity = '0';
-                        aboutCardPravaah.style.visibility = 'hidden';
-                        aboutCardPravaah.style.pointerEvents = 'none';
-                        aboutCardPravaah.style.transform = `translateX(-${sideOffset}px) scale(0.92)`;
-                        aboutCardPravaah.style.filter = 'blur(8px)';
-                        aboutCardPravaah.classList.remove('is-revealed');
+                if (aboutCardTheme) {
+                    aboutCardTheme.style.visibility = 'visible';
+                    aboutCardTheme.style.pointerEvents = 'auto';
+                    aboutCardTheme.style.opacity = '1';
+                    aboutCardTheme.style.filter = 'blur(0px)';
+                    aboutCardTheme.classList.add('is-revealed');
+                    if (!aboutCardTheme.matches(':hover') && !aboutCardTheme.classList.contains('card-hovered')) {
+                        aboutCardTheme.style.transform = '';
                     }
-                    if (aboutCardTheme) {
-                        aboutCardTheme.style.opacity = '0';
-                        aboutCardTheme.style.visibility = 'hidden';
-                        aboutCardTheme.style.pointerEvents = 'none';
-                        aboutCardTheme.style.transform = `translateX(${sideOffset}px) scale(0.92)`;
-                        aboutCardTheme.style.filter = 'blur(8px)';
-                        aboutCardTheme.classList.remove('is-revealed');
-                    }
-                    if (guideToCalendarBtn) {
-                        guideToCalendarBtn.style.opacity = '0';
-                        guideToCalendarBtn.style.visibility = 'hidden';
-                        guideToCalendarBtn.style.pointerEvents = 'none';
-                        guideToCalendarBtn.classList.remove('is-revealed');
-                    }
-                } else {
-                    // As gridCenter moves towards targetMid, cards glide in from sides.
-                    // When gridCenter == targetMid (cards are in middle of viewport), pCards = 1.0 -> they meet in the middle!
-                    const pCards = Math.max(0, Math.min(1.0, 1 - (distanceToMid / travelSpan)));
-                    const easedCards = pCards < 0.5 ? 4 * pCards * pCards * pCards : 1 - Math.pow(-2 * pCards + 2, 3) / 2;
-
-                    const cardOpacity = (0.05 + easedCards * 0.95).toFixed(3);
-                    const curOffset = ((1 - easedCards) * sideOffset).toFixed(1);
-                    const curScale = (0.92 + easedCards * 0.08).toFixed(3);
-                    const curBlur = ((1 - pCards) * 6).toFixed(1);
-
-                    if (aboutCardPravaah) {
-                        aboutCardPravaah.style.visibility = 'visible';
-                        aboutCardPravaah.style.pointerEvents = 'auto';
-                        aboutCardPravaah.style.opacity = cardOpacity;
-                        aboutCardPravaah.style.filter = `blur(${curBlur}px)`;
-                        if (pCards >= 0.95) {
-                            aboutCardPravaah.classList.add('is-revealed');
-                            // Free inline transform when revealed so hover movement and 3D tilt work dynamically
-                            if (!aboutCardPravaah.matches(':hover') && !aboutCardPravaah.classList.contains('card-hovered')) {
-                                aboutCardPravaah.style.transform = '';
-                            }
-                        } else {
-                            aboutCardPravaah.classList.remove('is-revealed');
-                            aboutCardPravaah.style.transform = `translateX(-${curOffset}px) scale(${curScale})`;
-                        }
-                    }
-                    if (aboutCardTheme) {
-                        aboutCardTheme.style.visibility = 'visible';
-                        aboutCardTheme.style.pointerEvents = 'auto';
-                        aboutCardTheme.style.opacity = cardOpacity;
-                        aboutCardTheme.style.filter = `blur(${curBlur}px)`;
-                        if (pCards >= 0.95) {
-                            aboutCardTheme.classList.add('is-revealed');
-                            // Free inline transform when revealed so hover movement and 3D tilt work dynamically
-                            if (!aboutCardTheme.matches(':hover') && !aboutCardTheme.classList.contains('card-hovered')) {
-                                aboutCardTheme.style.transform = '';
-                            }
-                        } else {
-                            aboutCardTheme.classList.remove('is-revealed');
-                            aboutCardTheme.style.transform = `translateX(${curOffset}px) scale(${curScale})`;
-                        }
-                    }
-
-                    // Reveal Calendar Glide Button as the user scrolls past the middle
-                    if (distanceToMid <= 0) {
-                        const pastMid = -distanceToMid;
-                        const pGuide = Math.min(1.0, Math.max(0, pastMid / Math.max(80, viewportH * 0.15)));
-                        if (guideToCalendarBtn) {
-                            guideToCalendarBtn.style.visibility = 'visible';
-                            guideToCalendarBtn.style.pointerEvents = 'auto';
-                            guideToCalendarBtn.style.opacity = pGuide.toFixed(3);
-                            guideToCalendarBtn.style.filter = `blur(${((1 - pGuide) * 4).toFixed(1)}px)`;
-                            if (pGuide >= 0.85) {
-                                guideToCalendarBtn.classList.add('is-revealed');
-                                if (!guideToCalendarBtn.matches(':hover')) {
-                                    guideToCalendarBtn.style.transform = '';
-                                }
-                            } else {
-                                guideToCalendarBtn.classList.remove('is-revealed');
-                                guideToCalendarBtn.style.transform = `translateY(${((1 - pGuide) * 18).toFixed(1)}px) scale(${(0.94 + pGuide * 0.06).toFixed(3)})`;
-                            }
-                        }
-                    } else if (guideToCalendarBtn) {
-                        guideToCalendarBtn.style.opacity = '0';
-                        guideToCalendarBtn.style.visibility = 'hidden';
-                        guideToCalendarBtn.style.pointerEvents = 'none';
-                        guideToCalendarBtn.classList.remove('is-revealed');
-                    }
+                }
+                if (guideToCal) {
+                    guideToCal.style.visibility = 'visible';
+                    guideToCal.style.pointerEvents = 'auto';
+                    guideToCal.style.opacity = '1';
+                    guideToCal.style.filter = 'blur(0px)';
+                    guideToCal.style.transform = '';
+                    guideToCal.classList.add('is-revealed');
                 }
             }
         }
 
         // -------------------------------------------------------------
-        // SCROLL-DRIVEN REVELATION: FEST CALENDAR
-        // Heading fades in smoothly as it enters viewport.
-        // Elements (3D cube & side tickers) pop up when calendar is about 10% below center of viewport (60vh).
+        // FEST CALENDAR REVELATION
         // -------------------------------------------------------------
         const calHeading = document.getElementById('calendar-heading-container');
         const calLayout = document.getElementById('calendar-layout-container');
@@ -1370,38 +1044,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (calHeading) {
             const calRect = calHeading.getBoundingClientRect();
-            const calCenter = calRect.top + calRect.height / 2;
-            const enterBottom = viewportH;
-            // Center of viewport is 50vh (0.50 * viewportH)
-            // 10% below center of viewport is 60vh (0.60 * viewportH)
-            const triggerThreshold = viewportH * 0.60;
-            const unrevealThreshold = triggerThreshold + 35;
-
-            // Phase 1: Calendar heading approaches 10% below center of viewport
-            let p = (enterBottom - calCenter) / (enterBottom - triggerThreshold);
-            p = Math.max(0, Math.min(1.0, p));
-
-            if (calCenter > triggerThreshold) {
-                // Heading approaching: opacity goes from low (0.04) to full opacity (1.0)
-                const calOpacity = Math.max(0.04, p).toFixed(3);
-                const ty = ((1 - p) * 36).toFixed(1);
-                const sc = (0.91 + p * 0.09).toFixed(3);
-                const bl = ((1 - p) * 6).toFixed(1);
-
-                calHeading.style.opacity = calOpacity;
-                calHeading.style.transform = `translateY(${ty}px) scale(${sc})`;
-                calHeading.style.filter = `blur(${bl}px)`;
-                calHeading.classList.remove('is-centered', 'is-revealed');
-            } else {
-                // Heading has reached about 10% below center -> FULL OPACITY
+            if (calRect.top < viewportH * 0.88) {
                 calHeading.style.opacity = '1';
                 calHeading.style.transform = 'translateY(0) scale(1)';
                 calHeading.style.filter = 'blur(0px)';
                 calHeading.classList.add('is-centered', 'is-revealed');
-            }
-
-            // Phase 2: Pop up when calendar reaches about 10% below center of viewport (clean cube layout, no sidebars)
-            if (calCenter <= triggerThreshold) {
                 if (calPage) calPage.classList.add('is-revealed');
                 if (calLayout) {
                     calLayout.style.opacity = '';
@@ -1409,84 +1056,55 @@ document.addEventListener('DOMContentLoaded', () => {
                     calLayout.style.filter = '';
                     calLayout.classList.add('is-revealed');
                 }
-            } else if (calCenter > unrevealThreshold) {
-                if (calPage) calPage.classList.remove('is-revealed');
-                if (calLayout) {
-                    calLayout.classList.remove('is-revealed');
-                    calLayout.style.opacity = '';
-                    calLayout.style.transform = '';
-                    calLayout.style.filter = '';
-                }
             }
         }
 
         // -------------------------------------------------------------
-        // SCROLL-DRIVEN REVELATION: PORTAL GALLERY
-        // Until the photo gallery heading comes to center of the viewport (50vh),
-        // the photos do not appear.
-        // Once the heading reaches the center, middle columns pop up from below,
-        // and edge columns glide in from the sides.
+        // PHOTO GALLERY REVELATION
         // -------------------------------------------------------------
-        const galleryPage = document.getElementById('gallery-page');
         const galleryHeading = document.querySelector('#gallery-page .gallery-page-heading') || document.querySelector('.gallery-page-heading');
         const galleryColumnsWrapper = document.getElementById('gallery-columns-wrapper') || document.querySelector('.gallery-columns-wrapper');
+        const galleryPage = document.getElementById('gallery-page');
 
         if (galleryHeading && galleryColumnsWrapper) {
             const headingRect = galleryHeading.getBoundingClientRect();
-            const headingCenter = headingRect.top + headingRect.height / 2;
-            const enterBottom = viewportH;
-            const targetMid = viewportH * 0.5;
-
-            if (headingCenter > targetMid) {
-                // Phase 1: Heading approaches center from bottom of viewport
-                let pHead = (enterBottom - headingCenter) / (enterBottom - targetMid);
-                pHead = Math.max(0, Math.min(1.0, pHead));
-
-                if (pHead > 0) {
-                    const headOpacity = Math.max(0.04, pHead).toFixed(3);
-                    const headTy = ((1 - pHead) * 44).toFixed(1);
-                    const headScale = (0.90 + pHead * 0.10).toFixed(3);
-                    const headBlur = ((1 - pHead) * 8).toFixed(1);
-
-                    galleryHeading.style.opacity = headOpacity;
-                    galleryHeading.style.transform = `translateY(${headTy}px) scale(${headScale})`;
-                    galleryHeading.style.filter = `blur(${headBlur}px)`;
-                } else {
-                    galleryHeading.style.opacity = '0';
-                    galleryHeading.style.transform = 'translateY(44px) scale(0.90)';
-                    galleryHeading.style.filter = 'blur(8px)';
-                }
-                galleryHeading.classList.remove('is-centered');
-
-                // UNTIL the photo gallery heading reaches center of viewport,
-                // the photos MUST NOT appear
-                galleryColumnsWrapper.classList.remove('is-revealed');
-                if (galleryPage) galleryPage.classList.remove('is-revealed');
-            } else {
-                // Phase 2: Heading has reached the center of the viewport -> FULL SOLID OPACITY
+            if (headingRect.top < viewportH * 0.88) {
                 galleryHeading.style.opacity = '1';
                 galleryHeading.style.transform = 'translateY(0) scale(1)';
                 galleryHeading.style.filter = 'blur(0px)';
                 galleryHeading.classList.add('is-centered');
-
-                // The photos appear and STAY visible while viewing/scrolling forward;
-                // they only disappear if the user scrolls back up (handled when headingCenter > targetMid)
                 galleryColumnsWrapper.classList.add('is-revealed');
                 if (galleryPage) galleryPage.classList.add('is-revealed');
             }
         }
 
-        // Cosmic nav indicator update
+        // Cosmic nav indicator theme update
         const navItems = Array.from(document.querySelectorAll('.cosmic-nav-wheel .nav-item'));
-        if (navItems.length > 0 && scrollTop < viewportH * 0.6) {
-            navItems.forEach(item => {
-                if (item.getAttribute('href') === 'index.html' || item.textContent.trim() === 'HOME') {
-                    item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
+        const navWheel = document.getElementById('cosmic-nav-wheel');
+        if (navItems.length > 0) {
+            const sections = [
+                { id: 'about-page', theme: 'home' },
+                { id: 'calendar-page', theme: 'calendar' },
+                { id: 'gallery-page', theme: 'gallery' },
+                { id: 'team-page', theme: 'team' }
+            ];
+
+            let activeTheme = 'home';
+            for (let i = sections.length - 1; i >= 0; i--) {
+                const sec = sections[i];
+                const el = document.getElementById(sec.id);
+                if (el) {
+                    const r = el.getBoundingClientRect();
+                    if (r.top <= viewportH * 0.5) {
+                        activeTheme = sec.theme;
+                        break;
+                    }
                 }
-            });
-            updateNavPill();
+            }
+
+            if (navWheel) {
+                navWheel.setAttribute('data-active-theme', activeTheme);
+            }
         }
     }
 
@@ -1505,14 +1123,11 @@ document.addEventListener('DOMContentLoaded', () => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-revealed');
-                } else if (entry.boundingClientRect.top > window.innerHeight || entry.boundingClientRect.bottom < 0) {
-                    // Reset if scrolled back up above or down past the element so it re-animates from below on next scroll
-                    entry.target.classList.remove('is-revealed');
                 }
             });
         }, {
             threshold: 0.1,
-            rootMargin: '0px 0px -30px 0px'
+            rootMargin: '0px 0px -20px 0px'
         });
 
         revealElements.forEach(el => {
@@ -1523,74 +1138,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Smooth Home Link click handler
-    const homeNavLinks = document.querySelectorAll('a.nav-item[href="index.html"], a.nav-item[href="/"], .nav-wheel-track a:first-child');
+    const homeNavLinks = document.querySelectorAll('a.nav-item[href="index.html"], a.nav-item[href="/"], .nav-wheel-track a:first-child, a.bottom-nav-item[data-nav="home"], a.side-menu-link[data-nav="home"]');
     homeNavLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             const currentPath = window.location.pathname;
             if (currentPath.endsWith('index.html') || currentPath.endsWith('/') || currentPath === '') {
                 e.preventDefault();
-                timeBoundedScrollTo(0, TIME_BOUNDED_SCROLL_DURATION);
+                if (!portalHasEntered) {
+                    enterUniverse();
+                } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    if (mainScrollContainer) {
+                        mainScrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                }
+                const mobileMenuBackdrop = document.getElementById('mobile-menu-backdrop');
+                const mobileSideMenu = document.getElementById('mobile-side-menu');
+                if (mobileSideMenu && mobileSideMenu.classList.contains('menu-open')) {
+                    mobileSideMenu.classList.remove('menu-open');
+                    mobileSideMenu.setAttribute('aria-hidden', 'true');
+                }
+                if (mobileMenuBackdrop && mobileMenuBackdrop.classList.contains('backdrop-active')) {
+                    mobileMenuBackdrop.classList.remove('backdrop-active');
+                }
             }
         });
     });
-
-    // Keyboard navigation with time-bounded scroll locking
-    window.addEventListener('keydown', (e) => {
-        const modal = document.getElementById('event-modal');
-        const lightbox = document.getElementById('gallery-lightbox');
-        if ((modal && !modal.classList.contains('hidden')) || (lightbox && !lightbox.classList.contains('hidden'))) {
-            return;
-        }
-
-        if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
-
-        if (e.key === 'ArrowDown' || e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey)) {
-            e.preventDefault();
-            if (!isScrollLocked) handleScrollInput(1);
-        } else if (e.key === 'ArrowUp' || e.key === 'PageUp' || (e.key === ' ' && e.shiftKey)) {
-            e.preventDefault();
-            if (!isScrollLocked) handleScrollInput(-1);
-        } else if (e.key === 'Home') {
-            e.preventDefault();
-            if (!isScrollLocked) timeBoundedScrollTo(0, TIME_BOUNDED_SCROLL_DURATION);
-        } else if (e.key === 'End') {
-            if (!portalHasEntered) return;
-            e.preventDefault();
-            const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-            if (!isScrollLocked) timeBoundedScrollTo(maxScroll, TIME_BOUNDED_SCROLL_DURATION);
-        }
-    });
-
-    const observerOptions = {
-        root: mainScrollContainer,
-        threshold: 0.5
-    };
-
-    let lastSectionId = null;
-    const targetNavItems = document.querySelectorAll('.nav-item[data-target]');
-    if (targetNavItems.length > 0 && mainScrollContainer) {
-        const navObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const sectionId = entry.target.id;
-                    lastSectionId = sectionId;
-
-                    targetNavItems.forEach(item => {
-                        if (item.getAttribute('data-target') === sectionId) {
-                            item.classList.add('active');
-                        } else {
-                            item.classList.remove('active');
-                        }
-                    });
-                    updateNavPill();
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.snap-page').forEach(section => {
-            navObserver.observe(section);
-        });
-    }
 
     function updateNavPill() {
         const activeItem = document.querySelector('.nav-item.active') || document.querySelector('.nav-item[href="index.html"]') || document.querySelector('.nav-item');
@@ -1912,7 +1485,10 @@ document.addEventListener('DOMContentLoaded', () => {
         focusMonthByStep(0); // Focus January by default
     }
 
+    let cubeControlsInitialized = false;
     function setupCubeControls() {
+        if (cubeControlsInitialized) return;
+        cubeControlsInitialized = true;
         if (cubeBtnPrev) {
             cubeBtnPrev.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -1959,6 +1535,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+
+        // Touch swipe support for calendar cube rotation on phones
+        let cubeTouchStartX = 0;
+        let cubeTouchStartY = 0;
+        if (calendarCubeViewport) {
+            calendarCubeViewport.addEventListener('touchstart', (e) => {
+                if (e.touches && e.touches[0]) {
+                    cubeTouchStartX = e.touches[0].clientX;
+                    cubeTouchStartY = e.touches[0].clientY;
+                }
+            }, { passive: true });
+
+            calendarCubeViewport.addEventListener('touchend', (e) => {
+                if (e.changedTouches && e.changedTouches[0] && !calendarCubeViewport.classList.contains('cube-collapsed')) {
+                    const diffX = e.changedTouches[0].clientX - cubeTouchStartX;
+                    const diffY = e.changedTouches[0].clientY - cubeTouchStartY;
+                    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 35) {
+                        if (diffX < 0) {
+                            focusMonthByStep(currentStep + 1);
+                        } else {
+                            focusMonthByStep(currentStep - 1);
+                        }
+                    }
+                }
+            }, { passive: true });
+        }
     }
 
     backToCubeBtn.addEventListener('click', () => {
@@ -2201,20 +1803,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function tickOrbit() {
-        if (!isOrbitPaused && !eventModal.classList.contains('active-modal')) {
+    const portalOrbitWrapper = document.getElementById('portal-orbit-wrapper');
+    let isOrbitPaused = false;
+    let orbitAngle = 0;
+    let activeVerse = null;
 
+    function tickOrbit() {
+        if (!portalOrbitWrapper) return;
+        if (!isOrbitPaused && eventModal && !eventModal.classList.contains('active-modal')) {
             const speed = activeVerse ? 0.01 : 0.04;
             orbitAngle = (orbitAngle + speed) % 360;
-            if (portalOrbitWrapper) {
-                portalOrbitWrapper.style.transform = `rotate(${orbitAngle}deg)`;
-
-                portalOrbitWrapper.querySelectorAll('.portal-upright-wrapper, .event-upright-wrapper').forEach(child => {
-                    child.style.transform = `rotate(${-orbitAngle}deg)`;
-                });
-            }
+            portalOrbitWrapper.style.transform = `rotate(${orbitAngle}deg)`;
+            portalOrbitWrapper.querySelectorAll('.portal-upright-wrapper, .event-upright-wrapper').forEach(child => {
+                child.style.transform = `rotate(${-orbitAngle}deg)`;
+            });
+            requestAnimationFrame(tickOrbit);
         }
-        requestAnimationFrame(tickOrbit);
     }
 
     const tickerViewports = document.querySelectorAll('.ticker-viewport');

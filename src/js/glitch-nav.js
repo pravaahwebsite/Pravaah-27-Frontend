@@ -127,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             sessionStorage.removeItem('pravaahPortalTransit');
             sessionStorage.removeItem('pravaahTransitStartTime');
+        if (pageLoader) pageLoader.classList.remove('loader-active');
 
             if (pageLoader && pageLoader.classList.contains('loader-active')) {
                 pageLoader.classList.remove('loader-active');
@@ -252,9 +253,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateNavPill() {
         const activeNav = getActiveNav();
         const pill = document.getElementById('nav-indicator-pill');
+        const wheel = document.getElementById('cosmic-nav-wheel');
         if (activeNav && pill) {
             pill.style.left = `${activeNav.offsetLeft}px`;
             pill.style.width = `${activeNav.offsetWidth}px`;
+        }
+        if (wheel && activeNav) {
+            const href = (activeNav.getAttribute('href') || '').toLowerCase();
+            let theme = 'home';
+            if (href.includes('events')) theme = 'portals';
+            else if (href.includes('photo-gallery')) theme = 'gallery';
+            else if (href.includes('register')) theme = 'calendar';
+            else if (href.includes('accommodation') || href.includes('contact')) theme = 'team';
+            else if (href.includes('sponsors')) theme = 'about';
+            wheel.setAttribute('data-active-theme', theme);
         }
     }
 
@@ -319,156 +331,6 @@ document.addEventListener('DOMContentLoaded', () => {
         navWheel.addEventListener('mouseleave', hideHoverPill);
     }
 
-    // 6. Cosmic Hamburger Navigation for All Subpages
-    function initSubpageHamburgerNav() {
-        if (isHomePage) return;
-
-        // Hide original wheel on subpage
-        const oldWheel = document.getElementById('cosmic-nav-wheel');
-        if (oldWheel) {
-            oldWheel.style.display = 'none';
-        }
-
-        let subpageNav = document.getElementById('cosmic-subpage-nav');
-        if (!subpageNav) {
-            subpageNav = document.createElement('nav');
-            subpageNav.id = 'cosmic-subpage-nav';
-            subpageNav.className = 'cosmic-subpage-nav';
-            subpageNav.setAttribute('aria-label', 'Main Navigation');
-
-            const navItemsData = [
-                { href: 'index.html', text: 'HOME', index: '01' },
-                { href: 'events.html', text: 'EVENTS', index: '02' },
-                { href: 'register.html', text: 'REGISTER', index: '03' },
-                { href: 'accommodation.html', text: 'ACCOMMODATION', index: '04' },
-                { href: 'photo-gallery.html', text: 'PHOTO GALLERY', index: '05' },
-                { href: 'sponsors.html', text: 'SPONSORS', index: '06' },
-                { href: 'contact.html', text: 'CONTACT US', index: '07' },
-                { href: 'profile.html', text: 'PROFILE', index: '08' }
-            ];
-
-            const currentFile = (window.location.pathname.split('/').pop() || 'index.html').split('#')[0];
-
-            let listHtml = '';
-            navItemsData.forEach(item => {
-                const isActive = item.href === currentFile;
-                listHtml += `
-                    <li class="hud-nav-item-wrapper" role="none">
-                        <a href="${item.href}" class="hud-nav-link nav-item ${isActive ? 'active' : ''}" role="menuitem">
-                            <span class="hud-link-index">${item.index}</span>
-                            <span class="hud-link-text">${item.text}</span>
-                            ${isActive ? '<span class="hud-link-badge">ACTIVE</span>' : ''}
-                        </a>
-                    </li>
-                `;
-            });
-
-            subpageNav.innerHTML = `
-                <button class="cosmic-hamburger-btn" id="cosmic-hamburger-btn" aria-label="Toggle Navigation Menu" aria-expanded="false" type="button">
-                    <div class="hamburger-box">
-                        <span class="hamburger-bar bar-1"></span>
-                        <span class="hamburger-bar bar-2"></span>
-                        <span class="hamburger-bar bar-3"></span>
-                    </div>
-                    <span class="hamburger-label" id="hamburger-label">MENU</span>
-                    <span class="hamburger-pulse-dot" aria-hidden="true"></span>
-                </button>
-
-                <div class="cosmic-nav-backdrop" id="cosmic-nav-backdrop" aria-hidden="true"></div>
-
-                <div class="cosmic-hud-dropdown" id="cosmic-hud-dropdown" role="dialog" aria-modal="true" aria-label="Navigation Menu">
-                    <div class="hud-dropdown-header">
-                        <div class="hud-dropdown-tag">PRAVAAH '27 // HUD NAV</div>
-                        <div class="hud-status-badge"><span class="status-live-dot"></span> ONLINE</div>
-                    </div>
-                    <div class="hud-dropdown-divider"></div>
-                    <ul class="hud-nav-list" role="menu">
-                        ${listHtml}
-                    </ul>
-                    <div class="hud-dropdown-footer">
-                        <span class="hud-footer-coord">DIMENSION // 2027</span>
-                        <span class="hud-footer-sub">TRANSMISSION ACTIVE</span>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(subpageNav);
-        }
-
-        const toggleBtn = document.getElementById('cosmic-hamburger-btn');
-        const dropdown = document.getElementById('cosmic-hud-dropdown');
-        const backdrop = document.getElementById('cosmic-nav-backdrop');
-        const hamburgerLabel = document.getElementById('hamburger-label');
-
-        function openNav() {
-            if (!toggleBtn || !dropdown) return;
-            toggleBtn.classList.add('is-open');
-            toggleBtn.setAttribute('aria-expanded', 'true');
-            if (hamburgerLabel) hamburgerLabel.textContent = 'CLOSE';
-            dropdown.classList.add('is-open');
-            if (backdrop) backdrop.classList.add('is-open');
-            document.body.classList.add('cosmic-nav-modal-open');
-        }
-
-        function closeNav() {
-            if (!toggleBtn || !dropdown) return;
-            toggleBtn.classList.remove('is-open');
-            toggleBtn.setAttribute('aria-expanded', 'false');
-            if (hamburgerLabel) hamburgerLabel.textContent = 'MENU';
-            dropdown.classList.remove('is-open');
-            if (backdrop) backdrop.classList.remove('is-open');
-            document.body.classList.remove('cosmic-nav-modal-open');
-        }
-
-        function toggleNav() {
-            if (dropdown && dropdown.classList.contains('is-open')) {
-                closeNav();
-            } else {
-                openNav();
-            }
-        }
-
-        if (toggleBtn) {
-            toggleBtn.onclick = (e) => {
-                e.stopPropagation();
-                toggleNav();
-            };
-        }
-
-        if (backdrop) {
-            backdrop.onclick = (e) => {
-                e.stopPropagation();
-                closeNav();
-            };
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && dropdown && dropdown.classList.contains('is-open')) {
-                closeNav();
-            }
-        });
-
-        // Close on outside click
-        document.addEventListener('click', (e) => {
-            if (dropdown && dropdown.classList.contains('is-open')) {
-                if (!dropdown.contains(e.target) && !toggleBtn.contains(e.target)) {
-                    closeNav();
-                }
-            }
-        });
-
-        // Close on navigation link click & attach transit
-        if (dropdown) {
-            dropdown.querySelectorAll('.hud-nav-link').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    closeNav();
-                    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-                    processLinkClick(link, e);
-                });
-            });
-        }
-    }
-
-    initSubpageHamburgerNav();
     // 6. Mobile Navigation & Side Drawer Controller (Techfest Style for Phones)
     function initMobileNav() {
         const menuTrigger = document.getElementById('mobile-menu-trigger');

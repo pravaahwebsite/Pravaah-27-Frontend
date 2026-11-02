@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRAVAAH '26 — Dimensional Access Pass Registration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="src/css/register.css">
+</head>
+<body class="register-fullscreen-body">
+
+    <!-- Global Cyber Background Layers -->
+    <div class="global-bg-layer subpage-bg"></div>
+    <div class="subpage-grid-overlay"></div>
+
+    <!-- Cosmic Subpage Hamburger Navigation -->
+    <nav class="cosmic-subpage-nav" id="cosmic-subpage-nav" aria-label="Main Navigation">
+        <button class="cosmic-hamburger-btn" id="cosmic-hamburger-btn" aria-label="Toggle Navigation Menu" aria-expanded="false" type="button">
+            <div class="hamburger-box">
+                <span class="hamburger-bar bar-1"></span>
+                <span class="hamburger-bar bar-2"></span>
+                <span class="hamburger-bar bar-3"></span>
+            </div>
+            <span class="hamburger-label" id="hamburger-label">MENU</span>
+            <span class="hamburger-pulse-dot" aria-hidden="true"></span>
+        </button>
+
+        <div class="cosmic-nav-backdrop" id="cosmic-nav-backdrop" aria-hidden="true"></div>
+
+        <div class="cosmic-hud-dropdown" id="cosmic-hud-dropdown" role="dialog" aria-modal="true" aria-label="Navigation Menu">
+            <div class="hud-dropdown-header">
+                <div class="hud-dropdown-tag">PRAVAAH '27 // HUD NAV</div>
+                <div class="hud-status-badge"><span class="status-live-dot"></span> ONLINE</div>
+            </div>
+            <div class="hud-dropdown-divider"></div>
+            <ul class="hud-nav-list" role="menu">
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="index.html" class="hud-nav-link nav-item" role="menuitem">
+                        <span class="hud-link-index">01</span>
+                        <span class="hud-link-text">HOME</span>
+                    </a>
+                </li>
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="events.html" class="hud-nav-link nav-item" role="menuitem">
+                        <span class="hud-link-index">02</span>
+                        <span class="hud-link-text">EVENTS</span>
+                    </a>
+                </li>
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="register.html" class="hud-nav-link nav-item active" role="menuitem">
+                        <span class="hud-link-index">03</span>
+                        <span class="hud-link-text">REGISTER</span>
+                        <span class="hud-link-badge">ACTIVE</span>
+                    </a>
+                </li>
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="accommodation.html" class="hud-nav-link nav-item" role="menuitem">
+                        <span class="hud-link-index">04</span>
+                        <span class="hud-link-text">ACCOMMODATION</span>
+                    </a>
+                </li>
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="photo-gallery.html" class="hud-nav-link nav-item" role="menuitem">
+                        <span class="hud-link-index">05</span>
+                        <span class="hud-link-text">PHOTO GALLERY</span>
+                    </a>
+                </li>
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="sponsors.html" class="hud-nav-link nav-item" role="menuitem">
+                        <span class="hud-link-index">06</span>
+                        <span class="hud-link-text">SPONSORS</span>
+                    </a>
+                </li>
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="contact.html" class="hud-nav-link nav-item" role="menuitem">
+                        <span class="hud-link-index">07</span>
+                        <span class="hud-link-text">CONTACT US</span>
+                    </a>
+                </li>
+                <li class="hud-nav-item-wrapper" role="none">
+                    <a href="profile.html" class="hud-nav-link nav-item" role="menuitem">
+                        <span class="hud-link-index">08</span>
+                        <span class="hud-link-text">PROFILE</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="hud-dropdown-footer">
+                <span class="hud-footer-coord">DIMENSION // 2027</span>
+                <span class="hud-footer-sub">TRANSMISSION ACTIVE</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- =========================================================
+         MOBILE BOTTOM NAVIGATION (TECHFEST-STYLE DOCK)
+         ========================================================= -->
+            <!-- =========================================================
+         MOBILE TOP-LEFT MENU BUTTON (PHONE VIEWPORTS ONLY)
+         ========================================================= -->
+    <button type="button" class="mobile-top-menu-btn" id="mobile-menu-trigger" aria-label="Open Side Menu">
+        <div class="top-menu-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </div>
+        <span class="top-menu-active-dot"></span>
+    </button>
+
+    <!-- =========================================================
+         MOBILE BOTTOM NAVIGATION (TECHFEST-STYLE DOCK)
+         ========================================================= -->
+    <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Mobile Navigation">
+        <div class="bottom-nav-track">
+            <a href="index.html" class="bottom-nav-item" data-nav="home">
+                <div class="nav-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1V9.5z"/>
+                    </svg>
+                </div>
+                <span class="nav-label">HOME</span>
+                <span class="nav-active-pip"></span>
+            </a>
+
+            <a href="events.html" class="bottom-nav-item" data-nav="events">
+                <div class="nav-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+                    </svg>
+                </div>
+                <span class="nav-label">EVENTS</span>
+                <span class="nav-active-pip"></span>
+            </a>
+
+            <a href="register.html" class="bottom-nav-item" data-nav="register">
+                <div class="nav-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+                        <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+                        <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+                        <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+                    </svg>
+                </div>
+                <span class="nav-label">REGISTER</span>
+                <span class="nav-active-pip"></span>
+            </a>
+
+            <a href="photo-gallery.html" class="bottom-nav-item" data-nav="gallery">
+                <div class="nav-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                </div>
+                <span class="nav-label">GALLERY</span>
+                <span class="nav-active-pip"></span>
+            </a>
+
+            <a href="profile.html" class="bottom-nav-item" data-nav="profile">
+                <div class="nav-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </div>
+                <span class="nav-label">PROFILE</span>
+                <span class="nav-active-pip"></span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- =========================================================
+         MOBILE SIDE DRAWER MENU (TECHFEST-STYLE PHONE DRAWER)
+         ========================================================= -->
+    <div class="mobile-menu-backdrop" id="mobile-menu-backdrop" aria-hidden="true"></div>
+
+    <aside class="mobile-side-menu" id="mobile-side-menu" aria-label="Mobile Directory Navigation" aria-hidden="true">
+        <div class="side-menu-header">
+            <div class="side-menu-brand">
+                <span class="side-brand-title">PRAVAAH '26</span>
+                <span class="side-brand-subtitle">THE MULTIVERSE FEST</span>
+            </div>
+            <button type="button" class="side-menu-close-btn" id="mobile-menu-close" aria-label="Close Side Menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="side-menu-body">
+            <nav class="side-menu-links">
+                <a href="index.html" class="side-menu-link" data-nav="home">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1V9.5z"/></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">HOME</span>
+                        <span class="side-link-desc">Main Gateway & Highlights</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+
+                <a href="events.html" class="side-menu-link" data-nav="events">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">EVENTS</span>
+                        <span class="side-link-desc">Tech, Cult, Gaming & E-Cell</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+
+                <a href="register.html" class="side-menu-link" data-nav="register">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">REGISTER</span>
+                        <span class="side-link-desc">Entry Passes & Hackathons</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+
+                <a href="accommodation.html" class="side-menu-link" data-nav="accommodation">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">ACCOMMODATION</span>
+                        <span class="side-link-desc">Stay, Hostels & Travel</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+
+                <a href="photo-gallery.html" class="side-menu-link" data-nav="gallery">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">PHOTO GALLERY</span>
+                        <span class="side-link-desc">Fest Archives & Memories</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+
+                <a href="sponsors.html" class="side-menu-link" data-nav="sponsors">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">SPONSORS</span>
+                        <span class="side-link-desc">Multiverse Partners</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+
+                <a href="contact.html" class="side-menu-link" data-nav="contact">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">CONTACT US</span>
+                        <span class="side-link-desc">Team Leads & Query Desk</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+
+                <a href="profile.html" class="side-menu-link" data-nav="profile">
+                    <div class="side-link-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                    <div class="side-link-info">
+                        <span class="side-link-title">PROFILE</span>
+                        <span class="side-link-desc">My Passport & Badges</span>
+                    </div>
+                    <span class="side-link-chevron">›</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="side-menu-footer">
+            <div class="side-footer-dates">
+                <span class="dates-label">DATES // MARCH 20-22, 2026</span>
+            </div>
+            <div class="side-footer-sub">
+                <span>WARPING DIMENSIONS // PRAVAAH</span>
+            </div>
+            <a href="register.html" class="side-footer-cta">GET FESTIVAL PASS</a>
+        </div>
+    </aside>
+
+
+    <!-- FULLPAGE MATRIX VIEWPORT -->
+    <main class="fullpage-3d-matrix" id="room3dViewport" aria-label="Registration Portal Matrix">
+        
+        <!-- Pinned Top Room HUD Bar -->
+        <header class="room-top-hud">
+            <!-- Interactive Chamber Tabs -->
+            <div class="chamber-tabs-nav" id="chamberTabsNav" role="tablist">
+                <button class="chamber-tab-btn active" role="tab" aria-selected="true" data-wall="0">
+                    <span class="tab-index">01</span>
+                    <span class="tab-name">PASSES</span>
+                </button>
+                <button class="chamber-tab-btn" role="tab" aria-selected="false" data-wall="1">
+                    <span class="tab-index">02</span>
+                    <span class="tab-name">IDENTITY</span>
+                </button>
+                <button class="chamber-tab-btn" role="tab" aria-selected="false" data-wall="2">
+                    <span class="tab-index">03</span>
+                    <span class="tab-name">DIRECTIVES</span>
+                </button>
+                <button class="chamber-tab-btn" role="tab" aria-selected="false" data-wall="3">
+                    <span class="tab-index">04</span>
+                    <span class="tab-name">PORTAL</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Floating 3D Navigation Arrows with Visible Text -->
+        <button class="room-3d-arrow arrow-left" id="roomPrevBtn" type="button" aria-label="Previous Page">
+            <i class="fa-solid fa-chevron-left"></i>
+            <span class="arrow-text">PREV</span>
+        </button>
+        <button class="room-3d-arrow arrow-right" id="roomNextBtn" type="button" aria-label="Next Page">
+            <span class="arrow-text">NEXT</span>
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+        <!-- 3D WORLD STAGE (FILLS ENTIRE SCREEN) -->
+        <div class="room-3d-stage" id="room3dStage">
+            
+            <!-- THE 3D ROTATING ROOM CUBE/CHAMBER -->
+            <div class="room-3d-box" id="room3dBox">
+                
+                <!-- 3D Seamless Floor Plane -->
+                <div class="room-3d-floor" aria-hidden="true">
+                    <div class="floor-grid-lines"></div>
+                    <div class="floor-radar-ring"></div>
+                    <div class="floor-pedestal-singularity"></div>
+                </div>
+
+                <!-- 3D Seamless Ceiling Plane -->
+                <div class="room-3d-ceiling" aria-hidden="true">
+                    <div class="ceiling-grid-lines"></div>
+                    <div class="ceiling-light-core"></div>
+                </div>
+
+                <!-- Ambient Room Volumetric Atmosphere Glow -->
+                <div class="room-ambient-nebula" aria-hidden="true"></div>
+
+                <!-- ========================================================
+                     WALL 01 [FRONT - 0°]: FESTIVAL PASS SHOWCASE
+                     ======================================================== -->
+                <section class="room-wall wall-front active" id="wall-1" data-wall="0" role="tabpanel">
+                    <div class="wall-content-wrapper">
+                        
+                        <!-- Wall Header -->
+                        <div class="wall-header-section">
+                            <div class="wall-badge">✦ FESTIVAL PASS TIER REGISTRY ✦</div>
+                            <h1 class="wall-title">REGISTRATION</h1>
+                            <p class="wall-subtitle">Select your dimensional festival pass tier. Live pricing, verse event access, and concert clearances.</p>
+                        </div>
+
+                        <!-- Spacious 4-Pass Showcase (Clean Panoramic Row) -->
+                        <div class="passes-showcase-row" id="passesGrid">
+                            
+                            <!-- Day Pass -->
+                            <div class="pass-tower-card" data-name="Day Pass" data-price="₹75 · ₹149 · ₹149 · ₹199" data-desc="Choose one or more days. Events selectable." data-notice="Select active days to participate in verse events.">
+                                <span class="check-badge">✓</span>
+                                <div class="card-icon-halo">📅</div>
+                                <h3 class="pass-name">Day Pass</h3>
+                                <p class="pass-price">₹75 · ₹149 · ₹149 · ₹199</p>
+                                <p class="pass-desc">Choose one or more days. Events selectable per day.</p>
+                                <span class="pass-select-prompt">CLICK TO SELECT</span>
+                            </div>
+
+                            <!-- Fest Pass (Featured) -->
+                            <div class="pass-tower-card featured" data-name="Fest Pass" data-price="₹449 (All 4 days)" data-desc="All 4 days. Price fixed. Select events per day." data-notice="Includes access to all 4 days, all verse events, and Starnite concert.">
+                                <span class="check-badge">✓</span>
+                                <div class="card-featured-tag">★ MOST POPULAR ★</div>
+                                <div class="card-icon-halo">⚡</div>
+                                <h3 class="pass-name">Fest Pass</h3>
+                                <p class="pass-price">₹449 <span>(All 4 Days)</span></p>
+                                <p class="pass-desc">All 4 days. Fixed price. All verse events + Starnite concert access.</p>
+                                <span class="pass-select-prompt">CLICK TO SELECT</span>
+                            </div>
+
+                            <!-- Visitor Pass -->
+                            <div class="pass-tower-card" data-name="Visitor Pass" data-price="₹75 · ₹99 · ₹99 · ₹149" data-desc="Choose days to visit. Events display only." data-notice="Campus access for spectators and visitors. Event viewing included.">
+                                <span class="check-badge">✓</span>
+                                <div class="card-icon-halo">👁️</div>
+                                <h3 class="pass-name">Visitor Pass</h3>
+                                <p class="pass-price">₹75 · ₹99 · ₹99 · ₹149</p>
+                                <p class="pass-desc">Choose days to visit. Spectator & exhibition viewing included.</p>
+                                <span class="pass-select-prompt">CLICK TO SELECT</span>
+                            </div>
+
+                            <!-- Starnite Pass (Selected by default) -->
+                            <div class="pass-tower-card selected" data-name="Starnite Pass" data-price="₹99" data-desc="Standalone concert-night access." data-notice="IITBBS students need not register for Starnite.">
+                                <span class="check-badge">✓</span>
+                                <div class="card-icon-halo">🎤</div>
+                                <h3 class="pass-name">Starnite Pass</h3>
+                                <p class="pass-price">₹99</p>
+                                <p class="pass-desc">Standalone celebrity concert-night access.</p>
+                                <span class="pass-select-prompt">ACTIVE PASS</span>
+                            </div>
+
+                        </div>
+
+                        <!-- Wall Footer Action -->
+                        <div class="wall-action-bar">
+                            <span class="wall-telemetry-note"><i class="fa-solid fa-circle-check"></i> PASS SELECTED // READY TO ADVANCE</span>
+                            <button type="button" class="wall-nav-cta" data-goto="1">
+                                <span>PROCEED TO DELEGATE INFO</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- ========================================================
+                     WALL 02 [RIGHT - 90°]: DELEGATE IDENTITY MATRIX
+                     ======================================================== -->
+                <section class="room-wall wall-right" id="wall-2" data-wall="1" role="tabpanel">
+                    <div class="wall-content-wrapper">
+                        
+                        <div class="wall-header-section">
+                            <div class="wall-badge">✦ CREDENTIAL REGISTRY ✦</div>
+                            <h2 class="wall-title">DELEGATE INFORMATION</h2>
+                            <p class="wall-subtitle">Input your delegate identity credentials to initialize festival pass clearance.</p>
+                        </div>
+
+                        <div class="delegate-console-layout">
+                            <form id="delegateForm" class="delegate-form-row" onsubmit="return false;">
+                                <div class="form-pod">
+                                    <label for="reg-fullname" class="form-pod-label"><i class="fa-solid fa-user"></i> FULL NAME *</label>
+                                    <input type="text" id="reg-fullname" name="fullname" class="form-pod-input" required placeholder="e.g. Alex Mercer">
+                                </div>
+
+                                <div class="form-pod">
+                                    <label for="reg-email" class="form-pod-label"><i class="fa-solid fa-envelope"></i> EMAIL ADDRESS *</label>
+                                    <input type="email" id="reg-email" name="email" class="form-pod-input" required placeholder="e.g. alex@institution.edu">
+                                </div>
+
+                                <div class="form-pod">
+                                    <label for="reg-phone" class="form-pod-label"><i class="fa-solid fa-phone"></i> PHONE NUMBER *</label>
+                                    <input type="tel" id="reg-phone" name="phone" class="form-pod-input" required placeholder="e.g. +91 98765 43210">
+                                </div>
+
+                                <div class="form-pod">
+                                    <label for="reg-college" class="form-pod-label"><i class="fa-solid fa-building-columns"></i> COLLEGE / INSTITUTION *</label>
+                                    <input type="text" id="reg-college" name="college" class="form-pod-input" required placeholder="e.g. IIT Bhubaneswar">
+                                </div>
+
+                                <div class="delegate-prep-banner">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                    <span>These details are for registration preparation only. Online registration and payment will open when official pass sales go live.</span>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="wall-action-bar">
+                            <button type="button" class="wall-back-cta" data-goto="0">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                <span>BACK TO PASSES</span>
+                            </button>
+                            <button type="button" class="wall-nav-cta" data-goto="2">
+                                <span>PROCEED TO DIRECTIVES</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- ========================================================
+                     WALL 03 [REAR - 180°]: FESTIVAL PROTOCOLS & RULES
+                     ======================================================== -->
+                <section class="room-wall wall-back" id="wall-3" data-wall="2" role="tabpanel">
+                    <div class="wall-content-wrapper">
+                        
+                        <div class="wall-header-section">
+                            <div class="wall-badge">✦ FESTIVAL PROTOCOLS ✦</div>
+                            <h2 class="wall-title">IMPORTANT NOTES BEFORE PAYMENT</h2>
+                            <p class="wall-subtitle">Review official Pravaah '26 festival directives, entry rules, and pass guidelines.</p>
+                        </div>
+
+                        <div class="directives-panorama">
+                            <div class="directive-card">
+                                <div class="directive-num">01</div>
+                                <div class="directive-content">
+                                    <h4 class="directive-heading">STARNITE CONCERT EXEMPTION</h4>
+                                    <p class="directive-text">People who take a <strong>Fest Pass</strong>, <strong>Day 3 Pass</strong>, or <strong>Visitor Pass (Day 3)</strong> do not need to buy a separate Starnite pass.</p>
+                                </div>
+                            </div>
+
+                            <div class="directive-card">
+                                <div class="directive-num">02</div>
+                                <div class="directive-content">
+                                    <h4 class="directive-heading">ACCURATE DELEGATE NAME</h4>
+                                    <p class="directive-text">Enter your <strong>full name correctly</strong> as per your institutional ID. Passes are verified at entry checkpoints.</p>
+                                </div>
+                            </div>
+
+                            <div class="directive-card">
+                                <div class="directive-num">03</div>
+                                <div class="directive-content">
+                                    <h4 class="directive-heading">DAY PASS EVENT ACCESS</h4>
+                                    <p class="directive-text">If you select a <strong>Day Pass</strong>, you can participate in all events scheduled for that day. Select the events you are interested in.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wall-action-bar">
+                            <button type="button" class="wall-back-cta" data-goto="1">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                <span>BACK TO IDENTITY</span>
+                            </button>
+                            <button type="button" class="wall-nav-cta" data-goto="3">
+                                <span>PROCEED TO PORTAL</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- ========================================================
+                     WALL 04 [LEFT - 270°]: PASS SUMMARY & PORTAL
+                     ======================================================== -->
+                <section class="room-wall wall-left" id="wall-4" data-wall="3" role="tabpanel">
+                    <div class="wall-content-wrapper">
+                        
+                        <div class="wall-header-section">
+                            <div class="wall-badge">✦ FESTIVAL PASS CONFIRMATION ✦</div>
+                            <h2 class="wall-title">PASS SUMMARY & PAYMENT</h2>
+                            <p class="wall-subtitle">Confirm your pass specification and proceed to the official festival registration portal.</p>
+                        </div>
+
+                        <div class="clearance-showcase">
+                            <!-- Live Selected Pass Details -->
+                            <div class="hologram-ticket-box">
+                                <div class="ticket-beacon-light"></div>
+                                <div class="ticket-top-tag">CONFIRMED SELECTION</div>
+                                <h3 class="ticket-pass-name" id="selectedPassTitle">Selected: Starnite Pass</h3>
+                                <div class="ticket-subcard">
+                                    <h4 class="ticket-tier-name" id="selectedCardTitle">Starnite Pass</h4>
+                                    <p class="ticket-notice-text" id="selectedCardNotice">IITBBS students need not register for Starnite.</p>
+                                </div>
+                            </div>
+
+                            <!-- Coming Soon Payment Action -->
+                            <div class="payment-action-hub">
+                                <button type="button" class="disabled-payment-btn" disabled>
+                                    <i class="fa-solid fa-lock"></i>
+                                    <span>PAYMENT & REGISTRATION PORTAL — COMING SOON</span>
+                                </button>
+                                <p class="payment-live-note">Online registration and payment gateway will open after official pass sales go live.</p>
+                            </div>
+
+                            <!-- Shared Responsive Footer Section -->
+                            <div class="wall-footer-section">
+                                <div class="pravaah-footer-container">
+                                    <div class="footer-col-brand">
+                                        <a href="index.html" class="footer-brand-logo-link" aria-label="Pravaah 2026 Home">
+                                            <img src="assets/images/pravaah_footer_logo.png" alt="PRAVAAH" class="footer-brand-logo-img">
+                                        </a>
+                                        <a href="register.html" class="footer-btn-register">Register Now</a>
+                                    </div>
+                                    <div class="footer-col-links">
+                                        <h4 class="footer-col-title">Explore More</h4>
+                                        <ul class="footer-nav-list">
+                                            <li><a href="events.html">Events</a></li>
+                                            <li><a href="photo-gallery.html">Gallery</a></li>
+                                            <li><a href="sponsors.html">Brochure</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="footer-col-contact">
+                                        <h4 class="footer-col-title">Reach Out to Us</h4>
+                                        <ul class="footer-nav-list">
+                                            <li><a href="contact.html">Contact Us</a></li>
+                                        </ul>
+                                        <div class="footer-social-row">
+                                            <a href="https://www.instagram.com/iitbbs.pravaah/?hl=en" target="_blank" rel="noopener noreferrer" class="footer-social-box" aria-label="Instagram">
+                                                <i class="fa-brands fa-instagram"></i>
+                                            </a>
+                                            <a href="https://www.linkedin.com/company/pravaah-iit-bhubaneswar/posts/?feedView=all" target="_blank" rel="noopener noreferrer" class="footer-social-box" aria-label="LinkedIn">
+                                                <i class="fa-brands fa-linkedin-in"></i>
+                                            </a>
+                                            <a href="https://youtube.com/@pravaahiitbbs?si=9zFAqSFCleCCECZ_" target="_blank" rel="noopener noreferrer" class="footer-social-box" aria-label="YouTube">
+                                                <i class="fa-brands fa-youtube"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="footer-bottom-divider"></div>
+                                <div class="footer-bottom-credits">
+                                    <span class="credits-brand">@PRAVAAH'27 IIT BHUBANESWAR</span>
+                                    <span class="credits-separator">|</span>
+                                    <span class="credits-team">MADE WITH 💜 BY WEB TEAM</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wall-action-bar centered">
+                            <button type="button" class="wall-back-cta" data-goto="2">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                <span>BACK TO DIRECTIVES</span>
+                            </button>
+                            <button type="button" class="wall-reset-cta" data-goto="0">
+                                <i class="fa-solid fa-rotate-left"></i>
+                                <span>START OVER (WALL 01)</span>
+                            </button>
+                        </div>
+
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <!-- Pinned Bottom HUD & Controls -->
+        <footer class="room-bottom-hud">
+            <div class="hud-interaction-hint">
+                <span class="hint-icon"><i class="fa-solid fa-compass"></i></span>
+                <span class="hint-text">NAVIGATE USING THE TOP TABS OR SIDE ARROWS</span>
+            </div>
+            <div class="hud-wall-indicators" id="roomChamberPills">
+                <button class="wall-pill-dot active" data-wall="0" title="Wall 01 - Passes"></button>
+                <button class="wall-pill-dot" data-wall="1" title="Wall 02 - Identity"></button>
+                <button class="wall-pill-dot" data-wall="2" title="Wall 03 - Directives"></button>
+                <button class="wall-pill-dot" data-wall="3" title="Wall 04 - Portal"></button>
+            </div>
+        </footer>
+
+    </main>
+
+    <script src="src/js/glitch-nav.js"></script>
+    <script src="src/js/register.js"></script>
+</body>
+</html>

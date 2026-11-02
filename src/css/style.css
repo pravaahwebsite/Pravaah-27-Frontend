@@ -73,8 +73,22 @@ body {
     opacity: 1 !important;
     display: block !important;
     visibility: visible !important;
-    transition: opacity 0.8s ease;
+    transition: opacity 0.8s ease, background-image 0.5s ease;
     will-change: transform, background-position;
+}
+
+/* Before opening portal (pre-portal screen only): use page1_hero.jpg */
+html:not(.portal-entered-fast) body:not(.portal-entered) #global-bg-layer,
+body:not(.portal-entered) #global-bg-layer {
+    background-image: url('../../assets/images/page1_hero.jpg') !important;
+    background-position: center center !important;
+    background-size: cover !important;
+}
+
+/* Home page (once portal is entered): keep original home_portal_bg.jpg background */
+html.portal-entered-fast #global-bg-layer,
+body.portal-entered #global-bg-layer {
+    background-image: url('../../assets/images/home_portal_bg.jpg') !important;
 }
 
 .global-bg-layer::after {
@@ -683,6 +697,122 @@ section {
     transform: none !important;
 }
 
+/* Pre-portal state: hide subsequent home page sections until portal is opened */
+html:not(.portal-entered-fast) body:not(.portal-entered) #main-scroll-container > section:not(#splash-screen) {
+    display: none !important;
+}
+
+html:not(.portal-entered-fast) body:not(.portal-entered) {
+    overflow-y: hidden !important;
+}
+
+/* Navigation bars should ONLY be present after entering the home page */
+html:not(.portal-entered-fast) body.pravaah-home:not(.portal-entered) .cosmic-nav-wheel,
+html:not(.portal-entered-fast) body.pravaah-home:not(.portal-entered) .mobile-top-menu-btn,
+html:not(.portal-entered-fast) body.pravaah-home:not(.portal-entered) .mobile-bottom-nav,
+html:not(.portal-entered-fast) body.pravaah-home:not(.portal-entered) .mobile-side-menu,
+html:not(.portal-entered-fast) body.pravaah-home:not(.portal-entered) .mobile-menu-backdrop,
+body:has(#splash-screen:not(.hidden)):not(.portal-entered) .cosmic-nav-wheel,
+body:has(#splash-screen:not(.hidden)):not(.portal-entered) .mobile-top-menu-btn,
+body:has(#splash-screen:not(.hidden)):not(.portal-entered) .mobile-bottom-nav,
+body:has(#splash-screen:not(.hidden)):not(.portal-entered) .mobile-side-menu,
+body:has(#splash-screen:not(.hidden)):not(.portal-entered) .mobile-menu-backdrop {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Smooth entrance animations for navigation bars once home page is entered */
+body.portal-entered .cosmic-nav-wheel {
+    animation: navWheelEnter 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+body.portal-entered .mobile-top-menu-btn {
+    animation: mobileTopBtnEnter 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+body.portal-entered .mobile-bottom-nav {
+    animation: mobileBottomNavEnter 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes navWheelEnter {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -24px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes mobileTopBtnEnter {
+    from {
+        opacity: 0;
+        transform: scale(0.7) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes mobileBottomNavEnter {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Once portal is opened/entered: splash screen is completely hidden so it NEVER comes again in home page */
+html.portal-entered-fast #splash-screen,
+body.portal-entered #splash-screen {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Once portal is entered: unlock full page scrolling */
+html.portal-entered-fast,
+body.portal-entered,
+html.portal-entered-fast body {
+    overflow-y: auto !important;
+}
+
+/* In home page: About Section is top landing section */
+body.portal-entered #about-page,
+html.portal-entered-fast #about-page {
+    padding-top: 120px !important;
+    min-height: 100vh !important;
+}
+
+body.portal-entered #about-lead-container,
+html.portal-entered-fast #about-lead-container {
+    opacity: 1 !important;
+    filter: blur(0px) !important;
+    transform: translateY(0) scale(1) !important;
+}
+
+body.portal-entered #about-card-pravaah,
+body.portal-entered #about-card-theme,
+html.portal-entered-fast #about-card-pravaah,
+html.portal-entered-fast #about-card-theme {
+    opacity: 1 !important;
+    visibility: visible !important;
+    filter: blur(0px) !important;
+}
+
 html.portal-entered-fast #loader-screen:not(.active-screen),
 body.portal-entered #loader-screen:not(.active-screen) {
     display: none !important;
@@ -853,6 +983,7 @@ body.portal-entered #loader-screen:not(.active-screen) {
     background: rgba(22, 12, 40, 0.85);
 }
 
+html.portal-entered-fast .home-swipe-prompt,
 body.portal-entered .home-swipe-prompt {
     display: none !important;
 }
@@ -1069,7 +1200,9 @@ body.portal-entered .home-swipe-prompt {
 }
 
 #calendar-page {
-    /* Background defined in section backgrounds */
+    padding: 80px 20px 105px 20px !important;
+    min-height: 100vh;
+    overflow-x: clip;
 }
 
 /* ==========================================================================
@@ -1115,7 +1248,7 @@ body.portal-entered .home-swipe-prompt {
     position: relative;
     width: 440px;
     height: 460px;
-    margin: 25px auto 0 auto;
+    margin: 65px auto 65px auto;
     z-index: 20;
     display: flex;
     align-items: center;
@@ -1389,7 +1522,7 @@ body.portal-entered .home-swipe-prompt {
 /* Month Navigation Bar / Tracker */
 .cube-month-tracker {
     position: absolute;
-    top: -65px;
+    top: -50px;
     left: 50%;
     transform: translate(-50%, 45px) scale(0.84);
     display: flex;
@@ -1474,20 +1607,24 @@ body.portal-entered .home-swipe-prompt {
 
 .calendar-tip-hud {
     position: absolute;
-    bottom: -115px;
+    bottom: -60px;
     left: 50%;
     transform: translate(-50%, 55px) scale(0.88);
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 16px;
-    background: rgba(10, 12, 26, 0.88);
-    backdrop-filter: blur(12px);
+    gap: 10px;
+    padding: 8px 18px;
+    background: rgba(10, 12, 26, 0.92);
+    backdrop-filter: blur(14px);
     border: 1px solid rgba(0, 242, 254, 0.4);
-    border-radius: 8px;
+    border-radius: 24px;
     pointer-events: none;
     font-family: 'Orbitron', sans-serif;
-    white-space: nowrap;
+    width: max-content;
+    max-width: min(92vw, 680px);
+    white-space: normal;
+    text-align: center;
+    line-height: 1.45;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 15px rgba(0, 242, 254, 0.2);
     z-index: 21;
     opacity: 0;
@@ -1943,71 +2080,176 @@ body.portal-entered .home-swipe-prompt {
 }
 
 @media (max-width: 600px) {
+    #calendar-page {
+        padding: 60px 14px 95px 14px !important;
+    }
+
+    .calendar-heading-container {
+        margin-top: 10px;
+        margin-bottom: 16px;
+        gap: 6px;
+    }
+
+    .calendar-page-heading {
+        font-size: clamp(1.4rem, 6.5vw, 1.85rem);
+        letter-spacing: 0.12em;
+    }
+
+    .calendar-lead-decor {
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .decor-line-bar {
+        width: 20px;
+    }
+
+    .decor-line-text {
+        font-size: 0.54rem;
+        letter-spacing: 0.10em;
+        text-align: center;
+    }
+
     .calendar-layout-container {
-        width: 320px;
+        width: min(330px, 94vw);
         height: 380px;
+        margin: 55px auto 75px auto;
     }
 
     .calendar-cube,
     .cube-face {
-        width: 290px;
-        height: 290px;
+        width: 280px;
+        height: 280px;
     }
 
-    .face-front {
-        transform: rotateY(0deg) translateZ(145px);
+    .face-front  { transform: rotateY(0deg) translateZ(140px); }
+    .face-right  { transform: rotateY(90deg) translateZ(140px); }
+    .face-back   { transform: rotateY(180deg) translateZ(140px); }
+    .face-left   { transform: rotateY(-90deg) translateZ(140px); }
+    .face-top    { transform: rotateX(90deg) translateZ(140px); }
+    .face-bottom { transform: rotateX(-90deg) translateZ(140px); }
+
+    .cube-face {
+        padding: 12px 14px;
+        border-radius: 18px;
     }
 
-    .face-right {
-        transform: rotateY(90deg) translateZ(145px);
+    .month-module {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
     }
 
-    .face-back {
-        transform: rotateY(180deg) translateZ(145px);
+    .month-title {
+        font-size: 0.8rem;
+        margin-bottom: 6px;
+        padding-bottom: 4px;
+        letter-spacing: 0.1em;
     }
 
-    .face-left {
-        transform: rotateY(-90deg) translateZ(145px);
+    .day-names {
+        font-size: 0.62rem;
+        margin-bottom: 6px;
     }
 
-    .face-top {
-        transform: rotateX(90deg) translateZ(145px);
+    .days-grid {
+        gap: 2px;
     }
 
-    .face-bottom {
-        transform: rotateX(-90deg) translateZ(145px);
+    .calendar-day {
+        font-size: 0.72rem;
+        border-radius: 5px;
+    }
+
+    .calendar-day.active-node::after {
+        bottom: 2px;
+        width: 4px;
+        height: 4px;
     }
 
     .cube-rotate-btn.btn-prev {
-        left: -15px;
-        width: 40px;
-        height: 40px;
+        left: -12px;
+        width: 36px;
+        height: 36px;
     }
 
     .cube-rotate-btn.btn-next {
-        right: -15px;
-        width: 40px;
-        height: 40px;
+        right: -12px;
+        width: 36px;
+        height: 36px;
+    }
+
+    .cube-rotate-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .rotate-btn-label {
+        display: none;
     }
 
     .cube-month-tracker {
-        gap: 3px;
-        padding: 4px 6px;
-        top: -55px;
-    }
-
-    .month-pill {
-        font-size: 0.52rem;
+        top: -46px;
+        gap: 2px;
         padding: 3px 6px;
     }
 
-    .calendar-tip-hud {
-        white-space: normal;
-        text-align: center;
-        width: 90%;
-        bottom: -95px;
-        font-size: 0.55rem;
+    .month-pill {
+        font-size: 0.50rem;
+        padding: 3px 6px;
+        letter-spacing: 0.04em;
     }
+
+    .calendar-tip-hud {
+        bottom: -68px;
+        width: 94%;
+        max-width: 320px;
+        padding: 6px 12px;
+        border-radius: 16px;
+    }
+
+    .tip-icon {
+        font-size: 0.8rem;
+    }
+
+    .tip-text {
+        font-size: 0.52rem;
+        letter-spacing: 0.03em;
+        line-height: 1.35;
+    }
+
+    .day-events-panel {
+        padding: 14px;
+        border-radius: 16px;
+    }
+
+    .comet-orbit-ring.ring-1 { width: 320px; height: 320px; }
+    .comet-orbit-ring.ring-2 { width: 350px; height: 350px; }
+    .comet-orbit-ring.ring-3 { width: 380px; height: 380px; }
+}
+
+@media (max-width: 350px) {
+    .calendar-layout-container {
+        width: 290px;
+        height: 360px;
+    }
+
+    .calendar-cube,
+    .cube-face {
+        width: 250px;
+        height: 250px;
+    }
+
+    .face-front  { transform: rotateY(0deg) translateZ(125px); }
+    .face-right  { transform: rotateY(90deg) translateZ(125px); }
+    .face-back   { transform: rotateY(180deg) translateZ(125px); }
+    .face-left   { transform: rotateY(-90deg) translateZ(125px); }
+    .face-top    { transform: rotateX(90deg) translateZ(125px); }
+    .face-bottom { transform: rotateX(-90deg) translateZ(125px); }
+
+    .cube-rotate-btn.btn-prev { left: -8px; width: 32px; height: 32px; }
+    .cube-rotate-btn.btn-next { right: -8px; width: 32px; height: 32px; }
 }
 
 .scroll-down-indicator {
@@ -4351,29 +4593,53 @@ body.portal-entered .home-swipe-prompt {
     }
 
     .calendar-layout-container {
-        flex-direction: column;
-        height: auto;
-        overflow-y: visible;
-        margin-top: 100px;
-        min-height: 0;
+        width: 380px;
+        height: 420px;
+        margin: 60px auto 65px auto;
     }
 
-    .single-month-wrapper {
-        min-height: 280px;
-        height: auto;
-    }
-
-    .month-module {
-        width: 100%;
-        max-width: 100%;
-        height: auto;
-    }
-
-    .day-events-panel {
-        width: 100%;
-        margin-top: 10px;
+    .calendar-cube,
+    .cube-face {
+        width: 320px;
         height: 320px;
-        flex-shrink: 0;
+    }
+
+    .face-front  { transform: rotateY(0deg) translateZ(160px); }
+    .face-right  { transform: rotateY(90deg) translateZ(160px); }
+    .face-back   { transform: rotateY(180deg) translateZ(160px); }
+    .face-left   { transform: rotateY(-90deg) translateZ(160px); }
+    .face-top    { transform: rotateX(90deg) translateZ(160px); }
+    .face-bottom { transform: rotateX(-90deg) translateZ(160px); }
+
+    .cube-month-tracker {
+        top: -48px;
+        gap: 4px;
+        padding: 4px 8px;
+    }
+
+    .month-pill {
+        font-size: 0.58rem;
+        padding: 4px 8px;
+    }
+
+    .calendar-tip-hud {
+        bottom: -55px;
+        max-width: min(90vw, 520px);
+        font-size: 0.58rem;
+        padding: 7px 14px;
+    }
+
+    .calendar-lead-decor {
+        gap: 8px;
+    }
+
+    .decor-line-bar {
+        width: 30px;
+    }
+
+    .decor-line-text {
+        font-size: 0.62rem;
+        letter-spacing: 0.16em;
     }
 
     .about-dashboard,
@@ -5088,11 +5354,10 @@ body.portal-entered .home-swipe-prompt {
 }
 
 .gallery-track {
-    animation-play-state: paused;
-}
-body.time-bounded-scrolling .gallery-track,
-.gallery-column:hover .gallery-track {
     animation-play-state: running;
+}
+.gallery-column:hover .gallery-track {
+    animation-play-state: paused;
 }
 
 .gallery-group-vertical {
@@ -17189,6 +17454,20 @@ body.side-menu-locked {
    ========================================================================== */
 
 @media (max-width: 900px) {
+    /* Once portal is entered on mobile, splash screen remains hidden */
+    html.portal-entered-fast #splash-screen,
+    body.portal-entered #splash-screen {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: hidden !important;
+    }
+
     /* 1. HOMEPAGE MOBILE FLOW & CENTERING */
     #splash-screen.portal-warp-section,
     #splash-screen.snap-page,
@@ -17443,9 +17722,278 @@ body.side-menu-locked {
 
 /* Time-bounded smooth scroll pointer locking */
 body.time-bounded-scrolling {
-    pointer-events: none !important;
+    pointer-events: auto !important;
 }
 body.time-bounded-scrolling #cosmic-nav-wheel,
 body.time-bounded-scrolling .cosmic-nav-wheel {
     pointer-events: auto !important;
+}
+
+
+/* ==========================================================================
+   FEST CALENDAR MOBILE PHONE VIEWPORT REFINEMENTS & FIT
+   ========================================================================== */
+#calendar-page {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    box-sizing: border-box !important;
+}
+
+@media (max-width: 768px) {
+    #calendar-page {
+        padding: 55px 10px 110px 10px !important;
+        min-height: auto !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        box-sizing: border-box !important;
+        overflow-x: clip !important;
+    }
+
+    .calendar-heading-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 auto 12px auto !important;
+        text-align: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        box-sizing: border-box !important;
+    }
+
+    .calendar-page-heading {
+        font-size: clamp(1.4rem, 6.2vw, 1.85rem) !important;
+        letter-spacing: 0.10em !important;
+        text-align: center !important;
+    }
+
+    .calendar-lead-decor {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 6px !important;
+    }
+
+    .calendar-layout-container {
+        position: relative !important;
+        width: min(340px, calc(100vw - 20px)) !important;
+        height: 370px !important;
+        margin: 48px auto 62px auto !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+        left: auto !important;
+        right: auto !important;
+        transform: none !important;
+    }
+
+    .calendar-cube-viewport {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        perspective: 800px !important;
+        perspective-origin: center center !important;
+        overflow: visible !important;
+    }
+
+    .calendar-cube,
+    .cube-face {
+        width: 220px !important;
+        height: 220px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 3D transforms for 220px cube: half width is 110px */
+    .face-front  { transform: rotateY(0deg) translateZ(110px) !important; }
+    .face-right  { transform: rotateY(90deg) translateZ(110px) !important; }
+    .face-back   { transform: rotateY(180deg) translateZ(110px) !important; }
+    .face-left   { transform: rotateY(-90deg) translateZ(110px) !important; }
+    .face-top    { transform: rotateX(90deg) translateZ(110px) !important; }
+    .face-bottom { transform: rotateX(-90deg) translateZ(110px) !important; }
+
+    .cube-face {
+        padding: 6px 8px !important;
+        border-radius: 14px !important;
+    }
+
+    .month-module {
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        box-sizing: border-box !important;
+    }
+
+    .month-title {
+        font-size: 0.78rem !important;
+        letter-spacing: 0.10em !important;
+        margin-bottom: 2px !important;
+        padding-bottom: 2px !important;
+        text-align: center !important;
+    }
+
+    .day-names {
+        font-size: 0.54rem !important;
+        margin-bottom: 2px !important;
+        display: grid !important;
+        grid-template-columns: repeat(7, 1fr) !important;
+        text-align: center !important;
+    }
+
+    .days-grid {
+        display: grid !important;
+        grid-template-columns: repeat(7, 1fr) !important;
+        gap: 2px !important;
+        flex: 1 !important;
+    }
+
+    .calendar-day {
+        font-size: 0.65rem !important;
+        border-radius: 4px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-height: 22px !important;
+        padding: 0 !important;
+    }
+
+    /* Rotate buttons on mobile: placed outside the face, zero overlap with date numbers */
+    .cube-rotate-btn {
+        width: 36px !important;
+        height: 36px !important;
+        position: absolute !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        z-index: 50 !important;
+        background: rgba(10, 14, 30, 0.92) !important;
+        border: 1.5px solid rgba(0, 242, 254, 0.5) !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        touch-action: manipulation !important;
+        color: #00f2fe !important;
+        box-shadow: 0 0 15px rgba(0, 242, 254, 0.25) !important;
+    }
+
+    .cube-rotate-btn svg {
+        width: 18px !important;
+        height: 18px !important;
+    }
+
+    .cube-rotate-btn.btn-prev {
+        left: 0px !important;
+    }
+
+    .cube-rotate-btn.btn-next {
+        right: 0px !important;
+    }
+
+    .rotate-btn-label {
+        display: none !important;
+    }
+
+    /* Month tracker at top of cube */
+    .cube-month-tracker {
+        position: absolute !important;
+        top: -44px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: min(320px, 94%) !important;
+        padding: 3px 4px !important;
+        gap: 3px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        background: rgba(8, 10, 24, 0.92) !important;
+        border: 1px solid rgba(0, 242, 254, 0.28) !important;
+        border-radius: 20px !important;
+        z-index: 45 !important;
+        box-sizing: border-box !important;
+    }
+
+    .month-pill {
+        font-size: 0.52rem !important;
+        padding: 4px 6px !important;
+        letter-spacing: 0.04em !important;
+        border-radius: 12px !important;
+        flex: 1 !important;
+        text-align: center !important;
+    }
+
+    /* Tip HUD under cube */
+    .calendar-tip-hud {
+        position: absolute !important;
+        bottom: -48px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: min(320px, 92%) !important;
+        padding: 5px 10px !important;
+        background: rgba(10, 12, 26, 0.94) !important;
+        border: 1px solid rgba(0, 242, 254, 0.3) !important;
+        border-radius: 18px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        box-sizing: border-box !important;
+        z-index: 45 !important;
+    }
+
+    .tip-icon {
+        font-size: 0.78rem !important;
+        flex-shrink: 0 !important;
+    }
+
+    .tip-text {
+        font-size: 0.48rem !important;
+        letter-spacing: 0.02em !important;
+        line-height: 1.35 !important;
+        text-align: left !important;
+    }
+
+    /* Day events panel */
+    .day-events-panel {
+        width: 100% !important;
+        height: 100% !important;
+        padding: 14px 12px !important;
+        border-radius: 18px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Comet rings scaled */
+    .comet-orbit-ring.ring-1 { width: 270px !important; height: 270px !important; }
+    .comet-orbit-ring.ring-2 { width: 300px !important; height: 300px !important; }
+    .comet-orbit-ring.ring-3 { width: 320px !important; height: 320px !important; }
+}
+
+@media (max-width: 350px) {
+    .calendar-layout-container {
+        width: 285px !important;
+        height: 340px !important;
+    }
+
+    .calendar-cube,
+    .cube-face {
+        width: 200px !important;
+        height: 200px !important;
+    }
+
+    .face-front  { transform: rotateY(0deg) translateZ(100px) !important; }
+    .face-right  { transform: rotateY(90deg) translateZ(100px) !important; }
+    .face-back   { transform: rotateY(180deg) translateZ(100px) !important; }
+    .face-left   { transform: rotateY(-90deg) translateZ(100px) !important; }
+    .face-top    { transform: rotateX(90deg) translateZ(100px) !important; }
+    .face-bottom { transform: rotateX(-90deg) translateZ(100px) !important; }
+
+    .cube-rotate-btn.btn-prev { left: -2px !important; width: 30px !important; height: 30px !important; }
+    .cube-rotate-btn.btn-next { right: -2px !important; width: 30px !important; height: 30px !important; }
+    .cube-month-tracker { width: 275px !important; }
+    .calendar-tip-hud { width: 275px !important; }
 }
