@@ -37,7 +37,7 @@
 }
 
 html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto !important;
     overflow-x: hidden;
 }
 
@@ -52,7 +52,7 @@ body {
     width: 100%;
     position: relative;
     user-select: none;
-    scroll-behavior: smooth;
+    scroll-behavior: auto !important;
 }
 
 .global-bg-layer {
@@ -61,27 +61,38 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-image: url('../../assets/images/home_bg_new.jpg');
+    background-image: url('../../assets/images/home_portal_bg.jpg');
     background-size: cover;
-    background-position: center center;
+    background-position: center top;
     background-repeat: no-repeat;
     z-index: 0;
     pointer-events: none;
-    transform: scale(1.0);
-    filter: blur(0px);
+    transform: scale(1.08);
+    transform-origin: center center;
+    filter: none !important;
     opacity: 1 !important;
     display: block !important;
     visibility: visible !important;
-    transition: opacity 0.8s ease, filter 0.8s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: opacity, transform;
+    transition: opacity 0.8s ease, background-image 0.5s ease;
+    will-change: transform, background-position;
+}
+
+/* Before opening portal (pre-portal screen only): use page1_hero.jpg */
+html:not(.portal-entered-fast) body:not(.portal-entered) #global-bg-layer,
+body:not(.portal-entered) #global-bg-layer {
+    background-image: url('../../assets/images/page1_hero.jpg') !important;
+    background-position: center center !important;
+    background-size: cover !important;
+}
+
+/* Home page (once portal is entered): keep original home_portal_bg.jpg background */
+html.portal-entered-fast #global-bg-layer,
+body.portal-entered #global-bg-layer {
+    background-image: url('../../assets/images/home_portal_bg.jpg') !important;
 }
 
 .global-bg-layer::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 50% 45%, rgba(0, 242, 254, 0.08) 0%, rgba(157, 78, 221, 0.12) 40%, rgba(6, 3, 14, 0.65) 85%, rgba(6, 3, 14, 0.92) 100%);
-    pointer-events: none;
+    display: none !important;
 }
 
 #starfield-canvas {
@@ -100,15 +111,7 @@ body {
 }
 
 .universe-nebula-glow {
-    position: absolute;
-    width: 1400px;
-    height: 1400px;
-    background: radial-gradient(circle, rgba(230, 38, 120, 0.28) 0%, rgba(59, 98, 216, 0.22) 35%, rgba(0, 210, 255, 0.14) 65%, transparent 75%);
-    filter: blur(140px);
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 1.5s ease;
+    display: none !important;
 }
 
 body.universe-active .universe-nebula-glow {
@@ -156,18 +159,7 @@ section {
 
 .glow-core,
 .snap-page > .glow-core {
-    position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(230, 38, 120, 0.25) 0%, rgba(59, 98, 216, 0.18) 50%, transparent 70%);
-    border-radius: 50%;
-    filter: blur(40px);
-    z-index: 1;
-    animation: pulse 8s infinite alternate;
-    pointer-events: none !important;
+    display: none !important;
 }
 
 .splash-content {
@@ -679,6 +671,191 @@ section {
     height: 24px;
 }
 
+/* ==========================================================================
+   TIER 1: PRAVAAH 3D HOLOGRAM GLITCH SCANNER INTRO (PURE BLACK BACKGROUND)
+   ========================================================================== */
+.pravaah-intro-screen {
+    position: fixed !important;
+    inset: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    width: 100dvw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    background: #000000 !important;
+    z-index: 999999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.65s;
+    user-select: none;
+}
+
+.pravaah-intro-screen.intro-fade-out {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+.pravaah-intro-screen.hidden {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+.pravaah-intro-canvas {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 2 !important;
+    cursor: pointer !important;
+}
+
+.intro-top-bar {
+    position: absolute !important;
+    top: 20px !important;
+    left: 24px !important;
+    right: 24px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    z-index: 10 !important;
+    pointer-events: none !important;
+}
+
+.intro-fest-tag {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    pointer-events: auto;
+}
+
+.intro-fest-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    background: linear-gradient(135deg, #ffffff 0%, #ffd700 50%, #00f2fe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+}
+
+.intro-theme-pill {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(0, 242, 254, 0.1);
+    border: 1px solid rgba(0, 242, 254, 0.35);
+    color: #00f2fe;
+}
+
+.intro-top-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    pointer-events: auto;
+}
+
+.btn-intro-ctrl {
+    background: rgba(14, 8, 28, 0.75);
+    border: 1px solid rgba(0, 242, 254, 0.35);
+    color: #fff;
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    padding: 6px 14px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.25s ease;
+}
+
+.btn-intro-ctrl:hover {
+    border-color: #00f2fe;
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+    transform: scale(1.04);
+}
+
+.btn-intro-skip {
+    background: linear-gradient(135deg, rgba(255, 0, 127, 0.35) 0%, rgba(0, 242, 254, 0.35) 100%);
+    border-color: #00f2fe;
+    color: #fff;
+}
+
+.intro-bottom-prompt {
+    position: absolute !important;
+    bottom: 28px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 9px 24px !important;
+    border-radius: 30px !important;
+    background: rgba(6, 12, 28, 0.75) !important;
+    border: 1px solid rgba(0, 242, 254, 0.45) !important;
+    backdrop-filter: blur(12px) !important;
+    color: #00f2fe !important;
+    font-family: 'Orbitron', sans-serif !important;
+    font-size: 0.68rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.16em !important;
+    cursor: pointer !important;
+    z-index: 10 !important;
+    transition: all 0.25s ease !important;
+    box-shadow: 0 0 20px rgba(0, 242, 254, 0.25) !important;
+}
+
+.intro-bottom-prompt:hover {
+    border-color: #ffffff !important;
+    transform: translateX(-50%) scale(1.05) !important;
+    box-shadow: 0 0 30px rgba(0, 242, 254, 0.5) !important;
+    color: #ffffff !important;
+}
+
+@media (max-width: 768px) {
+    .intro-top-bar {
+        top: 14px !important;
+        left: 14px !important;
+        right: 14px !important;
+    }
+    .intro-fest-title {
+        font-size: 0.95rem;
+        letter-spacing: 2px;
+    }
+    .intro-theme-pill {
+        font-size: 0.55rem;
+        padding: 2px 7px;
+    }
+    .btn-intro-ctrl {
+        padding: 5px 10px;
+        font-size: 0.6rem;
+    }
+    .intro-bottom-prompt {
+        bottom: 20px !important;
+        padding: 8px 18px !important;
+        font-size: 0.58rem !important;
+        letter-spacing: 0.12em !important;
+    }
+}
+
+/* ==========================================================================
+   TIER 2: FIRST PAGE OF WEBSITE (#splash-screen)
+   ========================================================================== */
 #splash-screen.portal-warp-section,
 #splash-screen.snap-page,
 #splash-screen {
@@ -694,7 +871,7 @@ section {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    padding-top: 100px !important;
+    padding-top: 80px !important;
     padding-bottom: 60px !important;
     box-sizing: border-box !important;
     overflow: visible !important;
@@ -705,13 +882,159 @@ section {
     transform: none !important;
 }
 
-html.portal-entered-fast #loader-screen,
-body.portal-entered #loader-screen {
+/* Pre-portal state: hide subsequent home page sections until portal is opened */
+html:not(.portal-entered-fast) body:not(.portal-entered) #main-scroll-container > section:not(#splash-screen) {
+    display: none !important;
+}
+
+html:not(.portal-entered-fast) body:not(.portal-entered) {
+    overflow-y: hidden !important;
+}
+
+/* Navigation bars should ONLY be present after entering the home page */
+html:not(.portal-entered-fast) body.pravaah-home:not(.portal-entered) .cosmic-nav-wheel,
+html:not(.portal-entered-fast) body.pravaah-home:not(.portal-entered) .mobile-top-menu-btn,
+html:not(.portal-entered-fast) body.pravaah-home:not(.portal-entered) .mobile-bottom-nav,
+html:not(.portal-entered-fast) body.pravaah-home:not(.portal-entered) .mobile-side-menu,
+html:not(.portal-entered-fast) body.pravaah-home:not(.portal-entered) .mobile-menu-backdrop,
+body:has(#splash-screen:not(.hidden)):not(.portal-entered) .cosmic-nav-wheel,
+body:has(#splash-screen:not(.hidden)):not(.portal-entered) .mobile-top-menu-btn,
+body:has(#splash-screen:not(.hidden)):not(.portal-entered) .mobile-bottom-nav,
+body:has(#splash-screen:not(.hidden)):not(.portal-entered) .mobile-side-menu,
+body:has(#splash-screen:not(.hidden)):not(.portal-entered) .mobile-menu-backdrop {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Smooth entrance animations for navigation bars once home page is entered */
+@media (min-width: 901px) {
+    body.portal-entered .cosmic-nav-wheel {
+        animation: navWheelEnter 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    body.portal-entered .mobile-bottom-nav,
+    body.portal-entered .mobile-top-menu-btn,
+    .mobile-bottom-nav,
+    .mobile-top-menu-btn {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        animation: none !important;
+    }
+}
+
+@media (max-width: 900px) {
+    body.portal-entered .mobile-top-menu-btn {
+        animation: mobileTopBtnEnter 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    body.portal-entered .mobile-bottom-nav {
+        animation: mobileBottomNavEnter 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+}
+
+@keyframes navWheelEnter {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -24px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes mobileTopBtnEnter {
+    from {
+        opacity: 0;
+        transform: scale(0.7) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes mobileBottomNavEnter {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Once portal is opened/entered: splash screen is completely hidden so it NEVER comes again in home page */
+html.portal-entered-fast #splash-screen,
+body.portal-entered #splash-screen,
+html.portal-entered-fast #pravaah-intro-screen,
+body.portal-entered #pravaah-intro-screen {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Once portal is entered: unlock full page scrolling */
+html.portal-entered-fast,
+body.portal-entered,
+html.portal-entered-fast body {
+    overflow-y: auto !important;
+}
+
+/* In home page: About Section is top landing section */
+body.portal-entered #about-page,
+html.portal-entered-fast #about-page {
+    padding-top: 75px !important;
+    min-height: auto !important;
+}
+@media (max-width: 768px) {
+    body.portal-entered #about-page,
+    html.portal-entered-fast #about-page {
+        padding-top: 38px !important;
+    }
+}
+
+body.portal-entered #about-lead-container,
+html.portal-entered-fast #about-lead-container {
+    opacity: 1 !important;
+    filter: blur(0px) !important;
+    transform: translateY(0) scale(1) !important;
+}
+
+body.portal-entered #about-card-pravaah,
+body.portal-entered #about-card-theme,
+html.portal-entered-fast #about-card-pravaah,
+html.portal-entered-fast #about-card-theme {
+    opacity: 1 !important;
+    visibility: visible !important;
+    filter: blur(0px) !important;
+}
+
+html.portal-entered-fast #loader-screen:not(.active-screen),
+body.portal-entered #loader-screen:not(.active-screen) {
     display: none !important;
     opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none !important;
     z-index: -9999 !important;
+}
+
+#loader-screen.active-screen {
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    z-index: 99999 !important;
 }
 
 .cosmic-nav-wheel {
@@ -722,8 +1045,9 @@ body.portal-entered #loader-screen {
 }
 
 #loader-screen.portal-warp-section {
-    background: #000;
-    z-index: 9999;
+    background: radial-gradient(circle at center, #0c0827 0%, #050215 50%, #02000a 100%) !important;
+    perspective: 1200px;
+    z-index: 99999;
     position: fixed;
     top: 0;
     left: 0;
@@ -737,27 +1061,302 @@ body.portal-entered #loader-screen {
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    pointer-events: auto;
+    opacity: 1;
+    transition: opacity 0.35s ease-out;
+}
+
+#loader-screen.fade-out-loader {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* 3D Warp Tunnel Canvas (Direct Native GPU-accelerated) */
+.portal-warp-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
     pointer-events: none;
 }
 
-.portal-video-element {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    width: 100dvw;
-    height: 100dvh;
-    min-width: 100%;
-    min-height: 100%;
-    object-fit: cover;
-    object-position: center;
-    border: none;
-    outline: none;
+/* Glitch Scanlines during Warp */
+.portal-glitch-overlay {
+    position: absolute;
+    inset: 0;
     pointer-events: none;
-    z-index: 1;
-    transform: scale(1.05);
-    filter: saturate(1.1) contrast(1.08) brightness(1.02);
+    z-index: 25;
+    opacity: 0;
+    mix-blend-mode: hard-light;
+    transition: opacity 0.05s ease;
+}
+
+.portal-glitch-overlay.active {
+    opacity: 0.65;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 242, 254, 0.12) 0px,
+        rgba(0, 242, 254, 0.12) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+}
+
+/* Singularity Breakout Shockwave Rings */
+.portal-shockwave-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.05);
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    border: 4px solid var(--tech-cyan, #00f2fe);
+    box-shadow: 0 0 60px var(--cult-pink, #ff007f), inset 0 0 60px var(--tech-cyan, #00f2fe);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 35;
+    will-change: transform, opacity;
+}
+
+.portal-shockwave-ring.blast {
+    animation: portalShockwaveBlast 1.2s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+}
+
+.portal-shockwave-ring-2 {
+    border: 3px solid var(--cult-pink, #ff007f);
+    box-shadow: 0 0 40px #ff5722;
+    z-index: 34;
+}
+
+.portal-shockwave-ring-2.blast {
+    animation: portalShockwaveBlast 1.4s cubic-bezier(0.15, 0.85, 0.25, 1) 0.1s forwards;
+}
+
+@keyframes portalShockwaveBlast {
+    0% {
+        transform: translate(-50%, -50%) scale(0.05);
+        opacity: 1;
+        border-width: 10px;
+    }
+    70% {
+        opacity: 0.85;
+        border-width: 3px;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(6);
+        opacity: 0;
+        border-width: 1px;
+    }
+}
+
+/* 3D Central Stage */
+#portal-stage {
+    position: relative;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-style: preserve-3d;
+    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.4, 1);
+    pointer-events: none;
+}
+
+/* Septagon Portal Wrap */
+.portal-septagon-wrap {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-style: preserve-3d;
+}
+
+@media (min-width: 768px) {
+    .portal-septagon-wrap {
+        width: 440px;
+        height: 440px;
+    }
+}
+
+/* Orbiting Cosmic Comets */
+.portal-orbit-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    pointer-events: none;
+    transform-style: preserve-3d;
+}
+
+.portal-orbit-ring-1 {
+    width: 124%;
+    height: 124%;
+    border-color: rgba(0, 242, 254, 0.3);
+    animation: portalSpinClockwise 18s linear infinite;
+}
+
+.portal-orbit-ring-2 {
+    width: 148%;
+    height: 148%;
+    border-color: rgba(255, 0, 127, 0.25);
+    animation: portalSpinCounterClockwise 25s linear infinite;
+}
+
+.portal-orbit-ring-3 {
+    width: 172%;
+    height: 172%;
+    border-color: rgba(255, 87, 34, 0.25);
+    animation: portalSpinClockwise 32s linear infinite;
+}
+
+.portal-orbit-comet {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.portal-comet-cyan {
+    background: #00f2fe;
+    box-shadow: 0 0 18px #00f2fe, 0 0 35px #00f2fe;
+}
+
+.portal-comet-pink {
+    background: #ff007f;
+    box-shadow: 0 0 18px #ff007f, 0 0 35px #ff007f;
+}
+
+.portal-comet-orange {
+    background: #ff5722;
+    box-shadow: 0 0 18px #ff5722, 0 0 35px #ff9100;
+}
+
+@keyframes portalSpinClockwise {
+    from { transform: rotateZ(0deg); }
+    to { transform: rotateZ(360deg); }
+}
+
+@keyframes portalSpinCounterClockwise {
+    from { transform: rotateZ(360deg); }
+    to { transform: rotateZ(0deg); }
+}
+
+/* 7-Sided Septagon Portal SVG Frame (Official Pravaah Geometry) */
+.portal-septagon-svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    transform-origin: center center;
+    filter: drop-shadow(0 0 30px rgba(0, 242, 254, 0.55));
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+    opacity: 0;
+    transform: scale(0.15) rotate(180deg);
+}
+
+.portal-septagon-glow {
+    fill: none;
+    stroke: url(#portal-septagon-grad);
+    stroke-width: 6;
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+    filter: blur(4px);
+    opacity: 0.95;
+}
+
+.portal-septagon-core {
+    fill: rgba(7, 5, 25, 0.65);
+    stroke: url(#portal-septagon-grad);
+    stroke-width: 3;
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+}
+
+/* Glowing Center Energy Aura Core */
+.portal-center-aura {
+    position: absolute;
+    width: 60%;
+    height: 60%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 87, 34, 0.28) 0%, rgba(255, 0, 127, 0.2) 40%, rgba(0, 242, 254, 0.15) 70%, transparent 100%);
+    filter: blur(20px);
+    opacity: 0;
+    transform: scale(0.3);
+    transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+    z-index: 10;
+}
+
+.portal-center-aura.active {
+    opacity: 1;
+    transform: scale(1.3);
+    animation: portalAuraBreath 3.5s infinite ease-in-out alternate;
+}
+
+@keyframes portalAuraBreath {
+    0% { transform: scale(1.15); opacity: 0.8; }
+    100% { transform: scale(1.4); opacity: 1; }
+}
+
+/* Center Logo Emblem Box */
+.portal-logo-emblem {
+    position: relative;
+    width: 65%;
+    height: 65%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 18;
+    transform-style: preserve-3d;
+}
+
+/* Precision Vector Recreated </> Logo */
+.portal-code-logo-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    opacity: 0;
+    transform: scale(0.35) translateZ(80px);
+    transition: all 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    filter: drop-shadow(0 0 25px rgba(255, 87, 34, 0.85)) drop-shadow(0 0 45px rgba(0, 242, 254, 0.65));
+}
+
+.portal-code-logo-svg.revealed {
+    opacity: 1;
+    transform: scale(1) translateZ(50px);
+    animation: portalLogoFloat 4s ease-in-out infinite alternate;
+}
+
+@keyframes portalLogoFloat {
+    0% { transform: scale(1) translateZ(50px) translateY(0px); }
+    100% { transform: scale(1.04) translateZ(60px) translateY(-8px); }
+}
+
+/* Animated Laser Drawing Stroke Paths */
+.portal-bracket-stroke, .portal-slash-stroke {
+    stroke-dasharray: 250;
+    stroke-dashoffset: 250;
+    transition: stroke-dashoffset 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.portal-bracket-stroke.drawn, .portal-slash-stroke.drawn {
+    stroke-dashoffset: 0;
+}
+
+.portal-bracket-core, .portal-slash-core {
+    stroke-dasharray: 250;
+    stroke-dashoffset: 250;
+    transition: stroke-dashoffset 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.portal-bracket-core.drawn, .portal-slash-core.drawn {
+    stroke-dashoffset: 0;
 }
 
 .portal-flash-overlay {
@@ -766,15 +1365,81 @@ body.portal-entered #loader-screen {
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 10;
-    background: radial-gradient(circle at center, #ffffff 0%, #ffe4ec 30%, #cf3ad6 60%, rgba(228, 42, 17, 0.95) 85%, #1017c6 100%);
+    z-index: 10000;
+    background: radial-gradient(circle at center, #ffffff 0%, #00f2fe 35%, #ff007f 65%, #030014 100%);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 0.30s ease-out;
 }
 
 .portal-flash-overlay.active-flash {
     opacity: 1;
+}
+
+.portal-flash-overlay.fade-out {
+    opacity: 0;
+    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+/* Portal Video Controls & Skip Button */
+.portal-controls-row {
+    position: fixed;
+    top: 24px;
+    right: 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    z-index: 100000;
+    pointer-events: auto;
+}
+
+.portal-audio-btn,
+.portal-skip-btn {
+    pointer-events: auto;
+    cursor: pointer;
+    background: rgba(14, 8, 28, 0.75);
+    border: 1px solid rgba(0, 210, 255, 0.4);
+    color: #fff;
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    padding: 8px 18px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 210, 255, 0.2);
+}
+
+.portal-audio-btn:hover,
+.portal-skip-btn:hover {
+    background: rgba(0, 210, 255, 0.2);
+    border-color: #00d2ff;
+    box-shadow: 0 0 25px rgba(0, 210, 255, 0.5);
+    transform: scale(1.05);
+}
+
+.portal-loader-indicator {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 100000;
+    pointer-events: none;
+}
+
+.portal-loader-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #ff007f, #00f2fe, #9d4edd);
+    box-shadow: 0 0 10px #00f2fe;
+    transition: width 0.1s linear;
 }
 
 .portal-flash-overlay.fade-out {
@@ -806,6 +1471,7 @@ body.portal-entered #loader-screen {
     background: rgba(22, 12, 40, 0.85);
 }
 
+html.portal-entered-fast .home-swipe-prompt,
 body.portal-entered .home-swipe-prompt {
     display: none !important;
 }
@@ -868,7 +1534,7 @@ body.portal-entered .home-swipe-prompt {
     min-height: 100vh;
     z-index: 10;
     overflow: visible !important;
-    scroll-behavior: smooth;
+    scroll-behavior: auto !important;
     scroll-snap-type: none !important;
     background: transparent !important;
 }
@@ -905,21 +1571,12 @@ body.portal-entered .home-swipe-prompt {
     visibility: visible !important;
     transform: none !important;
     background: transparent !important;
-    padding: 80px 20px 60px 20px !important;
+    padding: 35px 20px 30px 20px !important;
     box-sizing: border-box !important;
 }
 
 .snap-page::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at center, rgba(6, 3, 14, 0.1) 0%, rgba(6, 3, 14, 0.4) 75%, rgba(6, 3, 14, 0.7) 100%),
-        linear-gradient(to bottom, rgba(6, 3, 14, 0.4) 0%, transparent 15%, transparent 85%, rgba(6, 3, 14, 0.4) 100%);
-    pointer-events: none;
-    z-index: 2;
+    display: none !important;
 }
 
 .snap-page>* {
@@ -952,7 +1609,6 @@ body.portal-entered .home-swipe-prompt {
 }
 
 .about-intro-grid,
-.calendar-layout-container,
 .gallery-columns-wrapper,
 .last-page-hero-container {
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1032,19 +1688,98 @@ body.portal-entered .home-swipe-prompt {
 }
 
 #calendar-page {
-    /* Background defined in section backgrounds */
+    padding: 35px 20px 35px 20px !important;
+    min-height: auto !important;
+    overflow-x: clip;
+}
+
+/* ==========================================================================
+   CALENDAR ENTRANCE ANIMATION (POP IN FROM BELOW ON SCROLL)
+   ========================================================================== */
+@keyframes popInFromBelow {
+    0% {
+        opacity: 0;
+        transform: translateY(80px) scale(0.85);
+        filter: blur(8px);
+    }
+    65% {
+        opacity: 1;
+        transform: translateY(-8px) scale(1.03);
+        filter: blur(0px);
+    }
+    82% {
+        transform: translateY(3px) scale(0.995);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+    }
+}
+
+@keyframes popInEventCard {
+    0% {
+        opacity: 0;
+        transform: translateY(28px) scale(0.92);
+    }
+    68% {
+        opacity: 1;
+        transform: translateY(-4px) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .calendar-layout-container {
     position: relative;
-    width: 440px;
-    height: 460px;
-    margin: 25px auto 0 auto;
+    width: 460px;
+    height: 480px;
+    margin: 28px auto 32px auto;
     z-index: 20;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: var(--transition-smooth);
+    opacity: 0;
+    transform: translateY(95px) scale(0.84);
+    filter: blur(8px);
+    transition: transform 1.65s cubic-bezier(0.16, 1, 0.3, 1) 0.05s,
+                opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s,
+                filter 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s;
+    will-change: transform, opacity, filter;
+}
+
+.calendar-layout-container.is-revealed,
+#calendar-page.is-revealed .calendar-layout-container {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .calendar-layout-container,
+    .calendar-page-heading,
+    .calendar-sidebar-ticker,
+    .cube-month-tracker,
+    .month-pill,
+    .cube-rotate-btn,
+    .calendar-tip-hud,
+    .day-events-panel,
+    .calendar-event-card {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+        transition: none !important;
+        animation: none !important;
+    }
+    .cube-month-tracker,
+    .calendar-tip-hud {
+        transform: translateX(-50%) !important;
+    }
+    .cube-rotate-btn {
+        transform: translateY(-50%) !important;
+    }
 }
 
 .calendar-main-grid-panel {
@@ -1184,7 +1919,7 @@ body.portal-entered .home-swipe-prompt {
 .cube-rotate-btn {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(calc(-50% + 45px)) scale(0.72);
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -1198,9 +1933,16 @@ body.portal-entered .home-swipe-prompt {
     justify-content: center;
     cursor: pointer;
     z-index: 100;
-    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    opacity: 0;
+    transition: transform 0.75s cubic-bezier(0.34, 1.56, 0.64, 1),
+                opacity 0.6s ease-out,
+                background 0.35s ease,
+                border-color 0.35s ease,
+                box-shadow 0.35s ease,
+                color 0.35s ease;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 242, 254, 0.15);
     outline: none;
+    will-change: transform, opacity;
 }
 
 .cube-rotate-btn.btn-prev {
@@ -1211,16 +1953,40 @@ body.portal-entered .home-swipe-prompt {
     right: -85px;
 }
 
-.cube-rotate-btn:hover {
+.calendar-layout-container.is-revealed .cube-rotate-btn,
+#calendar-page.is-revealed .cube-rotate-btn,
+.cube-rotate-btn.is-revealed {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+}
+
+.calendar-layout-container.is-revealed .cube-rotate-btn.btn-prev,
+#calendar-page.is-revealed .cube-rotate-btn.btn-prev {
+    transition-delay: 0.34s;
+}
+
+.calendar-layout-container.is-revealed .cube-rotate-btn.btn-next,
+#calendar-page.is-revealed .cube-rotate-btn.btn-next {
+    transition-delay: 0.38s;
+}
+
+.cube-rotate-btn:hover,
+.calendar-layout-container.is-revealed .cube-rotate-btn:hover,
+#calendar-page.is-revealed .cube-rotate-btn:hover {
     border-color: var(--tech-color);
     background: rgba(0, 242, 254, 0.2);
     color: #fff;
     box-shadow: 0 0 25px var(--tech-glow), 0 0 45px rgba(0, 242, 254, 0.35);
-    transform: translateY(-50%) scale(1.15);
+    transform: translateY(-50%) scale(1.15) !important;
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition-delay: 0s !important;
 }
 
-.cube-rotate-btn:active {
-    transform: translateY(-50%) scale(0.92);
+.cube-rotate-btn:active,
+.calendar-layout-container.is-revealed .cube-rotate-btn:active,
+#calendar-page.is-revealed .cube-rotate-btn:active {
+    transform: translateY(-50%) scale(0.92) !important;
+    transition-delay: 0s !important;
 }
 
 .rotate-btn-label {
@@ -1244,9 +2010,9 @@ body.portal-entered .home-swipe-prompt {
 /* Month Navigation Bar / Tracker */
 .cube-month-tracker {
     position: absolute;
-    top: -65px;
+    top: -50px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, 45px) scale(0.84);
     display: flex;
     align-items: center;
     gap: 6px;
@@ -1257,6 +2023,17 @@ body.portal-entered .home-swipe-prompt {
     border-radius: 30px;
     z-index: 90;
     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 242, 254, 0.1);
+    opacity: 0;
+    transition: transform 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) 0.26s,
+                opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.26s;
+    will-change: transform, opacity;
+}
+
+.calendar-layout-container.is-revealed .cube-month-tracker,
+#calendar-page.is-revealed .cube-month-tracker,
+.cube-month-tracker.is-revealed {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
 }
 
 .month-pill {
@@ -1270,9 +2047,37 @@ body.portal-entered .home-swipe-prompt {
     padding: 5px 12px;
     border-radius: 20px;
     cursor: pointer;
-    transition: all 0.3s ease;
     outline: none;
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+                opacity 0.5s ease-out,
+                background 0.3s ease,
+                border-color 0.3s ease,
+                color 0.3s ease,
+                box-shadow 0.3s ease;
+    will-change: transform, opacity;
 }
+
+.calendar-layout-container.is-revealed .month-pill,
+#calendar-page.is-revealed .month-pill,
+.month-pill.is-revealed {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.calendar-layout-container.is-revealed .month-pill:nth-child(1),
+#calendar-page.is-revealed .month-pill:nth-child(1) { transition-delay: 0.30s; }
+.calendar-layout-container.is-revealed .month-pill:nth-child(2),
+#calendar-page.is-revealed .month-pill:nth-child(2) { transition-delay: 0.34s; }
+.calendar-layout-container.is-revealed .month-pill:nth-child(3),
+#calendar-page.is-revealed .month-pill:nth-child(3) { transition-delay: 0.38s; }
+.calendar-layout-container.is-revealed .month-pill:nth-child(4),
+#calendar-page.is-revealed .month-pill:nth-child(4) { transition-delay: 0.42s; }
+.calendar-layout-container.is-revealed .month-pill:nth-child(5),
+#calendar-page.is-revealed .month-pill:nth-child(5) { transition-delay: 0.46s; }
+.calendar-layout-container.is-revealed .month-pill:nth-child(6),
+#calendar-page.is-revealed .month-pill:nth-child(6) { transition-delay: 0.50s; }
 
 .month-pill:hover {
     color: #fff;
@@ -1290,22 +2095,40 @@ body.portal-entered .home-swipe-prompt {
 
 .calendar-tip-hud {
     position: absolute;
-    bottom: -115px;
+    bottom: -60px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, 55px) scale(0.88);
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 16px;
-    background: rgba(10, 12, 26, 0.88);
-    backdrop-filter: blur(12px);
+    gap: 10px;
+    padding: 8px 18px;
+    background: rgba(10, 12, 26, 0.92);
+    backdrop-filter: blur(14px);
     border: 1px solid rgba(0, 242, 254, 0.4);
-    border-radius: 8px;
+    border-radius: 24px;
     pointer-events: none;
     font-family: 'Orbitron', sans-serif;
-    white-space: nowrap;
+    width: max-content;
+    max-width: min(92vw, 680px);
+    white-space: normal;
+    text-align: center;
+    line-height: 1.45;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 15px rgba(0, 242, 254, 0.2);
     z-index: 21;
+    opacity: 0;
+    filter: blur(6px);
+    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.44s,
+                opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.44s,
+                filter 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.44s;
+    will-change: transform, opacity, filter;
+}
+
+.calendar-layout-container.is-revealed .calendar-tip-hud,
+#calendar-page.is-revealed .calendar-tip-hud,
+.calendar-tip-hud.is-revealed {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+    filter: blur(0px);
 }
 
 .tip-icon {
@@ -1345,8 +2168,8 @@ body.portal-entered .home-swipe-prompt {
 
 .calendar-cube {
     position: relative;
-    width: 360px;
-    height: 360px;
+    width: 380px;
+    height: 380px;
     transform-style: preserve-3d;
     transform: rotateX(0deg) rotateY(0deg);
     transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1354,8 +2177,8 @@ body.portal-entered .home-swipe-prompt {
 
 .cube-face {
     position: absolute;
-    width: 360px;
-    height: 360px;
+    width: 380px;
+    height: 380px;
     border-radius: 22px;
     padding: 20px;
     transform-style: preserve-3d;
@@ -1368,27 +2191,27 @@ body.portal-entered .home-swipe-prompt {
 }
 
 .face-front {
-    transform: rotateY(0deg) translateZ(180px);
+    transform: rotateY(0deg) translateZ(190px);
 }
 
 .face-right {
-    transform: rotateY(90deg) translateZ(180px);
+    transform: rotateY(90deg) translateZ(190px);
 }
 
 .face-back {
-    transform: rotateY(180deg) translateZ(180px);
+    transform: rotateY(180deg) translateZ(190px);
 }
 
 .face-left {
-    transform: rotateY(-90deg) translateZ(180px);
+    transform: rotateY(-90deg) translateZ(190px);
 }
 
 .face-top {
-    transform: rotateX(90deg) translateZ(180px);
+    transform: rotateX(90deg) translateZ(190px);
 }
 
 .face-bottom {
-    transform: rotateX(-90deg) translateZ(180px);
+    transform: rotateX(-90deg) translateZ(190px);
 }
 
 .cube-face:hover {
@@ -1546,15 +2369,19 @@ body.portal-entered .home-swipe-prompt {
 
     opacity: 0;
     pointer-events: none;
-    transform: scale(0.9) translateY(15px);
-    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(45px) scale(0.88);
+    filter: blur(6px);
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1),
+                filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.02);
 }
 
 .day-events-panel.panel-visible {
     opacity: 1;
     pointer-events: all;
-    transform: scale(1) translateY(0);
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
 }
 
 .panel-header-row {
@@ -1646,7 +2473,14 @@ body.portal-entered .home-swipe-prompt {
     flex-direction: column;
     gap: 8px;
     transition: var(--transition-smooth);
+    animation: popInEventCard 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
+
+.calendar-event-card:nth-child(1) { animation-delay: 0.06s; }
+.calendar-event-card:nth-child(2) { animation-delay: 0.13s; }
+.calendar-event-card:nth-child(3) { animation-delay: 0.20s; }
+.calendar-event-card:nth-child(4) { animation-delay: 0.27s; }
+.calendar-event-card:nth-child(5) { animation-delay: 0.34s; }
 
 .calendar-event-card:hover {
     background: rgba(10, 10, 25, 0.6);
@@ -1734,71 +2568,176 @@ body.portal-entered .home-swipe-prompt {
 }
 
 @media (max-width: 600px) {
+    #calendar-page {
+        padding: 22px 10px 25px 10px !important;
+    }
+
+    .calendar-heading-container {
+        margin-top: 10px;
+        margin-bottom: 16px;
+        gap: 6px;
+    }
+
+    .calendar-page-heading {
+        font-size: clamp(1.4rem, 6.5vw, 1.85rem);
+        letter-spacing: 0.12em;
+    }
+
+    .calendar-lead-decor {
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .decor-line-bar {
+        width: 20px;
+    }
+
+    .decor-line-text {
+        font-size: 0.54rem;
+        letter-spacing: 0.10em;
+        text-align: center;
+    }
+
     .calendar-layout-container {
-        width: 320px;
+        width: min(330px, 94vw);
         height: 380px;
+        margin: 55px auto 75px auto;
     }
 
     .calendar-cube,
     .cube-face {
-        width: 290px;
-        height: 290px;
+        width: 280px;
+        height: 280px;
     }
 
-    .face-front {
-        transform: rotateY(0deg) translateZ(145px);
+    .face-front  { transform: rotateY(0deg) translateZ(140px); }
+    .face-right  { transform: rotateY(90deg) translateZ(140px); }
+    .face-back   { transform: rotateY(180deg) translateZ(140px); }
+    .face-left   { transform: rotateY(-90deg) translateZ(140px); }
+    .face-top    { transform: rotateX(90deg) translateZ(140px); }
+    .face-bottom { transform: rotateX(-90deg) translateZ(140px); }
+
+    .cube-face {
+        padding: 12px 14px;
+        border-radius: 18px;
     }
 
-    .face-right {
-        transform: rotateY(90deg) translateZ(145px);
+    .month-module {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
     }
 
-    .face-back {
-        transform: rotateY(180deg) translateZ(145px);
+    .month-title {
+        font-size: 0.8rem;
+        margin-bottom: 6px;
+        padding-bottom: 4px;
+        letter-spacing: 0.1em;
     }
 
-    .face-left {
-        transform: rotateY(-90deg) translateZ(145px);
+    .day-names {
+        font-size: 0.62rem;
+        margin-bottom: 6px;
     }
 
-    .face-top {
-        transform: rotateX(90deg) translateZ(145px);
+    .days-grid {
+        gap: 2px;
     }
 
-    .face-bottom {
-        transform: rotateX(-90deg) translateZ(145px);
+    .calendar-day {
+        font-size: 0.72rem;
+        border-radius: 5px;
+    }
+
+    .calendar-day.active-node::after {
+        bottom: 2px;
+        width: 4px;
+        height: 4px;
     }
 
     .cube-rotate-btn.btn-prev {
-        left: -15px;
-        width: 40px;
-        height: 40px;
+        left: -12px;
+        width: 36px;
+        height: 36px;
     }
 
     .cube-rotate-btn.btn-next {
-        right: -15px;
-        width: 40px;
-        height: 40px;
+        right: -12px;
+        width: 36px;
+        height: 36px;
+    }
+
+    .cube-rotate-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .rotate-btn-label {
+        display: none;
     }
 
     .cube-month-tracker {
-        gap: 3px;
-        padding: 4px 6px;
-        top: -55px;
-    }
-
-    .month-pill {
-        font-size: 0.52rem;
+        top: -46px;
+        gap: 2px;
         padding: 3px 6px;
     }
 
-    .calendar-tip-hud {
-        white-space: normal;
-        text-align: center;
-        width: 90%;
-        bottom: -95px;
-        font-size: 0.55rem;
+    .month-pill {
+        font-size: 0.50rem;
+        padding: 3px 6px;
+        letter-spacing: 0.04em;
     }
+
+    .calendar-tip-hud {
+        bottom: -68px;
+        width: 94%;
+        max-width: 320px;
+        padding: 6px 12px;
+        border-radius: 16px;
+    }
+
+    .tip-icon {
+        font-size: 0.8rem;
+    }
+
+    .tip-text {
+        font-size: 0.52rem;
+        letter-spacing: 0.03em;
+        line-height: 1.35;
+    }
+
+    .day-events-panel {
+        padding: 14px;
+        border-radius: 16px;
+    }
+
+    .comet-orbit-ring.ring-1 { width: 320px; height: 320px; }
+    .comet-orbit-ring.ring-2 { width: 350px; height: 350px; }
+    .comet-orbit-ring.ring-3 { width: 380px; height: 380px; }
+}
+
+@media (max-width: 350px) {
+    .calendar-layout-container {
+        width: 290px;
+        height: 360px;
+    }
+
+    .calendar-cube,
+    .cube-face {
+        width: 250px;
+        height: 250px;
+    }
+
+    .face-front  { transform: rotateY(0deg) translateZ(125px); }
+    .face-right  { transform: rotateY(90deg) translateZ(125px); }
+    .face-back   { transform: rotateY(180deg) translateZ(125px); }
+    .face-left   { transform: rotateY(-90deg) translateZ(125px); }
+    .face-top    { transform: rotateX(90deg) translateZ(125px); }
+    .face-bottom { transform: rotateX(-90deg) translateZ(125px); }
+
+    .cube-rotate-btn.btn-prev { left: -8px; width: 32px; height: 32px; }
+    .cube-rotate-btn.btn-next { right: -8px; width: 32px; height: 32px; }
 }
 
 .scroll-down-indicator {
@@ -2727,15 +3666,17 @@ body.portal-entered .home-swipe-prompt {
     }
 }
 
+/* About Section Presentation */
 #about-page {
     background: transparent !important;
-    padding: 90px 20px 80px 20px !important;
+    padding: 60px 20px 30px 20px !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
     overflow: visible !important;
     position: relative !important;
+    min-height: auto !important;
     height: auto !important;
 }
 
@@ -2765,24 +3706,246 @@ body.portal-entered .home-swipe-prompt {
     z-index: 20;
 }
 
+/* ==========================================================================
+   PORTAL REVELATION LEAD LINE ("GET TO KNOW ABOUT PRAVAAH")
+   ========================================================================== */
+.about-lead-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    margin-bottom: 4px;
+    z-index: 25;
+    position: relative;
+    opacity: 0;
+    will-change: transform, opacity, filter;
+}
+
+.about-lead-container.is-centered {
+    opacity: 1;
+    filter: blur(0px);
+}
+
+.about-lead-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    background: rgba(0, 242, 254, 0.08);
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--tech-color);
+    text-transform: uppercase;
+}
+
+.badge-dot.pulse-cyan {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--tech-color);
+    box-shadow: 0 0 8px var(--tech-color);
+    animation: neonPulse 1.8s infinite ease-in-out;
+}
+
+.badge-dot.pulse-gold {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ffd043;
+    box-shadow: 0 0 8px #ffd043;
+    animation: neonPulse 1.8s infinite ease-in-out;
+}
+
 .about-page-heading {
     font-family: 'Orbitron', sans-serif;
-    font-size: 1.6rem;
+    font-size: clamp(1.5rem, 3.8vw, 2.4rem);
     font-weight: 900;
     letter-spacing: 0.18em;
     color: #fff;
     text-transform: uppercase;
     text-align: center;
-    margin-bottom: 4px;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.25), 0 0 25px var(--tech-glow);
+    margin-bottom: 2px;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.35), 0 0 30px var(--tech-glow);
+    position: relative;
 }
 
+.about-lead-decor {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 2px;
+}
+
+.decor-line-bar {
+    width: 44px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 242, 254, 0.6), transparent);
+}
+
+.decor-line-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: rgba(255, 255, 255, 0.65);
+    text-transform: uppercase;
+}
+
+/* ==========================================================================
+   ABOUT PAGE ELEMENTS (SLIDE FROM SIDES TO CENTER WITH LOW OPACITY)
+   ========================================================================== */
 .about-intro-grid {
     display: grid;
     grid-template-columns: 1fr 1.65fr;
-    gap: 22px;
+    gap: 24px;
     align-items: stretch;
     width: 100%;
+    position: relative;
+}
+
+/* Pravaah card from Left - visible teaser state on side */
+.about-intro-card.pravaah-sub-card.from-left {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    will-change: transform, opacity, filter;
+}
+
+/* Kairos card from Right - visible teaser state on side */
+.about-intro-card.theme-highlight-card.from-right {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    will-change: transform, opacity, filter;
+}
+
+.about-intro-card.from-left.is-revealed,
+.about-intro-card.from-right.is-revealed {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    filter: blur(0px);
+}
+
+/* ==========================================================================
+   SLOW SMOOTH SCROLL GUIDE (PORTAL JOURNEY TO CALENDAR)
+   ========================================================================== */
+.calendar-glide-guide {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-top: 10px;
+    padding: 12px 28px;
+    background: linear-gradient(135deg, rgba(16, 10, 36, 0.78), rgba(6, 4, 18, 0.88));
+    border: 1px solid rgba(0, 242, 254, 0.35);
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 242, 254, 0.15);
+    backdrop-filter: blur(14px);
+    opacity: 0;
+    transform: translateY(30px) scale(0.92);
+    filter: blur(6px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s,
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+    z-index: 25;
+    user-select: none;
+    outline: none;
+}
+
+.calendar-glide-guide.is-revealed,
+#about-page.is-revealed .calendar-glide-guide {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+}
+
+.calendar-glide-guide:hover {
+    border-color: #00f2fe;
+    box-shadow: 0 10px 35px rgba(0, 242, 254, 0.35), 0 0 30px rgba(255, 0, 127, 0.25);
+    transform: translateY(-3px) scale(1.03);
+    background: linear-gradient(135deg, rgba(22, 12, 48, 0.9), rgba(10, 8, 26, 0.98));
+}
+
+.calendar-glide-guide:active {
+    transform: translateY(1px) scale(0.98);
+}
+
+.glide-guide-halo {
+    position: absolute;
+    inset: -3px;
+    border-radius: 34px;
+    background: linear-gradient(90deg, #00f2fe, #ff007f, #ffd043, #00f2fe);
+    background-size: 300% 100%;
+    opacity: 0;
+    filter: blur(8px);
+    transition: opacity 0.35s ease;
+    z-index: -1;
+    animation: gradientFlow 4s linear infinite;
+}
+
+.calendar-glide-guide:hover .glide-guide-halo {
+    opacity: 0.65;
+}
+
+.glide-guide-content {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.glide-guide-tag {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: var(--tech-color);
+    background: rgba(0, 242, 254, 0.12);
+    border: 1px solid rgba(0, 242, 254, 0.25);
+    padding: 2px 8px;
+    border-radius: 12px;
+}
+
+.glide-guide-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.glide-guide-icon {
+    color: #ffd043;
+    font-size: 0.75rem;
+    animation: neonPulse 1.6s infinite ease-in-out;
+}
+
+.glide-guide-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--tech-color);
+    animation: floatArrow 1.8s infinite ease-in-out;
+}
+
+@keyframes floatArrow {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(4px);
+    }
 }
 
 .about-card-badge-row {
@@ -3163,7 +4326,7 @@ body.portal-entered .home-swipe-prompt {
 /* Team Page & Footer */
 #team-page {
     background: transparent !important;
-    padding: 90px 0 0 0 !important;
+    padding: 35px 0 0 0 !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
@@ -3918,29 +5081,53 @@ body.portal-entered .home-swipe-prompt {
     }
 
     .calendar-layout-container {
-        flex-direction: column;
-        height: auto;
-        overflow-y: visible;
-        margin-top: 100px;
-        min-height: 0;
+        width: 380px;
+        height: 420px;
+        margin: 60px auto 65px auto;
     }
 
-    .single-month-wrapper {
-        min-height: 280px;
-        height: auto;
-    }
-
-    .month-module {
-        width: 100%;
-        max-width: 100%;
-        height: auto;
-    }
-
-    .day-events-panel {
-        width: 100%;
-        margin-top: 10px;
+    .calendar-cube,
+    .cube-face {
+        width: 320px;
         height: 320px;
-        flex-shrink: 0;
+    }
+
+    .face-front  { transform: rotateY(0deg) translateZ(160px); }
+    .face-right  { transform: rotateY(90deg) translateZ(160px); }
+    .face-back   { transform: rotateY(180deg) translateZ(160px); }
+    .face-left   { transform: rotateY(-90deg) translateZ(160px); }
+    .face-top    { transform: rotateX(90deg) translateZ(160px); }
+    .face-bottom { transform: rotateX(-90deg) translateZ(160px); }
+
+    .cube-month-tracker {
+        top: -48px;
+        gap: 4px;
+        padding: 4px 8px;
+    }
+
+    .month-pill {
+        font-size: 0.58rem;
+        padding: 4px 8px;
+    }
+
+    .calendar-tip-hud {
+        bottom: -55px;
+        max-width: min(90vw, 520px);
+        font-size: 0.58rem;
+        padding: 7px 14px;
+    }
+
+    .calendar-lead-decor {
+        gap: 8px;
+    }
+
+    .decor-line-bar {
+        width: 30px;
+    }
+
+    .decor-line-text {
+        font-size: 0.62rem;
+        letter-spacing: 0.16em;
     }
 
     .about-dashboard,
@@ -4140,19 +5327,72 @@ body.portal-entered .home-swipe-prompt {
         opacity 1.2s ease-out;
 }
 
-.calendar-page-heading {
+/* ==========================================================================
+   CALENDAR HEADING & REVELATION CONTAINER
+   ========================================================================== */
+.calendar-heading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
+    gap: 8px;
+    margin-top: 20px;
+    margin-bottom: 22px;
+    z-index: 25;
+    position: relative;
+    opacity: 0;
+    transform: translateY(45px) scale(0.92);
+    filter: blur(8px);
+    transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity, filter;
+}
+
+.calendar-heading-container.is-revealed,
+.calendar-heading-container.is-centered,
+#calendar-page.is-revealed .calendar-heading-container {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+}
+
+.calendar-heading-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    background: rgba(255, 208, 67, 0.08);
+    border: 1px solid rgba(255, 208, 67, 0.3);
+    box-shadow: 0 0 15px rgba(255, 208, 67, 0.15);
     font-family: 'Orbitron', sans-serif;
-    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: #ffd043;
+    text-transform: uppercase;
+}
+
+.calendar-page-heading {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.6rem, 3.8vw, 2.4rem);
     font-weight: 900;
-    letter-spacing: 0.35em;
+    letter-spacing: 0.18em;
     color: #fff;
     text-transform: uppercase;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 0 20px var(--tech-glow);
-    margin-top: 35px;
-    margin-bottom: 5vw;
+    text-align: center;
+    margin-bottom: 2px;
     z-index: 10;
     position: relative;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.35), 0 0 25px rgba(255, 208, 67, 0.35);
+}
+
+.calendar-lead-decor {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 2px;
 }
 
 .core-click-prompt {
@@ -4194,24 +5434,45 @@ body.portal-entered .home-swipe-prompt {
     top: 110px;
     bottom: 40px;
     width: 240px;
-    background: rgba(10, 10, 25, 0.42);
-    backdrop-filter: blur(12px) saturate(120%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 14px;
+    background: rgba(10, 10, 25, 0.45);
+    backdrop-filter: blur(14px) saturate(120%);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 16px;
     padding: 14px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.01);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.02);
     z-index: 15;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    opacity: 0;
+    filter: blur(6px);
+    transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity, filter;
 }
 
-.calendar-sidebar-ticker.ticker-left {
+.calendar-sidebar-ticker.ticker-left,
+.calendar-sidebar-ticker.from-left {
     left: 4vw;
+    transform: translateX(-140px) scale(0.92);
+    transition-delay: 0.08s;
 }
 
-.calendar-sidebar-ticker.ticker-right {
+.calendar-sidebar-ticker.ticker-right,
+.calendar-sidebar-ticker.from-right {
     right: 4vw;
+    transform: translateX(140px) scale(0.92);
+    transition-delay: 0.16s;
+}
+
+.calendar-sidebar-ticker.is-revealed,
+.calendar-sidebar-ticker.from-left.is-revealed,
+.calendar-sidebar-ticker.from-right.is-revealed,
+#calendar-page.is-revealed .calendar-sidebar-ticker {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0px);
 }
 
 .ticker-header {
@@ -4397,12 +5658,13 @@ body.portal-entered .home-swipe-prompt {
 
 #gallery-page {
     background: transparent !important;
-    padding: 90px 20px 80px 20px !important;
+    padding: 35px 20px 35px 20px !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
     overflow: visible !important;
+    min-height: auto !important;
     height: auto !important;
 }
 
@@ -4427,6 +5689,17 @@ body.portal-entered .home-swipe-prompt {
     text-transform: uppercase;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 0 20px var(--social-glow);
     margin-bottom: 2px;
+    opacity: 0;
+    transform: translateY(44px) scale(0.90);
+    filter: blur(8px);
+    will-change: transform, opacity, filter;
+    transition: opacity 0.5s ease-out, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease-out;
+}
+
+.gallery-page-heading.is-centered {
+    opacity: 1 !important;
+    transform: translateY(0) scale(1) !important;
+    filter: blur(0px) !important;
 }
 
 .gallery-filters {
@@ -4471,9 +5744,11 @@ body.portal-entered .home-swipe-prompt {
     width: 100vw;
     height: 66vh;
     gap: clamp(20px, 3.5vw, 45px);
-    overflow: hidden;
+    overflow: visible;
     justify-content: center;
     padding: 0;
+    position: relative;
+    z-index: 10;
 }
 
 .gallery-column {
@@ -4481,6 +5756,73 @@ body.portal-entered .home-swipe-prompt {
     height: 100%;
     overflow: hidden;
     position: relative;
+    will-change: transform, opacity, filter;
+}
+
+/* ==========================================================================
+   PORTAL GALLERY POP-UP & SIDE ENTRANCE REVELATION
+   - Middle two columns (2 & 3) pop up from below with vibrant spring bounce
+   - Edge columns (1 & 4) glide in from side (left from left, right from right)
+   ========================================================================== */
+
+/* 1. Left Edge Column - glides in from side (left) */
+.gallery-column.col-edge-left,
+.gallery-column:nth-child(1) {
+    opacity: 0;
+    transform: translateX(-320px) scale(0.88);
+    filter: blur(10px);
+    transition: transform 1.7s cubic-bezier(0.16, 1, 0.3, 1) 0.05s,
+                opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s,
+                filter 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s;
+    will-change: transform, opacity, filter;
+}
+
+/* 2. Middle Left Column - pops up from below with vibrant spring bounce */
+.gallery-column.col-middle-left,
+.gallery-column:nth-child(2) {
+    opacity: 0;
+    transform: translateY(280px) scale(0.82);
+    filter: blur(10px);
+    transition: transform 1.7s cubic-bezier(0.16, 1, 0.3, 1) 0.05s,
+                opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s,
+                filter 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s;
+    will-change: transform, opacity, filter;
+}
+
+/* 3. Middle Right Column - pops up from below with vibrant spring bounce */
+.gallery-column.col-middle-right,
+.gallery-column:nth-child(3) {
+    opacity: 0;
+    transform: translateY(280px) scale(0.82);
+    filter: blur(10px);
+    transition: transform 1.7s cubic-bezier(0.16, 1, 0.3, 1) 0.05s,
+                opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s,
+                filter 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s;
+    will-change: transform, opacity, filter;
+}
+
+/* 4. Right Edge Column - glides in from side (right) */
+.gallery-column.col-edge-right,
+.gallery-column:nth-child(4) {
+    opacity: 0;
+    transform: translateX(320px) scale(0.88);
+    filter: blur(10px);
+    transition: transform 1.7s cubic-bezier(0.16, 1, 0.3, 1) 0.05s,
+                opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s,
+                filter 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s;
+    will-change: transform, opacity, filter;
+}
+
+/* REVEALED STATE (trigger on scroll into portal gallery) */
+.gallery-columns-wrapper.is-revealed .gallery-column.col-edge-left,
+.gallery-columns-wrapper.is-revealed .gallery-column.col-middle-left,
+.gallery-columns-wrapper.is-revealed .gallery-column.col-middle-right,
+.gallery-columns-wrapper.is-revealed .gallery-column.col-edge-right,
+.gallery-columns-wrapper.is-revealed .gallery-column {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+    filter: blur(0px);
+    pointer-events: auto;
 }
 
 .gallery-track {
@@ -4490,13 +5832,18 @@ body.portal-entered .home-swipe-prompt {
 }
 
 .track-down {
-    animation: galleryScrollDown 38s linear infinite;
+    animation: galleryScrollDown 65s linear infinite;
+    animation-play-state: paused;
 }
 
 .track-up {
-    animation: galleryScrollUp 38s linear infinite;
+    animation: galleryScrollUp 65s linear infinite;
+    animation-play-state: paused;
 }
 
+.gallery-track {
+    animation-play-state: running;
+}
 .gallery-column:hover .gallery-track {
     animation-play-state: paused;
 }
@@ -4782,18 +6129,45 @@ body.portal-entered .home-swipe-prompt {
 }
 
 @media (max-width: 650px) {
+    .gallery-column.col-edge-left,
+    .gallery-column:nth-child(1),
+    .gallery-column:nth-child(2) {
+        transform: translateY(0) scale(1) !important;
+        opacity: 1 !important;
+        filter: blur(0px) !important;
+    }
+
     .gallery-viewport {
-        height: 85vh;
+        height: auto !important;
         gap: 10px;
     }
 
+    .gallery-columns-wrapper {
+        width: 100% !important;
+        max-width: min(390px, calc(100vw - 16px)) !important;
+        height: 360px !important;
+        margin: 0 auto !important;
+        display: flex !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        overflow: hidden !important;
+    }
+
+    .gallery-column:nth-child(1),
     .gallery-column:nth-child(2) {
-        display: none !important;
+        display: block !important;
+        flex: 1 1 0 !important;
+        min-width: 0 !important;
+        max-width: calc(50% - 5px) !important;
+        height: 100% !important;
+        overflow: hidden !important;
+        border-radius: 12px !important;
     }
 
     .gallery-card {
-        height: clamp(110px, 18vw, 150px);
-        border-radius: 10px;
+        height: 135px !important;
+        border-radius: 12px !important;
+        margin-bottom: 10px !important;
     }
 }
 
@@ -5321,6 +6695,8 @@ body.portal-entered .home-swipe-prompt {
     color: #00f2fe;
     text-shadow: 0 0 12px rgba(0, 242, 254, 0.8), 0 0 20px rgba(157, 78, 221, 0.6);
     text-transform: uppercase;
+    text-align: center;
+    margin-right: -0.35em;
 }
 
 .loader-status {
@@ -15980,6 +17356,29 @@ body.subpage-body>.pravaah-full-footer {
         padding: 14px 4px 25px !important;
     }
 }
+/* ==========================================================================
+   MULTIVERSE SLOW GLIDE CINEMATIC ATMOSPHERE
+   ========================================================================== */
+body.multiverse-slow-glide #global-bg-layer {
+    filter: none !important;
+}
+
+body.multiverse-slow-glide .cosmic-nav-wheel {
+    box-shadow: 0 0 35px rgba(0, 242, 254, 0.4);
+}
+
+@media (max-width: 768px) {
+    .about-intro-card.pravaah-sub-card.from-left {
+        transform: translateX(-50px) scale(0.95);
+    }
+    .about-intro-card.theme-highlight-card.from-right {
+        transform: translateX(50px) scale(0.95);
+    }
+    .about-intro-card.from-left.is-revealed,
+    .about-intro-card.from-right.is-revealed {
+        transform: translateX(0) scale(1);
+    }
+}
 
 /* =========================================================
    TECHFEST-STYLE MOBILE NAVIGATION (BOTTOM BAR & SIDE MENU)
@@ -15998,23 +17397,30 @@ body.subpage-body>.pravaah-full-footer {
     }
 }
 
-/* Mobile & Phone Viewports (<= 900px):
-   - Hides desktop top navbar
-   - Pinned Techfest-style bottom navigation dock
-   - Techfest-style slide-out side menu for phones
-*/
+/* ==========================================================================
+   MOBILE & PHONE VIEWPORTS ONLY (<= 900px)
+   - Strictly hides desktop cosmic navbar wheel on phones
+   - Pinned mobile bottom navigation dock (Phones only!)
+   - Bottom sheet drawer for directory navigation (Phones only!)
+   ========================================================================== */
 @media (max-width: 900px) {
-    .cosmic-nav-wheel {
+    .cosmic-nav-wheel,
+    #cosmic-nav-wheel,
+    body.portal-entered .cosmic-nav-wheel,
+    body.time-bounded-scrolling #cosmic-nav-wheel,
+    body.time-bounded-scrolling .cosmic-nav-wheel {
         display: none !important;
         visibility: hidden !important;
         pointer-events: none !important;
         opacity: 0 !important;
         height: 0 !important;
+        max-height: 0 !important;
         overflow: hidden !important;
+        animation: none !important;
     }
 
     body {
-        padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px)) !important;
+        padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
     }
 
     .pravaah-full-footer,
@@ -16027,554 +17433,686 @@ body.subpage-body>.pravaah-full-footer {
     }
 
     #main-scroll-container {
-        padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px));
+        padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
     }
 
     .room-bottom-hud {
         bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
         margin-bottom: 0 !important;
     }
+
+    /* Mobile Top-Left Menu Trigger Button (Alternative/Quick Phone Trigger) */
+    .mobile-top-menu-btn {
+        position: fixed;
+        top: calc(14px + env(safe-area-inset-top, 0px));
+        left: 14px;
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: rgba(6, 8, 22, 0.88);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1.5px solid rgba(0, 242, 254, 0.4);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.65), 0 0 12px rgba(0, 242, 254, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #00f2fe;
+        cursor: pointer;
+        z-index: 1250;
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        -webkit-tap-highlight-color: transparent;
+        outline: none;
+        padding: 0;
+    }
+
+    .mobile-top-menu-btn .top-menu-icon-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+    }
+
+    .mobile-top-menu-btn svg {
+        width: 22px;
+        height: 22px;
+        stroke: currentColor;
+        transition: stroke 0.22s ease, transform 0.22s ease;
+    }
+
+    .mobile-top-menu-btn:hover {
+        background: rgba(0, 242, 254, 0.16);
+        border-color: #00f2fe;
+        box-shadow: 0 0 22px rgba(0, 242, 254, 0.55);
+        transform: scale(1.06);
+    }
+
+    .mobile-top-menu-btn:active {
+        transform: scale(0.92);
+    }
+
+    .mobile-top-menu-btn.has-active-subpage .top-menu-active-dot {
+        position: absolute;
+        top: 7px;
+        right: 7px;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #ff007f;
+        box-shadow: 0 0 8px #ff007f;
+    }
+
+    /* 1. MOBILE BOTTOM NAVIGATION BAR (PHONES ONLY) */
+    .mobile-bottom-nav {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: calc(58px + env(safe-area-inset-bottom, 0px)) !important;
+        padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+        background: rgba(6, 7, 20, 0.95) !important;
+        backdrop-filter: blur(24px) saturate(190%) !important;
+        -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
+        border-top: 1px solid rgba(0, 242, 254, 0.3) !important;
+        box-shadow: 
+            0 -8px 32px rgba(0, 0, 0, 0.88),
+            0 -1px 12px rgba(0, 242, 254, 0.22),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+        z-index: 99998 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+        pointer-events: auto !important;
+    }
+
+    .mobile-bottom-nav::before {
+        content: '';
+        position: absolute;
+        top: -1px;
+        left: 6%;
+        right: 6%;
+        height: 1.5px;
+        background: linear-gradient(90deg, transparent, #00f2fe 30%, #ff007f 70%, transparent);
+        filter: drop-shadow(0 0 6px #00f2fe);
+        pointer-events: none;
+    }
+
+    .bottom-nav-track {
+        width: 100% !important;
+        max-width: 560px !important;
+        height: 100% !important;
+        display: flex !important;
+        align-items: stretch !important;
+        justify-content: space-around !important;
+        padding: 0 4px !important;
+        margin: 0 auto !important;
+        box-sizing: border-box !important;
+    }
+
+    .bottom-nav-item {
+        flex: 1 1 0 !important;
+        min-width: 0 !important;
+        max-width: 85px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-decoration: none !important;
+        background: transparent !important;
+        border: none !important;
+        padding: 4px 1px 3px 1px !important;
+        margin: 0 !important;
+        cursor: pointer !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+        position: relative !important;
+        transition: color 0.2s ease, transform 0.2s ease !important;
+        -webkit-tap-highlight-color: transparent !important;
+        outline: none !important;
+        user-select: none !important;
+        box-sizing: border-box !important;
+    }
+
+    .bottom-nav-item .nav-icon-box {
+        position: relative !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: clamp(20px, 5.2vw, 24px) !important;
+        height: clamp(20px, 5.2vw, 24px) !important;
+        transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+        flex-shrink: 0 !important;
+    }
+
+    .bottom-nav-item .nav-icon-box svg {
+        width: clamp(17px, 4.6vw, 20px) !important;
+        height: clamp(17px, 4.6vw, 20px) !important;
+        stroke: currentColor !important;
+        fill: none !important;
+        transition: stroke 0.2s ease, filter 0.2s ease !important;
+    }
+
+    .bottom-nav-item .nav-label {
+        font-family: 'Orbitron', -apple-system, BlinkMacSystemFont, sans-serif !important;
+        font-size: clamp(0.44rem, 1.85vw, 0.56rem) !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.03em !important;
+        margin-top: 2px !important;
+        text-transform: uppercase !important;
+        transition: color 0.2s ease, text-shadow 0.2s ease !important;
+        line-height: 1.1 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 100% !important;
+        text-align: center !important;
+    }
+
+    .bottom-nav-item .nav-active-pip {
+        position: absolute !important;
+        top: 2px !important;
+        width: 14px !important;
+        height: 2px !important;
+        border-radius: 9999px !important;
+        background: transparent !important;
+        transition: background 0.25s ease, box-shadow 0.25s ease !important;
+    }
+
+    .bottom-nav-item.active {
+        color: #00f2fe !important;
+    }
+
+    .bottom-nav-item.active .nav-icon-box {
+        transform: translateY(-2px) !important;
+    }
+
+    .bottom-nav-item.active .nav-icon-box svg {
+        stroke: #00f2fe !important;
+        filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.85)) !important;
+    }
+
+    .bottom-nav-item.active .nav-label {
+        color: #ffffff !important;
+        text-shadow: 0 0 8px rgba(0, 242, 254, 0.9), 0 0 16px rgba(0, 242, 254, 0.5) !important;
+    }
+
+    .bottom-nav-item.active .nav-active-pip {
+        background: linear-gradient(90deg, #00f2fe, #bd00ff) !important;
+        box-shadow: 0 0 10px #00f2fe, 0 0 18px rgba(189, 0, 255, 0.6) !important;
+    }
+
+    .bottom-nav-item.menu-trigger-btn.has-active-subpage .nav-active-pip {
+        background: linear-gradient(90deg, #ff007f, #bd00ff) !important;
+        box-shadow: 0 0 8px #ff007f !important;
+    }
+
+    .bottom-nav-item:active {
+        transform: scale(0.92) !important;
+    }
+
+    /* 2. MOBILE BOTTOM DRAWER / BOTTOM SHEET (PHONES ONLY) */
+    .mobile-menu-backdrop {
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        background: rgba(4, 5, 14, 0.85) !important;
+        backdrop-filter: blur(14px) !important;
+        -webkit-backdrop-filter: blur(14px) !important;
+        z-index: 99999 !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.32s ease !important;
+    }
+
+    .mobile-menu-backdrop.is-open {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+    }
+
+    .mobile-side-menu {
+        position: fixed !important;
+        top: auto !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        height: auto !important;
+        max-height: 84vh !important;
+        max-height: 84dvh !important;
+        background: linear-gradient(180deg, rgba(10, 11, 28, 0.98) 0%, rgba(5, 6, 16, 0.99) 100%) !important;
+        backdrop-filter: blur(28px) saturate(190%) !important;
+        -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+        border-top: 1.5px solid rgba(0, 242, 254, 0.45) !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-bottom: none !important;
+        border-radius: 24px 24px 0 0 !important;
+        box-shadow: 
+            0 -14px 45px rgba(0, 0, 0, 0.95),
+            0 -2px 20px rgba(0, 242, 254, 0.28),
+            inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+        z-index: 100000 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        transform: translateY(105%) !important;
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease !important;
+        visibility: hidden !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+
+    .mobile-side-menu::before {
+        content: '' !important;
+        display: block !important;
+        width: 44px !important;
+        height: 4.5px !important;
+        border-radius: 9999px !important;
+        background: rgba(255, 255, 255, 0.32) !important;
+        margin: 10px auto 2px auto !important;
+        flex-shrink: 0 !important;
+    }
+
+    .mobile-side-menu.is-open {
+        transform: translateY(0) !important;
+        visibility: visible !important;
+    }
+
+    .side-menu-header {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 10px 18px 12px 18px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        background: rgba(255, 255, 255, 0.02) !important;
+        position: relative !important;
+        flex-shrink: 0 !important;
+    }
+
+    .side-menu-header::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 20px;
+        right: 20px;
+        height: 1px;
+        background: linear-gradient(90deg, #00f2fe, #ff007f, transparent);
+        opacity: 0.6;
+    }
+
+    .side-menu-brand {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 2px !important;
+    }
+
+    .side-brand-title {
+        font-family: 'Orbitron', sans-serif !important;
+        font-size: 1.1rem !important;
+        font-weight: 900 !important;
+        letter-spacing: 0.12em !important;
+        background: linear-gradient(135deg, #00f2fe 0%, #bd00ff 50%, #ff007f 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        filter: drop-shadow(0 0 12px rgba(0, 242, 254, 0.4)) !important;
+    }
+
+    .side-brand-subtitle {
+        font-family: 'Orbitron', sans-serif !important;
+        font-size: 0.56rem !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.22em !important;
+        color: rgba(255, 255, 255, 0.45) !important;
+    }
+
+    .side-menu-close-btn {
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 50% !important;
+        background: rgba(255, 255, 255, 0.06) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        color: #ffffff !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        outline: none !important;
+        transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease !important;
+        -webkit-tap-highlight-color: transparent !important;
+    }
+
+    .side-menu-close-btn svg {
+        width: 17px !important;
+        height: 17px !important;
+        stroke: #ffffff !important;
+        transition: stroke 0.2s ease !important;
+    }
+
+    .side-menu-close-btn:hover,
+    .side-menu-close-btn:active {
+        background: rgba(255, 0, 127, 0.2) !important;
+        border-color: #ff007f !important;
+        transform: rotate(90deg) !important;
+        box-shadow: 0 0 15px rgba(255, 0, 127, 0.6) !important;
+    }
+
+    .side-menu-body {
+        flex: 1 1 auto !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        padding: 12px 14px !important;
+        max-height: 56vh !important;
+    }
+
+    .side-menu-body::-webkit-scrollbar {
+        width: 4px !important;
+    }
+
+    .side-menu-body::-webkit-scrollbar-thumb {
+        background: rgba(0, 242, 254, 0.3) !important;
+        border-radius: 4px !important;
+    }
+
+    .side-menu-links {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 7px !important;
+    }
+
+    .side-menu-link {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        padding: 9px 12px !important;
+        border-radius: 12px !important;
+        text-decoration: none !important;
+        background: rgba(255, 255, 255, 0.02) !important;
+        border: 1px solid rgba(255, 255, 255, 0.06) !important;
+        color: rgba(255, 255, 255, 0.85) !important;
+        transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease !important;
+        -webkit-tap-highlight-color: transparent !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }
+
+    .side-menu-link:hover,
+    .side-menu-link:focus-visible {
+        background: rgba(0, 242, 254, 0.08) !important;
+        border-color: rgba(0, 242, 254, 0.4) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 16px rgba(0, 242, 254, 0.15) !important;
+        color: #ffffff !important;
+    }
+
+    .side-menu-link:active {
+        transform: scale(0.98) !important;
+    }
+
+    .side-link-icon {
+        width: 34px !important;
+        height: 34px !important;
+        border-radius: 9px !important;
+        background: rgba(0, 242, 254, 0.07) !important;
+        border: 1px solid rgba(0, 242, 254, 0.22) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-shrink: 0 !important;
+        transition: background 0.2s ease, border-color 0.2s ease !important;
+    }
+
+    .side-link-icon svg {
+        width: 18px !important;
+        height: 18px !important;
+        stroke: #00f2fe !important;
+        fill: none !important;
+    }
+
+    .side-link-info {
+        flex: 1 1 auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 2px !important;
+        min-width: 0 !important;
+    }
+
+    .side-link-title {
+        font-family: 'Orbitron', sans-serif !important;
+        font-size: 0.80rem !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.08em !important;
+        color: #ffffff !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        transition: color 0.2s ease, text-shadow 0.2s ease !important;
+    }
+
+    .side-link-desc {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 0.63rem !important;
+        color: rgba(255, 255, 255, 0.48) !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    .side-link-chevron {
+        font-size: 1.1rem !important;
+        color: rgba(255, 255, 255, 0.3) !important;
+        font-weight: 300 !important;
+        transition: color 0.2s ease, transform 0.2s ease !important;
+    }
+
+    .side-menu-link:hover .side-link-chevron {
+        color: #00f2fe !important;
+        transform: translateX(2px) !important;
+    }
+
+    .side-menu-link.active {
+        background: linear-gradient(90deg, rgba(0, 242, 254, 0.16) 0%, rgba(189, 0, 255, 0.1) 100%) !important;
+        border-color: #00f2fe !important;
+        box-shadow: 0 0 16px rgba(0, 242, 254, 0.25), inset 0 0 10px rgba(0, 242, 254, 0.1) !important;
+    }
+
+    .side-menu-link.active .side-link-icon {
+        background: rgba(0, 242, 254, 0.25) !important;
+        border-color: #00f2fe !important;
+        box-shadow: 0 0 14px rgba(0, 242, 254, 0.6) !important;
+    }
+
+    .side-menu-link.active .side-link-icon svg {
+        stroke: #ffffff !important;
+    }
+
+    .side-menu-link.active .side-link-title {
+        color: #00f2fe !important;
+        text-shadow: 0 0 8px rgba(0, 242, 254, 0.8) !important;
+    }
+
+    .side-menu-link.active .side-link-desc {
+        color: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    .side-menu-link.active .side-link-chevron {
+        color: #00f2fe !important;
+    }
+
+    .side-menu-footer {
+        padding: 10px 18px calc(12px + env(safe-area-inset-bottom, 0px)) 18px !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+        background: rgba(2, 3, 10, 0.88) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 3px !important;
+        flex-shrink: 0 !important;
+    }
+
+    .side-footer-dates {
+        font-family: 'Orbitron', sans-serif !important;
+        font-size: 0.65rem !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.12em !important;
+        color: #ff007f !important;
+        text-shadow: 0 0 8px rgba(255, 0, 127, 0.6) !important;
+    }
+
+    .side-footer-sub {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 0.60rem !important;
+        color: rgba(255, 255, 255, 0.4) !important;
+        letter-spacing: 0.05em !important;
+    }
+
+    body.side-menu-locked {
+        overflow: hidden !important;
+        touch-action: none !important;
+    }
 }
 
-
-/* Mobile Top-Left Menu Trigger Button (Phone Only, No Text) */
-.mobile-top-menu-btn {
-    position: fixed;
-    top: calc(14px + env(safe-area-inset-top, 0px));
-    left: 14px;
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    background: rgba(6, 8, 22, 0.85);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1.5px solid rgba(0, 242, 254, 0.4);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.65), 0 0 12px rgba(0, 242, 254, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #00f2fe;
-    cursor: pointer;
-    z-index: 1250;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    -webkit-tap-highlight-color: transparent;
-    outline: none;
-    padding: 0;
+/* Extra-compact phones (<= 360px wide, e.g. iPhone SE 1st gen, small Androids) */
+@media (max-width: 360px) {
+    .bottom-nav-track {
+        padding: 0 2px !important;
+    }
+    .bottom-nav-item {
+        padding: 3px 0 2px 0 !important;
+    }
+    .bottom-nav-item .nav-icon-box {
+        width: 19px !important;
+        height: 19px !important;
+    }
+    .bottom-nav-item .nav-icon-box svg {
+        width: 15px !important;
+        height: 15px !important;
+    }
+    .bottom-nav-item .nav-label {
+        font-size: 0.42rem !important;
+        letter-spacing: 0.01em !important;
+    }
+    .bottom-nav-item .nav-active-pip {
+        width: 10px !important;
+    }
+    .side-brand-title {
+        font-size: 0.95rem !important;
+    }
+    .side-menu-link {
+        padding: 7px 9px !important;
+        gap: 9px !important;
+    }
+    .side-link-icon {
+        width: 30px !important;
+        height: 30px !important;
+    }
+    .side-link-icon svg {
+        width: 16px !important;
+        height: 16px !important;
+    }
 }
 
-.mobile-top-menu-btn .top-menu-icon-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px;
-    height: 22px;
+/* Phone Landscape Mode */
+@media (max-width: 900px) and (orientation: landscape) and (max-height: 500px) {
+    .mobile-bottom-nav {
+        height: 46px !important;
+    }
+    .bottom-nav-item {
+        padding: 2px 2px !important;
+    }
+    .bottom-nav-item .nav-icon-box {
+        width: 18px !important;
+        height: 18px !important;
+    }
+    .bottom-nav-item .nav-icon-box svg {
+        width: 15px !important;
+        height: 15px !important;
+    }
+    .bottom-nav-item .nav-label {
+        font-size: 0.44rem !important;
+    }
+    .side-menu-body {
+        max-height: 48vh !important;
+    }
 }
 
-.mobile-top-menu-btn svg {
-    width: 22px;
-    height: 22px;
-    stroke: currentColor;
-    transition: stroke 0.22s ease, transform 0.22s ease;
+/* ==========================================================================
+   DESKTOP & LAPTOP SCREENS (> 900px):
+   STRICTLY HIDE ALL MOBILE BOTTOM NAVIGATION, BOTTOM DRAWER & MOBILE BUTTONS!
+   Desktop and laptop screens only show the cosmic navbar wheel at top.
+   ========================================================================== */
+@media (min-width: 901px) {
+    .mobile-bottom-nav,
+    #mobile-bottom-nav,
+    .mobile-side-menu,
+    #mobile-side-menu,
+    .mobile-menu-backdrop,
+    #mobile-menu-backdrop,
+    .mobile-top-menu-btn,
+    #mobile-menu-trigger,
+    #mobile-bottom-menu-trigger,
+    .menu-trigger-btn,
+    body .mobile-bottom-nav,
+    body #mobile-bottom-nav,
+    body.portal-entered .mobile-bottom-nav,
+    body.portal-entered #mobile-bottom-nav,
+    body.portal-entered .mobile-top-menu-btn,
+    body.portal-entered #mobile-menu-trigger,
+    body.portal-entered .mobile-side-menu,
+    body.portal-entered #mobile-side-menu {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        height: 0 !important;
+        max-height: 0 !important;
+        width: 0 !important;
+        overflow: hidden !important;
+        animation: none !important;
+    }
 }
-
-.mobile-top-menu-btn:hover {
-    background: rgba(0, 242, 254, 0.16);
-    border-color: #00f2fe;
-    box-shadow: 0 0 22px rgba(0, 242, 254, 0.55);
-    transform: scale(1.06);
-}
-
-.mobile-top-menu-btn:active {
-    transform: scale(0.92);
-}
-
-.mobile-top-menu-btn.has-active-subpage .top-menu-active-dot {
-    position: absolute;
-    top: 7px;
-    right: 7px;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #ff007f;
-    box-shadow: 0 0 8px #ff007f;
-}
-
-/* 1. MOBILE BOTTOM NAVIGATION BAR */
-.mobile-bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: calc(64px + env(safe-area-inset-bottom, 0px));
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-    background: rgba(6, 7, 20, 0.94);
-    backdrop-filter: blur(24px) saturate(190%);
-    -webkit-backdrop-filter: blur(24px) saturate(190%);
-    border-top: 1px solid rgba(0, 242, 254, 0.28);
-    box-shadow: 
-        0 -8px 32px rgba(0, 0, 0, 0.88),
-        0 -1px 12px rgba(0, 242, 254, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    z-index: 1200;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    pointer-events: auto;
-}
-
-/* Glowing neon accent line along top rim of bottom nav */
-.mobile-bottom-nav::before {
-    content: '';
-    position: absolute;
-    top: -1px;
-    left: 6%;
-    right: 6%;
-    height: 1.5px;
-    background: linear-gradient(90deg, transparent, #00f2fe 30%, #ff007f 70%, transparent);
-    filter: drop-shadow(0 0 6px #00f2fe);
-    pointer-events: none;
-}
-
-.bottom-nav-track {
-    width: 100%;
-    max-width: 600px;
-    height: 100%;
-    display: flex;
-    align-items: stretch;
-    justify-content: space-around;
-    padding: 0 4px;
-    margin: 0 auto;
-    box-sizing: border-box;
-}
-
-.bottom-nav-item {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    background: transparent;
-    border: none;
-    padding: 6px 2px 4px 2px;
-    margin: 0;
-    cursor: pointer;
-    color: rgba(255, 255, 255, 0.55);
-    position: relative;
-    transition: color 0.22s ease, transform 0.22s ease;
-    -webkit-tap-highlight-color: transparent;
-    outline: none;
-    user-select: none;
-}
-
-.bottom-nav-item .nav-icon-box {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 26px;
-    height: 26px;
-    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.bottom-nav-item .nav-icon-box svg {
-    width: 21px;
-    height: 21px;
-    stroke: currentColor;
-    fill: none;
-    transition: stroke 0.22s ease, filter 0.22s ease;
-}
-
-.bottom-nav-item .nav-label {
-    font-family: 'Orbitron', -apple-system, sans-serif;
-    font-size: 0.58rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    margin-top: 3px;
-    text-transform: uppercase;
-    transition: color 0.22s ease, text-shadow 0.22s ease;
-    line-height: 1;
-}
-
-.bottom-nav-item .nav-active-pip {
-    position: absolute;
-    top: 3px;
-    width: 18px;
-    height: 2.5px;
-    border-radius: 9999px;
-    background: transparent;
-    transition: background 0.25s ease, box-shadow 0.25s ease;
-}
-
-/* Active State on Mobile Bottom Nav */
-.bottom-nav-item.active {
-    color: #00f2fe;
-}
-
-.bottom-nav-item.active .nav-icon-box {
-    transform: translateY(-2px);
-}
-
-.bottom-nav-item.active .nav-icon-box svg {
-    stroke: #00f2fe;
-    filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.85));
-}
-
-.bottom-nav-item.active .nav-label {
-    color: #ffffff;
-    text-shadow: 0 0 8px rgba(0, 242, 254, 0.9), 0 0 16px rgba(0, 242, 254, 0.5);
-}
-
-.bottom-nav-item.active .nav-active-pip {
-    background: linear-gradient(90deg, #00f2fe, #bd00ff);
-    box-shadow: 0 0 10px #00f2fe, 0 0 18px rgba(189, 0, 255, 0.6);
-}
-
-/* Sub-page active indicator on MENU button */
-.bottom-nav-item.menu-trigger-btn.has-active-subpage .nav-active-pip {
-    background: linear-gradient(90deg, #ff007f, #bd00ff);
-    box-shadow: 0 0 8px #ff007f;
-}
-
-.bottom-nav-item:active {
-    transform: scale(0.92);
-}
-
-/* 2. MOBILE SIDE DRAWER MENU */
-.mobile-menu-backdrop {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-    background: rgba(4, 5, 14, 0.82);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    z-index: 1300;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.32s ease;
-}
-
-.mobile-menu-backdrop.is-open {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-}
-
-.mobile-side-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: auto;
-    bottom: 0;
-    width: min(340px, 86vw);
-    height: 100vh;
-    height: 100dvh;
-    background: linear-gradient(180deg, rgba(10, 11, 26, 0.98) 0%, rgba(5, 6, 16, 0.99) 100%);
-    backdrop-filter: blur(28px) saturate(190%);
-    -webkit-backdrop-filter: blur(28px) saturate(190%);
-    border-right: 1px solid rgba(0, 242, 254, 0.3);
-    border-left: none;
-    box-shadow: 
-        16px 0 50px rgba(0, 0, 0, 0.92),
-        2px 0 25px rgba(0, 242, 254, 0.22),
-        inset -1px 0 0 rgba(255, 255, 255, 0.08);
-    z-index: 1350;
-    display: flex;
-    flex-direction: column;
-    transform: translateX(-105%);
-    transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
-    visibility: hidden;
-    box-sizing: border-box;
-    overflow: hidden;
-}
-
-.mobile-side-menu.is-open {
-    transform: translateX(0);
-    visibility: visible;
-}
-
-/* Side Drawer Header */
-.side-menu-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 22px 20px 18px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(255, 255, 255, 0.02);
-    position: relative;
-    flex-shrink: 0;
-}
-
-.side-menu-header::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 20px;
-    right: 20px;
-    height: 1px;
-    background: linear-gradient(90deg, #00f2fe, #ff007f, transparent);
-    opacity: 0.6;
-}
-
-.side-menu-brand {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.side-brand-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.15rem;
-    font-weight: 900;
-    letter-spacing: 0.12em;
-    background: linear-gradient(135deg, #00f2fe 0%, #bd00ff 50%, #ff007f 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 12px rgba(0, 242, 254, 0.4));
-}
-
-.side-brand-subtitle {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.58rem;
-    font-weight: 700;
-    letter-spacing: 0.22em;
-    color: rgba(255, 255, 255, 0.45);
-}
-
-.side-menu-close-btn {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    outline: none;
-    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.side-menu-close-btn svg {
-    width: 18px;
-    height: 18px;
-    stroke: #ffffff;
-    transition: stroke 0.2s ease;
-}
-
-.side-menu-close-btn:hover,
-.side-menu-close-btn:active {
-    background: rgba(255, 0, 127, 0.2);
-    border-color: #ff007f;
-    transform: rotate(90deg);
-    box-shadow: 0 0 15px rgba(255, 0, 127, 0.6);
-}
-
-/* Side Drawer Body */
-.side-menu-body {
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    padding: 16px 14px;
-}
-
-.side-menu-body::-webkit-scrollbar {
-    width: 4px;
-}
-
-.side-menu-body::-webkit-scrollbar-thumb {
-    background: rgba(0, 242, 254, 0.3);
-    border-radius: 4px;
-}
-
-.side-menu-links {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-}
-
-.side-menu-link {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 10px 14px;
-    border-radius: 12px;
-    text-decoration: none;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    color: rgba(255, 255, 255, 0.85);
-    transition: background 0.22s ease, border-color 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
-    -webkit-tap-highlight-color: transparent;
-    position: relative;
-    overflow: hidden;
-}
-
-.side-menu-link:hover,
-.side-menu-link:focus-visible {
-    background: rgba(0, 242, 254, 0.08);
-    border-color: rgba(0, 242, 254, 0.4);
-    transform: translateX(-3px);
-    box-shadow: 0 0 16px rgba(0, 242, 254, 0.15);
-    color: #ffffff;
-}
-
-.side-menu-link:active {
-    transform: scale(0.98);
-}
-
-.side-link-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 9px;
-    background: rgba(0, 242, 254, 0.07);
-    border: 1px solid rgba(0, 242, 254, 0.22);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
-}
-
-.side-link-icon svg {
-    width: 19px;
-    height: 19px;
-    stroke: #00f2fe;
-    fill: none;
-    transition: stroke 0.22s ease;
-}
-
-.side-link-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    min-width: 0;
-}
-
-.side-link-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    color: #ffffff;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    transition: color 0.22s ease, text-shadow 0.22s ease;
-}
-
-.side-link-desc {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.65rem;
-    color: rgba(255, 255, 255, 0.48);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.side-link-chevron {
-    font-size: 1.15rem;
-    color: rgba(255, 255, 255, 0.3);
-    font-weight: 300;
-    transition: color 0.22s ease, transform 0.22s ease;
-}
-
-.side-menu-link:hover .side-link-chevron {
-    color: #00f2fe;
-    transform: translateX(2px);
-}
-
-/* Active state in side drawer */
-.side-menu-link.active {
-    background: linear-gradient(90deg, rgba(0, 242, 254, 0.16) 0%, rgba(189, 0, 255, 0.1) 100%);
-    border-color: #00f2fe;
-    box-shadow: 0 0 18px rgba(0, 242, 254, 0.25), inset 0 0 12px rgba(0, 242, 254, 0.1);
-}
-
-.side-menu-link.active .side-link-icon {
-    background: rgba(0, 242, 254, 0.25);
-    border-color: #00f2fe;
-    box-shadow: 0 0 14px rgba(0, 242, 254, 0.6);
-}
-
-.side-menu-link.active .side-link-icon svg {
-    stroke: #ffffff;
-}
-
-.side-menu-link.active .side-link-title {
-    color: #00f2fe;
-    text-shadow: 0 0 10px rgba(0, 242, 254, 0.8);
-}
-
-.side-menu-link.active .side-link-desc {
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.side-menu-link.active .side-link-chevron {
-    color: #00f2fe;
-}
-
-/* Side Drawer Footer */
-.side-menu-footer {
-    padding: 16px 20px calc(16px + env(safe-area-inset-bottom, 0px)) 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(2, 3, 10, 0.85);
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    flex-shrink: 0;
-}
-
-.side-footer-dates {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    color: #ff007f;
-    text-shadow: 0 0 8px rgba(255, 0, 127, 0.6);
-}
-
-.side-footer-sub {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.62rem;
-    color: rgba(255, 255, 255, 0.4);
-    letter-spacing: 0.06em;
-}
-
-/* Body lock when side drawer is active */
-body.side-menu-locked {
-    overflow: hidden !important;
-    touch-action: none;
-}
-
 /* ==========================================================================
    MOBILE VIEWPORT REFINEMENTS: HOMEPAGE SPLASH & EVENTS PAGE CENTERING
    ========================================================================== */
 
 @media (max-width: 900px) {
+    /* Once portal is entered on mobile, splash screen remains hidden */
+    html.portal-entered-fast #splash-screen,
+    body.portal-entered #splash-screen {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: hidden !important;
+    }
+
     /* 1. HOMEPAGE MOBILE FLOW & CENTERING */
     #splash-screen.portal-warp-section,
     #splash-screen.snap-page,
     #splash-screen {
-        min-height: auto !important;
-        height: auto !important;
-        padding-top: 24px !important;
-        padding-bottom: 95px !important;
+        width: 100vw !important;
+        width: 100dvw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        min-height: 100vh !important;
+        min-height: 100dvh !important;
+        padding: 0 !important;
+        margin: 0 !important;
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
-        justify-content: flex-start !important;
+        justify-content: center !important;
         box-sizing: border-box !important;
-        overflow-x: hidden !important;
+        overflow: hidden !important;
         position: relative !important;
     }
 
@@ -16738,5 +18276,543 @@ body.side-menu-locked {
 
     .telemetry-box {
         display: none !important;
+    }
+}
+
+
+
+
+/* ==========================================================================
+   ABOUT ELEMENTS HOVER MOVEMENT & 3D INTERACTIVITY
+   ========================================================================== */
+.about-intro-card {
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.3s ease,
+                border-color 0.3s ease,
+                background 0.3s ease;
+    will-change: transform, box-shadow;
+}
+
+.about-intro-card.is-revealed:hover {
+    transform: translateY(-10px) scale(1.025);
+}
+
+.about-intro-card.pravaah-sub-card.is-revealed:hover {
+    border-color: rgba(0, 242, 254, 0.65) !important;
+    background: rgba(14, 14, 38, 0.75) !important;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75), 0 0 35px rgba(0, 210, 255, 0.35) !important;
+}
+
+.about-intro-card.pravaah-sub-card:hover .sub-title {
+    color: #ffffff !important;
+    text-shadow: 0 0 12px rgba(0, 242, 254, 0.6);
+}
+
+.about-intro-card.theme-highlight-card.is-revealed:hover {
+    border-color: rgba(255, 208, 67, 0.75) !important;
+    background: linear-gradient(135deg, rgba(32, 18, 62, 0.88) 0%, rgba(16, 16, 42, 0.94) 100%) !important;
+    box-shadow: 0 22px 55px rgba(0, 0, 0, 0.8), 0 0 45px rgba(255, 208, 67, 0.32) !important;
+}
+
+.about-intro-card.theme-highlight-card:hover .kairos-gold-title {
+    text-shadow: 0 0 25px rgba(255, 208, 67, 0.9), 0 0 50px rgba(207, 58, 214, 0.7);
+}
+
+/* About Lead Line Hover Float */
+.about-lead-container {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s ease;
+}
+
+.about-lead-container.is-centered:hover {
+    transform: translateY(-5px) scale(1.018) !important;
+}
+
+.about-lead-container.is-centered:hover .about-page-heading {
+    text-shadow: 0 0 20px rgba(0, 242, 254, 0.9), 0 0 45px rgba(207, 58, 214, 0.7);
+}
+
+/* Calendar Glide Guide Hover Float */
+.calendar-glide-guide {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
+}
+
+.calendar-glide-guide.is-revealed:hover {
+    transform: translateY(-8px) scale(1.04) !important;
+    border-color: #00d2ff !important;
+    box-shadow: 0 16px 40px rgba(0, 210, 255, 0.4), 0 0 30px rgba(230, 38, 120, 0.35) !important;
+}
+
+/* Trashed Calendar Sidebar Tickers */
+.calendar-sidebar-ticker {
+    display: none !important;
+}
+
+/* Time-bounded smooth scroll pointer locking */
+body.time-bounded-scrolling {
+    pointer-events: auto !important;
+}
+body.time-bounded-scrolling #cosmic-nav-wheel,
+body.time-bounded-scrolling .cosmic-nav-wheel {
+    pointer-events: auto !important;
+}
+
+
+/* ==========================================================================
+   FEST CALENDAR & PORTAL GALLERY MOBILE PHONE REFINEMENTS
+   - Calendar made bigger only for phone viewports (276px cube)
+   - Portal Gallery arranged properly in phone: symmetrical dual-stream columns
+   - Gap after Portal Gallery significantly reduced on phones
+   ========================================================================== */
+#calendar-page {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    box-sizing: border-box !important;
+}
+
+@media (max-width: 768px) {
+    #about-page {
+        padding: 35px 14px 18px 14px !important;
+        min-height: auto !important;
+    }
+
+    #calendar-page {
+        padding: 20px 10px 22px 10px !important;
+        min-height: auto !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        box-sizing: border-box !important;
+        overflow-x: clip !important;
+    }
+
+    .calendar-heading-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 auto 10px auto !important;
+        text-align: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        box-sizing: border-box !important;
+        gap: 5px !important;
+    }
+
+    .calendar-page-heading {
+        font-size: clamp(1.35rem, 5.8vw, 1.75rem) !important;
+        letter-spacing: 0.10em !important;
+        text-align: center !important;
+        margin-bottom: 2px !important;
+    }
+
+    .calendar-lead-decor {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        width: 100% !important;
+        max-width: min(350px, calc(100vw - 20px)) !important;
+        margin: 0 auto !important;
+    }
+
+    .decor-line-bar {
+        width: 16px !important;
+        height: 1px !important;
+        flex-shrink: 0 !important;
+    }
+
+    .decor-line-text {
+        font-size: clamp(0.46rem, 2.3vw, 0.56rem) !important;
+        letter-spacing: 0.08em !important;
+        white-space: nowrap !important;
+        text-align: center !important;
+        flex-shrink: 1 !important;
+    }
+
+    .calendar-layout-container {
+        position: relative !important;
+        width: min(370px, calc(100vw - 10px)) !important;
+        height: 500px !important;
+        margin: 10px auto 20px auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        box-sizing: border-box !important;
+        left: auto !important;
+        right: auto !important;
+        transform: none !important;
+    }
+
+    .calendar-cube-viewport {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        display: block !important;
+        perspective: 900px !important;
+        perspective-origin: center 46% !important;
+        overflow: visible !important;
+    }
+
+    /* Made bigger only for phones: 276px cube, centered below month tracker */
+    .calendar-cube {
+        position: absolute !important;
+        top: 76px !important;
+        left: 50% !important;
+        margin-left: -138px !important;
+        width: 276px !important;
+        height: 276px !important;
+        box-sizing: border-box !important;
+        transform-origin: center center !important;
+    }
+
+    .cube-face {
+        width: 276px !important;
+        height: 276px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 3D transforms for 276px cube: half width is 138px */
+    .face-front  { transform: rotateY(0deg) translateZ(138px) !important; }
+    .face-right  { transform: rotateY(90deg) translateZ(138px) !important; }
+    .face-back   { transform: rotateY(180deg) translateZ(138px) !important; }
+    .face-left   { transform: rotateY(-90deg) translateZ(138px) !important; }
+    .face-top    { transform: rotateX(90deg) translateZ(138px) !important; }
+    .face-bottom { transform: rotateX(-90deg) translateZ(138px) !important; }
+
+    .cube-face {
+        padding: 9px 12px !important;
+        border-radius: 18px !important;
+    }
+
+    .month-module {
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        box-sizing: border-box !important;
+    }
+
+    .month-title {
+        font-size: 0.88rem !important;
+        letter-spacing: 0.12em !important;
+        margin-bottom: 2px !important;
+        padding-bottom: 2px !important;
+        text-align: center !important;
+    }
+
+    .day-names {
+        font-size: 0.60rem !important;
+        margin-bottom: 3px !important;
+        display: grid !important;
+        grid-template-columns: repeat(7, 1fr) !important;
+        text-align: center !important;
+    }
+
+    .days-grid {
+        display: grid !important;
+        grid-template-columns: repeat(7, 1fr) !important;
+        gap: 2.5px !important;
+        flex: 1 !important;
+    }
+
+    .calendar-day {
+        font-size: 0.74rem !important;
+        border-radius: 6px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-height: 27px !important;
+        padding: 0 !important;
+    }
+
+    /* Month tracker placed neatly at top of container, safely below heading decor */
+    .cube-month-tracker {
+        position: absolute !important;
+        top: 0px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: min(350px, calc(100% - 12px)) !important;
+        padding: 3px 6px !important;
+        gap: 3px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        background: rgba(8, 10, 24, 0.92) !important;
+        border: 1px solid rgba(0, 242, 254, 0.28) !important;
+        border-radius: 20px !important;
+        z-index: 45 !important;
+        box-sizing: border-box !important;
+    }
+
+    .month-pill {
+        font-size: 0.56rem !important;
+        padding: 4px 7px !important;
+        letter-spacing: 0.04em !important;
+        border-radius: 12px !important;
+        flex: 1 !important;
+        text-align: center !important;
+    }
+
+    /* Rotate buttons on mobile: placed cleanly BELOW the calendar cube, 0% overlap */
+    .cube-rotate-btn {
+        width: auto !important;
+        min-width: 98px !important;
+        height: 38px !important;
+        padding: 0 14px !important;
+        gap: 6px !important;
+        position: absolute !important;
+        top: 390px !important;
+        bottom: auto !important;
+        transform: none !important;
+        z-index: 50 !important;
+        background: rgba(10, 14, 30, 0.94) !important;
+        border: 1.5px solid rgba(0, 242, 254, 0.55) !important;
+        border-radius: 20px !important;
+        display: inline-flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        touch-action: manipulation !important;
+        color: #00f2fe !important;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.7), 0 0 15px rgba(0, 242, 254, 0.25) !important;
+        transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease !important;
+    }
+
+    .cube-rotate-btn:active {
+        transform: scale(0.94) !important;
+        background: rgba(0, 242, 254, 0.2) !important;
+    }
+
+    .cube-rotate-btn svg {
+        width: 17px !important;
+        height: 17px !important;
+        flex-shrink: 0 !important;
+    }
+
+    .cube-rotate-btn.btn-prev {
+        left: calc(50% - 108px) !important;
+        right: auto !important;
+    }
+
+    .cube-rotate-btn.btn-next {
+        right: calc(50% - 108px) !important;
+        left: auto !important;
+        flex-direction: row-reverse !important;
+    }
+
+    .rotate-btn-label {
+        position: static !important;
+        display: inline-block !important;
+        font-family: 'Orbitron', sans-serif !important;
+        font-size: 0.60rem !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.10em !important;
+        color: #ffffff !important;
+        line-height: 1 !important;
+        opacity: 1 !important;
+        bottom: auto !important;
+    }
+
+    /* Tip HUD placed below rotate buttons */
+    .calendar-tip-hud {
+        position: absolute !important;
+        top: 442px !important;
+        bottom: auto !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: min(350px, calc(100% - 16px)) !important;
+        padding: 5px 10px !important;
+        background: rgba(10, 12, 26, 0.94) !important;
+        border: 1px solid rgba(0, 242, 254, 0.3) !important;
+        border-radius: 16px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 7px !important;
+        box-sizing: border-box !important;
+        z-index: 45 !important;
+    }
+
+    .tip-icon {
+        font-size: 0.82rem !important;
+        flex-shrink: 0 !important;
+    }
+
+    .tip-text {
+        font-size: 0.50rem !important;
+        letter-spacing: 0.02em !important;
+        line-height: 1.35 !important;
+        text-align: left !important;
+    }
+
+    /* Day events panel */
+    .day-events-panel {
+        width: 100% !important;
+        height: 100% !important;
+        padding: 14px 12px !important;
+        border-radius: 18px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Comet rings scaled */
+    .comet-orbit-ring.ring-1 { width: 320px !important; height: 320px !important; }
+    .comet-orbit-ring.ring-2 { width: 350px !important; height: 350px !important; }
+    .comet-orbit-ring.ring-3 { width: 370px !important; height: 370px !important; }
+
+    /* ==========================================================================
+       PORTAL GALLERY PHONE REFINEMENTS
+       - 2 parallel vertical streaming columns (Down + Up) perfectly centered
+       - Greatly reduced height & compact bottom padding to eliminate big gap
+       ========================================================================== */
+    #gallery-page {
+        padding: 20px 10px 10px 10px !important;
+        min-height: auto !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .gallery-viewport {
+        width: 100% !important;
+        height: auto !important;
+        max-height: none !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 12px !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    .gallery-page-heading {
+        font-size: clamp(1.3rem, 5.8vw, 1.7rem) !important;
+        letter-spacing: 0.16em !important;
+        margin-bottom: 4px !important;
+        text-align: center !important;
+    }
+
+    .gallery-columns-wrapper {
+        width: 100% !important;
+        max-width: min(390px, calc(100vw - 16px)) !important;
+        height: 360px !important;
+        margin: 0 auto !important;
+        display: flex !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Symmetrically display first 2 columns: track 1 scrolls down, track 2 scrolls up */
+    .gallery-column:nth-child(1),
+    .gallery-column:nth-child(2) {
+        display: block !important;
+        flex: 1 1 0 !important;
+        min-width: 0 !important;
+        max-width: calc(50% - 5px) !important;
+        height: 100% !important;
+        overflow: hidden !important;
+        border-radius: 14px !important;
+        opacity: 1 !important;
+        transform: translateY(0) scale(1) !important;
+        filter: blur(0px) !important;
+    }
+
+    /* Hide outer 2 columns on phones to maintain perfect dual-stream layout */
+    .gallery-column:nth-child(3),
+    .gallery-column:nth-child(4) {
+        display: none !important;
+    }
+
+    .gallery-card {
+        height: 135px !important;
+        border-radius: 12px !important;
+        margin-bottom: 10px !important;
+        overflow: hidden !important;
+        position: relative !important;
+        border: 1px solid rgba(0, 242, 254, 0.25) !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6) !important;
+    }
+
+    .gallery-card img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        border-radius: 12px !important;
+    }
+
+    .gallery-card-overlay {
+        padding: 7px 9px !important;
+        background: linear-gradient(180deg, transparent 40%, rgba(6, 8, 22, 0.92) 100%) !important;
+    }
+
+    .gallery-card-tag {
+        font-size: 0.48rem !important;
+        padding: 2px 5px !important;
+    }
+
+    .gallery-card-title {
+        font-size: 0.68rem !important;
+        line-height: 1.15 !important;
+    }
+
+    /* Gap after Portal Gallery on phones: reduce drastically */
+    #team-page {
+        padding: 10px 0 0 0 !important;
+        min-height: auto !important;
+    }
+
+    .last-page-hero-container {
+        margin: 6px auto 20px auto !important;
+        gap: 12px !important;
+    }
+}
+
+/* Extra-small screens: slightly increased from 200px to 232px */
+@media (max-width: 350px) {
+    .calendar-layout-container {
+        width: 305px !important;
+        height: 440px !important;
+    }
+
+    .calendar-cube,
+    .cube-face {
+        width: 232px !important;
+        height: 232px !important;
+    }
+
+    .calendar-cube {
+        top: 65px !important;
+        margin-left: -116px !important;
+    }
+
+    .face-front  { transform: rotateY(0deg) translateZ(116px) !important; }
+    .face-right  { transform: rotateY(90deg) translateZ(116px) !important; }
+    .face-back   { transform: rotateY(180deg) translateZ(116px) !important; }
+    .face-left   { transform: rotateY(-90deg) translateZ(116px) !important; }
+    .face-top    { transform: rotateX(90deg) translateZ(116px) !important; }
+    .face-bottom { transform: rotateX(-90deg) translateZ(116px) !important; }
+
+    .cube-rotate-btn {
+        top: 338px !important;
+        min-width: 86px !important;
+        height: 34px !important;
+        padding: 0 10px !important;
+    }
+
+    .cube-rotate-btn.btn-prev { left: calc(50% - 94px) !important; }
+    .cube-rotate-btn.btn-next { right: calc(50% - 94px) !important; }
+    .cube-month-tracker { width: 290px !important; }
+    .calendar-tip-hud {
+        top: 382px !important;
+        width: 290px !important;
     }
 }

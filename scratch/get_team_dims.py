@@ -17,3 +17,4 @@ for f in sorted(os.listdir('assets/images/team')):
         w, h = get_dims(p)
         ratio = round(w / h, 2) if h else 0
         print(f"{f}: {w}x{h} (ratio: {ratio})")
+

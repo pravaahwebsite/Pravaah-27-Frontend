@@ -12,7 +12,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="src/css/style.css">
     <script>
-        if (sessionStorage.getItem('portalEntered') === 'true') {
+        // Check if user specifically requested video replay or if portal already entered in this session
+        if (new URLSearchParams(window.location.search).get('firsttime') === 'true' || new URLSearchParams(window.location.search).get('replay') === 'true') {
+            try { sessionStorage.removeItem('portalEntered'); } catch (e) {}
+        } else if (sessionStorage.getItem('portalEntered') === 'true' || new URLSearchParams(window.location.search).get('skipintro') === 'true') {
             document.documentElement.classList.add('portal-entered-fast');
         }
     </script>
@@ -47,9 +50,6 @@
     </nav>
 
     <!-- =========================================================
-         MOBILE BOTTOM NAVIGATION (TECHFEST-STYLE DOCK)
-         ========================================================= -->
-            <!-- =========================================================
          MOBILE TOP-LEFT MENU BUTTON (PHONE VIEWPORTS ONLY)
          ========================================================= -->
     <button type="button" class="mobile-top-menu-btn" id="mobile-menu-trigger" aria-label="Open Side Menu">
@@ -68,7 +68,7 @@
          ========================================================= -->
     <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Mobile Navigation">
         <div class="bottom-nav-track">
-            <a href="index.html" class="bottom-nav-item" data-nav="home">
+            <a href="index.html" class="bottom-nav-item active" data-nav="home">
                 <div class="nav-icon-box">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1V9.5z"/>
@@ -126,6 +126,18 @@
                 <span class="nav-label">PROFILE</span>
                 <span class="nav-active-pip"></span>
             </a>
+
+            <button type="button" class="bottom-nav-item menu-trigger-btn" id="mobile-bottom-menu-trigger" aria-label="Open Navigation Menu" title="Open Menu">
+                <div class="nav-icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <line x1="3" y1="12" x2="21" y2="12"/>
+                        <line x1="3" y1="18" x2="21" y2="18"/>
+                    </svg>
+                </div>
+                <span class="nav-label">MENU</span>
+                <span class="nav-active-pip"></span>
+            </button>
         </div>
     </nav>
 
@@ -150,7 +162,7 @@
 
         <div class="side-menu-body">
             <nav class="side-menu-links">
-                <a href="index.html" class="side-menu-link" data-nav="home">
+                <a href="index.html" class="side-menu-link active" data-nav="home">
                     <div class="side-link-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1V9.5z"/></svg>
                     </div>
@@ -252,15 +264,147 @@
     </aside>
 
 
-    <section id="loader-screen" class="hidden portal-warp-section">
-        <video id="portal-video" class="portal-video-element" playsinline preload="auto" muted>
-            <source src="assets/videos/portal.mp4" type="video/mp4">
-        </video>
+    <!-- Pravaah 3D Hologram Glitch Scanner Intro (Pure Black Background - Clean & Unobstructed) -->
+    <section id="pravaah-intro-screen" class="pravaah-intro-screen">
+        <canvas id="pravaah-glitch-canvas" class="pravaah-intro-canvas"></canvas>
 
-        <div id="portal-flash-overlay" class="portal-flash-overlay"></div>
+        <div class="intro-top-bar">
+            <div class="intro-fest-tag">
+                <span class="intro-fest-title">PRAVAAH 2026</span>
+                <span class="intro-theme-pill">KAIROS</span>
+            </div>
+            <div class="intro-top-controls">
+                <button class="btn-intro-ctrl" id="splash-sound-btn" type="button" aria-label="Toggle Sound" title="Sound Effects">
+                    <svg class="splash-sound-icon-off" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                    <svg class="splash-sound-icon-on" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                    <span id="splash-sound-text">SOUND ON</span>
+                </button>
+                <button class="btn-intro-ctrl" id="splash-replay-btn" type="button" aria-label="Replay Intro" title="Replay Animation">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                    <span>REPLAY</span>
+                </button>
+                <button class="btn-intro-ctrl btn-intro-skip" id="splash-skip-btn" type="button" aria-label="Enter Festival" title="Proceed to First Page">
+                    <span>ENTER SITE &gt;&gt;</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="intro-bottom-prompt" id="intro-proceed-prompt" role="button" tabindex="0" title="Click anywhere to enter festival">
+            <span class="prompt-glow-dot">✦</span>
+            <span class="prompt-text">CLICK OR TAP TO ENTER FESTIVAL</span>
+            <span class="prompt-arrow">›</span>
+        </div>
     </section>
 
-    <main id="main-scroll-container" class="scroll-enabled">
+    <!-- Portal Entrance Screen (Direct Native High-Performance Warp Tunnel - Pravaah Official Animation) -->
+    <section id="loader-screen" class="hidden portal-warp-section">
+        <canvas id="portal-warp-canvas" class="portal-warp-canvas"></canvas>
+        <div id="portal-glitch-overlay" class="portal-glitch-overlay"></div>
+        <div id="portal-shockwave-ring" class="portal-shockwave-ring"></div>
+        <div id="portal-shockwave-ring-2" class="portal-shockwave-ring portal-shockwave-ring-2"></div>
+
+        <div id="portal-stage" class="portal-stage">
+            <div class="portal-septagon-wrap" id="portal-septagon-wrap">
+                <div class="portal-center-aura" id="portal-aura-glow"></div>
+                
+                <div class="portal-orbit-ring portal-orbit-ring-1">
+                    <div class="portal-orbit-comet portal-comet-cyan"></div>
+                </div>
+                <div class="portal-orbit-ring portal-orbit-ring-2">
+                    <div class="portal-orbit-comet portal-comet-pink"></div>
+                </div>
+                <div class="portal-orbit-ring portal-orbit-ring-3">
+                    <div class="portal-orbit-comet portal-comet-orange"></div>
+                </div>
+
+                <!-- 7-Sided Septagon Portal Frame -->
+                <svg viewBox="0 0 100 100" class="portal-septagon-svg" id="portal-septagon-svg">
+                    <defs>
+                        <linearGradient id="portal-septagon-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#ff007f" />
+                            <stop offset="35%" stop-color="#ff5722" />
+                            <stop offset="70%" stop-color="#00f2fe" />
+                            <stop offset="100%" stop-color="#9d4edd" />
+                        </linearGradient>
+                    </defs>
+                    <polygon points="50,2.5 87.1,20.4 96.3,60.6 70.6,92.8 29.4,92.8 3.7,60.6 12.9,20.4" class="portal-septagon-glow" id="portal-poly-glow" />
+                    <polygon points="50,2.5 87.1,20.4 96.3,60.6 70.6,92.8 29.4,92.8 3.7,60.6 12.9,20.4" class="portal-septagon-core" id="portal-poly-core" />
+                </svg>
+
+                <!-- Glowing Laser Code Logo </> -->
+                <div class="portal-logo-emblem">
+                    <svg viewBox="0 0 200 200" class="portal-code-logo-svg" id="portal-code-logo-svg">
+                        <defs>
+                            <linearGradient id="portal-logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ff007f" />
+                                <stop offset="30%" stop-color="#ff5722" />
+                                <stop offset="65%" stop-color="#ff9100" />
+                                <stop offset="100%" stop-color="#00f2fe" />
+                            </linearGradient>
+                        </defs>
+                        <g>
+                            <path class="portal-bracket-stroke" id="portal-bracket-left"
+                                  d="M 68 62 L 28 100 L 68 138"
+                                  fill="none" stroke="url(#portal-logo-grad)"
+                                  stroke-width="15" stroke-linecap="round" stroke-linejoin="round" />
+                            <path class="portal-bracket-core" id="portal-bracket-left-core"
+                                  d="M 68 62 L 28 100 L 68 138"
+                                  fill="none" stroke="#ffffff"
+                                  stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" />
+
+                            <line class="portal-slash-stroke" id="portal-slash-center"
+                                  x1="116" y1="52" x2="84" y2="148"
+                                  stroke="url(#portal-logo-grad)"
+                                  stroke-width="15" stroke-linecap="round" />
+                            <line class="portal-slash-core" id="portal-slash-center-core"
+                                  x1="116" y1="52" x2="84" y2="148"
+                                  stroke="#ffffff"
+                                  stroke-width="4.5" stroke-linecap="round" opacity="0.9" />
+
+                            <path class="portal-bracket-stroke" id="portal-bracket-right"
+                                  d="M 132 62 L 172 100 L 132 138"
+                                  fill="none" stroke="url(#portal-logo-grad)"
+                                  stroke-width="15" stroke-linecap="round" stroke-linejoin="round" />
+                            <path class="portal-bracket-core" id="portal-bracket-right-core"
+                                  d="M 132 62 L 172 100 L 132 138"
+                                  fill="none" stroke="#ffffff"
+                                  stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" />
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div id="portal-flash-overlay" class="portal-flash-overlay"></div>
+
+        <div class="portal-controls-row">
+            <button id="portal-audio-btn" class="portal-audio-btn" type="button" aria-label="Toggle Sound" title="Toggle Sound">
+                <svg id="icon-sound-off" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <line x1="23" y1="9" x2="17" y2="15"></line>
+                    <line x1="17" y1="9" x2="23" y2="15"></line>
+                </svg>
+                <svg id="icon-sound-on" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg>
+            </button>
+
+            <button id="portal-skip-btn" class="portal-skip-btn" type="button" aria-label="Skip Intro Video">
+                <span>SKIP INTRO</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                    <line x1="19" y1="5" x2="19" y2="19"></line>
+                </svg>
+            </button>
+        </div>
+
+        <div class="portal-loader-indicator">
+            <div class="portal-loader-bar"></div>
+        </div>
+    </section>
+
+    <main id="main-scroll-container">
 
         <section id="splash-screen" class="snap-page splash-screen-page active-screen">
             <div class="glow-core"></div>
@@ -401,21 +545,37 @@
         <section id="about-page" class="snap-page">
 
             <div class="about-fullscreen-wrapper">
-                <h2 class="about-page-heading spider-title" data-text="FESTIVAL THEME & ABOUT">FESTIVAL THEME & ABOUT</h2>
+                <!-- Revelation Lead Line: "GET TO KNOW ABOUT PRAVAAH" -->
+                <div class="about-lead-container" id="about-lead-container">
+                    <div class="about-lead-badge">
+                        <span class="badge-dot pulse-cyan"></span>
+                        <span class="badge-text">PORTAL CONVERGENCE</span>
+                        <span class="badge-sparkle">✦</span>
+                    </div>
+                    <h2 class="about-page-heading about-lead-line spider-title" id="about-lead-line" data-text="GET TO KNOW ABOUT OUR FEST">
+                        GET TO KNOW ABOUT OUR FEST
+                    </h2>
+                    <div class="about-lead-decor">
+                        <span class="decor-line-bar"></span>
+                        <span class="decor-line-text">WORLDS UNBOUND • KAIROS 2026</span>
+                        <span class="decor-line-bar"></span>
+                    </div>
+                </div>
 
-                <div class="about-intro-grid">
-                    <div class="about-intro-card pravaah-sub-card">
+                <!-- About Page Elements: Pravaah from Left, Kairos Theme from Right -->
+                <div class="about-intro-grid" id="about-intro-grid">
+                    <div class="about-intro-card pravaah-sub-card from-left" id="about-card-pravaah">
                         <div class="about-card-badge-row">
                             <span class="about-card-badge badge-tech">ABOUT PRAVAAH</span>
                             <span class="sub-edition-tag">3<sup>rd</sup> EDITION</span>
                         </div>
                         <h3 class="about-card-title sub-title">ANNUAL FEST OF IIT BHUBANESWAR</h3>
                         <p class="about-card-text sub-text">
-                            PRAVAAH is the premier Annual Cultural & Technopreneurship Fest of IIT Bhubaneswar. Uniting visionary minds from across the nation, Pravaah fuses engineering challenges, robotics battlegrounds, musical stages, esports leagues, and startup incubation.
+                            PRAVAAH is the premier Annual Cultural &amp; Technopreneurship Fest of IIT Bhubaneswar. Uniting visionary minds from across the nation, Pravaah fuses engineering challenges, robotics battlegrounds, musical stages, esports leagues, and startup incubation.
                         </p>
                     </div>
 
-                    <div class="about-intro-card theme-card theme-highlight-card">
+                    <div class="about-intro-card theme-card theme-highlight-card from-right" id="about-card-theme">
                         <div class="theme-card-glow-bg"></div>
                         <div class="about-card-badge-row">
                             <span class="about-card-badge badge-cult-highlight">FESTIVAL THEME</span>
@@ -437,204 +597,41 @@
                         </p>
                     </div>
                 </div>
+
+                <!-- Slow Smooth Glide Trigger to Calendar -->
+                <div class="calendar-glide-guide" id="guide-to-calendar-btn" role="button" tabindex="0" title="Slow Smooth Scroll to Fest Calendar">
+                    <div class="glide-guide-halo"></div>
+                    <div class="glide-guide-content">
+                        <span class="glide-guide-tag">NEXT TEMPORAL NODE</span>
+                        <div class="glide-guide-title">
+                            <span>SLOW GLIDE TO CALENDAR</span>
+                            <span class="glide-guide-icon">✦</span>
+                        </div>
+                        <div class="glide-guide-arrow">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m7 10 5 5 5-5"/>
+                                <path d="m7 4 5 5 5-5"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
         <section id="calendar-page" class="snap-page">
 
-            <h2 class="calendar-page-heading spider-title" data-text="FEST CALENDAR">FEST CALENDAR</h2>
-
-            <div class="calendar-sidebar-ticker ticker-left">
-                <div class="ticker-header">
-                    <span class="ticker-dot pulse-gold"></span>
-                    <span class="ticker-title">LIVE PROTOCOLS</span>
+            <div class="calendar-heading-container" id="calendar-heading-container">
+                <div class="calendar-heading-badge">
+                    <span class="badge-dot pulse-gold"></span>
+                    <span class="badge-text">TEMPORAL MATRIX</span>
+                    <span class="badge-sparkle">✦</span>
                 </div>
-                <div class="ticker-viewport">
-                    <div class="ticker-track">
-
-                        <div class="ticker-group">
-                            <div class="ticker-item">
-                                <span class="item-tag tag-tech">TECH</span>
-                                <p class="item-text">Warp engine stabilizing for the October 15 convergence.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-cult">CULT</span>
-                                <p class="item-text">Cyberpunk & Retro-futurism themes approved for Vogue.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-game">GAME</span>
-                                <p class="item-text">Valorant & BGMI brackets seeding starts Oct 10.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-ent">ENTR</span>
-                                <p class="item-text">VC panels confirmed from Sequoia & Techstars.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-tech">TECH</span>
-                                <p class="item-text">AI Singularity Panel: Decoding LLMs beyond 2026.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-cult">CULT</span>
-                                <p class="item-text">Neo-Tokyo Synthwave Concert details released.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-game">GAME</span>
-                                <p class="item-text">CS2 & FIFA arena registrations hit maximum capacity.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-ent">ENTR</span>
-                                <p class="item-text">VC matching pool expanded to 10M INR.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-tech">TECH</span>
-                                <p class="item-text">Quantum Networking Workshop: Labs online on Day 2.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-cult">CULT</span>
-                                <p class="item-text">Digital Art Gallery: Interactive hologram installations ready.</p>
-                            </div>
-                        </div>
-
-                        <div class="ticker-group">
-                            <div class="ticker-item">
-                                <span class="item-tag tag-tech">TECH</span>
-                                <p class="item-text">Warp engine stabilizing for the October 15 convergence.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-cult">CULT</span>
-                                <p class="item-text">Cyberpunk & Retro-futurism themes approved for Vogue.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-game">GAME</span>
-                                <p class="item-text">Valorant & BGMI brackets seeding starts Oct 10.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-ent">ENTR</span>
-                                <p class="item-text">VC panels confirmed from Sequoia & Techstars.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-tech">TECH</span>
-                                <p class="item-text">AI Singularity Panel: Decoding LLMs beyond 2026.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-cult">CULT</span>
-                                <p class="item-text">Neo-Tokyo Synthwave Concert details released.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-game">GAME</span>
-                                <p class="item-text">CS2 & FIFA arena registrations hit maximum capacity.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-ent">ENTR</span>
-                                <p class="item-text">VC matching pool expanded to 10M INR.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-tech">TECH</span>
-                                <p class="item-text">Quantum Networking Workshop: Labs online on Day 2.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-cult">CULT</span>
-                                <p class="item-text">Digital Art Gallery: Interactive hologram installations ready.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="calendar-sidebar-ticker ticker-right">
-                <div class="ticker-header">
-                    <span class="ticker-dot pulse-gold"></span>
-                    <span class="ticker-title">IMP UPDATES</span>
-                </div>
-                <div class="ticker-viewport">
-                    <div class="ticker-track">
-
-                        <div class="ticker-group">
-                            <div class="ticker-item">
-                                <span class="item-tag tag-alert">ALERT</span>
-                                <p class="item-text">Event registration lines are now officially live.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-prize">PRIZE</span>
-                                <p class="item-text">Total cash pool exceeds 5,000,000 INR across all events.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-portal">PORTAL</span>
-                                <p class="item-text">Portal core singularity stabilizing. Secure slots now.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-social">SOCIAL</span>
-                                <p class="item-text">Green Horizon eco-hacks submission portal closes soon.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-alert">ALERT</span>
-                                <p class="item-text">Registration deadline extended until October 12.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-prize">PRIZE</span>
-                                <p class="item-text">Special awards announced for eco-sustainable hacks.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-portal">PORTAL</span>
-                                <p class="item-text">Core stabilizer status: Nominal at 99.8% precision.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-social">SOCIAL</span>
-                                <p class="item-text">Community meetup at the Multiverse Arena on Day 3.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-alert">ALERT</span>
-                                <p class="item-text">Badge pickup opens at 8:00 AM at the Main Gate.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-portal">PORTAL</span>
-                                <p class="item-text">System sync offline for maintenance at 03:00 UTC.</p>
-                            </div>
-                        </div>
-
-                        <div class="ticker-group">
-                            <div class="ticker-item">
-                                <span class="item-tag tag-alert">ALERT</span>
-                                <p class="item-text">Event registration lines are now officially live.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-prize">PRIZE</span>
-                                <p class="item-text">Total cash pool exceeds 5,000,000 INR across all events.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-portal">PORTAL</span>
-                                <p class="item-text">Portal core singularity stabilizing. Secure slots now.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-social">SOCIAL</span>
-                                <p class="item-text">Green Horizon eco-hacks submission portal closes soon.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-alert">ALERT</span>
-                                <p class="item-text">Registration deadline extended until October 12.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-prize">PRIZE</span>
-                                <p class="item-text">Special awards announced for eco-sustainable hacks.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-portal">PORTAL</span>
-                                <p class="item-text">Core stabilizer status: Nominal at 99.8% precision.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-social">SOCIAL</span>
-                                <p class="item-text">Community meetup at the Multiverse Arena on Day 3.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-alert">ALERT</span>
-                                <p class="item-text">Badge pickup opens at 8:00 AM at the Main Gate.</p>
-                            </div>
-                            <div class="ticker-item">
-                                <span class="item-tag tag-portal">PORTAL</span>
-                                <p class="item-text">System sync offline for maintenance at 03:00 UTC.</p>
-                            </div>
-                        </div>
-                    </div>
+                <h2 class="calendar-page-heading spider-title" id="calendar-lead-line" data-text="FEST CALENDAR">FEST CALENDAR</h2>
+                <div class="calendar-lead-decor">
+                    <span class="decor-line-bar"></span>
+                    <span class="decor-line-text">CYCLE 2026 • TEMPORAL TIMELINES &amp; EVENT DATES</span>
+                    <span class="decor-line-bar"></span>
                 </div>
             </div>
 
@@ -712,9 +709,9 @@
             <div class="gallery-viewport">
                 <h2 class="gallery-page-heading spider-title" data-text="PORTAL GALLERY">PORTAL GALLERY</h2>
 
-                <div class="gallery-columns-wrapper">
+                <div class="gallery-columns-wrapper" id="gallery-columns-wrapper">
 
-                    <div class="gallery-column col-down">
+                    <div class="gallery-column col-down col-edge-left">
                         <div class="gallery-track track-down">
 
                             <div class="gallery-group-vertical">
@@ -767,7 +764,7 @@
                         </div>
                     </div>
 
-                    <div class="gallery-column col-up">
+                    <div class="gallery-column col-up col-middle-left">
                         <div class="gallery-track track-up">
 
                             <div class="gallery-group-vertical">
@@ -820,7 +817,7 @@
                         </div>
                     </div>
 
-                    <div class="gallery-column col-down">
+                    <div class="gallery-column col-down col-middle-right">
                         <div class="gallery-track track-down">
 
                             <div class="gallery-group-vertical">
@@ -873,7 +870,7 @@
                         </div>
                     </div>
 
-                    <div class="gallery-column col-up">
+                    <div class="gallery-column col-up col-edge-right">
                         <div class="gallery-track track-up">
 
                             <div class="gallery-group-vertical">
@@ -992,7 +989,7 @@
                 </div>
                 <div class="footer-bottom-divider"></div>
                 <div class="footer-bottom-credits">
-                    <span class="credits-brand">@PRAVAAH'26 IIT BHUBANESWAR</span>
+                    <span class="credits-brand">@PRAVAAH'27 IIT BHUBANESWAR</span>
                     <span class="credits-separator">|</span>
                     <span class="credits-team">MADE WITH 💜 BY WEB TEAM</span>
                 </div>

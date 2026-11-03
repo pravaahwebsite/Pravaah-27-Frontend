@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRAVAAH 2026 | Dimensional Logo Animation</title>
+    <style>
+        :root {
+            --bg-void: #030014;
+            --tech-cyan: #00f2fe;
+            --cult-pink: #ff007f;
+            --cult-purple: #9d4edd;
+            --code-orange: #ff5722;
+            --code-amber: #ff9100;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-void);
+            cursor: pointer;
+        }
+
+        #viewport {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at center, #0c0827 0%, #050215 50%, #02000a 100%);
+            perspective: 1200px;
+        }
+
+        /* 3D Warp Tunnel Canvas */
+        #warp-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Glitch Scanlines during Warp */
+        .glitch-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 25;
+            opacity: 0;
+            mix-blend-mode: hard-light;
+            transition: opacity 0.05s ease;
+        }
+
+        .glitch-overlay.active {
+            opacity: 1;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 242, 254, 0.12) 0px,
+                rgba(0, 242, 254, 0.12) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+        }
+
+        /* Radial Singularity Breakout Flash */
+        .portal-flash {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, #ffffff 0%, #00f2fe 30%, #ff007f 65%, transparent 100%);
+            opacity: 0;
+            z-index: 40;
+            pointer-events: none;
+            mix-blend-mode: screen;
+            transition: opacity 0.08s ease-out;
+        }
+
+        .portal-flash.flash-active {
+            opacity: 1;
+        }
+
+        /* Shockwave Energy Blast Rings */
+        .shockwave-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.05);
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            border: 4px solid var(--tech-cyan);
+            box-shadow: 0 0 60px var(--cult-pink), inset 0 0 60px var(--tech-cyan);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 35;
+        }
+
+        .shockwave-ring.blast {
+            animation: shockwaveExplode 1.2s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+        }
+
+        .shockwave-ring-secondary {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.05);
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            border: 3px solid var(--cult-pink);
+            box-shadow: 0 0 40px var(--code-orange);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 34;
+        }
+
+        .shockwave-ring-secondary.blast {
+            animation: shockwaveExplode 1.4s cubic-bezier(0.15, 0.85, 0.25, 1) 0.1s forwards;
+        }
+
+        @keyframes shockwaveExplode {
+            0% {
+                transform: translate(-50%, -50%) scale(0.05);
+                opacity: 1;
+                border-width: 10px;
+            }
+            70% {
+                opacity: 0.85;
+                border-width: 3px;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(6);
+                opacity: 0;
+                border-width: 1px;
+            }
+        }
+
+        /* 3D Central Stage (Sole focus of the animation) */
+        #stage {
+            position: relative;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+            transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.4, 1);
+        }
+
+        /* Septagon Portal Wrap */
+        .portal-septagon-wrap {
+            position: relative;
+            width: 340px;
+            height: 340px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+        }
+
+        @media (min-width: 768px) {
+            .portal-septagon-wrap {
+                width: 460px;
+                height: 460px;
+            }
+        }
+
+        /* Orbiting Cosmic Comets */
+        .orbit-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            pointer-events: none;
+            transform-style: preserve-3d;
+        }
+
+        .orbit-ring-1 {
+            width: 124%;
+            height: 124%;
+            border-color: rgba(0, 242, 254, 0.3);
+            animation: spinClockwise 18s linear infinite;
+        }
+
+        .orbit-ring-2 {
+            width: 148%;
+            height: 148%;
+            border-color: rgba(255, 0, 127, 0.25);
+            animation: spinCounterClockwise 25s linear infinite;
+        }
+
+        .orbit-ring-3 {
+            width: 172%;
+            height: 172%;
+            border-color: rgba(255, 87, 34, 0.25);
+            animation: spinClockwise 32s linear infinite;
+        }
+
+        .orbit-comet {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .comet-cyan {
+            background: var(--tech-cyan);
+            box-shadow: 0 0 18px var(--tech-cyan), 0 0 35px var(--tech-cyan);
+        }
+
+        .comet-pink {
+            background: var(--cult-pink);
+            box-shadow: 0 0 18px var(--cult-pink), 0 0 35px var(--cult-pink);
+        }
+
+        .comet-orange {
+            background: var(--code-orange);
+            box-shadow: 0 0 18px var(--code-orange), 0 0 35px var(--code-amber);
+        }
+
+        @keyframes spinClockwise {
+            from { transform: rotateZ(0deg); }
+            to { transform: rotateZ(360deg); }
+        }
+
+        @keyframes spinCounterClockwise {
+            from { transform: rotateZ(360deg); }
+            to { transform: rotateZ(0deg); }
+        }
+
+        /* 7-Sided Septagon Portal SVG Frame (Official Pravaah geometry) */
+        .septagon-svg-frame {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+            transform-origin: center center;
+            filter: drop-shadow(0 0 30px rgba(0, 242, 254, 0.55));
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+        }
+
+        .septagon-poly-glow {
+            fill: none;
+            stroke: url(#septagon-neon-grad);
+            stroke-width: 6;
+            stroke-dasharray: 600;
+            stroke-dashoffset: 600;
+            filter: blur(5px);
+            opacity: 0.95;
+        }
+
+        .septagon-poly-core {
+            fill: rgba(7, 5, 25, 0.55);
+            stroke: url(#septagon-neon-grad);
+            stroke-width: 3;
+            stroke-dasharray: 600;
+            stroke-dashoffset: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Glowing Center Energy Core */
+        .center-aura-glow {
+            position: absolute;
+            width: 60%;
+            height: 60%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 87, 34, 0.25) 0%, rgba(255, 0, 127, 0.2) 40%, rgba(0, 242, 254, 0.15) 70%, transparent 100%);
+            filter: blur(25px);
+            opacity: 0;
+            transform: scale(0.3);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .center-aura-glow.active {
+            opacity: 1;
+            transform: scale(1.3);
+            animation: auraBreathing 3.5s infinite ease-in-out alternate;
+        }
+
+        @keyframes auraBreathing {
+            0% { transform: scale(1.15); opacity: 0.8; }
+            100% { transform: scale(1.45); opacity: 1; }
+        }
+
+        /* The Logo Emblem Container */
+        .logo-emblem-box {
+            position: relative;
+            width: 65%;
+            height: 65%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 18;
+            transform-style: preserve-3d;
+        }
+
+        /* Precision Vector Recreated Logo (< / >) matching user's image & fest palette */
+        .code-logo-svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+            opacity: 0;
+            transform: scale(0.35) translateZ(80px);
+            transition: all 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: drop-shadow(0 0 25px rgba(255, 87, 34, 0.8)) drop-shadow(0 0 50px rgba(0, 242, 254, 0.6));
+        }
+
+        .code-logo-svg.revealed {
+            opacity: 1;
+            transform: scale(1) translateZ(50px);
+            animation: logoFloat 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoFloat {
+            0% { transform: scale(1) translateZ(50px) translateY(0px); }
+            100% { transform: scale(1.04) translateZ(60px) translateY(-8px); }
+        }
+
+        /* Animated Laser Drawing Stroke Paths */
+        .bracket-stroke, .slash-stroke {
+            stroke-dasharray: 250;
+            stroke-dashoffset: 250;
+            transition: stroke-dashoffset 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .bracket-stroke.drawn, .slash-stroke.drawn {
+            stroke-dashoffset: 0;
+        }
+
+        /* Inner Hot Neon Core Strokes */
+        .bracket-core, .slash-core {
+            stroke-dasharray: 250;
+            stroke-dashoffset: 250;
+            transition: stroke-dashoffset 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .bracket-core.drawn, .slash-core.drawn {
+            stroke-dashoffset: 0;
+        }
+
+        /* Replay Prompt Hint (Ultra minimal, unobtrusive) */
+        .click-hint {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.25em;
+            color: rgba(255, 255, 255, 0.35);
+            text-transform: uppercase;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 1s ease 2s;
+            z-index: 30;
+        }
+
+        .click-hint.visible {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div id="viewport">
+        <!-- 3D Hyperspace Warp Canvas -->
+        <canvas id="warp-canvas"></canvas>
+
+        <!-- Glitch Scanlines -->
+        <div id="glitch-overlay" class="glitch-overlay"></div>
+
+        <!-- Hyperspace Breakout Flash and Shockwaves -->
+        <div id="portal-flash" class="portal-flash"></div>
+        <div id="shockwave-ring" class="shockwave-ring"></div>
+        <div id="shockwave-ring-2" class="shockwave-ring-secondary"></div>
+
+        <!-- Central Stage: Septagon Portal + Code Logo -->
+        <div id="stage">
+            <div class="portal-septagon-wrap" id="septagon-wrap">
+                <!-- Glowing Energy Aura Core -->
+                <div class="center-aura-glow" id="aura-glow"></div>
+
+                <!-- Orbiting Rings & Comets -->
+                <div class="orbit-ring orbit-ring-1">
+                    <div class="orbit-comet comet-cyan"></div>
+                </div>
+                <div class="orbit-ring orbit-ring-2">
+                    <div class="orbit-comet comet-pink"></div>
+                </div>
+                <div class="orbit-ring orbit-ring-3">
+                    <div class="orbit-comet comet-orange"></div>
+                </div>
+
+                <!-- 7-Sided Septagon SVG Portal (Pravaah Official Structure) -->
+                <svg viewBox="0 0 100 100" class="septagon-svg-frame" id="septagon-svg">
+                    <defs>
+                        <!-- Pravaah Multiverse Gradient: Magenta -> Orange -> Cyan -> Purple -->
+                        <linearGradient id="septagon-neon-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#ff007f" />
+                            <stop offset="35%" stop-color="#ff5722" />
+                            <stop offset="70%" stop-color="#00f2fe" />
+                            <stop offset="100%" stop-color="#9d4edd" />
+                        </linearGradient>
+                    </defs>
+                    <polygon points="50,2.5 87.1,20.4 96.3,60.6 70.6,92.8 29.4,92.8 3.7,60.6 12.9,20.4" class="septagon-poly-glow" id="poly-glow" />
+                    <polygon points="50,2.5 87.1,20.4 96.3,60.6 70.6,92.8 29.4,92.8 3.7,60.6 12.9,20.4" class="septagon-poly-core" id="poly-core" />
+                </svg>
+
+                <!-- Logo Graphic: Precision Vector Recreated </> Logo -->
+                <div class="logo-emblem-box">
+                    <svg viewBox="0 0 200 200" class="code-logo-svg" id="code-logo-svg">
+                        <defs>
+                            <!-- Vibrant Fire & Neon Gradient matching Fest Palette & User Logo -->
+                            <linearGradient id="logo-neon-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ff007f" />
+                                <stop offset="30%" stop-color="#ff5722" />
+                                <stop offset="65%" stop-color="#ff9100" />
+                                <stop offset="100%" stop-color="#00f2fe" />
+                            </linearGradient>
+                            <filter id="neon-glow-filter" x="-40%" y="-40%" width="180%" height="180%">
+                                <feGaussianBlur stdDeviation="6" result="blur1" />
+                                <feGaussianBlur stdDeviation="16" result="blur2" />
+                                <feMerge>
+                                    <feMergeNode in="blur2" />
+                                    <feMergeNode in="blur1" />
+                                    <feMergeNode in="SourceGraphic" />
+                                </feMerge>
+                            </filter>
+                        </defs>
+
+                        <g filter="url(#neon-glow-filter)">
+                            <!-- Left Bracket < -->
+                            <path class="bracket-stroke" id="bracket-left"
+                                  d="M 68 62 L 28 100 L 68 138"
+                                  fill="none" stroke="url(#logo-neon-grad)"
+                                  stroke-width="15" stroke-linecap="round" stroke-linejoin="round" />
+                            <!-- Left Bracket White/Gold Core Hot Center -->
+                            <path class="bracket-core" id="bracket-left-core"
+                                  d="M 68 62 L 28 100 L 68 138"
+                                  fill="none" stroke="#ffffff"
+                                  stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" />
+
+                            <!-- Center Slash / -->
+                            <line class="slash-stroke" id="slash-center"
+                                  x1="116" y1="52" x2="84" y2="148"
+                                  stroke="url(#logo-neon-grad)"
+                                  stroke-width="15" stroke-linecap="round" />
+                            <!-- Center Slash Core Hot Center -->
+                            <line class="slash-core" id="slash-center-core"
+                                  x1="116" y1="52" x2="84" y2="148"
+                                  stroke="#ffffff"
+                                  stroke-width="4.5" stroke-linecap="round" opacity="0.9" />
+
+                            <!-- Right Bracket > -->
+                            <path class="bracket-stroke" id="bracket-right"
+                                  d="M 132 62 L 172 100 L 132 138"
+                                  fill="none" stroke="url(#logo-neon-grad)"
+                                  stroke-width="15" stroke-linecap="round" stroke-linejoin="round" />
+                            <!-- Right Bracket White/Gold Core Hot Center -->
+                            <path class="bracket-core" id="bracket-right-core"
+                                  d="M 132 62 L 172 100 L 132 138"
+                                  fill="none" stroke="#ffffff"
+                                  stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" />
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subtle Click to Replay Hint -->
+        <div class="click-hint" id="click-hint">CLICK ANYWHERE TO REPLAY</div>
+    </div>
+
+    <script>
+        /* =========================================================================
+           PRAVAAH 2026 - PURE CINEMATIC LOGO WARP ANIMATION
+           - Instant Full-Speed Hyperspace (no slow ramp-up)
+           - Pure animation (zero landing page clutter)
+           - Recreated </> Logo matching website's multiverse color palette
+           ========================================================================= */
+
+        const canvas = document.getElementById('warp-canvas');
+        const ctx = canvas.getContext('2d');
+        const stage = document.getElementById('stage');
+        const flashOverlay = document.getElementById('portal-flash');
+        const shockwave1 = document.getElementById('shockwave-ring');
+        const shockwave2 = document.getElementById('shockwave-ring-2');
+        const glitchOverlay = document.getElementById('glitch-overlay');
+        const septagonSvg = document.getElementById('septagon-svg');
+        const polyGlow = document.getElementById('poly-glow');
+        const polyCore = document.getElementById('poly-core');
+        const auraGlow = document.getElementById('aura-glow');
+        const codeLogoSvg = document.getElementById('code-logo-svg');
+        const clickHint = document.getElementById('click-hint');
+
+        const strokeLeft = document.getElementById('bracket-left');
+        const coreLeft = document.getElementById('bracket-left-core');
+        const strokeSlash = document.getElementById('slash-center');
+        const coreSlash = document.getElementById('slash-center-core');
+        const strokeRight = document.getElementById('bracket-right');
+        const coreRight = document.getElementById('bracket-right-core');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        let cx = width / 2;
+        let cy = height / 2;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            cx = width / 2;
+            cy = height / 2;
+        });
+
+        /* =========================================================================
+           HIGH-PERFORMANCE 3D HYPERSPACE WARP ENGINE (Batched 60-120 FPS)
+           ========================================================================= */
+        const STAR_COUNT = 450;
+        const stars = [];
+        const COLOR_PALETTE = ['#00f2fe', '#ff007f', '#ff5722', '#ffffff'];
+
+        class Star {
+            constructor() {
+                this.reset(true);
+            }
+
+            reset(initial = false) {
+                this.x = (Math.random() - 0.5) * width * 2.2;
+                this.y = (Math.random() - 0.5) * height * 2.2;
+                this.z = initial ? Math.random() * 2000 : 2000;
+                this.pz = this.z;
+
+                const p = Math.random();
+                if (p < 0.40) this.colorIdx = 0; // Cyan
+                else if (p < 0.70) this.colorIdx = 1; // Pink
+                else if (p < 0.88) this.colorIdx = 2; // Orange
+                else this.colorIdx = 3; // White
+
+                this.baseSize = Math.random() * 1.8 + 0.8;
+            }
+
+            update(speed) {
+                this.pz = this.z;
+                this.z -= speed;
+                if (this.z <= 1) {
+                    this.reset(false);
+                }
+            }
+        }
+
+        for (let i = 0; i < STAR_COUNT; i++) {
+            stars.push(new Star());
+        }
+
+        function drawAllStars(speed) {
+            // Update all star coordinates
+            for (let i = 0; i < STAR_COUNT; i++) {
+                stars[i].update(speed);
+            }
+
+            const isStreaking = speed > 10;
+            ctx.lineCap = 'round';
+
+            // Render in 4 batched GPU passes (one pass per color)
+            for (let c = 0; c < 4; c++) {
+                ctx.beginPath();
+                ctx.strokeStyle = COLOR_PALETTE[c];
+                ctx.fillStyle = COLOR_PALETTE[c];
+                let hasDrawn = false;
+
+                for (let i = 0; i < STAR_COUNT; i++) {
+                    const s = stars[i];
+                    if (s.colorIdx !== c) continue;
+
+                    const k = 420 / s.z;
+                    const px = s.x * k + cx;
+                    const py = s.y * k + cy;
+
+                    if (px < -80 || px > width + 80 || py < -80 || py > height + 80) continue;
+
+                    if (isStreaking) {
+                        const pk = 420 / s.pz;
+                        const ppx = s.x * pk + cx;
+                        const ppy = s.y * pk + cy;
+                        ctx.moveTo(ppx, ppy);
+                        ctx.lineTo(px, py);
+                        hasDrawn = true;
+                    } else {
+                        const size = Math.max(0.7, (1 - s.z / 2000) * s.baseSize);
+                        ctx.moveTo(px + size, py);
+                        ctx.arc(px, py, size, 0, Math.PI * 2);
+                        hasDrawn = true;
+                    }
+                }
+
+                if (hasDrawn) {
+                    if (isStreaking) {
+                        ctx.lineWidth = speed > 35 ? 2.2 : 1.5;
+                        ctx.stroke();
+                    } else {
+                        ctx.fill();
+                    }
+                }
+            }
+        }
+
+        /* 3D Geometric Concentric Wormhole Septagon Rings */
+        const RING_COUNT = 14;
+        const tunnelRings = [];
+        for (let i = 0; i < RING_COUNT; i++) {
+            tunnelRings.push({
+                z: (i / RING_COUNT) * 1900,
+                angle: (i * 0.22)
+            });
+        }
+
+        function drawSeptagon(ctx, x, y, radius, rotation) {
+            ctx.beginPath();
+            const sides = 7;
+            for (let i = 0; i < sides; i++) {
+                const a = rotation + (i * Math.PI * 2 / sides);
+                const sx = x + Math.cos(a) * radius;
+                const sy = y + Math.sin(a) * radius;
+                if (i === 0) ctx.moveTo(sx, sy);
+                else ctx.lineTo(sx, sy);
+            }
+            ctx.closePath();
+        }
+
+        /* =========================================================================
+           SYNTHESIZED WEB AUDIO SFX (Starts fast alongside animation)
+           ========================================================================= */
+        let audioCtx = null;
+        let soundEnabled = (window.self === window.top); // Default on only when tested standalone
+        const isEmbedded = (window.self !== window.top);
+
+        if (isEmbedded && clickHint) {
+            clickHint.style.display = 'none';
+        }
+
+        window.addEventListener('message', (e) => {
+            if (!e.data) return;
+            if (e.data.type === 'START_WARP') {
+                startAnimation();
+            } else if (e.data.type === 'ENABLE_AUDIO') {
+                soundEnabled = true;
+                playWarpSFX();
+            } else if (e.data.type === 'DISABLE_AUDIO') {
+                soundEnabled = false;
+                if (audioCtx && audioCtx.state !== 'closed') {
+                    try { audioCtx.suspend(); } catch (err) {}
+                }
+            } else if (e.data.type === 'TOGGLE_AUDIO') {
+                soundEnabled = !soundEnabled;
+                if (soundEnabled) playWarpSFX();
+                else if (audioCtx && audioCtx.state !== 'closed') {
+                    try { audioCtx.suspend(); } catch (err) {}
+                }
+            }
+        });
+
+        function playWarpSFX() {
+            if (!soundEnabled) return;
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
+                const now = audioCtx.currentTime;
+
+                // 1. High Velocity Hyperspace Rush Drone
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(320, now);
+                osc.frequency.exponentialRampToValueAtTime(1100, now + 1.8);
+
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(1200, now);
+                filter.frequency.exponentialRampToValueAtTime(8000, now + 1.8);
+
+                gain.gain.setValueAtTime(0.35, now);
+                gain.gain.linearRampToValueAtTime(0.55, now + 1.5);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 2.0);
+
+                osc.connect(filter);
+                filter.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 2.1);
+
+                // 2. Heavy Sub-Bass Singularity Boom
+                const subOsc = audioCtx.createOscillator();
+                const subGain = audioCtx.createGain();
+                subOsc.type = 'sine';
+                subOsc.frequency.setValueAtTime(150, now + 1.9);
+                subOsc.frequency.exponentialRampToValueAtTime(30, now + 3.2);
+
+                subGain.gain.setValueAtTime(0, now);
+                subGain.gain.setValueAtTime(0.8, now + 1.9);
+                subGain.gain.exponentialRampToValueAtTime(0.001, now + 3.4);
+
+                subOsc.connect(subGain);
+                subGain.connect(audioCtx.destination);
+                subOsc.start(now + 1.9);
+                subOsc.stop(now + 3.5);
+
+                // 3. Shimmering Crystal Harmonic Chords for Logo Materialization
+                [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+                    const cOsc = audioCtx.createOscillator();
+                    const cGain = audioCtx.createGain();
+                    cOsc.type = 'triangle';
+                    cOsc.frequency.setValueAtTime(freq, now + 2.2);
+
+                    cGain.gain.setValueAtTime(0, now + 2.2);
+                    cGain.gain.linearRampToValueAtTime(0.09, now + 2.6 + (i * 0.08));
+                    cGain.gain.exponentialRampToValueAtTime(0.001, now + 5.0);
+
+                    cOsc.connect(cGain);
+                    cGain.connect(audioCtx.destination);
+                    cOsc.start(now + 2.2);
+                    cOsc.stop(now + 5.1);
+                });
+            } catch (e) {
+                // Audio autoplay policy fallback
+            }
+        }
+
+        /* =========================================================================
+           ANIMATION TIMELINE CONTROLLER
+           START IMMEDIATELY AT HIGH VELOCITY (NO SLOW RAMP-UP)
+           ========================================================================= */
+        let animStartTime = performance.now();
+        let warpSpeed = 95; // Starts at FULL warp speed instantly!
+        let currentPhase = 'fast_warp';
+        let globalRotation = 0;
+        let mouseX = 0, mouseY = 0;
+
+        function startAnimation() {
+            animStartTime = performance.now();
+            currentPhase = 'fast_warp';
+            warpSpeed = 95; // Full high speed from millisecond 0!
+
+            // Reset visual elements
+            codeLogoSvg.classList.remove('revealed');
+            auraGlow.classList.remove('active');
+            flashOverlay.classList.remove('flash-active');
+            shockwave1.classList.remove('blast');
+            shockwave2.classList.remove('blast');
+            clickHint.classList.remove('visible');
+
+            polyGlow.style.strokeDashoffset = '600';
+            polyCore.style.strokeDashoffset = '600';
+            septagonSvg.style.transform = 'scale(0.15) rotate(180deg)';
+            septagonSvg.style.opacity = '0';
+
+            // Reset laser drawing paths
+            [strokeLeft, coreLeft, strokeSlash, coreSlash, strokeRight, coreRight].forEach(el => {
+                el.classList.remove('drawn');
+            });
+
+            playWarpSFX();
+        }
+
+        // Click anywhere to replay the pure animation
+        window.addEventListener('click', () => {
+            startAnimation();
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX - cx) / cx;
+            mouseY = (e.clientY - cy) / cy;
+        });
+
+        /* Main Render Loop */
+        let frameCount = 0;
+        function animate(now) {
+            requestAnimationFrame(animate);
+            frameCount++;
+
+            const elapsed = (now - animStartTime) / 1000; // in seconds
+
+            // Dark Void Motion Blur
+            ctx.fillStyle = warpSpeed > 30 ? 'rgba(3, 0, 20, 0.35)' : 'rgba(3, 0, 20, 0.65)';
+            ctx.fillRect(0, 0, width, height);
+
+            // Phase Logic: Starts immediately FAST!
+            if (elapsed < 1.9) {
+                // 1. FAST HYPERSPACE WARP (From frame 0!)
+                currentPhase = 'fast_warp';
+                warpSpeed = 90 + Math.sin(elapsed * 4) * 15; // 85c - 105c top speed
+
+                // Glitch flicker without setTimeout churn
+                if (frameCount % 12 === 0) {
+                    glitchOverlay.style.opacity = '0.65';
+                } else if (frameCount % 6 === 0) {
+                    glitchOverlay.style.opacity = '0';
+                }
+            } else if (elapsed >= 1.9 && elapsed < 2.2) {
+                // 2. SINGULARITY CONVERGENCE
+                currentPhase = 'singularity';
+                warpSpeed = 35 - ((elapsed - 1.9) / 0.3) * 30;
+                glitchOverlay.style.opacity = '0.7';
+            } else if (elapsed >= 2.2 && elapsed < 3.2) {
+                // 3. EXPLOSIVE BREAKOUT FLASH & SHOCKWAVE
+                if (currentPhase !== 'breakout') {
+                    currentPhase = 'breakout';
+                    glitchOverlay.style.opacity = '0';
+
+                    // Lens flash
+                    flashOverlay.classList.add('flash-active');
+                    setTimeout(() => flashOverlay.classList.remove('flash-active'), 180);
+
+                    // Expanding Shockwaves without forced layout reflow
+                    shockwave1.classList.remove('blast');
+                    shockwave2.classList.remove('blast');
+                    requestAnimationFrame(() => {
+                        shockwave1.classList.add('blast');
+                        shockwave2.classList.add('blast');
+                    });
+
+                    // Septagon Frame Locks into Place
+                    septagonSvg.style.opacity = '1';
+                    septagonSvg.style.transform = 'scale(1) rotate(0deg)';
+                    polyGlow.style.transition = 'stroke-dashoffset 1.1s ease-out';
+                    polyCore.style.transition = 'stroke-dashoffset 1.1s ease-out';
+                    polyGlow.style.strokeDashoffset = '0';
+                    polyCore.style.strokeDashoffset = '0';
+
+                    // Reveal Center Aura Glow
+                    auraGlow.classList.add('active');
+
+                    // Laser Draw Code Logo </>
+                    setTimeout(() => {
+                        codeLogoSvg.classList.add('revealed');
+                        [strokeLeft, coreLeft, strokeSlash, coreSlash, strokeRight, coreRight].forEach(el => {
+                            el.classList.add('drawn');
+                        });
+                        if (isEmbedded) {
+                            setTimeout(() => {
+                                try {
+                                    window.parent.postMessage({ type: 'PRAVAAH_WARP_COMPLETE' }, '*');
+                                } catch (e) {}
+                            }, 450);
+                        } else {
+                            clickHint.classList.add('visible');
+                        }
+                    }, 250);
+                }
+                warpSpeed = 4;
+            } else {
+                // 4. MAJESTIC CONTINUOUS LOGO STATE
+                currentPhase = 'stable';
+                warpSpeed = 2.2;
+            }
+
+            // Draw Stars in 4 batched passes (silky 60-120fps)
+            drawAllStars(warpSpeed);
+
+            // Draw 3D Tunnel Septagon Rings during Fast Warp (GPU optimized without shadowBlur)
+            if (currentPhase === 'fast_warp' || currentPhase === 'singularity') {
+                globalRotation += 0.030;
+                for (let i = 0; i < tunnelRings.length; i++) {
+                    const r = tunnelRings[i];
+                    r.z -= warpSpeed * 1.5;
+                    if (r.z <= 20) r.z += 1900;
+
+                    const k = 420 / r.z;
+                    const radius = 280 * k;
+
+                    if (radius > 1 && radius < width * 1.25) {
+                        ctx.lineWidth = Math.max(1, 3.5 * k);
+                        if (i % 3 === 0) {
+                            ctx.strokeStyle = 'rgba(0, 242, 254, 0.55)';
+                        } else if (i % 3 === 1) {
+                            ctx.strokeStyle = 'rgba(255, 0, 127, 0.55)';
+                        } else {
+                            ctx.strokeStyle = 'rgba(255, 87, 34, 0.55)';
+                        }
+                        drawSeptagon(ctx, cx, cy, radius, r.angle + globalRotation);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Subtle 3D Mouse Parallax Tilt in Stable Phase
+            if (currentPhase === 'stable') {
+                const tiltX = mouseY * -10;
+                const tiltY = mouseX * 12;
+                stage.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+            } else {
+                stage.style.transform = `rotateX(0deg) rotateY(0deg)`;
+            }
+        }
+
+        // Start pure animation instantly on load
+        startAnimation();
+        requestAnimationFrame(animate);
+    </script>
+</body>
+</html>

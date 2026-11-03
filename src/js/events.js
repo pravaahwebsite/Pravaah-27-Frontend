@@ -56,19 +56,21 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 'tech-1',
             verse: 'tech',
             verseName: 'TECH EVENT',
-            name: 'Robo Soccer',
-            icon: '🤖',
-            desc: 'Build a customized autonomous or manual robot to battle in a futuristic arena and claim the championship trophy.',
-            date: 'Oct 15, 10:00 AM',
+            name: 'Trekkon',
+            icon: '⚡',
+            image: 'assets/Events_images/Trekkon.jpeg',
+            desc: 'Autonomous line-following robot challenge where precision bots race along complex tracks at maximum velocity.',
+            date: 'Feb 6, 2026',
             day: '1',
-            venue: 'Robotics Bay A',
-            prize: '₹75,000',
-            team: '2 - 4 Members',
+            venue: 'Robotics Arena, IIT Bhubaneswar',
+            prize: '₹20,000',
+            team: '1 - 4 Members',
+            rulebookPage: 4,
             rules: [
-                'Robot dimensions must not exceed 30cm x 30cm x 30cm at start.',
-                'Max weight allowance is 5.0 kg including battery.',
-                'Match duration: 2 halves of 4 minutes each with 1 min break.',
-                'No damaging weapons or entanglement mechanisms allowed.'
+                'The robot must be completely autonomous and adhere to the black line throughout the track.',
+                'Bot dimensions must fit within a 20cm x 20cm x 20cm cube; max weight 5kg.',
+                'Maximum voltage anywhere in the robot must not exceed 12V DC.',
+                'No ready-made kits or robots permitted; up to 3 restarts allowed per round.'
             ]
         },
 
@@ -76,19 +78,21 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 'tech-2',
             verse: 'tech',
             verseName: 'TECH EVENT',
-            name: 'Code-A-Thon',
-            icon: '💻',
-            desc: 'A grueling 24-hour sprint where developer teams solve complex algorithmic problems and real-world system challenges.',
-            date: 'Oct 16, 09:00 AM',
-            day: '2',
-            venue: 'Matrix Lab 3',
-            prize: '₹60,000',
-            team: '1 - 3 Members',
+            name: 'Robo Soccer',
+            icon: '🤖',
+            image: 'assets/Events_images/Robo Soccer.jpeg',
+            desc: 'High-intensity robotic football tournament where teams maneuver custom bots to outscore opponents in qualifiers and knockouts.',
+            date: 'Feb 6, 10:00 AM',
+            day: '1',
+            venue: 'Robotics Bay, IIT Bhubaneswar',
+            prize: '₹20,000',
+            team: 'Up to 5 Members',
+            rulebookPage: 6,
             rules: [
-                '24-hour non-stop algorithmic sprint.',
-                'Submissions tested against rigorous hidden test suites.',
-                'Languages supported: C++, Java, Python, Rust, Go.',
-                'Use of AI assistance tools is strictly monitored and scored.'
+                'Three rounds: Qualifiers (spot shooting), Knockouts, and Grand Finals (two 3-minute halves).',
+                'Robot size limit: 30cm x 30cm x 15cm; max weight 15kg (bonus points for bots under 5kg).',
+                'Wired or wireless control with maximum 12V supply; no ball-grabbing or trapping mechanisms.',
+                'Tennis ball used in a 120cm x 200cm arena; intentional ramming or fouls lead to warnings/penalties.'
             ]
         },
 
@@ -96,18 +100,21 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 'tech-3',
             verse: 'tech',
             verseName: 'TECH EVENT',
-            name: 'AI Odyssey',
-            icon: '🧠',
-            desc: 'Design and train a deep learning model to navigate, classify, and resolve dimensional anomalies in noisy datasets.',
-            date: 'Oct 17, 11:30 AM',
-            day: '3',
-            venue: 'Neuromorphic Hall',
-            prize: '₹50,000',
-            team: '1 - 2 Members',
+            name: 'Data Science Hackathon',
+            icon: '📊',
+            image: 'assets/Events_images/Data Science Hackathon.jpeg',
+            desc: 'A grueling 24-hour offline hackathon challenging developers to engineer predictive models, pipelines, and machine learning solutions.',
+            date: 'Feb 6, 9:00 AM',
+            day: '1-2',
+            venue: 'UHL, IIT Bhubaneswar',
+            prize: '₹25,000',
+            team: '1 - 4 Members',
+            rulebookPage: 9,
             rules: [
-                'Dataset provided at 11:30 AM on Day 3.',
-                'Model evaluation based on F1-Score, latency, and parameter size.',
-                'Final presentations to AI faculty and industry judges.'
+                '24-hour completely offline hackathon; common problem statement announced at kickoff.',
+                'All code must be developed from scratch on campus and submitted to GitHub before the deadline.',
+                'Submissions must include complete source code, dataset citations, and comprehensive PDF/Markdown reports.',
+                'Evaluated on Technical Accuracy (50%), Innovation (20%), Functionality (15%), and Documentation (15%).'
             ]
         },
 
@@ -115,18 +122,21 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 'tech-4',
             verse: 'tech',
             verseName: 'TECH EVENT',
-            name: 'WebCraft UI/UX',
-            icon: '🌐',
-            desc: 'Create futuristic, ultra-smooth interactive web experiences using modern canvas, WebGL, and reactive component frameworks.',
-            date: 'Oct 15, 02:00 PM',
-            day: '1',
-            venue: 'Cyber Center 1',
-            prize: '₹40,000',
-            team: '1 - 2 Members',
+            name: 'Web Hackathon',
+            icon: '💻',
+            image: 'assets/Events_images/Web Hackathon.jpeg',
+            desc: 'Sprint through a 24-hour offline build to architect functional, highly responsive, and innovative web applications.',
+            date: 'Feb 7, 10:00 AM',
+            day: '2-3',
+            venue: 'UHL, IIT Bhubaneswar',
+            prize: '₹20,000',
+            team: '1 - 4 Members',
+            rulebookPage: 12,
             rules: [
-                'Theme announced at the start of the 6-hour hack session.',
-                'Judged on aesthetics, micro-interactions, responsive fluidity, and performance.',
-                'Live deployment required on GitHub Pages / Vercel.'
+                'Completely offline 24-hour hackathon; theme and challenge revealed at event kickoff.',
+                'All development must take place during the hackathon; pre-existing projects strictly disallowed.',
+                'Submissions must include a working hosted/local demo, documented GitHub repo, and pitch slides (max 5).',
+                'Judged on Functionality (30%), Implementation (25%), Innovation (20%), UI/UX (15%), and Theme (10%).'
             ]
         },
 
@@ -134,17 +144,153 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 'tech-5',
             verse: 'tech',
             verseName: 'TECH EVENT',
-            name: 'Mech-Trix CAD Design',
-            icon: '⚙️',
-            desc: 'CAD 3D modeling challenge to construct aerodynamic space exploration rovers and drone frameworks.',
-            date: 'Oct 17, 03:00 PM',
-            day: '3',
-            venue: 'Simulation Annex',
-            prize: '₹35,000',
-            team: 'Individual / Duo',
+            name: 'Blast off',
+            icon: '🚀',
+            image: 'assets/Events_images/Blast Off.jpeg',
+            desc: 'Water bottle rocketry showdown where teams design pressurized aerodynamic vessels for maximum distance and trajectory.',
+            date: 'Feb 7, 10:00 AM',
+            day: '2',
+            venue: 'Hockey Ground, IIT Bhubaneswar',
+            prize: '₹10,000',
+            team: 'Up to 4 Members',
+            rulebookPage: 15,
             rules: [
-                'Software: SolidWorks, Fusion 360, or CATIA.',
-                'Designs must withstand stress-strain simulation analysis.'
+                'Rockets must be constructed from plastic water bottles (minimum 2 liters, neck diameter >= 1.5 in).',
+                'Only water and air pressure can be used for propulsion; pressure must hold greater than 60 psi.',
+                'Multiple staged rockets are not permitted; launching equipment provided or teams may bring their own.',
+                'Two attempts allowed per team; the farthest horizontal/range distance counts as the final score.'
+            ]
+        },
+
+        {
+            id: 'tech-6',
+            verse: 'tech',
+            verseName: 'TECH EVENT',
+            name: 'Robo Race',
+            icon: '🏎️',
+            image: 'assets/Events_images/Robo race.jpeg',
+            desc: 'Tear through custom treacherous courses packed with active and passive obstacles in a high-speed knockout race.',
+            date: 'Feb 7 - 8, 2026',
+            day: '2-3',
+            venue: 'Open Arena Track, IIT Bhubaneswar',
+            prize: 'Cash Prizes & Trophies',
+            team: 'Up to 4 Members',
+            rulebookPage: 68,
+            rules: [
+                'Construct a manually controlled wireless robot capable of completing the obstacle race track.',
+                'Bot dimensions must not exceed 25cm x 25cm x 20cm; maximum weight 5kg.',
+                'Pre-fabricated LEGO or ready-made chassis kits are strictly prohibited.',
+                'Bots must clear all sequential checkpoints; shortest track completion time wins.'
+            ]
+        },
+
+        {
+            id: 'tech-7',
+            verse: 'tech',
+            verseName: 'TECH EVENT',
+            name: 'Free Fire Fury',
+            icon: '🔥',
+            image: 'assets/Events_images/Free Fire Fury.jpeg',
+            desc: 'Four-member squad battle royale tournament battling across Bermuda and Purgatory through qualifiers, playoffs, and Clash Squad finals.',
+            date: 'Jan 26, 2026',
+            day: 'Pre-Fest',
+            venue: 'Online Gaming Arena',
+            prize: '₹6,500',
+            team: 'Squad (4 Members)',
+            rulebookPage: 53,
+            rules: [
+                'Squad Mode tournament played in 3 rounds: Battle Royale Qualifiers, Semis, and Clash Squad Finals.',
+                'Maps: Bermuda & Purgatory for Battle Royale format; Bermuda exclusively for Clash Squad.',
+                'Scoring based on placement and kill points (1 pt per kill); emulators strictly banned.',
+                'Minimum account level 40 required; fair play and anti-cheat policies strictly enforced.'
+            ]
+        },
+
+        {
+            id: 'tech-8',
+            verse: 'tech',
+            verseName: 'TECH EVENT',
+            name: 'BGMI',
+            icon: '🎯',
+            image: 'assets/Events_images/BGMI.jpeg',
+            desc: 'Epic Battlegrounds Mobile India showdown featuring 3 classic matches across Erangel, Sanhok, and Miramar for the chicken dinner.',
+            date: 'Jan 25, 2026',
+            day: 'Pre-Fest',
+            venue: 'Online Gaming Arena',
+            prize: '₹6,500',
+            team: '2 - 4 Players (Squad)',
+            rulebookPage: 57,
+            rules: [
+                'Online Squad Mode tournament consisting of 3 classic Battle Royale matches on Erangel, Sanhok, and Miramar.',
+                'Scoring: 2 points per kill plus official placement points (15 pts for 1st place).',
+                'Advanced room cards used; players must check-in 20 minutes before each match.',
+                'Emulators, hacks, teaming up, or exploits lead to immediate team disqualification.'
+            ]
+        },
+
+        {
+            id: 'tech-9',
+            verse: 'tech',
+            verseName: 'TECH EVENT',
+            name: 'Valorant',
+            icon: '🎮',
+            image: 'assets/Events_images/Valorant.jpeg',
+            desc: 'Tactical 5v5 FPS tournament pitting sharpshooting collegiate teams in strategic map vetoes, plant/defuse rounds, and overtime duels.',
+            date: 'Online Tournament',
+            day: 'Pre-Fest',
+            venue: 'Custom Tournament Servers',
+            prize: 'Cash Prizes & Mementos',
+            team: '5 Players per Team',
+            rulebookPage: 60,
+            rules: [
+                'Standard 5v5 tournament format: Knockout rounds, Qualifiers, and Best-of-3 Grand Finals.',
+                'Map pool: Ascent, Split, Fracture, Bind, Breeze, Icebox, Haven, Pearl with veto process.',
+                'First to 13 rounds wins; 2-round overtime rule applies in case of 12-12 draws.',
+                'No custom config files, exploits, or third-party assists permitted; squad must check-in 15 min prior.'
+            ]
+        },
+
+        {
+            id: 'tech-10',
+            verse: 'tech',
+            verseName: 'TECH EVENT',
+            name: 'Clash Royal',
+            icon: '👑',
+            image: 'assets/Events_images/Clash Royal.jpeg',
+            desc: 'Head-to-head tactical mobile card strategy tournament where players craft custom decks, counter elixir pushes, and take crowns.',
+            date: 'Online Tournament',
+            day: 'Pre-Fest',
+            venue: 'Online Gaming Arena',
+            prize: '₹6,500',
+            team: 'Solo (Individual)',
+            rulebookPage: 63,
+            rules: [
+                'Classic tournament battle format with Level 11 tournament standard card caps.',
+                'Players may switch and build decks freely between matches; evolutions and champion cards permitted.',
+                'Round duration 1 hour with a maximum of 5 losses allowed before elimination.',
+                'Tournament tag and private password shared via official coordinator group prior to match.'
+            ]
+        },
+
+        {
+            id: 'tech-11',
+            verse: 'tech',
+            verseName: 'TECH EVENT',
+            name: 'Sci and tech quiz',
+            icon: '🔬',
+            image: 'assets/Events_images/Sci and tech Quiz.jpeg',
+            desc: 'High-stakes battle of scientific minds testing knowledge across astronomy, modern physics, engineering, and tech innovations.',
+            date: 'Feb 7, 2026',
+            day: '2',
+            venue: 'Lecture Hall Complex, IIT Bhubaneswar',
+            prize: '₹8,000',
+            team: 'Up to 2 Members or Lone Wolves',
+            rulebookPage: 26,
+            rules: [
+                'Two-round contest: 20-question Preliminary Round followed by live Grand Finals.',
+                'Teams of up to two members or individual lone wolf participants permitted.',
+                'Top 8 qualifying teams advance to the live audio-visual finals.',
+                'Questions centered around frontier science, aerospace, engineering, and tech innovations.'
             ]
         },
 
@@ -459,46 +605,27 @@ document.addEventListener('DOMContentLoaded', () => {
             ]
         },
 
-        {
-            id: 'cult-15',
-            verse: 'cult',
-            verseName: 'CULT EVENT',
-            name: 'Sci and tech quiz',
-            icon: '🔬',
-            image: 'assets/Events_images/Sci and tech Quiz.jpeg',
-            desc: 'High-stakes battle of scientific minds testing knowledge across astronomy, modern physics, technology, and discoveries.',
-            date: 'Feb 7, 2026',
-            day: '2',
-            venue: 'Lecture Hall Complex',
-            prize: 'Cash Prizes & Certificates',
-            team: 'Up to 2 Members or Lone Wolves',
-            rulebookPage: 26,
-            rules: [
-                'Two-round contest: 20-question Preliminary Round followed by Grand Finals.',
-                'Teams of up to two members or individual lone wolf participants permitted.',
-                'Top 8 qualifying teams advance to the live audio-visual finals.',
-                'Questions centered around science, aerospace, engineering, and tech innovations.'
-            ]
-        },
-
-
         /* ---------------- ENTREPRENEUR ---------------- */
 
         {
             id: 'ent-1',
             verse: 'ent',
             verseName: 'ENT EVENT',
-            name: 'Pitchers // Shark Arena',
-            icon: '💼',
-            desc: 'Pitch your early-stage startup or tech innovation directly to real angel investors and VC partners for funding.',
-            date: 'Oct 16, 11:00 AM',
-            day: '2',
-            venue: 'Incubation Center',
-            prize: '₹120,000 Funding + Grants',
+            name: 'Startup Expo',
+            icon: '🚀',
+            image: 'assets/Events_images/Startup Expo.jpeg',
+            desc: 'Flagship exhibition stall showcase connecting early-stage startups with thousands of students, investors, and industry mentors.',
+            date: 'Feb 6, 10:00 AM',
+            day: '1',
+            venue: 'Exhibition Arena, IIT Bhubaneswar',
+            prize: 'Stall Grants & Investor Networking',
             team: '1 - 4 Founders',
+            rulebookPage: 16,
             rules: [
-                '10 minutes pitch deck presentation followed by 5 minutes Q&A.',
-                'Must have a working prototype or validated MVP.'
+                'Each registered venture is allotted a dedicated 10ft x 10ft stall to showcase products and services.',
+                'Startups can sell merchandise, demonstrate live prototypes, and collect real customer feedback.',
+                'Tables, display boards, and power supply provided upon advance coordination.',
+                'Open to early-stage businesses, student ventures, and bootstrapped innovations.'
             ]
         },
 
@@ -506,17 +633,21 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 'ent-2',
             verse: 'ent',
             verseName: 'ENT EVENT',
-            name: 'B-Plan Showdown',
-            icon: '📊',
-            desc: 'Draft comprehensive corporate business plans detailing market sizing, unit economics, and go-to-market strategies.',
-            date: 'Oct 15, 03:00 PM',
-            day: '1',
-            venue: 'Seminar Room C',
-            prize: '₹50,000',
-            team: '2 - 4 Members',
+            name: 'Innovation Expo',
+            icon: '💡',
+            image: 'assets/Events_images/Innovation Expo.jpeg',
+            desc: 'Two-round prototype exposition where student innovators present working hardware/table-top models to esteemed faculty and juries.',
+            date: 'Feb 7, 10:00 AM',
+            day: '2',
+            venue: 'IIT Bhubaneswar Campus',
+            prize: '₹10,000',
+            team: 'Up to 5 Members',
+            rulebookPage: 18,
             rules: [
-                'Executive summary submitted prior to fest.',
-                'Finalists present financial models on stage.'
+                'Round 1: Online screening round requiring submission of a graphical abstract PDF.',
+                'Round 2: Offline live showcase with working table-top model, poster, or prototype plant.',
+                'Ideas must demonstrate originality or tangible optimization over existing industry solutions.',
+                'Evaluated by IIT Bhubaneswar professors and industry experts on feasibility and impact.'
             ]
         },
 
@@ -524,17 +655,21 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 'ent-3',
             verse: 'ent',
             verseName: 'ENT EVENT',
-            name: 'Crypto & Market Quest',
+            name: 'B-Plan',
             icon: '📈',
-            desc: 'Live high-frequency simulated stock and crypto market trading platform. Read news feeds and execute trades.',
-            date: 'Oct 17, 10:00 AM',
-            day: '3',
-            venue: 'Finance Lab B',
-            prize: '₹35,000',
-            team: 'Solo / Duo',
+            image: 'assets/Events_images/B-Plan.jpeg',
+            desc: 'Pitch dynamic business models, unit economics, and go-to-market strategies to expert venture judges within 8 minutes.',
+            date: 'Feb 7, 02:00 PM',
+            day: '2',
+            venue: 'LHL, IIT Bhubaneswar',
+            prize: '₹10,000 + Goodies',
+            team: 'Up to 3 Members',
+            rulebookPage: 20,
             rules: [
-                'Initial virtual capital: $1,000,000.',
-                'Highest portfolio valuation at market close wins.'
+                'Teams must not exceed 3 members; presentation time strictly capped under 8 minutes.',
+                'The business model can represent an existing or hypothetical startup venture.',
+                'Judged on market opportunity, revenue model, financial feasibility, and pitch clarity.',
+                'Plagiarism or copied slide decks result in immediate team disqualification.'
             ]
         },
 
@@ -542,35 +677,21 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 'ent-4',
             verse: 'ent',
             verseName: 'ENT EVENT',
-            name: 'Ad-Mad Creative Pitch',
-            icon: '📣',
-            desc: 'Brainstorm, script, and perform humorous or viral advertisements for bizarre futuristic gadgets.',
-            date: 'Oct 15, 11:00 AM',
-            day: '1',
-            venue: 'Media Auditorium',
-            prize: '₹25,000',
-            team: '2 - 5 Members',
+            name: 'Enigma',
+            icon: '🧩',
+            image: 'assets/Events_images/Enigma.jpeg',
+            desc: 'High-pressure case competition challenging analytical duos to crack complex real-time business and industry scenarios.',
+            date: 'Feb 7, 10:00 AM',
+            day: '2',
+            venue: 'Seminar Hall, IIT Bhubaneswar',
+            prize: '₹10,000 + Goodies',
+            team: 'Up to 2 Participants',
+            rulebookPage: 22,
             rules: [
-                'Product allocated on spot with 30 min preparation.',
-                '3 minutes live act on stage.'
-            ]
-        },
-
-        {
-            id: 'ent-5',
-            verse: 'ent',
-            verseName: 'ENT EVENT',
-            name: 'Young Innovator Cup',
-            icon: '🚀',
-            desc: 'Ideation challenge for school and junior college innovators creating tech prototypes for sustainability.',
-            date: 'Oct 18, 02:00 PM',
-            day: '4',
-            venue: 'Incubation Center',
-            prize: '₹30,000',
-            team: '1 - 3 Students',
-            rules: [
-                'Working model or poster presentation.',
-                'Certificate of Excellence for all participants.'
+                'Two-round offline team competition with at most 2 participants per team.',
+                'Round 1: Solve and present a real-time corporate business challenge (10:00 AM - 12:00 PM).',
+                'Round 2: Advanced case study finals for qualifying teams (2:30 PM - 4:30 PM).',
+                'Teams submit one consolidated case solution; external assistance or plagiarism is barred.'
             ]
         }
     ];
@@ -583,33 +704,69 @@ document.addEventListener('DOMContentLoaded', () => {
     const learnById = {
 
         'tech-1': [
-            'Build and control a competition-ready robot.',
-            'Apply autonomous/manual decision making under match pressure.',
-            'Work on mechanical reliability, strategy, and team coordination.'
+            'Design autonomous sensor-driven line tracking circuits and PID controllers.',
+            'Optimize chassis weight, wheel grip, and high-speed directional agility.',
+            'Troubleshoot hardware and sensor calibration under live competitive conditions.'
         ],
 
         'tech-2': [
-            'Solve algorithmic and system-level programming problems.',
-            'Write efficient, testable code under a strict time limit.',
-            'Collaborate using modern development workflows and debugging.'
+            'Engineer responsive mechanical drive trains and high-torque kicker mechanisms.',
+            'Execute fast tactical gameplay, zone defense, and ball redirection.',
+            'Manage wireless frequencies, power draw, and real-time pit maintenance.'
         ],
 
         'tech-3': [
-            'Design practical deep-learning pipelines for noisy data.',
-            'Compare model quality, latency, and parameter efficiency.',
-            'Present technical results clearly to evaluators.'
+            'Build end-to-end machine learning pipelines from raw data under strict deadlines.',
+            'Apply feature engineering, hyperparameter tuning, and ensemble modeling.',
+            'Document methodology, metrics, and reproducible insights professionally.'
         ],
 
         'tech-4': [
-            'Design responsive interfaces with strong interaction quality.',
-            'Use modern web rendering and component techniques.',
-            'Balance aesthetics, usability, responsiveness, and performance.'
+            'Architect full-stack modern web solutions under tight competitive sprints.',
+            'Implement responsive design, performant state management, and robust APIs.',
+            'Present technical architecture, trade-offs, and product demos effectively.'
         ],
 
         'tech-5': [
-            'Create precise 3D engineering models.',
-            'Translate mechanical concepts into manufacturable CAD geometry.',
-            'Evaluate designs with engineering simulation thinking.'
+            'Apply principles of aerodynamics, pressure dynamics, and center-of-gravity stabilization.',
+            'Optimize fin geometry, nozzle mechanics, and water-to-air volume ratios.',
+            'Iterate rapid fabrication techniques and testing in real-world launch fields.'
+        ],
+
+        'tech-6': [
+            'Master high-speed manual remote maneuvering across rough terrains and tight corners.',
+            'Build durable shock-absorbent suspension and high-rpm motor assemblies.',
+            'Handle obstacle clearance strategy, recovery maneuvers, and lap time reduction.'
+        ],
+
+        'tech-7': [
+            'Coordinate high-pressure squad communication, rotation timing, and resource economy.',
+            'Master fast-twitch gunplay, cover deployment, and tactical zone positioning.',
+            'Develop tournament meta strategies and opponent reading under elimination pressure.'
+        ],
+
+        'tech-8': [
+            'Execute macro map rotations, vehicle control, and terrain scouting in competitive lobbies.',
+            'Refine utility usage, smoke pathing, and crossfire synchronization.',
+            'Analyze point margins and position play across multi-map tournament series.'
+        ],
+
+        'tech-9': [
+            'Master tactical agent synergies, utility lineups, and site retake execution.',
+            'Develop discipline in economy management, crosshair placement, and clutch plays.',
+            'Communicate rapid callouts and coordinate multi-angle site pushes under pressure.'
+        ],
+
+        'tech-10': [
+            'Calculate elixir trades, card cycle rotations, and counter-deck positioning.',
+            'Manage split-second placement precision, lane pressure, and spell chip timing.',
+            'Adapt deck archetypes (Beatdown, Control, Cycle, Siege) against diverse opponents.'
+        ],
+
+        'tech-11': [
+            'Deepen cross-disciplinary knowledge in frontier science and technology.',
+            'Develop rapid deduction, logical inference, and round strategy.',
+            'Sharpen quick recall and precision under intense buzzer rounds.'
         ],
 
         'cult-1': [
@@ -696,40 +853,28 @@ document.addEventListener('DOMContentLoaded', () => {
             'Analyze audience resonance, social trends, and engagement metrics.'
         ],
 
-        'cult-15': [
-            'Deepen cross-disciplinary knowledge in frontier science and technology.',
-            'Develop rapid deduction, logical inference, and round strategy.',
-            'Sharpen quick recall and precision under intense buzzer rounds.'
-        ],
-
         'ent-1': [
-            'Structure a startup idea into a compelling pitch.',
-            'Think about market validation, MVPs, and funding.',
-            'Defend the business model through investor-style Q&A.'
+            'Demonstrate customer acquisition, elevator pitches, and live product demos.',
+            'Gather real-world feedback and validated user insights to refine product-market fit.',
+            'Network directly with visiting angel investors, incubator leads, and venture mentors.'
         ],
 
         'ent-2': [
-            'Build a structured business plan.',
-            'Work with market sizing and financial reasoning.',
-            'Communicate strategy and viability to a judging panel.'
+            'Transform theoretical academic research into functioning physical prototypes.',
+            'Create clear graphical abstracts and executive technical presentations.',
+            'Defend scientific methodology and commercial scalability in front of faculty panels.'
         ],
 
         'ent-3': [
-            'Understand simulated market decision-making.',
-            'Evaluate risk and portfolio performance.',
-            'React to information while managing capital strategically.'
+            'Master market sizing (TAM/SAM/SOM), customer personas, and unit economics.',
+            'Structure crisp high-impact slide decks suited for investor venture pitches.',
+            'Handle rapid financial and operational stress-testing during judge Q&A.'
         ],
 
         'ent-4': [
-            'Develop ideas quickly from an unexpected brief.',
-            'Combine copywriting, performance, and visual storytelling.',
-            'Deliver a concise creative pitch under time pressure.'
-        ],
-
-        'ent-5': [
-            'Turn an idea into a practical sustainability-focused concept.',
-            'Think about prototyping and real-world impact.',
-            'Present an innovation clearly to an evaluation panel.'
+            'Deconstruct ambiguous business problems into structured MECE framework trees.',
+            'Perform rapid financial impact, risk assessment, and feasibility forecasting.',
+            'Deliver structured executive proposals that convince senior management panels.'
         ]
 
     };

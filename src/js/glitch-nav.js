@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         </svg>
                     </div>
                     <div class="loader-info">
-                        <div class="loader-tag">PRAVAAH '26 // MULTIVERSE TRANSIT</div>
+                        <div class="loader-tag">PRAVAAH '27</div>
                         <div class="loader-status" id="loader-status-text">WARPING TO DIMENSIONS...</div>
                     </div>
                 </div>
@@ -127,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             sessionStorage.removeItem('pravaahPortalTransit');
             sessionStorage.removeItem('pravaahTransitStartTime');
+        if (pageLoader) pageLoader.classList.remove('loader-active');
 
             if (pageLoader && pageLoader.classList.contains('loader-active')) {
                 pageLoader.classList.remove('loader-active');
@@ -139,8 +140,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }, remainingTime);
     }
 
-    if (isTransitArrival) {
-        if (pageLoader) pageLoader.classList.add('loader-active');
+    const isHomePage = window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/') || window.location.pathname === '';
+    if (isHomePage) {
+        document.body.classList.add('pravaah-home');
+        sessionStorage.removeItem('pravaahPortalTransit');
+        sessionStorage.removeItem('pravaahTransitStartTime');
+    } else {
+        document.body.classList.add('pravaah-subpage');
+        if (isTransitArrival) {
+            if (pageLoader) pageLoader.classList.add('loader-active');
+        }
     }
 
     // Connect fade out to page load readiness + 1.5s total minimum duration
@@ -244,9 +253,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateNavPill() {
         const activeNav = getActiveNav();
         const pill = document.getElementById('nav-indicator-pill');
+        const wheel = document.getElementById('cosmic-nav-wheel');
         if (activeNav && pill) {
             pill.style.left = `${activeNav.offsetLeft}px`;
             pill.style.width = `${activeNav.offsetWidth}px`;
+        }
+        if (wheel && activeNav) {
+            const href = (activeNav.getAttribute('href') || '').toLowerCase();
+            let theme = 'home';
+            if (href.includes('events')) theme = 'portals';
+            else if (href.includes('photo-gallery')) theme = 'gallery';
+            else if (href.includes('register')) theme = 'calendar';
+            else if (href.includes('accommodation') || href.includes('contact')) theme = 'team';
+            else if (href.includes('sponsors')) theme = 'about';
+            wheel.setAttribute('data-active-theme', theme);
         }
     }
 
@@ -311,9 +331,9 @@ document.addEventListener('DOMContentLoaded', () => {
         navWheel.addEventListener('mouseleave', hideHoverPill);
     }
 
-    // 6. Mobile Navigation & Side Drawer Controller (Techfest Style for Phones)
+    // 6. Mobile Navigation & Bottom Drawer Controller (Responsive for all Phones)
     function initMobileNav() {
-        const menuTrigger = document.getElementById('mobile-menu-trigger');
+        const menuTriggers = document.querySelectorAll('#mobile-menu-trigger, #mobile-bottom-menu-trigger, .menu-trigger-btn');
         const menuClose = document.getElementById('mobile-menu-close');
         const sideMenu = document.getElementById('mobile-side-menu');
         const backdrop = document.getElementById('mobile-menu-backdrop');
@@ -327,9 +347,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 backdrop.classList.add('is-open');
                 backdrop.setAttribute('aria-hidden', 'false');
             }
-            if (menuTrigger) {
-                menuTrigger.setAttribute('aria-expanded', 'true');
-            }
+            menuTriggers.forEach(btn => {
+                btn.setAttribute('aria-expanded', 'true');
+                btn.classList.add('is-active');
+            });
             document.body.classList.add('side-menu-locked');
         }
 
@@ -342,14 +363,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 backdrop.classList.remove('is-open');
                 backdrop.setAttribute('aria-hidden', 'true');
             }
-            if (menuTrigger) {
-                menuTrigger.setAttribute('aria-expanded', 'false');
-            }
+            menuTriggers.forEach(btn => {
+                btn.setAttribute('aria-expanded', 'false');
+                btn.classList.remove('is-active');
+            });
             document.body.classList.remove('side-menu-locked');
         }
 
-        if (menuTrigger) {
-            menuTrigger.addEventListener('click', (e) => {
+        menuTriggers.forEach(trigger => {
+            trigger.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 if (sideMenu && sideMenu.classList.contains('is-open')) {
@@ -358,7 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     openSideMenu();
                 }
             });
-        }
+        });
 
         if (menuClose) {
             menuClose.addEventListener('click', (e) => {
@@ -382,34 +404,41 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Close side drawer when any mobile link is clicked
+        // Close side/bottom drawer when any navigation link is clicked
         document.querySelectorAll('.side-menu-link, .bottom-nav-item:not(.menu-trigger-btn)').forEach(link => {
             link.addEventListener('click', () => {
                 closeSideMenu();
             });
         });
 
-        // Touch swipe-to-close gesture support on mobile side menu
+        // Touch swipe-down gesture support to dismiss bottom sheet
+        let touchStartY = 0;
+        let touchEndY = 0;
         let touchStartX = 0;
         let touchEndX = 0;
         if (sideMenu) {
             sideMenu.addEventListener('touchstart', (e) => {
                 if (e.changedTouches && e.changedTouches[0]) {
-                    touchStartX = e.changedTouches[0].screenX;
+                    touchStartY = e.changedTouches[0].clientY;
+                    touchStartX = e.changedTouches[0].clientX;
                 }
             }, { passive: true });
 
             sideMenu.addEventListener('touchend', (e) => {
                 if (e.changedTouches && e.changedTouches[0]) {
-                    touchEndX = e.changedTouches[0].screenX;
-                    if (touchStartX - touchEndX > 50) { // swipe left to close drawer
+                    touchEndY = e.changedTouches[0].clientY;
+                    touchEndX = e.changedTouches[0].clientX;
+                    const diffY = touchEndY - touchStartY;
+                    const diffX = touchEndX - touchStartX;
+                    // Swipe down by > 45px closes the bottom sheet
+                    if (diffY > 45 && Math.abs(diffY) > Math.abs(diffX)) {
                         closeSideMenu();
                     }
                 }
             }, { passive: true });
         }
 
-        // Sync active states across bottom nav and side menu based on current URL
+        // Sync active states across bottom nav and bottom sheet based on current URL
         function syncMobileActiveNav() {
             const rawPath = window.location.pathname.split('/').pop() || 'index.html';
             const normalizedPath = (rawPath === '' || rawPath === '/') ? 'index.html' : rawPath;
@@ -424,16 +453,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // If on inner pages, highlight MENU button pip
-            const subpages = ['accommodation.html', 'sponsors.html', 'contact.html'];
-            const menuBtn = document.getElementById('mobile-menu-trigger');
-            if (menuBtn) {
+            // If on subpages not directly in the bottom dock, highlight MENU button pip
+            const subpages = ['accommodation.html', 'sponsors.html', 'contact.html', 'become-sponsor.html'];
+            menuTriggers.forEach(btn => {
                 if (subpages.includes(normalizedPath)) {
-                    menuBtn.classList.add('has-active-subpage');
+                    btn.classList.add('has-active-subpage');
                 } else {
-                    menuBtn.classList.remove('has-active-subpage');
+                    btn.classList.remove('has-active-subpage');
                 }
-            }
+            });
 
             // Sync Side Menu items
             document.querySelectorAll('.side-menu-link[href]').forEach(item => {
@@ -453,3 +481,4 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileNav();
 
 });
+
