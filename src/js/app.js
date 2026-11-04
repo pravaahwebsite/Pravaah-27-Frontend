@@ -1027,16 +1027,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (state.isPlaying) {
                 state.time += dt * state.speed;
-                if (state.time >= 5.2 && !introDismissed) {
-                    proceedToFirstPage();
-                }
                 if (state.time >= state.duration) {
-                    if (state.isLooping) {
-                        state.time = 0;
-                        state.hasPlayedBoom = false;
-                    } else {
-                        state.time = state.duration;
-                        state.isPlaying = false;
+                    // Once logo animation finishes, smoothly proceed to the Kairos portal home page (Image 2)
+                    state.time = state.duration;
+                    state.isPlaying = false;
+                    if (!introDismissed) {
+                        proceedToFirstPage();
                     }
                 }
             }
@@ -1306,55 +1302,38 @@ document.addEventListener('DOMContentLoaded', () => {
             const gain = portalAudioCtx.createGain();
             osc.type = 'sawtooth';
             osc.frequency.setValueAtTime(320, now);
-            osc.frequency.exponentialRampToValueAtTime(1100, now + 1.8);
+            osc.frequency.exponentialRampToValueAtTime(1200, now + 1.5);
 
             const filter = portalAudioCtx.createBiquadFilter();
             filter.type = 'lowpass';
             filter.frequency.setValueAtTime(1200, now);
-            filter.frequency.exponentialRampToValueAtTime(8000, now + 1.8);
+            filter.frequency.exponentialRampToValueAtTime(8000, now + 1.5);
 
             gain.gain.setValueAtTime(0.35, now);
-            gain.gain.linearRampToValueAtTime(0.55, now + 1.5);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 2.0);
+            gain.gain.linearRampToValueAtTime(0.55, now + 1.3);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 1.8);
 
             osc.connect(filter);
             filter.connect(gain);
             gain.connect(portalAudioCtx.destination);
             osc.start(now);
-            osc.stop(now + 2.1);
+            osc.stop(now + 1.9);
 
             // 2. Heavy Sub-Bass Singularity Boom
             const subOsc = portalAudioCtx.createOscillator();
             const subGain = portalAudioCtx.createGain();
             subOsc.type = 'sine';
-            subOsc.frequency.setValueAtTime(150, now + 1.9);
-            subOsc.frequency.exponentialRampToValueAtTime(30, now + 3.2);
+            subOsc.frequency.setValueAtTime(150, now + 1.5);
+            subOsc.frequency.exponentialRampToValueAtTime(30, now + 2.2);
 
             subGain.gain.setValueAtTime(0, now);
-            subGain.gain.setValueAtTime(0.8, now + 1.9);
-            subGain.gain.exponentialRampToValueAtTime(0.001, now + 3.4);
+            subGain.gain.setValueAtTime(0.8, now + 1.5);
+            subGain.gain.exponentialRampToValueAtTime(0.001, now + 2.2);
 
             subOsc.connect(subGain);
             subGain.connect(portalAudioCtx.destination);
-            subOsc.start(now + 1.9);
-            subOsc.stop(now + 3.5);
-
-            // 3. Shimmering Crystal Harmonic Chords for Logo Materialization
-            [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
-                const cOsc = portalAudioCtx.createOscillator();
-                const cGain = portalAudioCtx.createGain();
-                cOsc.type = 'triangle';
-                cOsc.frequency.setValueAtTime(freq, now + 2.2);
-
-                cGain.gain.setValueAtTime(0, now + 2.2);
-                cGain.gain.linearRampToValueAtTime(0.09, now + 2.6 + (i * 0.08));
-                cGain.gain.exponentialRampToValueAtTime(0.001, now + 5.0);
-
-                cOsc.connect(cGain);
-                cGain.connect(portalAudioCtx.destination);
-                cOsc.start(now + 2.2);
-                cOsc.stop(now + 5.1);
-            });
+            subOsc.start(now + 1.5);
+            subOsc.stop(now + 2.3);
         } catch (e) {}
     }
 
@@ -1414,12 +1393,12 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         window.addEventListener('resize', onResize);
 
-        // Hardware-accelerated smooth progress bar transition (0% -> 100% in 4.7s)
+        // Hardware-accelerated smooth progress bar transition (0% -> 100% in 2.2s)
         if (portalLoaderBar) {
             portalLoaderBar.style.transition = 'none';
             portalLoaderBar.style.width = '0%';
             requestAnimationFrame(() => {
-                portalLoaderBar.style.transition = 'width 4.7s linear';
+                portalLoaderBar.style.transition = 'width 2.2s linear';
                 portalLoaderBar.style.width = '100%';
             });
         }
@@ -1558,29 +1537,25 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.fillStyle = warpSpeed > 30 ? 'rgba(3, 0, 20, 0.35)' : 'rgba(3, 0, 20, 0.65)';
             ctx.fillRect(0, 0, width, height);
 
-            if (elapsed < 2.0) {
+            if (elapsed < 1.6) {
                 currentPhase = 'fast_warp';
-                warpSpeed = 90 + Math.sin(elapsed * 4) * 15;
+                warpSpeed = 95 + Math.sin(elapsed * 4) * 15;
                 if (glitchOverlay) {
                     if (frameCount % 12 === 0) glitchOverlay.classList.add('active');
                     else if (frameCount % 6 === 0) glitchOverlay.classList.remove('active');
                 }
-            } else if (elapsed >= 2.0 && elapsed < 2.3) {
+            } else if (elapsed >= 1.6 && elapsed < 2.0) {
                 currentPhase = 'singularity';
-                warpSpeed = 35 - ((elapsed - 2.0) / 0.3) * 30;
+                warpSpeed = 35 - ((elapsed - 1.6) / 0.4) * 30;
                 if (glitchOverlay) glitchOverlay.classList.add('active');
-            } else if (elapsed >= 2.3 && elapsed < 3.4) {
-                if (currentPhase !== 'breakout') {
-                    currentPhase = 'breakout';
+            } else if (elapsed >= 2.0) {
+                // Flash breakout directly into festival home page (About / Get to know our fest)
+                if (!flashTriggered) {
+                    flashTriggered = true;
                     if (glitchOverlay) glitchOverlay.classList.remove('active');
-
                     if (portalFlashOverlay) {
                         portalFlashOverlay.classList.add('active-flash');
-                        setTimeout(() => {
-                            if (portalFlashOverlay) portalFlashOverlay.classList.remove('active-flash');
-                        }, 180);
                     }
-
                     if (shockwave1 && shockwave2) {
                         shockwave1.classList.remove('blast');
                         shockwave2.classList.remove('blast');
@@ -1589,41 +1564,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             shockwave2.classList.add('blast');
                         });
                     }
-
-                    if (septagonSvg) {
-                        septagonSvg.style.opacity = '1';
-                        septagonSvg.style.transform = 'scale(1) rotate(0deg)';
-                    }
-                    if (polyGlow && polyCore) {
-                        polyGlow.style.transition = 'stroke-dashoffset 1.1s ease-out';
-                        polyCore.style.transition = 'stroke-dashoffset 1.1s ease-out';
-                        polyGlow.style.strokeDashoffset = '0';
-                        polyCore.style.strokeDashoffset = '0';
-                    }
-
-                    if (auraGlow) auraGlow.classList.add('active');
-
-                    setTimeout(() => {
-                        if (codeLogoSvg) codeLogoSvg.classList.add('revealed');
-                        [strokeLeft, coreLeft, strokeSlash, coreSlash, strokeRight, coreRight].forEach(el => {
-                            if (el) el.classList.add('drawn');
-                        });
-                    }, 250);
-                }
-                warpSpeed = 4;
-            } else if (elapsed >= 3.4 && elapsed < 4.75) {
-                currentPhase = 'stable';
-                warpSpeed = 2.2;
-            } else if (elapsed >= 4.75) {
-                // Transition to universe smoothly
-                if (!flashTriggered) {
-                    flashTriggered = true;
-                    if (portalFlashOverlay) {
-                        portalFlashOverlay.classList.add('active-flash');
-                    }
                     setTimeout(() => {
                         enterUniverse();
-                    }, 300);
+                    }, 220);
                 }
                 return;
             }
@@ -1653,12 +1596,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         portalAnimFrameId = requestAnimationFrame(renderPortalFrame);
 
-        // Fallback safety timeout (6.0s)
+        // Fallback safety timeout (3.5s)
         setTimeout(() => {
             if (portalPlaybackActive && !portalHasEntered) {
                 enterUniverse();
             }
-        }, 6000);
+        }, 3500);
     }
 
     function enterUniverse() {
