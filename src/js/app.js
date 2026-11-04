@@ -175,8 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
             cursorClientY = e.clientY;
             targetNormX = (e.clientX - width * 0.5) / (width * 0.5);
             targetNormY = (e.clientY - height * 0.5) / (height * 0.5);
+            spawnCursorSpark(e.clientX, e.clientY);
         });
-
         window.addEventListener('touchmove', (e) => {
             if (e.touches && e.touches[0]) {
                 hasMouseMoved = true;
@@ -271,22 +271,31 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // 5. Interactive cursor stardust sparks
+        // 5. Interactive cursor star stardust (White & Yellow twinkling stars)
         const cursorSparks = [];
-        const maxSparks = 22;
+        const maxSparks = 45;
+        const starColors = [
+            [255, 255, 255], // Pure Bright White
+            [250, 250, 255], // Crisp Diamond White
+            [240, 245, 255], // Cool Starlight White
+            [255, 255, 250]  // Soft Luminous White
+        ];
         function spawnCursorSpark(x, y) {
             if (cursorSparks.length >= maxSparks) return;
-            const c = colors[Math.floor(Math.random() * colors.length)];
+            const c = starColors[Math.floor(Math.random() * starColors.length)];
             const angle = Math.random() * Math.PI * 2;
-            const speed = 0.5 + Math.random() * 1.8;
+            const speed = 0.4 + Math.random() * 1.5;
             cursorSparks.push({
-                x: x + (Math.random() - 0.5) * 14,
-                y: y + (Math.random() - 0.5) * 14,
+                x: x + (Math.random() - 0.5) * 16,
+                y: y + (Math.random() - 0.5) * 16,
                 vx: Math.cos(angle) * speed,
-                vy: Math.sin(angle) * speed - 0.2,
-                size: 0.9 + Math.random() * 1.6,
-                alpha: 0.75,
-                decay: 0.022 + Math.random() * 0.025,
+                vy: Math.sin(angle) * speed - 0.15,
+                size: 2.2 + Math.random() * 2.8,
+                rotation: Math.random() * Math.PI,
+                rotSpeed: (Math.random() - 0.5) * 0.12,
+                alpha: 0.95,
+                decay: 0.016 + Math.random() * 0.022,
+                points: Math.random() < 0.65 ? 4 : 5,
                 color: c
             });
         }
@@ -341,7 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Spawn ambient stardust around cursor when moving
-            if (hasMouseMoved && Math.random() < 0.45) {
+            if (hasMouseMoved && Math.random() < 0.85) {
                 spawnCursorSpark(cursorClientX, cursorClientY);
             }
 
@@ -512,24 +521,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // E. Interactive cursor stardust trail
+            // E. Interactive cursor stardust trail (Twinkling small stars in white & yellow)
             for (let i = cursorSparks.length - 1; i >= 0; i--) {
                 const sp = cursorSparks[i];
                 sp.x += sp.vx;
                 sp.y += sp.vy;
+                sp.rotation += sp.rotSpeed;
                 sp.alpha -= sp.decay;
-                sp.size *= 0.96;
+                sp.size *= 0.97;
 
-                if (sp.alpha <= 0.02 || sp.size <= 0.3) {
+                if (sp.alpha <= 0.02 || sp.size <= 0.4) {
                     cursorSparks.splice(i, 1);
                     continue;
                 }
 
-                ctx.fillStyle = `rgba(${sp.color[0]}, ${sp.color[1]}, ${sp.color[2]}, ${sp.alpha.toFixed(2)})`;
+                ctx.save();
+                ctx.translate(sp.x, sp.y);
+                ctx.rotate(sp.rotation);
+
+                const pts = sp.points || 4;
+                const outerR = sp.size;
+                const innerR = sp.size * 0.32;
                 ctx.beginPath();
-                ctx.arc(sp.x, sp.y, sp.size, 0, Math.PI * 2);
+                for (let p = 0; p < pts * 2; p++) {
+                    const r = (p % 2 === 0) ? outerR : innerR;
+                    const a = (p * Math.PI) / pts;
+                    if (p === 0) ctx.moveTo(Math.cos(a) * r, Math.sin(a) * r);
+                    else ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r);
+                }
+                ctx.closePath();
+
+                ctx.fillStyle = `rgba(${sp.color[0]}, ${sp.color[1]}, ${sp.color[2]}, ${sp.alpha.toFixed(2)})`;
+                ctx.shadowColor = `rgba(${sp.color[0]}, ${sp.color[1]}, ${sp.color[2]}, 0.85)`;
+                ctx.shadowBlur = 4;
                 ctx.fill();
+                ctx.restore();
             }
+
 
             requestAnimationFrame(render);
         }
@@ -584,12 +612,12 @@ document.addEventListener('DOMContentLoaded', () => {
         revealAboutSectionInstantly();
         const globalBg = document.getElementById('global-bg-layer');
         if (globalBg) {
-            globalBg.style.backgroundImage = "url('assets/images/home_portal_bg.jpg')";
+            globalBg.style.backgroundImage = "url('assets/images/space_star_bg.jpg')";
         }
     } else {
         const globalBg = document.getElementById('global-bg-layer');
         if (globalBg) {
-            globalBg.style.backgroundImage = "url('assets/images/page1_hero.jpg')";
+            globalBg.style.backgroundImage = "url('assets/images/space_star_bg.jpg')";
         }
         document.body.classList.remove('portal-entered');
         document.documentElement.classList.remove('portal-entered-fast');
@@ -1653,7 +1681,7 @@ document.addEventListener('DOMContentLoaded', () => {
         revealAboutSectionInstantly();
         const globalBg = document.getElementById('global-bg-layer');
         if (globalBg) {
-            globalBg.style.backgroundImage = "url('assets/images/home_portal_bg.jpg')";
+            globalBg.style.backgroundImage = "url('assets/images/space_star_bg.jpg')";
         }
         handleParallaxAndNav();
 
@@ -1739,22 +1767,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (portalEntryTrigger) {
-        portalEntryTrigger.addEventListener('click', (e) => {
-            e.preventDefault();
+        const triggerPortal = (e) => {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            if (!introDismissed) {
+                proceedToFirstPage();
+            }
             if (!portalHasEntered) {
                 launchPortalVideo();
             } else {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                smoothScrollToAbout();
             }
+        };
+        portalEntryTrigger.addEventListener('click', triggerPortal);
+        portalEntryTrigger.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            triggerPortal(e);
         });
         portalEntryTrigger.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                if (!portalHasEntered) {
-                    launchPortalVideo();
-                } else {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
+                triggerPortal(e);
             }
         });
     }
@@ -1765,7 +1799,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!portalHasEntered) {
                 launchPortalVideo();
             } else {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                smoothScrollToAbout();
             }
         });
     }
