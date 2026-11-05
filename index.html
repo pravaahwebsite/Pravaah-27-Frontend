@@ -127,17 +127,6 @@
                 <span class="nav-active-pip"></span>
             </a>
 
-            <button type="button" class="bottom-nav-item menu-trigger-btn" id="mobile-bottom-menu-trigger" aria-label="Open Navigation Menu" title="Open Menu">
-                <div class="nav-icon-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="3" y1="6" x2="21" y2="6"/>
-                        <line x1="3" y1="12" x2="21" y2="12"/>
-                        <line x1="3" y1="18" x2="21" y2="18"/>
-                    </svg>
-                </div>
-                <span class="nav-label">MENU</span>
-                <span class="nav-active-pip"></span>
-            </button>
         </div>
     </nav>
 
@@ -267,33 +256,6 @@
     <!-- Pravaah 3D Hologram Glitch Scanner Intro (Pure Black Background - Clean & Unobstructed) -->
     <section id="pravaah-intro-screen" class="pravaah-intro-screen">
         <canvas id="pravaah-glitch-canvas" class="pravaah-intro-canvas"></canvas>
-
-        <div class="intro-top-bar">
-            <div class="intro-fest-tag">
-                <span class="intro-fest-title">PRAVAAH 2026</span>
-                <span class="intro-theme-pill">KAIROS</span>
-            </div>
-            <div class="intro-top-controls">
-                <button class="btn-intro-ctrl" id="splash-sound-btn" type="button" aria-label="Toggle Sound" title="Sound Effects">
-                    <svg class="splash-sound-icon-off" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-                    <svg class="splash-sound-icon-on" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-                    <span id="splash-sound-text">SOUND ON</span>
-                </button>
-                <button class="btn-intro-ctrl" id="splash-replay-btn" type="button" aria-label="Replay Intro" title="Replay Animation">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-                    <span>REPLAY</span>
-                </button>
-                <button class="btn-intro-ctrl btn-intro-skip" id="splash-skip-btn" type="button" aria-label="Enter Festival" title="Proceed to First Page">
-                    <span>ENTER SITE &gt;&gt;</span>
-                </button>
-            </div>
-        </div>
-
-        <div class="intro-bottom-prompt" id="intro-proceed-prompt" role="button" tabindex="0" title="Click anywhere to enter festival">
-            <span class="prompt-glow-dot">✦</span>
-            <span class="prompt-text">CLICK OR TAP TO ENTER FESTIVAL</span>
-            <span class="prompt-arrow">›</span>
-        </div>
     </section>
 
     <!-- Portal Entrance Screen (Direct Native High-Performance Warp Tunnel - Pravaah Official Animation) -->
@@ -302,78 +264,6 @@
         <div id="portal-glitch-overlay" class="portal-glitch-overlay"></div>
         <div id="portal-shockwave-ring" class="portal-shockwave-ring"></div>
         <div id="portal-shockwave-ring-2" class="portal-shockwave-ring portal-shockwave-ring-2"></div>
-
-        <div id="portal-stage" class="portal-stage">
-            <div class="portal-septagon-wrap" id="portal-septagon-wrap">
-                <div class="portal-center-aura" id="portal-aura-glow"></div>
-                
-                <div class="portal-orbit-ring portal-orbit-ring-1">
-                    <div class="portal-orbit-comet portal-comet-cyan"></div>
-                </div>
-                <div class="portal-orbit-ring portal-orbit-ring-2">
-                    <div class="portal-orbit-comet portal-comet-pink"></div>
-                </div>
-                <div class="portal-orbit-ring portal-orbit-ring-3">
-                    <div class="portal-orbit-comet portal-comet-orange"></div>
-                </div>
-
-                <!-- 7-Sided Septagon Portal Frame -->
-                <svg viewBox="0 0 100 100" class="portal-septagon-svg" id="portal-septagon-svg">
-                    <defs>
-                        <linearGradient id="portal-septagon-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#ff007f" />
-                            <stop offset="35%" stop-color="#ff5722" />
-                            <stop offset="70%" stop-color="#00f2fe" />
-                            <stop offset="100%" stop-color="#9d4edd" />
-                        </linearGradient>
-                    </defs>
-                    <polygon points="50,2.5 87.1,20.4 96.3,60.6 70.6,92.8 29.4,92.8 3.7,60.6 12.9,20.4" class="portal-septagon-glow" id="portal-poly-glow" />
-                    <polygon points="50,2.5 87.1,20.4 96.3,60.6 70.6,92.8 29.4,92.8 3.7,60.6 12.9,20.4" class="portal-septagon-core" id="portal-poly-core" />
-                </svg>
-
-                <!-- Glowing Laser Code Logo </> -->
-                <div class="portal-logo-emblem">
-                    <svg viewBox="0 0 200 200" class="portal-code-logo-svg" id="portal-code-logo-svg">
-                        <defs>
-                            <linearGradient id="portal-logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#ff007f" />
-                                <stop offset="30%" stop-color="#ff5722" />
-                                <stop offset="65%" stop-color="#ff9100" />
-                                <stop offset="100%" stop-color="#00f2fe" />
-                            </linearGradient>
-                        </defs>
-                        <g>
-                            <path class="portal-bracket-stroke" id="portal-bracket-left"
-                                  d="M 68 62 L 28 100 L 68 138"
-                                  fill="none" stroke="url(#portal-logo-grad)"
-                                  stroke-width="15" stroke-linecap="round" stroke-linejoin="round" />
-                            <path class="portal-bracket-core" id="portal-bracket-left-core"
-                                  d="M 68 62 L 28 100 L 68 138"
-                                  fill="none" stroke="#ffffff"
-                                  stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" />
-
-                            <line class="portal-slash-stroke" id="portal-slash-center"
-                                  x1="116" y1="52" x2="84" y2="148"
-                                  stroke="url(#portal-logo-grad)"
-                                  stroke-width="15" stroke-linecap="round" />
-                            <line class="portal-slash-core" id="portal-slash-center-core"
-                                  x1="116" y1="52" x2="84" y2="148"
-                                  stroke="#ffffff"
-                                  stroke-width="4.5" stroke-linecap="round" opacity="0.9" />
-
-                            <path class="portal-bracket-stroke" id="portal-bracket-right"
-                                  d="M 132 62 L 172 100 L 132 138"
-                                  fill="none" stroke="url(#portal-logo-grad)"
-                                  stroke-width="15" stroke-linecap="round" stroke-linejoin="round" />
-                            <path class="portal-bracket-core" id="portal-bracket-right-core"
-                                  d="M 132 62 L 172 100 L 132 138"
-                                  fill="none" stroke="#ffffff"
-                                  stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" />
-                        </g>
-                    </svg>
-                </div>
-            </div>
-        </div>
 
         <div id="portal-flash-overlay" class="portal-flash-overlay"></div>
 
@@ -408,26 +298,7 @@
 
         <section id="splash-screen" class="snap-page splash-screen-page active-screen">
             <div class="glow-core"></div>
-            <div class="splash-content">
-
-                <div class="splash-highlights-panel scroll-reveal">
-                    <h3 class="splash-panel-title title-tech">FEST HIGHLIGHTS</h3>
-                    <div class="highlight-item">
-                        <span class="hl-badge badge-tech">TECH</span>
-                        <div class="hl-name">ROBO SOCCER</div>
-                        <div class="hl-desc">Futuristic robotic arena championship.</div>
-                    </div>
-                    <div class="highlight-item">
-                        <span class="hl-badge badge-cult">CULT</span>
-                        <div class="hl-name">SYMPHONY</div>
-                        <div class="hl-desc">Battle of the rock & fusion bands.</div>
-                    </div>
-                    <div class="highlight-item">
-                        <span class="hl-badge badge-game">GAME</span>
-                        <div class="hl-name">VALORANT LAN</div>
-                        <div class="hl-desc">High stakes tactical esports finals.</div>
-                    </div>
-                </div>
+            <div class="splash-content splash-content-center">
 
                 <div class="splash-logo-column">
                     <div class="big-septagon-portal-container">
@@ -453,18 +324,9 @@
                         </div>
                     </div>
                     <div class="logo-container">
-                        <div class="logo-pravaah-container">
-                            <span class="logo-pravaah spider-title" data-text="PRAVAAH">PRAVAAH</span>
-                            <span class="logo-edition-tag">3<sup>rd</sup> EDITION</span>
-                        </div>
-                        <h1 class="logo-title spider-title" data-text="KAIROS">KAIROS</h1>
-                        <div class="logo-subtitle-container">
-                            <div class="logo-subtitle">worlds unbound</div>
-                            <div class="subtitle-line">
-                                <span class="line-dot"></span>
-                                <span class="line-bar"></span>
-                                <span class="line-sparkle">✦</span>
-                            </div>
+                        <div class="logo-pravaah-container highlighted-hero-logo">
+                            <span class="logo-pravaah spider-title highlighted-pravaah-title" data-text="PRAVAAH">PRAVAAH</span>
+                            <span class="logo-edition-tag highlighted-edition-tag">3<sup>rd</sup> EDITION</span>
                         </div>
                     </div>
 
@@ -504,38 +366,6 @@
                         <div class="arrow-down-glowing home-swipe-arrow">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                         </div>
-                    </div>
-                </div>
-
-                <div class="splash-status-panel scroll-reveal">
-                    <h3 class="splash-panel-title title-cult">PORTAL MATRIX</h3>
-                    <div class="status-row">
-                        <div class="status-meta">
-                            <span class="status-name">TECH GATE</span>
-                            <span class="status-stat status-online">ONLINE (98%)</span>
-                        </div>
-                        <div class="status-bar"><div class="status-bar-fill fill-tech" style="width: 98%;"></div></div>
-                    </div>
-                    <div class="status-row">
-                        <div class="status-meta">
-                            <span class="status-name">CULT GATE</span>
-                            <span class="status-stat status-online">ONLINE (95%)</span>
-                        </div>
-                        <div class="status-bar"><div class="status-bar-fill fill-cult" style="width: 95%;"></div></div>
-                    </div>
-                    <div class="status-row">
-                        <div class="status-meta">
-                            <span class="status-name">GAME GATE</span>
-                            <span class="status-stat status-online">ONLINE (92%)</span>
-                        </div>
-                        <div class="status-bar"><div class="status-bar-fill fill-game" style="width: 92%;"></div></div>
-                    </div>
-                    <div class="status-row">
-                        <div class="status-meta">
-                            <span class="status-name">ENTRE GATE</span>
-                            <span class="status-stat status-stable">STABLE</span>
-                        </div>
-                        <div class="status-bar"><div class="status-bar-fill fill-ent" style="width: 85%;"></div></div>
                     </div>
                 </div>
 

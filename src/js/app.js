@@ -175,8 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
             cursorClientY = e.clientY;
             targetNormX = (e.clientX - width * 0.5) / (width * 0.5);
             targetNormY = (e.clientY - height * 0.5) / (height * 0.5);
+            spawnCursorSpark(e.clientX, e.clientY);
         });
-
         window.addEventListener('touchmove', (e) => {
             if (e.touches && e.touches[0]) {
                 hasMouseMoved = true;
@@ -271,22 +271,31 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // 5. Interactive cursor stardust sparks
+        // 5. Interactive cursor star stardust (White & Yellow twinkling stars)
         const cursorSparks = [];
-        const maxSparks = 22;
+        const maxSparks = 45;
+        const starColors = [
+            [255, 255, 255], // Pure Bright White
+            [250, 250, 255], // Crisp Diamond White
+            [240, 245, 255], // Cool Starlight White
+            [255, 255, 250]  // Soft Luminous White
+        ];
         function spawnCursorSpark(x, y) {
             if (cursorSparks.length >= maxSparks) return;
-            const c = colors[Math.floor(Math.random() * colors.length)];
+            const c = starColors[Math.floor(Math.random() * starColors.length)];
             const angle = Math.random() * Math.PI * 2;
-            const speed = 0.5 + Math.random() * 1.8;
+            const speed = 0.4 + Math.random() * 1.5;
             cursorSparks.push({
-                x: x + (Math.random() - 0.5) * 14,
-                y: y + (Math.random() - 0.5) * 14,
+                x: x + (Math.random() - 0.5) * 16,
+                y: y + (Math.random() - 0.5) * 16,
                 vx: Math.cos(angle) * speed,
-                vy: Math.sin(angle) * speed - 0.2,
-                size: 0.9 + Math.random() * 1.6,
-                alpha: 0.75,
-                decay: 0.022 + Math.random() * 0.025,
+                vy: Math.sin(angle) * speed - 0.15,
+                size: 2.2 + Math.random() * 2.8,
+                rotation: Math.random() * Math.PI,
+                rotSpeed: (Math.random() - 0.5) * 0.12,
+                alpha: 0.95,
+                decay: 0.016 + Math.random() * 0.022,
+                points: Math.random() < 0.65 ? 4 : 5,
                 color: c
             });
         }
@@ -341,7 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Spawn ambient stardust around cursor when moving
-            if (hasMouseMoved && Math.random() < 0.45) {
+            if (hasMouseMoved && Math.random() < 0.85) {
                 spawnCursorSpark(cursorClientX, cursorClientY);
             }
 
@@ -512,24 +521,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // E. Interactive cursor stardust trail
+            // E. Interactive cursor stardust trail (Twinkling small stars in white & yellow)
             for (let i = cursorSparks.length - 1; i >= 0; i--) {
                 const sp = cursorSparks[i];
                 sp.x += sp.vx;
                 sp.y += sp.vy;
+                sp.rotation += sp.rotSpeed;
                 sp.alpha -= sp.decay;
-                sp.size *= 0.96;
+                sp.size *= 0.97;
 
-                if (sp.alpha <= 0.02 || sp.size <= 0.3) {
+                if (sp.alpha <= 0.02 || sp.size <= 0.4) {
                     cursorSparks.splice(i, 1);
                     continue;
                 }
 
-                ctx.fillStyle = `rgba(${sp.color[0]}, ${sp.color[1]}, ${sp.color[2]}, ${sp.alpha.toFixed(2)})`;
+                ctx.save();
+                ctx.translate(sp.x, sp.y);
+                ctx.rotate(sp.rotation);
+
+                const pts = sp.points || 4;
+                const outerR = sp.size;
+                const innerR = sp.size * 0.32;
                 ctx.beginPath();
-                ctx.arc(sp.x, sp.y, sp.size, 0, Math.PI * 2);
+                for (let p = 0; p < pts * 2; p++) {
+                    const r = (p % 2 === 0) ? outerR : innerR;
+                    const a = (p * Math.PI) / pts;
+                    if (p === 0) ctx.moveTo(Math.cos(a) * r, Math.sin(a) * r);
+                    else ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r);
+                }
+                ctx.closePath();
+
+                ctx.fillStyle = `rgba(${sp.color[0]}, ${sp.color[1]}, ${sp.color[2]}, ${sp.alpha.toFixed(2)})`;
+                ctx.shadowColor = `rgba(${sp.color[0]}, ${sp.color[1]}, ${sp.color[2]}, 0.85)`;
+                ctx.shadowBlur = 4;
                 ctx.fill();
+                ctx.restore();
             }
+
 
             requestAnimationFrame(render);
         }
@@ -584,12 +612,12 @@ document.addEventListener('DOMContentLoaded', () => {
         revealAboutSectionInstantly();
         const globalBg = document.getElementById('global-bg-layer');
         if (globalBg) {
-            globalBg.style.backgroundImage = "url('assets/images/home_portal_bg.jpg')";
+            globalBg.style.backgroundImage = "url('assets/images/space_star_bg.jpg')";
         }
     } else {
         const globalBg = document.getElementById('global-bg-layer');
         if (globalBg) {
-            globalBg.style.backgroundImage = "url('assets/images/page1_hero.jpg')";
+            globalBg.style.backgroundImage = "url('assets/images/space_star_bg.jpg')";
         }
         document.body.classList.remove('portal-entered');
         document.documentElement.classList.remove('portal-entered-fast');
@@ -1027,16 +1055,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (state.isPlaying) {
                 state.time += dt * state.speed;
-                if (state.time >= 5.2 && !introDismissed) {
-                    proceedToFirstPage();
-                }
                 if (state.time >= state.duration) {
-                    if (state.isLooping) {
-                        state.time = 0;
-                        state.hasPlayedBoom = false;
-                    } else {
-                        state.time = state.duration;
-                        state.isPlaying = false;
+                    // Once logo animation finishes, smoothly proceed to the Kairos portal home page (Image 2)
+                    state.time = state.duration;
+                    state.isPlaying = false;
+                    if (!introDismissed) {
+                        proceedToFirstPage();
                     }
                 }
             }
@@ -1306,55 +1330,38 @@ document.addEventListener('DOMContentLoaded', () => {
             const gain = portalAudioCtx.createGain();
             osc.type = 'sawtooth';
             osc.frequency.setValueAtTime(320, now);
-            osc.frequency.exponentialRampToValueAtTime(1100, now + 1.8);
+            osc.frequency.exponentialRampToValueAtTime(1200, now + 1.5);
 
             const filter = portalAudioCtx.createBiquadFilter();
             filter.type = 'lowpass';
             filter.frequency.setValueAtTime(1200, now);
-            filter.frequency.exponentialRampToValueAtTime(8000, now + 1.8);
+            filter.frequency.exponentialRampToValueAtTime(8000, now + 1.5);
 
             gain.gain.setValueAtTime(0.35, now);
-            gain.gain.linearRampToValueAtTime(0.55, now + 1.5);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 2.0);
+            gain.gain.linearRampToValueAtTime(0.55, now + 1.3);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 1.8);
 
             osc.connect(filter);
             filter.connect(gain);
             gain.connect(portalAudioCtx.destination);
             osc.start(now);
-            osc.stop(now + 2.1);
+            osc.stop(now + 1.9);
 
             // 2. Heavy Sub-Bass Singularity Boom
             const subOsc = portalAudioCtx.createOscillator();
             const subGain = portalAudioCtx.createGain();
             subOsc.type = 'sine';
-            subOsc.frequency.setValueAtTime(150, now + 1.9);
-            subOsc.frequency.exponentialRampToValueAtTime(30, now + 3.2);
+            subOsc.frequency.setValueAtTime(150, now + 1.5);
+            subOsc.frequency.exponentialRampToValueAtTime(30, now + 2.2);
 
             subGain.gain.setValueAtTime(0, now);
-            subGain.gain.setValueAtTime(0.8, now + 1.9);
-            subGain.gain.exponentialRampToValueAtTime(0.001, now + 3.4);
+            subGain.gain.setValueAtTime(0.8, now + 1.5);
+            subGain.gain.exponentialRampToValueAtTime(0.001, now + 2.2);
 
             subOsc.connect(subGain);
             subGain.connect(portalAudioCtx.destination);
-            subOsc.start(now + 1.9);
-            subOsc.stop(now + 3.5);
-
-            // 3. Shimmering Crystal Harmonic Chords for Logo Materialization
-            [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
-                const cOsc = portalAudioCtx.createOscillator();
-                const cGain = portalAudioCtx.createGain();
-                cOsc.type = 'triangle';
-                cOsc.frequency.setValueAtTime(freq, now + 2.2);
-
-                cGain.gain.setValueAtTime(0, now + 2.2);
-                cGain.gain.linearRampToValueAtTime(0.09, now + 2.6 + (i * 0.08));
-                cGain.gain.exponentialRampToValueAtTime(0.001, now + 5.0);
-
-                cOsc.connect(cGain);
-                cGain.connect(portalAudioCtx.destination);
-                cOsc.start(now + 2.2);
-                cOsc.stop(now + 5.1);
-            });
+            subOsc.start(now + 1.5);
+            subOsc.stop(now + 2.3);
         } catch (e) {}
     }
 
@@ -1414,12 +1421,12 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         window.addEventListener('resize', onResize);
 
-        // Hardware-accelerated smooth progress bar transition (0% -> 100% in 4.7s)
+        // Hardware-accelerated smooth progress bar transition (0% -> 100% in 2.2s)
         if (portalLoaderBar) {
             portalLoaderBar.style.transition = 'none';
             portalLoaderBar.style.width = '0%';
             requestAnimationFrame(() => {
-                portalLoaderBar.style.transition = 'width 4.7s linear';
+                portalLoaderBar.style.transition = 'width 2.2s linear';
                 portalLoaderBar.style.width = '100%';
             });
         }
@@ -1558,29 +1565,25 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.fillStyle = warpSpeed > 30 ? 'rgba(3, 0, 20, 0.35)' : 'rgba(3, 0, 20, 0.65)';
             ctx.fillRect(0, 0, width, height);
 
-            if (elapsed < 2.0) {
+            if (elapsed < 1.6) {
                 currentPhase = 'fast_warp';
-                warpSpeed = 90 + Math.sin(elapsed * 4) * 15;
+                warpSpeed = 95 + Math.sin(elapsed * 4) * 15;
                 if (glitchOverlay) {
                     if (frameCount % 12 === 0) glitchOverlay.classList.add('active');
                     else if (frameCount % 6 === 0) glitchOverlay.classList.remove('active');
                 }
-            } else if (elapsed >= 2.0 && elapsed < 2.3) {
+            } else if (elapsed >= 1.6 && elapsed < 2.0) {
                 currentPhase = 'singularity';
-                warpSpeed = 35 - ((elapsed - 2.0) / 0.3) * 30;
+                warpSpeed = 35 - ((elapsed - 1.6) / 0.4) * 30;
                 if (glitchOverlay) glitchOverlay.classList.add('active');
-            } else if (elapsed >= 2.3 && elapsed < 3.4) {
-                if (currentPhase !== 'breakout') {
-                    currentPhase = 'breakout';
+            } else if (elapsed >= 2.0) {
+                // Flash breakout directly into festival home page (About / Get to know our fest)
+                if (!flashTriggered) {
+                    flashTriggered = true;
                     if (glitchOverlay) glitchOverlay.classList.remove('active');
-
                     if (portalFlashOverlay) {
                         portalFlashOverlay.classList.add('active-flash');
-                        setTimeout(() => {
-                            if (portalFlashOverlay) portalFlashOverlay.classList.remove('active-flash');
-                        }, 180);
                     }
-
                     if (shockwave1 && shockwave2) {
                         shockwave1.classList.remove('blast');
                         shockwave2.classList.remove('blast');
@@ -1589,41 +1592,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             shockwave2.classList.add('blast');
                         });
                     }
-
-                    if (septagonSvg) {
-                        septagonSvg.style.opacity = '1';
-                        septagonSvg.style.transform = 'scale(1) rotate(0deg)';
-                    }
-                    if (polyGlow && polyCore) {
-                        polyGlow.style.transition = 'stroke-dashoffset 1.1s ease-out';
-                        polyCore.style.transition = 'stroke-dashoffset 1.1s ease-out';
-                        polyGlow.style.strokeDashoffset = '0';
-                        polyCore.style.strokeDashoffset = '0';
-                    }
-
-                    if (auraGlow) auraGlow.classList.add('active');
-
-                    setTimeout(() => {
-                        if (codeLogoSvg) codeLogoSvg.classList.add('revealed');
-                        [strokeLeft, coreLeft, strokeSlash, coreSlash, strokeRight, coreRight].forEach(el => {
-                            if (el) el.classList.add('drawn');
-                        });
-                    }, 250);
-                }
-                warpSpeed = 4;
-            } else if (elapsed >= 3.4 && elapsed < 4.75) {
-                currentPhase = 'stable';
-                warpSpeed = 2.2;
-            } else if (elapsed >= 4.75) {
-                // Transition to universe smoothly
-                if (!flashTriggered) {
-                    flashTriggered = true;
-                    if (portalFlashOverlay) {
-                        portalFlashOverlay.classList.add('active-flash');
-                    }
                     setTimeout(() => {
                         enterUniverse();
-                    }, 300);
+                    }, 220);
                 }
                 return;
             }
@@ -1653,12 +1624,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         portalAnimFrameId = requestAnimationFrame(renderPortalFrame);
 
-        // Fallback safety timeout (6.0s)
+        // Fallback safety timeout (3.5s)
         setTimeout(() => {
             if (portalPlaybackActive && !portalHasEntered) {
                 enterUniverse();
             }
-        }, 6000);
+        }, 3500);
     }
 
     function enterUniverse() {
@@ -1710,7 +1681,7 @@ document.addEventListener('DOMContentLoaded', () => {
         revealAboutSectionInstantly();
         const globalBg = document.getElementById('global-bg-layer');
         if (globalBg) {
-            globalBg.style.backgroundImage = "url('assets/images/home_portal_bg.jpg')";
+            globalBg.style.backgroundImage = "url('assets/images/space_star_bg.jpg')";
         }
         handleParallaxAndNav();
 
@@ -1796,22 +1767,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (portalEntryTrigger) {
-        portalEntryTrigger.addEventListener('click', (e) => {
-            e.preventDefault();
+        const triggerPortal = (e) => {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            if (!introDismissed) {
+                proceedToFirstPage();
+            }
             if (!portalHasEntered) {
                 launchPortalVideo();
             } else {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                smoothScrollToAbout();
             }
+        };
+        portalEntryTrigger.addEventListener('click', triggerPortal);
+        portalEntryTrigger.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            triggerPortal(e);
         });
         portalEntryTrigger.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                if (!portalHasEntered) {
-                    launchPortalVideo();
-                } else {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
+                triggerPortal(e);
             }
         });
     }
@@ -1822,7 +1799,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!portalHasEntered) {
                 launchPortalVideo();
             } else {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                smoothScrollToAbout();
             }
         });
     }

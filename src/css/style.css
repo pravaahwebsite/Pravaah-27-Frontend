@@ -61,7 +61,7 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-image: url('../../assets/images/home_portal_bg.jpg');
+    background-image: url('../../assets/images/space_star_bg.jpg');
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
@@ -80,7 +80,7 @@ body {
 /* Before opening portal (pre-portal screen only): use page1_hero.jpg */
 html:not(.portal-entered-fast) body:not(.portal-entered) #global-bg-layer,
 body:not(.portal-entered) #global-bg-layer {
-    background-image: url('../../assets/images/page1_hero.jpg') !important;
+    background-image: url('../../assets/images/space_star_bg.jpg') !important;
     background-position: center center !important;
     background-size: cover !important;
 }
@@ -88,7 +88,7 @@ body:not(.portal-entered) #global-bg-layer {
 /* Home page (once portal is entered): keep original home_portal_bg.jpg background */
 html.portal-entered-fast #global-bg-layer,
 body.portal-entered #global-bg-layer {
-    background-image: url('../../assets/images/home_portal_bg.jpg') !important;
+    background-image: url('../../assets/images/space_star_bg.jpg') !important;
 }
 
 .global-bg-layer::after {
@@ -538,6 +538,74 @@ section {
     background: var(--ent-color);
 }
 
+.splash-content-center {
+    justify-content: center !important;
+}
+
+.highlighted-hero-logo {
+    gap: 8px;
+    margin-bottom: 24px;
+    margin-top: 10px;
+    transform: scale(1.05);
+}
+
+.highlighted-pravaah-title {
+    font-size: clamp(2.8rem, 7vw, 5.2rem) !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.38em !important;
+    margin-right: -0.38em !important;
+    background: linear-gradient(135deg,
+        #00f2fe 0%,
+        #a259ff 25%,
+        #ff007f 50%,
+        #a259ff 75%,
+        #00f2fe 100%
+    );
+    background-size: 200% 200%;
+    animation: pravaahGlowPulse 2.8s ease-in-out infinite alternate, pravaahShift 5s linear infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 24px rgba(0, 242, 254, 0.95))
+            drop-shadow(0 0 55px rgba(162, 89, 255, 0.85))
+            drop-shadow(0 0 100px rgba(255, 0, 127, 0.5));
+}
+
+.highlighted-edition-tag {
+    font-size: clamp(0.95rem, 2.2vw, 1.45rem) !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.55em !important;
+    margin-right: -0.55em !important;
+    padding: 6px 22px;
+    background: rgba(255, 208, 67, 0.08);
+    border: 1px solid rgba(255, 208, 67, 0.6);
+    border-radius: 999px;
+    color: #fff6c0 !important;
+    text-shadow: 0 0 14px #ffd043, 0 0 28px rgba(255, 149, 0, 0.8) !important;
+    box-shadow: 0 0 25px rgba(255, 208, 67, 0.35), inset 0 0 15px rgba(255, 208, 67, 0.2);
+    backdrop-filter: blur(8px);
+}
+
+@keyframes pravaahGlowPulse {
+    0% {
+        filter: drop-shadow(0 0 20px rgba(0, 242, 254, 0.9))
+                drop-shadow(0 0 50px rgba(162, 89, 255, 0.7))
+                drop-shadow(0 0 90px rgba(255, 0, 127, 0.4))
+                drop-shadow(0 4px 14px rgba(0, 0, 0, 0.95));
+    }
+    100% {
+        filter: drop-shadow(0 0 38px rgba(0, 242, 254, 1))
+                drop-shadow(0 0 80px rgba(162, 89, 255, 1))
+                drop-shadow(0 0 140px rgba(255, 0, 127, 0.65))
+                drop-shadow(0 4px 14px rgba(0, 0, 0, 0.95));
+    }
+}
+
+@keyframes pravaahShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 .logo-pravaah-container {
     display: flex;
     flex-direction: column;
@@ -643,8 +711,9 @@ section {
     flex-direction: column;
     align-items: center;
     margin-top: 1vw;
-    z-index: 10;
-    pointer-events: none;
+    z-index: 100;
+    pointer-events: auto !important;
+    cursor: pointer !important;
     transition: var(--transition-smooth);
 }
 
@@ -1448,8 +1517,10 @@ body.portal-entered #loader-screen:not(.active-screen) {
 }
 
 .home-swipe-prompt {
-    cursor: pointer;
+    cursor: pointer !important;
+    pointer-events: auto !important;
     position: relative;
+    z-index: 100 !important;
     padding: 12px 28px;
     border-radius: 40px;
     background: rgba(14, 8, 28, 0.65);
@@ -17677,50 +17748,44 @@ body.multiverse-slow-glide .cosmic-nav-wheel {
 
     .mobile-side-menu {
         position: fixed !important;
-        top: auto !important;
+        top: 0 !important;
         bottom: 0 !important;
         left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        max-width: 100vw !important;
-        height: auto !important;
-        max-height: 84vh !important;
-        max-height: 84dvh !important;
-        background: linear-gradient(180deg, rgba(10, 11, 28, 0.98) 0%, rgba(5, 6, 16, 0.99) 100%) !important;
+        right: auto !important;
+        width: 86vw !important;
+        max-width: 360px !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        max-height: 100vh !important;
+        max-height: 100dvh !important;
+        background: linear-gradient(180deg, rgba(8, 10, 26, 0.98) 0%, rgba(4, 5, 14, 0.99) 100%) !important;
         backdrop-filter: blur(28px) saturate(190%) !important;
         -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
-        border-top: 1.5px solid rgba(0, 242, 254, 0.45) !important;
+        border-top: none !important;
         border-left: none !important;
-        border-right: none !important;
+        border-right: 1.5px solid rgba(0, 242, 254, 0.4) !important;
         border-bottom: none !important;
-        border-radius: 24px 24px 0 0 !important;
+        border-radius: 0 24px 24px 0 !important;
         box-shadow: 
-            0 -14px 45px rgba(0, 0, 0, 0.95),
-            0 -2px 20px rgba(0, 242, 254, 0.28),
-            inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+            14px 0 45px rgba(0, 0, 0, 0.95),
+            2px 0 24px rgba(0, 242, 254, 0.28),
+            inset -1px 0 0 rgba(255, 255, 255, 0.1) !important;
         z-index: 100000 !important;
         display: flex !important;
         flex-direction: column !important;
-        transform: translateY(105%) !important;
-        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease !important;
+        transform: translateX(-105%) !important;
+        transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.38s ease !important;
         visibility: hidden !important;
         box-sizing: border-box !important;
         overflow: hidden !important;
     }
 
     .mobile-side-menu::before {
-        content: '' !important;
-        display: block !important;
-        width: 44px !important;
-        height: 4.5px !important;
-        border-radius: 9999px !important;
-        background: rgba(255, 255, 255, 0.32) !important;
-        margin: 10px auto 2px auto !important;
-        flex-shrink: 0 !important;
+        display: none !important;
     }
 
     .mobile-side-menu.is-open {
-        transform: translateY(0) !important;
+        transform: translateX(0) !important;
         visibility: visible !important;
     }
 
@@ -17808,7 +17873,7 @@ body.multiverse-slow-glide .cosmic-nav-wheel {
         overflow-x: hidden !important;
         -webkit-overflow-scrolling: touch !important;
         padding: 12px 14px !important;
-        max-height: 56vh !important;
+        max-height: none !important;
     }
 
     .side-menu-body::-webkit-scrollbar {
@@ -17896,6 +17961,7 @@ body.multiverse-slow-glide .cosmic-nav-wheel {
     }
 
     .side-link-desc {
+        display: none !important;
         font-family: 'Inter', sans-serif !important;
         font-size: 0.63rem !important;
         color: rgba(255, 255, 255, 0.48) !important;
@@ -18037,7 +18103,7 @@ body.multiverse-slow-glide .cosmic-nav-wheel {
         font-size: 0.44rem !important;
     }
     .side-menu-body {
-        max-height: 48vh !important;
+        max-height: none !important;
     }
 }
 
@@ -18816,3 +18882,148 @@ body.time-bounded-scrolling .cosmic-nav-wheel {
         width: 290px !important;
     }
 }
+
+
+/* ==========================================================================
+   TOP RIGHT SIGN IN BUTTON:
+   - Symmetrical with the navbar & separate button in the exact same line as PROFILE
+   - On Desktop: positioned to the right of cosmic-nav-wheel on top (top: 16px, height: 48px)
+   - On Mobile: strictly on top right (symmetrical with the top-left menu button)
+   ========================================================================== */
+.top-corner-signin-btn {
+    position: fixed;
+    top: 16px;
+    right: 28px;
+    height: 48px;
+    box-sizing: border-box;
+    z-index: 9999;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 20px;
+    border-radius: 40px;
+    background: rgba(8, 8, 20, 0.55);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(0, 242, 254, 0.4);
+    box-shadow: 0 0 25px rgba(0, 242, 254, 0.15), inset 0 0 10px rgba(0, 242, 254, 0.05);
+    color: #ffffff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.top-corner-signin-btn .signin-icon {
+    font-size: 0.9rem;
+    color: #00f2fe;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.top-corner-signin-btn .signin-text {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(0, 242, 254, 0.8);
+    transition: all 0.3s ease;
+}
+
+.top-corner-signin-btn .signin-glow-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at 50% 0%, rgba(0, 242, 254, 0.2), transparent 70%);
+    pointer-events: none;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.top-corner-signin-btn:hover {
+    background: rgba(0, 242, 254, 0.18);
+    border-color: #00f2fe;
+    box-shadow: 0 0 25px rgba(0, 242, 254, 0.5), inset 0 0 14px rgba(0, 242, 254, 0.2);
+    transform: translateY(-1px);
+}
+
+.top-corner-signin-btn:hover .signin-icon {
+    transform: scale(1.18);
+    color: #ffffff;
+    text-shadow: 0 0 12px #00f2fe;
+}
+
+.top-corner-signin-btn:hover .signin-text {
+    color: #ffffff;
+    text-shadow: 0 0 14px rgba(0, 242, 254, 1), 0 0 22px rgba(207, 58, 214, 0.7);
+}
+
+.top-corner-signin-btn:active {
+    transform: translateY(1px);
+}
+
+/* Strictly hide before portal is entered (pre-portal screen / intro canvas) */
+html:not(.portal-entered-fast) body:not(.portal-entered) .top-corner-signin-btn,
+body:not(.portal-entered) .top-corner-signin-btn,
+body:has(#splash-screen:not(.hidden)):not(.portal-entered) .top-corner-signin-btn {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Smooth fade in when portal is entered */
+body.portal-entered .top-corner-signin-btn,
+html.portal-entered-fast .top-corner-signin-btn {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    animation: signinBtnFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes signinBtnFadeIn {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -12px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+/* Mobile Screens (<= 900px): strictly available on top right, symmetrical with top-left menu trigger button */
+@media (max-width: 900px) {
+    .top-corner-signin-btn {
+        top: calc(14px + env(safe-area-inset-top, 0px));
+        right: 14px;
+        height: 42px;
+        padding: 0 14px;
+        font-size: 0.72rem;
+        gap: 6px;
+        border-radius: 12px;
+        background: rgba(6, 8, 22, 0.88);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1.5px solid rgba(0, 242, 254, 0.4);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.65), 0 0 12px rgba(0, 242, 254, 0.2);
+    }
+    .top-corner-signin-btn .signin-icon {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .top-corner-signin-btn {
+        top: calc(12px + env(safe-area-inset-top, 0px));
+        right: 12px;
+        height: 40px;
+        padding: 0 12px;
+        font-size: 0.68rem;
+        gap: 5px;
+    }
+}
+
