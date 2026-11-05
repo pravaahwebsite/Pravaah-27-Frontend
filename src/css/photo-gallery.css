@@ -547,7 +547,7 @@ body.photo-gallery-body {
     padding: 1.1rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     transform-style: preserve-3d;
     will-change: transform, opacity, filter;
     user-select: none;
@@ -586,9 +586,7 @@ body.photo-gallery-body {
 .corridor-card-img-box img {
     width: 100%;
     height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     object-position: center;
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -651,7 +649,9 @@ body.photo-gallery-body {
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.65rem;
+    flex: 1;
+    justify-content: flex-start;
 }
 
 .card-category-tag {
@@ -683,8 +683,8 @@ body.photo-gallery-body {
     font-size: 0.78rem;
     line-height: 1.45;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -717,7 +717,7 @@ body.photo-gallery-body {
 
 /* Card Action Button */
 .card-action-btn {
-    margin-top: 0.65rem;
+    margin-top: auto;
     width: 100%;
     padding: 0.6rem 1rem;
     border-radius: 12px;
@@ -1021,9 +1021,7 @@ body.photo-gallery-body {
 .modal-image-box img {
     width: 100%;
     height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     object-position: center;
 }
 
