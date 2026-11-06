@@ -17280,15 +17280,15 @@ body.subpage-body>.pravaah-full-footer {
     z-index: 45 !important;
 }
 
-/* Animate each sphere's actual journey out from the centre */
+/* Animate each sphere's actual journey out from the centre (increased speed by ~20%) */
 .events-page-body .portal-node {
     position: absolute !important;
 
     transition:
-        left 1.25s cubic-bezier(0.22, 1, 0.36, 1),
-        top 1.25s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.75s ease-out,
-        opacity 0.55s ease-out !important;
+        left 1.0s cubic-bezier(0.22, 1, 0.36, 1),
+        top 1.0s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.6s ease-out,
+        opacity 0.45s ease-out !important;
 
     will-change:
         left,
@@ -17304,12 +17304,12 @@ body.subpage-body>.pravaah-full-footer {
 
 /* Cult sphere follows */
 .events-page-body .portal-node.portal-cult {
-    transition-delay: 120ms;
+    transition-delay: 100ms;
 }
 
 /* Entrepreneur sphere follows */
 .events-page-body .portal-node.portal-ent {
-    transition-delay: 240ms;
+    transition-delay: 200ms;
 }
 
 /* ==========================================================
