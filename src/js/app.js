@@ -2813,7 +2813,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function tickOrbit() {
         if (!portalOrbitWrapper) return;
         if (!isOrbitPaused && eventModal && !eventModal.classList.contains('active-modal')) {
-            const speed = activeVerse ? 0.01 : 0.04;
+            const speed = activeVerse ? 0.012 : 0.048;
             orbitAngle = (orbitAngle + speed) % 360;
             portalOrbitWrapper.style.transform = `rotate(${orbitAngle}deg)`;
             portalOrbitWrapper.querySelectorAll('.portal-upright-wrapper, .event-upright-wrapper').forEach(child => {
