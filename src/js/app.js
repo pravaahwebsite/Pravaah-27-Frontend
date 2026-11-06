@@ -604,6 +604,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (splashScreen) {
             splashScreen.classList.add('hidden');
             splashScreen.classList.remove('active-screen');
+            splashScreen.style.display = 'none';
+        }
+        const intro = document.getElementById('pravaah-intro-screen');
+        if (intro) {
+            intro.classList.add('hidden');
+            intro.style.display = 'none';
+        }
+        const loader = document.getElementById('loader-screen');
+        if (loader) {
+            loader.classList.add('hidden');
+            loader.classList.remove('active-screen');
+            loader.style.display = 'none';
         }
         const initialNavWheel = document.getElementById('cosmic-nav-wheel');
         if (initialNavWheel) {
@@ -614,6 +626,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (globalBg) {
             globalBg.style.backgroundImage = "url('assets/images/space_star_bg.jpg')";
         }
+        window.scrollTo({ top: 0, behavior: 'instant' });
     } else {
         const globalBg = document.getElementById('global-bg-layer');
         if (globalBg) {

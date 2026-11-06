@@ -13,12 +13,14 @@
     <link rel="stylesheet" href="src/css/style.css">
     <link rel="stylesheet" href="src/css/hero_kairos.css">
     <script>
-        // Fresh visits start at hero screen unless explicit skipintro query param
-        if (new URLSearchParams(window.location.search).get('skipintro') === 'true') {
-            document.documentElement.classList.add('portal-entered-fast');
-        } else {
-            try { sessionStorage.removeItem('portalEntered'); } catch (e) {}
-        }
+        // If user already entered the portal during this session (or from another page), skip intro & show home directly
+        try {
+            if (new URLSearchParams(window.location.search).get('firsttime') === 'true' || new URLSearchParams(window.location.search).get('replay') === 'true') {
+                sessionStorage.removeItem('portalEntered');
+            } else if (sessionStorage.getItem('portalEntered') === 'true' || new URLSearchParams(window.location.search).get('skipintro') === 'true') {
+                document.documentElement.classList.add('portal-entered-fast');
+            }
+        } catch (e) {}
     </script>
 </head>
 <body>
@@ -299,7 +301,6 @@
             </div>
 
             <div class="hero-inner">
-                <p class="hero-presents">Presenting this year's fest</p>
                 <h1 class="hero-title" id="heroTitle" aria-label="Pravaah">
                     <span class="ltr" style="--i:0">P</span><span class="ltr" style="--i:1">R</span><span class="ltr" style="--i:2">A</span><span class="ltr" style="--i:3">V</span><span class="ltr" style="--i:4">A</span><span class="ltr" style="--i:5">A</span><span class="ltr" style="--i:6">H</span>
                 </h1>
@@ -317,10 +318,7 @@
                     <div><b id="cd-s">00</b><small>seconds</small></div>
                 </div>
 
-                <div class="hero-cta">
-                    <a href="register.html" class="hero-btn hero-btn-primary magnetic" id="portal-entry-trigger" role="button">Step through the portal</a>
-                    <a href="#about-page" class="hero-btn hero-btn-ghost magnetic" id="explore-worlds-btn">Explore the worlds</a>
-                </div>
+
 
                 <div class="hero-scroll-cue-container" id="scroll-to-next-trigger" role="button" tabindex="0" title="Scroll to go to next page">
                     <div class="scroll-cue-pill">
@@ -666,31 +664,6 @@
         </section>
 
         <section id="team-page" class="snap-page">
-
-            <div class="last-page-hero-container">
-                <span class="hero-brand-title spider-title" data-text="PRAVAAH 2026">PRAVAAH 2026</span>
-                <p class="hero-tagline">The Annual Cultural & Technopreneurship Fest of IIT Bhubaneswar</p>
-
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLScJp86gL9E-Pravaah2026MockForm/viewform" target="_blank" class="hero-register-btn">
-                    <span>REGISTER NOW</span>
-                    <span class="register-sparkle">✦</span>
-                </a>
-
-                <div class="hero-social-block">
-                    <a href="https://www.instagram.com/iitbbs.pravaah/?hl=en" target="_blank" class="hero-social-btn btn-insta" aria-label="Instagram" rel="noopener">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-                        <span>INSTAGRAM</span>
-                    </a>
-                    <a href="https://www.linkedin.com/company/pravaah-iit-bhubaneswar/posts/?feedView=all" target="_blank" class="hero-social-btn btn-linkedin" aria-label="LinkedIn" rel="noopener">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                        <span>LINKEDIN</span>
-                    </a>
-                    <a href="https://youtube.com/@pravaahiitbbs?si=9zFAqSFCleCCECZ_" target="_blank" class="hero-social-btn btn-youtube" aria-label="YouTube" rel="noopener">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.41 19c1.71.46 8.59.46 8.59.46s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
-                        <span>YOUTUBE</span>
-                    </a>
-                </div>
-            </div>
 
             <footer class="pravaah-full-footer">
                 <div class="pravaah-footer-container">
