@@ -1,0 +1,678 @@
+/* =========================================================
+   PRAVAAH — KAIROS: Worlds Unbound
+   Hero Section Styling (Scoped to #splash-screen)
+   ========================================================= */
+
+/* 1. Strictly hide navbar, mobile side menu, and sign-in button before portal is entered */
+html:not(.portal-entered-fast) body:not(.portal-entered) .cosmic-nav-wheel,
+body:not(.portal-entered) .cosmic-nav-wheel,
+body:not(.portal-entered) #cosmic-nav-wheel,
+body:not(.portal-entered) .mobile-top-menu-btn,
+body:not(.portal-entered) .mobile-bottom-nav,
+body:not(.portal-entered) .mobile-side-menu,
+body:not(.portal-entered) .mobile-menu-backdrop,
+body:not(.portal-entered) .top-corner-signin-btn,
+body:has(#splash-screen.active-screen:not(.hidden)):not(.portal-entered) .cosmic-nav-wheel,
+body:has(#splash-screen.active-screen:not(.hidden)):not(.portal-entered) .mobile-top-menu-btn,
+body:has(#splash-screen.active-screen:not(.hidden)):not(.portal-entered) .top-corner-signin-btn {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* 2. Loader screen: hide by default, but ALLOW display when active-screen is added during the warp animation */
+#loader-screen:not(.active-screen) {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+#loader-screen.active-screen {
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  z-index: 99999 !important;
+}
+
+#loader-screen.fade-out-loader {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.4s ease-out !important;
+}
+
+/* 3. Always hide skip intro and sound controls on all screens */
+.portal-controls-row,
+#portal-audio-btn,
+#portal-skip-btn,
+#splash-sound-btn,
+#splash-skip-btn,
+.intro-top-controls {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* 4. Hero Section Viewport */
+#splash-screen.kairos-hero-viewport {
+  position: relative !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  min-height: 100vh !important;
+  height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  overflow: hidden !important;
+  isolation: isolate;
+  padding: clamp(2rem, 5vh, 4rem) 1.25rem clamp(1.5rem, 4vh, 3rem) !important;
+  box-sizing: border-box !important;
+  z-index: 5 !important;
+  background: #07050f !important;
+}
+
+/* Once portal is opened, splash screen is hidden cleanly */
+body.portal-entered #splash-screen.kairos-hero-viewport,
+html.portal-entered-fast #splash-screen.kairos-hero-viewport,
+#splash-screen.kairos-hero-viewport.hidden {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* 5. Fast Warp Speed Starfield Canvas */
+#splash-screen.kairos-hero-viewport #warp {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 6. Subtle Perimeter Nebula Glow (Away from central text) */
+#splash-screen.kairos-hero-viewport .blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(95px);
+  z-index: 1;
+  pointer-events: none;
+  animation: heroBlobFloat 7s ease-in-out infinite;
+}
+
+#splash-screen.kairos-hero-viewport .blob-c {
+  width: 32vw;
+  height: 32vw;
+  background: #35e8ff;
+  left: -12vw;
+  top: 15vh;
+  opacity: 0.22;
+}
+
+#splash-screen.kairos-hero-viewport .blob-p {
+  width: 34vw;
+  height: 34vw;
+  background: #ff3d9a;
+  right: -12vw;
+  bottom: 0vh;
+  opacity: 0.22;
+  animation-delay: -3.5s;
+}
+
+#splash-screen.kairos-hero-viewport .blob-a {
+  width: 24vw;
+  height: 24vw;
+  background: #ffb53d;
+  right: 15vw;
+  top: -10vh;
+  opacity: 0.15;
+  animation-delay: -5s;
+}
+
+@keyframes heroBlobFloat {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(3vw, -2.5vh, 0) scale(1.15); }
+}
+
+/* Center Contrast Vignette (Guarantees foreground text is NEVER dominated by background) */
+#splash-screen.kairos-hero-viewport .hero-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(7, 5, 15, 0.4) 0%, rgba(7, 5, 15, 0.7) 60%, #07050f 98%);
+}
+
+/* 7. Concentric Cosmic Portal Dimension Rings in Background (Quicker Spin) */
+#splash-screen.kairos-hero-viewport .portal-dimension-rings {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+#splash-screen.kairos-hero-viewport .p-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+#splash-screen.kairos-hero-viewport .pr-1 {
+  width: min(58vw, 660px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  box-shadow: 0 0 35px rgba(168, 85, 247, 0.12), inset 0 0 25px rgba(168, 85, 247, 0.08);
+  animation: pRingSpin 12s linear infinite;
+}
+
+#splash-screen.kairos-hero-viewport .pr-2 {
+  width: min(84vw, 940px);
+  aspect-ratio: 1;
+  border: 1.5px dashed rgba(53, 232, 255, 0.22);
+  box-shadow: 0 0 45px rgba(53, 232, 255, 0.1);
+  animation: pRingSpin 17s linear infinite reverse;
+}
+
+#splash-screen.kairos-hero-viewport .pr-3 {
+  width: min(108vw, 1220px);
+  aspect-ratio: 1;
+  border: 1.5px dotted rgba(255, 61, 154, 0.18);
+  box-shadow: 0 0 50px rgba(255, 61, 154, 0.08);
+  animation: pRingSpin 24s linear infinite;
+}
+
+@keyframes pRingSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 8. Quicker 3D Orbiting Planetary Worlds */
+#splash-screen.kairos-hero-viewport .orbits {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+#splash-screen.kairos-hero-viewport .orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(255, 255, 255, 0.2);
+}
+
+#splash-screen.kairos-hero-viewport .orbit i {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-left: -10px;
+  border-radius: 50%;
+  background: var(--c);
+  box-shadow: 0 0 22px 6px var(--c), 0 0 48px 12px var(--c);
+}
+
+#splash-screen.kairos-hero-viewport .o1 {
+  --c: #35e8ff;
+  width: min(76vw, 860px);
+  aspect-ratio: 1;
+  animation: heroOrbitSpin1 9.5s linear infinite;
+  transform: rotateX(68deg) rotateZ(0deg);
+}
+
+#splash-screen.kairos-hero-viewport .o2 {
+  --c: #ff3d9a;
+  width: min(56vw, 640px);
+  aspect-ratio: 1;
+  animation: heroOrbitSpin2 6.5s linear infinite reverse;
+  transform: rotateX(68deg) rotateZ(40deg);
+}
+
+#splash-screen.kairos-hero-viewport .o3 {
+  --c: #ffb53d;
+  width: min(96vw, 1080px);
+  aspect-ratio: 1;
+  animation: heroOrbitSpin3 12s linear infinite;
+  transform: rotateX(68deg) rotateZ(-30deg);
+}
+
+@keyframes heroOrbitSpin1 {
+  from { transform: rotateX(68deg) rotateZ(0deg); }
+  to { transform: rotateX(68deg) rotateZ(360deg); }
+}
+
+@keyframes heroOrbitSpin2 {
+  from { transform: rotateX(68deg) rotateZ(40deg); }
+  to { transform: rotateX(68deg) rotateZ(400deg); }
+}
+
+@keyframes heroOrbitSpin3 {
+  from { transform: rotateX(68deg) rotateZ(-30deg); }
+  to { transform: rotateX(68deg) rotateZ(330deg); }
+}
+
+/* 9. Inner Hero Grid Content */
+#splash-screen.kairos-hero-viewport .hero-inner {
+  position: relative;
+  z-index: 5;
+  display: grid;
+  justify-items: center;
+  gap: clamp(0.5rem, 1.4vh, 1rem);
+  max-width: 1200px;
+  width: 100%;
+}
+
+#splash-screen.kairos-hero-viewport .hero-presents {
+  color: #ede9fe;
+  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-size: clamp(0.85rem, 1.1vw, 1.05rem);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin: 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+  opacity: 0;
+  animation: heroRise 1s 0.2s cubic-bezier(0.2, 0.7, 0.1, 1) forwards;
+}
+
+/* =========================================================
+   DYNAMIC, ANIMATED PRAVAAH TITLE
+   (Continuous Wave Float + Liquid Shimmer Sheen + Cursor Magnetic Pull)
+   ========================================================= */
+#splash-screen.kairos-hero-viewport .hero-title {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 900;
+  line-height: 0.95;
+  font-size: clamp(2.8rem, 11.5vw, 9.8rem);
+  letter-spacing: -0.01em;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  position: relative;
+  z-index: 5;
+  /* Deep dark backing shadow to completely isolate title from background stars */
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.95))
+          drop-shadow(0 0 28px rgba(168, 85, 247, 0.45));
+}
+
+/* Explicitly disable any glitch slice pseudo elements from global CSS */
+#splash-screen.kairos-hero-viewport .hero-title::before,
+#splash-screen.kairos-hero-viewport .hero-title::after {
+  display: none !important;
+  content: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* Each letter: Solid white with lavender base + continuous fluid wave float + light sweep */
+#splash-screen.kairos-hero-viewport .ltr {
+  display: inline-block;
+  opacity: 1;
+  transform-origin: 50% 100%;
+  animation: heroLetterWave 2.4s ease-in-out infinite,
+             heroTextShine 4s linear infinite;
+  animation-delay: calc(var(--i) * 0.16s), calc(var(--i) * 0.2s);
+  background: linear-gradient(110deg, #ffffff 0%, #ffffff 32%, #ede9fe 48%, #ffffff 62%, #c4b5fd 100%);
+  background-size: 240% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.45);
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.95))
+          drop-shadow(0 0 16px rgba(168, 85, 247, 0.45));
+  transition: transform 0.2s ease-out, filter 0.3s;
+  will-change: transform, background-position;
+}
+
+/* Cascade flip entrance when revealed */
+#splash-screen.kairos-hero-viewport.hero-active-revealed .ltr {
+  animation: heroLetterIn 0.8s cubic-bezier(0.2, 0.7, 0.1, 1) forwards,
+             heroLetterWave 2.4s ease-in-out infinite,
+             heroTextShine 4s linear infinite;
+  animation-delay: calc(var(--i) * 0.08s), calc(0.8s + var(--i) * 0.16s), calc(1.0s + var(--i) * 0.2s);
+}
+
+#splash-screen.kairos-hero-viewport .hero-title:hover .ltr {
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.95))
+          drop-shadow(0 0 28px #c084fc);
+}
+
+@keyframes heroLetterIn {
+  from {
+    opacity: 0;
+    transform: translateY(60%) rotateX(-90deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+}
+
+/* Distinct, buoyant undulating wave motion across P R A V A A H */
+@keyframes heroLetterWave {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translateY(-9px) rotate(-1.5deg) scale(1.025);
+  }
+  50% {
+    transform: translateY(-18px) rotate(0deg) scale(1.05);
+  }
+  75% {
+    transform: translateY(-9px) rotate(1.5deg) scale(1.025);
+  }
+}
+
+/* Continuous liquid light sheen across the letters */
+@keyframes heroTextShine {
+  0% {
+    background-position: 120% 0;
+  }
+  100% {
+    background-position: -120% 0;
+  }
+}
+
+@keyframes heroRise {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+
+#splash-screen.kairos-hero-viewport .hero-theme {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 500;
+  font-size: clamp(1rem, 2.7vw, 2.3rem);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.15em 0.5em;
+  opacity: 0;
+  animation: heroRise 1s 0.7s cubic-bezier(0.2, 0.7, 0.1, 1) forwards;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.9);
+}
+
+#splash-screen.kairos-hero-viewport .kairos {
+  letter-spacing: 0.3em;
+  background: linear-gradient(90deg, #35e8ff, #ff3d9a, #ffb53d, #35e8ff);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: heroSheen 6s linear infinite;
+  font-weight: 900;
+}
+
+#splash-screen.kairos-hero-viewport .colon {
+  color: #9a93b8;
+  margin-left: -0.35em;
+}
+
+#splash-screen.kairos-hero-viewport .unbound {
+  min-width: 7ch;
+  font-weight: 300;
+  color: #f3efff;
+  border-right: 2px solid #ff3d9a;
+  padding-right: 0.25em;
+  animation: heroCaret 1s steps(1) infinite;
+}
+
+@keyframes heroCaret {
+  50% { border-color: transparent; }
+}
+
+@keyframes heroSheen {
+  to { background-position: -300% 0; }
+}
+
+#splash-screen.kairos-hero-viewport .hero-tag {
+  max-width: 48ch;
+  color: #e2d9f3;
+  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-size: clamp(0.92rem, 1.3vw, 1.15rem);
+  line-height: 1.5;
+  opacity: 0;
+  animation: heroRise 1s 0.9s cubic-bezier(0.2, 0.7, 0.1, 1) forwards;
+  padding-inline: 0.5rem;
+  margin: 0;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95);
+}
+
+#splash-screen.kairos-hero-viewport .count {
+  display: flex;
+  gap: clamp(0.5rem, 1.5vw, 1.1rem);
+  margin-top: 0.2rem;
+  opacity: 0;
+  animation: heroRise 1s 1.1s cubic-bezier(0.2, 0.7, 0.1, 1) forwards;
+}
+
+#splash-screen.kairos-hero-viewport .count div {
+  min-width: clamp(60px, 8vw, 96px);
+  padding: 0.65rem 0.35rem;
+  border-radius: 16px;
+  background: rgba(14, 8, 28, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+#splash-screen.kairos-hero-viewport .count b {
+  display: block;
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.25rem, 3vw, 2.2rem);
+  line-height: 1.1;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+}
+
+#splash-screen.kairos-hero-viewport .count small {
+  color: #c4b5fd;
+  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-size: 0.72rem;
+  text-transform: lowercase;
+}
+
+#splash-screen.kairos-hero-viewport .hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.4rem;
+  opacity: 0;
+  animation: heroRise 1s 1.3s cubic-bezier(0.2, 0.7, 0.1, 1) forwards;
+}
+
+#splash-screen.kairos-hero-viewport .hero-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.7rem;
+  border-radius: 999px;
+  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.1, 1), background 0.3s, border-color 0.3s, box-shadow 0.3s;
+  will-change: transform;
+}
+
+#splash-screen.kairos-hero-viewport .hero-btn-primary {
+  background: linear-gradient(110deg, #35e8ff, #7a5cff 50%, #ff3d9a);
+  background-size: 200% 100%;
+  border: 1.5px solid transparent;
+  color: #07050f;
+  animation: heroSheen 5s linear infinite;
+  box-shadow: 0 0 35px -8px #ff3d9a;
+}
+
+#splash-screen.kairos-hero-viewport .hero-btn-primary:hover {
+  box-shadow: 0 0 55px -4px #35e8ff;
+  transform: translateY(-2px);
+}
+
+#splash-screen.kairos-hero-viewport .hero-btn-ghost {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  color: #f3efff;
+  backdrop-filter: blur(8px);
+}
+
+#splash-screen.kairos-hero-viewport .hero-btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #fff;
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   HIGHLIGHTED "SCROLL TO GO TO NEXT PAGE" CUE
+   ========================================================= */
+#splash-screen.kairos-hero-viewport .hero-scroll-cue-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 0.6rem;
+  cursor: pointer;
+  z-index: 10;
+  pointer-events: auto;
+  opacity: 0;
+  animation: heroRise 1s 1.5s cubic-bezier(0.2, 0.7, 0.1, 1) forwards;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+  user-select: none;
+}
+
+#splash-screen.kairos-hero-viewport .hero-scroll-cue-container:hover {
+  transform: translateY(-3px) scale(1.04);
+}
+
+#splash-screen.kairos-hero-viewport .scroll-cue-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 22px;
+  border-radius: 999px;
+  background: rgba(14, 8, 28, 0.85);
+  border: 1.5px solid rgba(0, 242, 254, 0.7);
+  box-shadow: 0 0 20px rgba(0, 242, 254, 0.4), 0 0 35px rgba(255, 0, 127, 0.25), inset 0 0 10px rgba(0, 242, 254, 0.15);
+  backdrop-filter: blur(12px);
+  animation: scrollCuePulse 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes scrollCuePulse {
+  0% {
+    border-color: rgba(0, 242, 254, 0.65);
+    box-shadow: 0 0 18px rgba(0, 242, 254, 0.35), 0 0 30px rgba(255, 0, 127, 0.2);
+  }
+  100% {
+    border-color: rgba(255, 61, 154, 0.95);
+    box-shadow: 0 0 28px rgba(255, 61, 154, 0.55), 0 0 45px rgba(0, 242, 254, 0.35);
+  }
+}
+
+#splash-screen.kairos-hero-viewport .scroll-cue-text {
+  font-family: 'Unbounded', 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: clamp(0.7rem, 0.95vw, 0.85rem);
+  letter-spacing: 0.18em;
+  color: #fff;
+  text-shadow: 0 0 10px #00f2fe, 0 0 20px rgba(162, 89, 255, 0.8);
+  text-transform: uppercase;
+}
+
+#splash-screen.kairos-hero-viewport .scroll-cue-icon {
+  color: #ffd043;
+  font-size: 0.85rem;
+  display: inline-block;
+  animation: spin 6s linear infinite;
+}
+
+#splash-screen.kairos-hero-viewport .scroll-cue-arrow-down {
+  color: #00f2fe;
+  filter: drop-shadow(0 0 8px #00f2fe);
+  animation: scrollArrowBounce 1.5s ease-in-out infinite;
+}
+
+@keyframes scrollArrowBounce {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.75;
+  }
+  50% {
+    transform: translateY(5px);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  #splash-screen.kairos-hero-viewport .count {
+    gap: 0.35rem;
+    width: 100%;
+    max-width: 360px;
+  }
+  #splash-screen.kairos-hero-viewport .count div {
+    min-width: 0;
+    flex: 1;
+    padding: 0.5rem 0.2rem;
+  }
+  #splash-screen.kairos-hero-viewport .count b {
+    font-size: 1.25rem;
+  }
+  #splash-screen.kairos-hero-viewport .count small {
+    font-size: 0.68rem;
+  }
+  #splash-screen.kairos-hero-viewport .hero-btn {
+    width: 100%;
+  }
+  #splash-screen.kairos-hero-viewport .hero-cta {
+    width: 100%;
+    max-width: 340px;
+  }
+  #splash-screen.kairos-hero-viewport .scroll-cue-pill {
+    padding: 7px 18px;
+  }
+  #splash-screen.kairos-hero-viewport .scroll-cue-text {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #splash-screen.kairos-hero-viewport * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  #splash-screen.kairos-hero-viewport .ltr,
+  #splash-screen.kairos-hero-viewport .hero-presents,
+  #splash-screen.kairos-hero-viewport .hero-theme,
+  #splash-screen.kairos-hero-viewport .hero-tag,
+  #splash-screen.kairos-hero-viewport .count,
+  #splash-screen.kairos-hero-viewport .hero-cta,
+  #splash-screen.kairos-hero-viewport .hero-scroll-cue-container {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

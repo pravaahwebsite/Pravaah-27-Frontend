@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#07050f" />
+  <title>PRAVAAH — KAIROS: Worlds Unbound</title>
+  <meta name="description" content="Pravaah — the techno-cultural-enterprise fest. This year: KAIROS, Worlds Unbound. The moment to innovate across dimensions, express without boundaries, and venture into the unknown." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;500;700;900&family=Bricolage+Grotesque:opsz,wght@12..96,300..700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Preloader: a portal that opens -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader-portal"><span></span><span></span><span></span></div>
+    <p class="loader-text">Opening the portal <b id="loaderPct">0</b>%</p>
+  </div>
+
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+  <!-- Scroll progress -->
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
+  <header class="nav" id="nav">
+    <a href="#top" class="brand" aria-label="Pravaah — back to top">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="17" fill="none" stroke="currentColor" stroke-width="1.5"/><ellipse cx="20" cy="20" rx="17" ry="7" fill="none" stroke="var(--cyan)" stroke-width="1.5" transform="rotate(-30 20 20)"/><circle cx="20" cy="20" r="3.5" fill="var(--pink)"/></svg>
+      <span>PRAVAAH</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#kairos">Kairos</a>
+      <a href="#worlds">Worlds</a>
+      <a href="#days">Schedule</a>
+      <a href="#join">Register</a>
+    </nav>
+    <a href="#join" class="btn btn-sm magnetic">Get passes</a>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+  </header>
+
+  <div class="drawer" id="drawer">
+    <a href="#kairos">Kairos</a>
+    <a href="#worlds">Worlds</a>
+    <a href="#days">Schedule</a>
+    <a href="#join">Register</a>
+  </div>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <canvas id="warp" aria-hidden="true"></canvas>
+      <div class="blob blob-c"></div>
+      <div class="blob blob-p"></div>
+      <div class="blob blob-a"></div>
+      <div class="hero-vignette"></div>
+
+      <!-- Three orbiting worlds -->
+      <div class="orbits" aria-hidden="true">
+        <div class="orbit o1"><i></i></div>
+        <div class="orbit o2"><i></i></div>
+        <div class="orbit o3"><i></i></div>
+      </div>
+
+      <div class="hero-inner">
+        <p class="hero-presents">Presenting this year's fest</p>
+        <h1 class="hero-title" id="heroTitle" aria-label="Pravaah">
+          <span class="ltr" style="--i:0">P</span><span class="ltr" style="--i:1">R</span><span class="ltr" style="--i:2">A</span><span class="ltr" style="--i:3">V</span><span class="ltr" style="--i:4">A</span><span class="ltr" style="--i:5">A</span><span class="ltr" style="--i:6">H</span>
+        </h1>
+        <div class="hero-theme">
+          <span class="kairos">KAIROS</span>
+          <span class="colon">:</span>
+          <span class="unbound" id="unbound" data-words="Worlds Unbound|Tech Unbound|Culture Unbound|Enterprise Unbound">Worlds Unbound</span>
+        </div>
+        <p class="hero-tag">The moment to innovate across dimensions, express without boundaries, and venture into the unknown.</p>
+
+        <div class="count" id="count" aria-label="Countdown to the fest">
+          <div><b id="cd-d">00</b><small>days</small></div>
+          <div><b id="cd-h">00</b><small>hours</small></div>
+          <div><b id="cd-m">00</b><small>minutes</small></div>
+          <div><b id="cd-s">00</b><small>seconds</small></div>
+        </div>
+
+        <div class="hero-cta">
+          <a href="#join" class="btn btn-primary magnetic">Step through the portal</a>
+          <a href="#worlds" class="btn btn-ghost magnetic">Explore the worlds</a>
+        </div>
+      </div>
+
+      <a href="#kairos" class="scroll-cue" aria-label="Scroll down"><span></span></a>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Tech</span><i>✦</i><span>Culture</span><i>✦</i><span>Enterprise</span><i>✦</i><span>Kairos</span><i>✦</i><span>Worlds Unbound</span><i>✦</i>
+        <span>Tech</span><i>✦</i><span>Culture</span><i>✦</i><span>Enterprise</span><i>✦</i><span>Kairos</span><i>✦</i><span>Worlds Unbound</span><i>✦</i>
+      </div>
+    </div>
+
+    <!-- KAIROS -->
+    <section class="kairos-sec" id="kairos">
+      <div class="kairos-grid">
+        <div class="kairos-art reveal" aria-hidden="true">
+          <svg viewBox="0 0 600 600" id="ringsSvg">
+            <defs>
+              <path id="ringA" d="M300,300 m-250,0 a250,250 0 1,1 500,0 a250,250 0 1,1 -500,0"/>
+              <path id="ringB" d="M300,300 m-190,0 a190,190 0 1,0 380,0 a190,190 0 1,0 -380,0"/>
+              <path id="ringC" d="M300,300 m-130,0 a130,130 0 1,1 260,0 a130,130 0 1,1 -260,0"/>
+              <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#35e8ff"/><stop offset="0.5" stop-color="#ff3d9a"/><stop offset="1" stop-color="#ffb53d"/></linearGradient>
+            </defs>
+            <g class="ring r1"><text><textPath href="#ringA" startOffset="0">KAIROS · THE FORTUNATE MOMENT · KAIROS · THE FORTUNATE MOMENT · KAIROS · THE FORTUNATE MOMENT ·</textPath></text></g>
+            <g class="ring r2"><text><textPath href="#ringB" startOffset="0">TECH · CULTURE · ENTERPRISE · TECH · CULTURE · ENTERPRISE · TECH · CULTURE · ENTERPRISE ·</textPath></text></g>
+            <g class="ring r3"><text><textPath href="#ringC" startOffset="0">WORLDS UNBOUND · WORLDS UNBOUND · WORLDS UNBOUND ·</textPath></text></g>
+            <circle cx="300" cy="300" r="72" fill="none" stroke="url(#g)" stroke-width="2"/>
+            <g class="hand"><line x1="300" y1="300" x2="300" y2="240" stroke="#fff" stroke-width="3" stroke-linecap="round"/></g>
+            <circle cx="300" cy="300" r="8" fill="#ff3d9a"/>
+          </svg>
+        </div>
+
+        <div class="kairos-copy">
+          <h2 class="split-lines">Not time that passes.<br>Time that <em>arrives</em>.</h2>
+          <p class="reveal">In Greek, <strong>Kairos</strong> is the fortunate moment — the instant when everything lines up and you act. Chronos counts the hours. Kairos is the one you remember.</p>
+          <p class="reveal"><strong>Worlds Unbound</strong> is the multiverse behind it. Three genres of Pravaah — technology, culture and enterprise — run as parallel worlds. You can live in one, or cross all three in a single weekend.</p>
+          <blockquote class="reveal">“The moment to innovate across dimensions, express without boundaries, and venture into the unknown.”</blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORLDS -->
+    <section class="worlds" id="worlds">
+      <div class="section-head reveal">
+        <h2>Pick a world.<br>Or cross them all.</h2>
+        <p>Hover, tap or focus a world to open it.</p>
+      </div>
+
+      <div class="panels" id="panels">
+
+        <article class="panel tech active" tabindex="0" style="--c:var(--cyan)">
+          <div class="art art-tech" aria-hidden="true"><span class="grid"></span><span class="scan"></span><span class="code" id="codeRain"></span></div>
+          <div class="panel-body">
+            <span class="pill">World I</span>
+            <h3>Tech</h3>
+            <p>Hackathons, robotics arenas, AI challenges, capture-the-flag and workshops. Build the thing that doesn't exist yet.</p>
+            <ul>
+              <li>Hackathon</li><li>Robo wars</li><li>AI &amp; data challenge</li><li>Workshops</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="panel cult" tabindex="0" style="--c:var(--pink)">
+          <div class="art art-cult" aria-hidden="true"><span class="wave w1"></span><span class="wave w2"></span><span class="wave w3"></span><span class="wave w4"></span></div>
+          <div class="panel-body">
+            <span class="pill">World II</span>
+            <h3>Culture</h3>
+            <p>Dance, music, theatre, art and a headline night. The stage where a thousand voices become one.</p>
+            <ul>
+              <li>Dance &amp; music</li><li>Drama &amp; mime</li><li>Art &amp; design</li><li>Proshow night</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="panel ent" tabindex="0" style="--c:var(--amber)">
+          <div class="art art-ent" aria-hidden="true"><span class="bar b1"></span><span class="bar b2"></span><span class="bar b3"></span><span class="bar b4"></span><span class="bar b5"></span><span class="bar b6"></span></div>
+          <div class="panel-body">
+            <span class="pill">World III</span>
+            <h3>Enterprise</h3>
+            <p>Startup pitches, case battles, talks with founders and leaders. Where ideas meet capital and a plan.</p>
+            <ul>
+              <li>Startup pitch</li><li>Case study</li><li>Speaker sessions</li><li>Stock &amp; strategy</li>
+            </ul>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats">
+      <div class="stat reveal"><b data-count="3">0</b><span>worlds in one fest</span></div>
+      <div class="stat reveal"><b data-count="50" data-suffix="+">0</b><span>events</span></div>
+      <div class="stat reveal"><b data-count="10000" data-suffix="+">0</b><span>footfall</span></div>
+      <div class="stat reveal"><b data-count="3">0</b><span>days, no boundaries</span></div>
+    </section>
+
+    <!-- SCHEDULE -->
+    <section class="days" id="days">
+      <div class="section-head reveal">
+        <h2>Three days.<br>Three portals.</h2>
+        <p>Final schedule drops soon. This is how the weekend opens.</p>
+      </div>
+      <div class="day-grid">
+        <article class="day tilt reveal" style="--c:var(--cyan)">
+          <small>Day 1</small>
+          <h3>Ignition</h3>
+          <p>Opening ceremony, hackathon kick-off, robotics qualifiers and the first cultural showcases.</p>
+          <span class="glow"></span>
+        </article>
+        <article class="day tilt reveal" style="--c:var(--pink)">
+          <small>Day 2</small>
+          <h3>Convergence</h3>
+          <p>Finals across all three worlds, speaker sessions and the biggest stages of the fest.</p>
+          <span class="glow"></span>
+        </article>
+        <article class="day tilt reveal" style="--c:var(--amber)">
+          <small>Day 3</small>
+          <h3>Ascension</h3>
+          <p>Winners crowned, the proshow night, and the closing moment you'll tell people about.</p>
+          <span class="glow"></span>
+        </article>
+      </div>
+    </section>
+
+    <!-- JOIN -->
+    <section class="join" id="join">
+      <div class="join-ring" aria-hidden="true"></div>
+      <h2 class="reveal">The moment is now.</h2>
+      <p class="reveal">Passes, registrations and updates are live on the official Pravaah site.</p>
+      <div class="hero-cta reveal">
+        <a href="https://pravaah27frontend.vercel.app/" class="btn btn-primary magnetic" target="_blank" rel="noopener">Register on the Pravaah site</a>
+        <a href="#top" class="btn btn-ghost magnetic">Back to the portal</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div><b>PRAVAAH</b><span>KAIROS: Worlds Unbound</span></div>
+    <p>Tech · Culture · Enterprise</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
