@@ -643,7 +643,14 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 intro.classList.add('hidden');
                 stopPravaahSplashAnimation();
-            }, 650);
+                if (window.resizeHeroWarp) {
+                    window.resizeHeroWarp();
+                }
+            }, 500);
+        }
+        const heroSection = document.getElementById('splash-screen');
+        if (heroSection) {
+            heroSection.classList.add('hero-active-revealed');
         }
     }
     window.proceedToFirstPage = proceedToFirstPage;
@@ -838,11 +845,11 @@ document.addEventListener('DOMContentLoaded', () => {
             isPlaying: true,
             isLooping: true,
             time: 0,
-            duration: 4.8,
-            scanStart: 0.3,
-            scanEnd: 2.1,
-            sheenStart: 2.15,
-            sheenEnd: 2.95,
+            duration: 1.8,
+            scanStart: 0.1,
+            scanEnd: 1.4,
+            sheenStart: 1.42,
+            sheenEnd: 1.78,
             speed: 1.0,
             hasPlayedBoom: false,
             targetTiltX: 0,
@@ -1059,9 +1066,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Once logo animation finishes, smoothly proceed to the Kairos portal home page (Image 2)
                     state.time = state.duration;
                     state.isPlaying = false;
-                    if (!introDismissed) {
-                        proceedToFirstPage();
-                    }
+                    setTimeout(() => {
+                        if (!introDismissed) {
+                            proceedToFirstPage();
+                        }
+                    }, 400);
                 }
             }
 
@@ -1365,6 +1374,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) {}
     }
 
+    window.launchPortalVideo = launchPortalVideo;
     function launchPortalVideo() {
         if (portalHasEntered || portalPlaybackActive) return;
         stopPravaahSplashAnimation();
@@ -1817,7 +1827,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Scroll down on intro or pre-portal screen triggers progression
+    // Scroll down on intro or splash triggers progression
     window.addEventListener('wheel', (e) => {
         if (!introDismissed) {
             if (e.deltaY > 15) {
@@ -1865,7 +1875,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (!portalHasEntered && !portalPlaybackActive && e.changedTouches && e.changedTouches[0]) {
                 const diff = prePortalTouchY - e.changedTouches[0].clientY;
-                if (diff > 35) {
+                if (diff > 25) {
                     launchPortalVideo();
                 }
             }
@@ -1899,6 +1909,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const titlesToGlitch = container.querySelectorAll('.spider-title, .logo-title, .calendar-page-heading, .universe-page-heading, .gallery-page-heading, .about-page-heading, .team-page-heading, [data-text]');
 
         titlesToGlitch.forEach(title => {
+            if (title.id === 'heroTitle' || title.closest('#splash-screen')) return;
             title.classList.remove('spider-glitch-active');
             void title.offsetWidth;
             title.classList.add('spider-glitch-active');
