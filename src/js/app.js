@@ -3096,7 +3096,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const rotX = ((cy - y) / cy) * 8.0;
                 const rotY = ((x - cx) / cx) * 8.0;
 
-                card.style.transform = `perspective(1000px) translateY(-12px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale(1.028)`;
+                const isMerged = card.classList.contains('about-merged-card'); const tilt = isMerged ? 0.44 : 1.0; const lift = isMerged ? -6 : -12; const scale = isMerged ? 1.012 : 1.028; card.style.transform = `perspective(1000px) translateY(${lift}px) rotateX(${(rotX * tilt).toFixed(2)}deg) rotateY(${(rotY * tilt).toFixed(2)}deg) scale(${scale})`;
             });
 
             card.addEventListener('mouseleave', () => {
