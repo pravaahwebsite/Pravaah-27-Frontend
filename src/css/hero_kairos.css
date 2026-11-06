@@ -76,7 +76,11 @@ body:has(#splash-screen.active-screen:not(.hidden)):not(.portal-entered) .top-co
   background: #07050f !important;
 }
 
-/* Once portal is opened, splash screen is hidden cleanly */
+/* Once portal is entered, hide all intros, hero splash, & loaders permanently */
+body.portal-entered #pravaah-intro-screen,
+html.portal-entered-fast #pravaah-intro-screen,
+body.portal-entered #loader-screen,
+html.portal-entered-fast #loader-screen,
 body.portal-entered #splash-screen.kairos-hero-viewport,
 html.portal-entered-fast #splash-screen.kairos-hero-viewport,
 #splash-screen.kairos-hero-viewport.hidden {
@@ -84,6 +88,15 @@ html.portal-entered-fast #splash-screen.kairos-hero-viewport,
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
+}
+
+/* Ensure the top navbar is visible when portal has been entered */
+body.portal-entered .cosmic-nav-wheel,
+html.portal-entered-fast .cosmic-nav-wheel {
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
 }
 
 /* 5. Fast Warp Speed Starfield Canvas */
@@ -553,12 +566,12 @@ html.portal-entered-fast #splash-screen.kairos-hero-viewport,
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  margin-top: 0.6rem;
+  margin-top: clamp(0.9rem, 2.2vh, 1.6rem);
   cursor: pointer;
   z-index: 10;
   pointer-events: auto;
   opacity: 0;
-  animation: heroRise 1s 1.5s cubic-bezier(0.2, 0.7, 0.1, 1) forwards;
+  animation: heroRise 1s 1.25s cubic-bezier(0.2, 0.7, 0.1, 1) forwards;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   text-decoration: none;
   user-select: none;

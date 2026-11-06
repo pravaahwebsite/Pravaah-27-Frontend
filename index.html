@@ -13,12 +13,14 @@
     <link rel="stylesheet" href="src/css/style.css">
     <link rel="stylesheet" href="src/css/hero_kairos.css">
     <script>
-        // Fresh visits start at hero screen unless explicit skipintro query param
-        if (new URLSearchParams(window.location.search).get('skipintro') === 'true') {
-            document.documentElement.classList.add('portal-entered-fast');
-        } else {
-            try { sessionStorage.removeItem('portalEntered'); } catch (e) {}
-        }
+        // If user already entered the portal during this session (or from another page), skip intro & show home directly
+        try {
+            if (new URLSearchParams(window.location.search).get('firsttime') === 'true' || new URLSearchParams(window.location.search).get('replay') === 'true') {
+                sessionStorage.removeItem('portalEntered');
+            } else if (sessionStorage.getItem('portalEntered') === 'true' || new URLSearchParams(window.location.search).get('skipintro') === 'true') {
+                document.documentElement.classList.add('portal-entered-fast');
+            }
+        } catch (e) {}
     </script>
 </head>
 <body>
@@ -299,7 +301,6 @@
             </div>
 
             <div class="hero-inner">
-                <p class="hero-presents">Presenting this year's fest</p>
                 <h1 class="hero-title" id="heroTitle" aria-label="Pravaah">
                     <span class="ltr" style="--i:0">P</span><span class="ltr" style="--i:1">R</span><span class="ltr" style="--i:2">A</span><span class="ltr" style="--i:3">V</span><span class="ltr" style="--i:4">A</span><span class="ltr" style="--i:5">A</span><span class="ltr" style="--i:6">H</span>
                 </h1>
@@ -317,10 +318,7 @@
                     <div><b id="cd-s">00</b><small>seconds</small></div>
                 </div>
 
-                <div class="hero-cta">
-                    <a href="register.html" class="hero-btn hero-btn-primary magnetic" id="portal-entry-trigger" role="button">Step through the portal</a>
-                    <a href="#about-page" class="hero-btn hero-btn-ghost magnetic" id="explore-worlds-btn">Explore the worlds</a>
-                </div>
+
 
                 <div class="hero-scroll-cue-container" id="scroll-to-next-trigger" role="button" tabindex="0" title="Scroll to go to next page">
                     <div class="scroll-cue-pill">
