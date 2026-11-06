@@ -8,15 +8,16 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&family=Unbounded:wght@300;500;700;900&family=Bricolage+Grotesque:opsz,wght@12..96,300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="src/css/hero_kairos.css">
     <script>
-        // Check if user specifically requested video replay or if portal already entered in this session
-        if (new URLSearchParams(window.location.search).get('firsttime') === 'true' || new URLSearchParams(window.location.search).get('replay') === 'true') {
-            try { sessionStorage.removeItem('portalEntered'); } catch (e) {}
-        } else if (sessionStorage.getItem('portalEntered') === 'true' || new URLSearchParams(window.location.search).get('skipintro') === 'true') {
+        // Fresh visits start at hero screen unless explicit skipintro query param
+        if (new URLSearchParams(window.location.search).get('skipintro') === 'true') {
             document.documentElement.classList.add('portal-entered-fast');
+        } else {
+            try { sessionStorage.removeItem('portalEntered'); } catch (e) {}
         }
     </script>
 </head>
@@ -127,17 +128,6 @@
                 <span class="nav-active-pip"></span>
             </a>
 
-            <button type="button" class="bottom-nav-item menu-trigger-btn" id="mobile-bottom-menu-trigger" aria-label="Open Navigation Menu" title="Open Menu">
-                <div class="nav-icon-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="3" y1="6" x2="21" y2="6"/>
-                        <line x1="3" y1="12" x2="21" y2="12"/>
-                        <line x1="3" y1="18" x2="21" y2="18"/>
-                    </svg>
-                </div>
-                <span class="nav-label">MENU</span>
-                <span class="nav-active-pip"></span>
-            </button>
         </div>
     </nav>
 
@@ -267,33 +257,6 @@
     <!-- Pravaah 3D Hologram Glitch Scanner Intro (Pure Black Background - Clean & Unobstructed) -->
     <section id="pravaah-intro-screen" class="pravaah-intro-screen">
         <canvas id="pravaah-glitch-canvas" class="pravaah-intro-canvas"></canvas>
-
-        <div class="intro-top-bar">
-            <div class="intro-fest-tag">
-                <span class="intro-fest-title">PRAVAAH 2026</span>
-                <span class="intro-theme-pill">KAIROS</span>
-            </div>
-            <div class="intro-top-controls">
-                <button class="btn-intro-ctrl" id="splash-sound-btn" type="button" aria-label="Toggle Sound" title="Sound Effects">
-                    <svg class="splash-sound-icon-off" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-                    <svg class="splash-sound-icon-on" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-                    <span id="splash-sound-text">SOUND ON</span>
-                </button>
-                <button class="btn-intro-ctrl" id="splash-replay-btn" type="button" aria-label="Replay Intro" title="Replay Animation">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-                    <span>REPLAY</span>
-                </button>
-                <button class="btn-intro-ctrl btn-intro-skip" id="splash-skip-btn" type="button" aria-label="Enter Festival" title="Proceed to First Page">
-                    <span>ENTER SITE &gt;&gt;</span>
-                </button>
-            </div>
-        </div>
-
-        <div class="intro-bottom-prompt" id="intro-proceed-prompt" role="button" tabindex="0" title="Click anywhere to enter festival">
-            <span class="prompt-glow-dot">✦</span>
-            <span class="prompt-text">CLICK OR TAP TO ENTER FESTIVAL</span>
-            <span class="prompt-arrow">›</span>
-        </div>
     </section>
 
     <!-- Portal Entrance Screen (Direct Native High-Performance Warp Tunnel - Pravaah Official Animation) -->
@@ -303,101 +266,9 @@
         <div id="portal-shockwave-ring" class="portal-shockwave-ring"></div>
         <div id="portal-shockwave-ring-2" class="portal-shockwave-ring portal-shockwave-ring-2"></div>
 
-        <div id="portal-stage" class="portal-stage">
-            <div class="portal-septagon-wrap" id="portal-septagon-wrap">
-                <div class="portal-center-aura" id="portal-aura-glow"></div>
-                
-                <div class="portal-orbit-ring portal-orbit-ring-1">
-                    <div class="portal-orbit-comet portal-comet-cyan"></div>
-                </div>
-                <div class="portal-orbit-ring portal-orbit-ring-2">
-                    <div class="portal-orbit-comet portal-comet-pink"></div>
-                </div>
-                <div class="portal-orbit-ring portal-orbit-ring-3">
-                    <div class="portal-orbit-comet portal-comet-orange"></div>
-                </div>
-
-                <!-- 7-Sided Septagon Portal Frame -->
-                <svg viewBox="0 0 100 100" class="portal-septagon-svg" id="portal-septagon-svg">
-                    <defs>
-                        <linearGradient id="portal-septagon-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#ff007f" />
-                            <stop offset="35%" stop-color="#ff5722" />
-                            <stop offset="70%" stop-color="#00f2fe" />
-                            <stop offset="100%" stop-color="#9d4edd" />
-                        </linearGradient>
-                    </defs>
-                    <polygon points="50,2.5 87.1,20.4 96.3,60.6 70.6,92.8 29.4,92.8 3.7,60.6 12.9,20.4" class="portal-septagon-glow" id="portal-poly-glow" />
-                    <polygon points="50,2.5 87.1,20.4 96.3,60.6 70.6,92.8 29.4,92.8 3.7,60.6 12.9,20.4" class="portal-septagon-core" id="portal-poly-core" />
-                </svg>
-
-                <!-- Glowing Laser Code Logo </> -->
-                <div class="portal-logo-emblem">
-                    <svg viewBox="0 0 200 200" class="portal-code-logo-svg" id="portal-code-logo-svg">
-                        <defs>
-                            <linearGradient id="portal-logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#ff007f" />
-                                <stop offset="30%" stop-color="#ff5722" />
-                                <stop offset="65%" stop-color="#ff9100" />
-                                <stop offset="100%" stop-color="#00f2fe" />
-                            </linearGradient>
-                        </defs>
-                        <g>
-                            <path class="portal-bracket-stroke" id="portal-bracket-left"
-                                  d="M 68 62 L 28 100 L 68 138"
-                                  fill="none" stroke="url(#portal-logo-grad)"
-                                  stroke-width="15" stroke-linecap="round" stroke-linejoin="round" />
-                            <path class="portal-bracket-core" id="portal-bracket-left-core"
-                                  d="M 68 62 L 28 100 L 68 138"
-                                  fill="none" stroke="#ffffff"
-                                  stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" />
-
-                            <line class="portal-slash-stroke" id="portal-slash-center"
-                                  x1="116" y1="52" x2="84" y2="148"
-                                  stroke="url(#portal-logo-grad)"
-                                  stroke-width="15" stroke-linecap="round" />
-                            <line class="portal-slash-core" id="portal-slash-center-core"
-                                  x1="116" y1="52" x2="84" y2="148"
-                                  stroke="#ffffff"
-                                  stroke-width="4.5" stroke-linecap="round" opacity="0.9" />
-
-                            <path class="portal-bracket-stroke" id="portal-bracket-right"
-                                  d="M 132 62 L 172 100 L 132 138"
-                                  fill="none" stroke="url(#portal-logo-grad)"
-                                  stroke-width="15" stroke-linecap="round" stroke-linejoin="round" />
-                            <path class="portal-bracket-core" id="portal-bracket-right-core"
-                                  d="M 132 62 L 172 100 L 132 138"
-                                  fill="none" stroke="#ffffff"
-                                  stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" />
-                        </g>
-                    </svg>
-                </div>
-            </div>
-        </div>
-
         <div id="portal-flash-overlay" class="portal-flash-overlay"></div>
 
-        <div class="portal-controls-row">
-            <button id="portal-audio-btn" class="portal-audio-btn" type="button" aria-label="Toggle Sound" title="Toggle Sound">
-                <svg id="icon-sound-off" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                    <line x1="23" y1="9" x2="17" y2="15"></line>
-                    <line x1="17" y1="9" x2="23" y2="15"></line>
-                </svg>
-                <svg id="icon-sound-on" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                </svg>
-            </button>
-
-            <button id="portal-skip-btn" class="portal-skip-btn" type="button" aria-label="Skip Intro Video">
-                <span>SKIP INTRO</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polygon points="5 4 15 12 5 20 5 4"></polygon>
-                    <line x1="19" y1="5" x2="19" y2="19"></line>
-                </svg>
-            </button>
-        </div>
+        
 
         <div class="portal-loader-indicator">
             <div class="portal-loader-bar"></div>
@@ -406,139 +277,64 @@
 
     <main id="main-scroll-container">
 
-        <section id="splash-screen" class="snap-page splash-screen-page active-screen">
-            <div class="glow-core"></div>
-            <div class="splash-content">
+                <section id="splash-screen" class="snap-page splash-screen-page active-screen kairos-hero-viewport">
+            <canvas id="warp" class="hero-warp-canvas" aria-hidden="true"></canvas>
+            <div class="blob blob-c"></div>
+            <div class="blob blob-p"></div>
+            <div class="blob blob-a"></div>
 
-                <div class="splash-highlights-panel scroll-reveal">
-                    <h3 class="splash-panel-title title-tech">FEST HIGHLIGHTS</h3>
-                    <div class="highlight-item">
-                        <span class="hl-badge badge-tech">TECH</span>
-                        <div class="hl-name">ROBO SOCCER</div>
-                        <div class="hl-desc">Futuristic robotic arena championship.</div>
-                    </div>
-                    <div class="highlight-item">
-                        <span class="hl-badge badge-cult">CULT</span>
-                        <div class="hl-name">SYMPHONY</div>
-                        <div class="hl-desc">Battle of the rock & fusion bands.</div>
-                    </div>
-                    <div class="highlight-item">
-                        <span class="hl-badge badge-game">GAME</span>
-                        <div class="hl-name">VALORANT LAN</div>
-                        <div class="hl-desc">High stakes tactical esports finals.</div>
-                    </div>
+            <!-- Concentric cosmic portal dimension rings -->
+            <div class="portal-dimension-rings" aria-hidden="true">
+                <div class="p-ring pr-1"></div>
+                <div class="p-ring pr-2"></div>
+                <div class="p-ring pr-3"></div>
+            </div>
+            <div class="hero-vignette"></div>
+
+            <!-- Three orbiting worlds -->
+            <div class="orbits" aria-hidden="true">
+                <div class="orbit o1"><i></i></div>
+                <div class="orbit o2"><i></i></div>
+                <div class="orbit o3"><i></i></div>
+            </div>
+
+            <div class="hero-inner">
+                <p class="hero-presents">Presenting this year's fest</p>
+                <h1 class="hero-title" id="heroTitle" aria-label="Pravaah">
+                    <span class="ltr" style="--i:0">P</span><span class="ltr" style="--i:1">R</span><span class="ltr" style="--i:2">A</span><span class="ltr" style="--i:3">V</span><span class="ltr" style="--i:4">A</span><span class="ltr" style="--i:5">A</span><span class="ltr" style="--i:6">H</span>
+                </h1>
+                <div class="hero-theme">
+                    <span class="kairos">KAIROS</span>
+                    <span class="colon">:</span>
+                    <span class="unbound" id="unbound" data-words="Worlds Unbound|Tech Unbound|Culture Unbound|Enterprise Unbound">Worlds Unbound</span>
+                </div>
+                <p class="hero-tag">The moment to innovate across dimensions, express without boundaries, and venture into the unknown.</p>
+
+                <div class="count" id="count" aria-label="Countdown to the fest">
+                    <div><b id="cd-d">00</b><small>days</small></div>
+                    <div><b id="cd-h">00</b><small>hours</small></div>
+                    <div><b id="cd-m">00</b><small>minutes</small></div>
+                    <div><b id="cd-s">00</b><small>seconds</small></div>
                 </div>
 
-                <div class="splash-logo-column">
-                    <div class="big-septagon-portal-container">
-                        <svg width="0" height="0" style="position: absolute;">
-                            <defs>
-                                <linearGradient id="septagon-neon-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#ff007f" />
-                                    <stop offset="40%" stop-color="#00f2fe" />
-                                    <stop offset="75%" stop-color="#9d4edd" />
-                                    <stop offset="100%" stop-color="#ff007f" />
-                                </linearGradient>
-                            </defs>
+                <div class="hero-cta">
+                    <a href="register.html" class="hero-btn hero-btn-primary magnetic" id="portal-entry-trigger" role="button">Step through the portal</a>
+                    <a href="#about-page" class="hero-btn hero-btn-ghost magnetic" id="explore-worlds-btn">Explore the worlds</a>
+                </div>
+
+                <div class="hero-scroll-cue-container" id="scroll-to-next-trigger" role="button" tabindex="0" title="Scroll to go to next page">
+                    <div class="scroll-cue-pill">
+                        <span class="scroll-cue-icon">✦</span>
+                        <span class="scroll-cue-text">SCROLL TO GO TO NEXT PAGE</span>
+                        <span class="scroll-cue-icon">✦</span>
+                    </div>
+                    <div class="scroll-cue-arrow-down">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m6 9 6 6 6-6"/>
+                            <path d="m6 3 6 6 6-6"/>
                         </svg>
-                        <div class="big-septagon-rotator">
-                            <div class="big-septagon-artwork-box">
-                                <img src="assets/images/vertical_draft1.jpg" alt="Big Septagon Portal Artwork" class="big-septagon-img">
-                                <div class="big-septagon-edge-shadow"></div>
-                            </div>
-                            <svg viewBox="0 0 100 100" class="big-septagon-frame-svg">
-                                <polygon points="50,2.5 87.1,20.4 96.3,60.6 70.6,92.8 29.4,92.8 3.7,60.6 12.9,20.4" class="big-septagon-border-glow" />
-                                <polygon points="50,2.5 87.1,20.4 96.3,60.6 70.6,92.8 29.4,92.8 3.7,60.6 12.9,20.4" class="big-septagon-border-main" />
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="logo-container">
-                        <div class="logo-pravaah-container">
-                            <span class="logo-pravaah spider-title" data-text="PRAVAAH">PRAVAAH</span>
-                            <span class="logo-edition-tag">3<sup>rd</sup> EDITION</span>
-                        </div>
-                        <h1 class="logo-title spider-title" data-text="KAIROS">KAIROS</h1>
-                        <div class="logo-subtitle-container">
-                            <div class="logo-subtitle">worlds unbound</div>
-                            <div class="subtitle-line">
-                                <span class="line-dot"></span>
-                                <span class="line-bar"></span>
-                                <span class="line-sparkle">✦</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- High-Tech Multiverse Live Countdown Timer -->
-                    <div class="multiverse-countdown-container" id="multiverse-countdown">
-                        <div class="countdown-label">FESTIVAL IGNITION IN</div>
-                        <div class="countdown-units">
-                            <div class="countdown-card">
-                                <span class="count-val" id="cnt-days">00</span>
-                                <span class="count-lbl">DAYS</span>
-                            </div>
-                            <span class="countdown-sep">:</span>
-                            <div class="countdown-card">
-                                <span class="count-val" id="cnt-hours">00</span>
-                                <span class="count-lbl">HOURS</span>
-                            </div>
-                            <span class="countdown-sep">:</span>
-                            <div class="countdown-card">
-                                <span class="count-val" id="cnt-mins">00</span>
-                                <span class="count-lbl">MINS</span>
-                            </div>
-                            <span class="countdown-sep">:</span>
-                            <div class="countdown-card">
-                                <span class="count-val" id="cnt-secs">00</span>
-                                <span class="count-lbl">SECS</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="home-swipe-prompt" id="portal-entry-trigger" role="button" tabindex="0" title="Click or Scroll to Explore Multiverse">
-                        <div class="home-enter-btn-glow"></div>
-                        <div class="home-enter-btn-content">
-                            <span class="home-enter-icon">✦</span>
-                            <span class="home-swipe-text">EXPLORE MULTIVERSE</span>
-                            <span class="home-enter-tag">SCROLL OR CLICK</span>
-                        </div>
-                        <div class="arrow-down-glowing home-swipe-arrow">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                        </div>
                     </div>
                 </div>
-
-                <div class="splash-status-panel scroll-reveal">
-                    <h3 class="splash-panel-title title-cult">PORTAL MATRIX</h3>
-                    <div class="status-row">
-                        <div class="status-meta">
-                            <span class="status-name">TECH GATE</span>
-                            <span class="status-stat status-online">ONLINE (98%)</span>
-                        </div>
-                        <div class="status-bar"><div class="status-bar-fill fill-tech" style="width: 98%;"></div></div>
-                    </div>
-                    <div class="status-row">
-                        <div class="status-meta">
-                            <span class="status-name">CULT GATE</span>
-                            <span class="status-stat status-online">ONLINE (95%)</span>
-                        </div>
-                        <div class="status-bar"><div class="status-bar-fill fill-cult" style="width: 95%;"></div></div>
-                    </div>
-                    <div class="status-row">
-                        <div class="status-meta">
-                            <span class="status-name">GAME GATE</span>
-                            <span class="status-stat status-online">ONLINE (92%)</span>
-                        </div>
-                        <div class="status-bar"><div class="status-bar-fill fill-game" style="width: 92%;"></div></div>
-                    </div>
-                    <div class="status-row">
-                        <div class="status-meta">
-                            <span class="status-name">ENTRE GATE</span>
-                            <span class="status-stat status-stable">STABLE</span>
-                        </div>
-                        <div class="status-bar"><div class="status-bar-fill fill-ent" style="width: 85%;"></div></div>
-                    </div>
-                </div>
-
             </div>
         </section>
 
@@ -553,41 +349,9 @@
                 <!-- Merged Single Box with Transparent Color: Fest & Kairos Theme -->
                 <div class="about-intro-grid" id="about-intro-grid">
                     <div class="about-intro-card about-merged-card is-revealed" id="about-card-pravaah">
-                        <div class="about-merged-inner">
-                            <div class="about-merged-col about-merged-col-fest">
-                                <div class="about-card-badge-row">
-                                    <span class="about-card-badge badge-tech">ABOUT PRAVAAH</span>
-                                    <span class="sub-edition-tag">3<sup>rd</sup> EDITION</span>
-                                </div>
-                                <h3 class="about-card-title sub-title">ANNUAL FEST OF IIT BHUBANESWAR</h3>
-                                <p class="about-card-text sub-text">
-                                    PRAVAAH is the premier Annual Cultural &amp; Technopreneurship Fest of IIT Bhubaneswar. Uniting visionary minds from across the nation, Pravaah fuses engineering challenges, robotics battlegrounds, musical stages, esports leagues, and startup incubation.
-                                </p>
-                            </div>
-
-                            <div class="about-merged-divider"></div>
-
-                            <div class="about-merged-col about-merged-col-theme">
-                                <div class="about-card-badge-row">
-                                    <span class="about-card-badge badge-cult-highlight">FESTIVAL THEME</span>
-                                    <span class="theme-pill-tag">✦ EDITION 2026 ✦</span>
-                                </div>
-                                <div class="theme-hero-title-box">
-                                    <h3 class="kairos-gold-title spider-title" data-text="KAIROS">KAIROS</h3>
-                                    <div class="theme-subtitle-wrap">
-                                        <span class="kairos-theme-subtitle">worlds unbound</span>
-                                        <div class="theme-accent-line">
-                                            <span class="theme-dot"></span>
-                                            <span class="theme-bar"></span>
-                                            <span class="theme-sparkle">✦</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="about-card-text theme-featured-text">
-                                    Step through the dimensional portal into <strong>KAIROS</strong>—where parallel realities converge. From ancient retro-futuristic roots to high-tech quantum frontiers and artistic galaxies, enter an unbound continuum of innovation, live performances, and cosmic exploration celebrating the limitless potential of youth and creativity.
-                                </p>
-                            </div>
-                        </div>
+                        <p class="about-unified-text">
+                            <span class="pravaah-brand-highlight">PRAVAAH</span>, The Annual Cultural and Technopreneurship Fest of IIT Bhubaneswar, celebrates creativity, innovation, and campus spirit. In its 3<sup>rd</sup> grand edition, it unites culture, technology, and entrepreneurship into one unforgettable experience. &ldquo;<span class="kairos-gold-highlight">KAIROS</span> &mdash; <span class="worlds-unbound-highlight">WORLDS UNBOUND</span>&rdquo; takes participants on a journey through eras and dimensions&mdash;where parallel realities converge, reviving the Past with retro-futuristic roots, engaging the Present with entrepreneurial challenges, and exploring the Future through high-tech quantum frontiers and cosmic exploration celebrating the limitless potential of youth and creativity.
+                        </p>
                     </div>
                 </div>
 
@@ -1050,5 +814,6 @@
 
     <script src="src/js/app.js"></script>
     <script src="src/js/glitch-nav.js"></script>
+    <script src="src/js/hero_kairos.js"></script>
 </body>
 </html>
