@@ -18768,7 +18768,9 @@ body.time-bounded-scrolling .cosmic-nav-wheel {
         text-align: center !important;
     }
 
-    /* Rotate buttons on mobile: placed cleanly BELOW the calendar cube, 0% overlap */
+    /* Rotate buttons on mobile: placed cleanly BELOW the calendar cube, 0% overlap, strictly above 3D faces */
+    #calendar-page.is-revealed .cube-rotate-btn,
+    .calendar-layout-container.is-revealed .cube-rotate-btn,
     .cube-rotate-btn {
         width: auto !important;
         min-width: 98px !important;
@@ -18778,8 +18780,8 @@ body.time-bounded-scrolling .cosmic-nav-wheel {
         position: absolute !important;
         top: 390px !important;
         bottom: auto !important;
-        transform: none !important;
-        z-index: 50 !important;
+        transform: translateZ(260px) !important;
+        z-index: 200 !important;
         background: rgba(10, 14, 30, 0.94) !important;
         border: 1.5px solid rgba(0, 242, 254, 0.55) !important;
         border-radius: 20px !important;
@@ -18789,14 +18791,29 @@ body.time-bounded-scrolling .cosmic-nav-wheel {
         justify-content: center !important;
         cursor: pointer !important;
         touch-action: manipulation !important;
+        pointer-events: auto !important;
         color: #00f2fe !important;
         box-shadow: 0 4px 18px rgba(0, 0, 0, 0.7), 0 0 15px rgba(0, 242, 254, 0.25) !important;
-        transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease !important;
+        transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease !important;
     }
 
+    #calendar-page.is-revealed .cube-rotate-btn:hover,
+    .calendar-layout-container.is-revealed .cube-rotate-btn:hover,
+    .cube-rotate-btn:hover,
+    .cube-rotate-btn:focus {
+        /* Strictly maintain 3D translateZ without any translateY offset on mobile to prevent stuck / shifted layout */
+        transform: translateZ(260px) !important;
+        border-color: rgba(0, 242, 254, 0.7) !important;
+        background: rgba(10, 14, 30, 0.94) !important;
+        outline: none !important;
+    }
+
+    #calendar-page.is-revealed .cube-rotate-btn:active,
+    .calendar-layout-container.is-revealed .cube-rotate-btn:active,
     .cube-rotate-btn:active {
-        transform: scale(0.94) !important;
-        background: rgba(0, 242, 254, 0.2) !important;
+        transform: translateZ(260px) scale(0.93) !important;
+        background: rgba(0, 242, 254, 0.25) !important;
+        border-color: #00f2fe !important;
     }
 
     .cube-rotate-btn svg {
@@ -19029,11 +19046,14 @@ body.time-bounded-scrolling .cosmic-nav-wheel {
     .face-top    { transform: rotateX(90deg) translateZ(116px) !important; }
     .face-bottom { transform: rotateX(-90deg) translateZ(116px) !important; }
 
+    #calendar-page.is-revealed .cube-rotate-btn,
+    .calendar-layout-container.is-revealed .cube-rotate-btn,
     .cube-rotate-btn {
         top: 338px !important;
         min-width: 86px !important;
         height: 34px !important;
         padding: 0 10px !important;
+        transform: translateZ(260px) !important;
     }
 
     .cube-rotate-btn.btn-prev { left: calc(50% - 94px) !important; }
