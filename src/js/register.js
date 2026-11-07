@@ -21,39 +21,94 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ========================================================
-    // 2. Interactive Festival Pass Selection
+    // 2. Interactive Festival Pass Selection (Toggle & Outside-Click to Unselect)
     // ========================================================
     const passCards = document.querySelectorAll(".pass-tower-card, .pass-card");
     const selectedPassTitle = document.getElementById("selectedPassTitle");
     const selectedCardTitle = document.getElementById("selectedCardTitle");
     const selectedCardNotice = document.getElementById("selectedCardNotice");
 
+    function unselectPass() {
+        passCards.forEach(c => {
+            c.classList.remove("selected");
+            const prompt = c.querySelector(".pass-select-prompt, .btn-pass-select");
+            if (prompt) {
+                prompt.textContent = "CLICK TO SELECT";
+            }
+        });
+
+        if (selectedPassTitle) {
+            selectedPassTitle.textContent = "No Pass Selected";
+        }
+        if (selectedCardTitle) {
+            selectedCardTitle.textContent = "Please Select a Pass";
+        }
+        if (selectedCardNotice) {
+            selectedCardNotice.textContent = "Choose a festival pass on Wall 01 to proceed.";
+            selectedCardNotice.style.color = "rgba(255, 255, 255, 0.7)";
+        }
+    }
+
+    function selectPass(card) {
+        passCards.forEach(c => {
+            c.classList.remove("selected");
+            const prompt = c.querySelector(".pass-select-prompt, .btn-pass-select");
+            if (prompt) {
+                prompt.textContent = "CLICK TO SELECT";
+            }
+        });
+
+        card.classList.add("selected");
+        const activePrompt = card.querySelector(".pass-select-prompt, .btn-pass-select");
+        if (activePrompt) {
+            activePrompt.textContent = "ACTIVE PASS";
+        }
+
+        const name = card.dataset.name || "Pass";
+        const notice = card.dataset.notice || "";
+
+        if (selectedPassTitle) {
+            selectedPassTitle.textContent = `Selected: ${name}`;
+        }
+        if (selectedCardTitle) {
+            selectedCardTitle.textContent = name;
+        }
+        if (selectedCardNotice) {
+            if (name.toLowerCase().includes("starnite")) {
+                selectedCardNotice.textContent = "IITBBS students need not register for Starnite.";
+                selectedCardNotice.style.color = "#00ff88";
+            } else {
+                selectedCardNotice.textContent = notice || "Standard access pass.";
+                selectedCardNotice.style.color = "rgba(255, 255, 255, 0.85)";
+            }
+        }
+    }
+
     if (passCards.length > 0) {
         passCards.forEach(card => {
-            card.addEventListener("click", () => {
-                passCards.forEach(c => c.classList.remove("selected"));
-                card.classList.add("selected");
-
-                const name = card.dataset.name || "Pass";
-                const notice = card.dataset.notice || "";
-
-                if (selectedPassTitle) {
-                    selectedPassTitle.textContent = `Selected: ${name}`;
-                }
-                if (selectedCardTitle) {
-                    selectedCardTitle.textContent = name;
-                }
-                if (selectedCardNotice) {
-                    if (name.toLowerCase().includes("starnite")) {
-                        selectedCardNotice.textContent = "IITBBS students need not register for Starnite.";
-                        selectedCardNotice.style.color = "#00ff88";
-                    } else {
-                        selectedCardNotice.textContent = notice;
-                        selectedCardNotice.style.color = "rgba(255, 255, 255, 0.85)";
-                    }
+            card.addEventListener("click", (e) => {
+                e.stopPropagation();
+                if (card.classList.contains("selected")) {
+                    unselectPass();
+                } else {
+                    selectPass(card);
                 }
             });
         });
+
+        // Click anywhere outside pass cards to unselect
+        document.addEventListener("click", (e) => {
+            if (e.target.closest(".pass-tower-card, .pass-card, button, a, input, select, textarea, .room-step-tab, .chamber-tab-btn, .room-3d-arrow, .hud-indicator-pip")) {
+                return;
+            }
+            const hasSelected = Array.from(passCards).some(c => c.classList.contains("selected"));
+            if (hasSelected) {
+                unselectPass();
+            }
+        });
+
+        // Ensure everything starts in a clean unselected state on page load
+        unselectPass();
     }
 
     // ========================================================

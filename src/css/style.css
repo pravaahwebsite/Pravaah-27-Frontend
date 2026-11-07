@@ -17152,195 +17152,34 @@ body.subpage-body>.pravaah-full-footer {
 }
 
 /* ==========================================================
-   EVENT CARD - TOP TO BOTTOM SCROLL REVEAL
+   EVENT CARD - INSTANT DISPLAY & VISIBILITY
    ========================================================== */
 
-
-/* The card keeps its normal layout space */
-.events-page-body
-.reference-event-card {
-
-    position: relative;
-
-    min-width: 0;
-
-    opacity: 1;
-
-    transform: none !important;
-
-    filter: none !important;
-
-    clip-path:
-        inset(
-            0 0 100% 0
-        );
-
-}
-
-
-/* Reveal the ENTIRE card, including the ornament */
-.events-page-body
-.reference-event-card.is-visible {
-
-    animation:
-        referenceCardTopReveal
-        1.15s
-        cubic-bezier(
-            0.16,
-            1,
-            0.3,
-            1
-        )
-        forwards;
-
-}
-
-
-@keyframes referenceCardTopReveal {
-
-    0% {
-
-        clip-path:
-            inset(
-                0 0 100% 0
-            );
-
-    }
-
-    100% {
-
-        clip-path:
-            inset(
-                0 0 0 0
-            );
-
-    }
-
-}
-
-/* ==========================================================
-   FINAL EVENT CARD SCROLL REVEAL
-   ========================================================== */
-
-/*
-   Remove the old reveal animation's effect from the frame.
-   The new animation belongs to the entire card.
-*/
-
-.events-page-body
-.reference-event-card
-.reference-card-frame {
-
-    animation: none !important;
-
-}
-
-
-/*
-   Initial state:
-   the card exists in the layout,
-   but its contents are revealed from 0% height.
-*/
-
-.events-page-body
-.reference-event-card {
-
+.events-page-body .reference-event-card {
     position: relative !important;
-
+    min-width: 0;
     opacity: 1 !important;
-
-    transform:
-        none !important;
-
-    filter:
-        none !important;
-
-    clip-path:
-        inset(
-            0 0 100% 0
-        );
-
-    will-change:
-        clip-path;
-
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
+    will-change: auto !important;
 }
 
-
-/*
-   Once JavaScript adds .is-visible,
-   reveal from TOP to BOTTOM.
-*/
-
-.events-page-body
-.reference-event-card.is-visible {
-
-    clip-path:
-        none !important;
-
-    will-change:
-        auto !important;
-
-    animation:
-        referenceCardScrollReveal
-        0.85s
-        cubic-bezier(
-            0.16,
-            1,
-            0.3,
-            1
-        )
-        forwards !important;
-
+.events-page-body .reference-event-card.is-visible {
+    clip-path: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    will-change: auto !important;
+    animation: none !important;
 }
 
-
-/*
-   Actual top-to-bottom animation.
-*/
-
-@keyframes referenceCardScrollReveal {
-
-    0% {
-
-        clip-path:
-            inset(
-                0 0 100% 0
-            );
-
-    }
-
-    99% {
-
-        clip-path:
-            inset(
-                0 0 0 0
-            );
-
-    }
-
-    100% {
-
-        clip-path:
-            none;
-
-    }
-
+.events-page-body .reference-event-card .reference-card-frame {
+    animation: none !important;
 }
 
-
-/*
-   Do not allow the reveal animation to change
-   the card's physical position.
-*/
-
-.events-page-body
-.reference-event-card.is-visible,
-.events-page-body
-.reference-event-card.is-visible:hover {
-
-    transform:
-        none !important;
-
+.events-page-body .reference-event-card.is-visible,
+.events-page-body .reference-event-card.is-visible:hover {
+    transform: none !important;
 }
 
 
@@ -18648,7 +18487,7 @@ body.time-bounded-scrolling .cosmic-nav-wheel {
     .calendar-layout-container {
         position: relative !important;
         width: min(370px, calc(100vw - 10px)) !important;
-        height: 500px !important;
+        height: 520px !important;
         margin: 10px auto 20px auto !important;
         display: flex !important;
         flex-direction: column !important;
@@ -18772,7 +18611,9 @@ body.time-bounded-scrolling .cosmic-nav-wheel {
         text-align: center !important;
     }
 
-    /* Rotate buttons on mobile: placed cleanly BELOW the calendar cube, 0% overlap */
+    /* Rotate buttons on mobile: placed cleanly BELOW the calendar cube, 0% overlap, strictly above 3D faces */
+    #calendar-page.is-revealed .cube-rotate-btn,
+    .calendar-layout-container.is-revealed .cube-rotate-btn,
     .cube-rotate-btn {
         width: auto !important;
         min-width: 98px !important;
@@ -18780,10 +18621,10 @@ body.time-bounded-scrolling .cosmic-nav-wheel {
         padding: 0 14px !important;
         gap: 6px !important;
         position: absolute !important;
-        top: 390px !important;
+        top: 366px !important;
         bottom: auto !important;
-        transform: none !important;
-        z-index: 50 !important;
+        transform: translateZ(260px) !important;
+        z-index: 200 !important;
         background: rgba(10, 14, 30, 0.94) !important;
         border: 1.5px solid rgba(0, 242, 254, 0.55) !important;
         border-radius: 20px !important;
@@ -18793,14 +18634,29 @@ body.time-bounded-scrolling .cosmic-nav-wheel {
         justify-content: center !important;
         cursor: pointer !important;
         touch-action: manipulation !important;
+        pointer-events: auto !important;
         color: #00f2fe !important;
         box-shadow: 0 4px 18px rgba(0, 0, 0, 0.7), 0 0 15px rgba(0, 242, 254, 0.25) !important;
-        transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease !important;
+        transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease !important;
     }
 
+    #calendar-page.is-revealed .cube-rotate-btn:hover,
+    .calendar-layout-container.is-revealed .cube-rotate-btn:hover,
+    .cube-rotate-btn:hover,
+    .cube-rotate-btn:focus {
+        /* Strictly maintain 3D translateZ without any translateY offset on mobile to prevent stuck / shifted layout */
+        transform: translateZ(260px) !important;
+        border-color: rgba(0, 242, 254, 0.7) !important;
+        background: rgba(10, 14, 30, 0.94) !important;
+        outline: none !important;
+    }
+
+    #calendar-page.is-revealed .cube-rotate-btn:active,
+    .calendar-layout-container.is-revealed .cube-rotate-btn:active,
     .cube-rotate-btn:active {
-        transform: scale(0.94) !important;
-        background: rgba(0, 242, 254, 0.2) !important;
+        transform: translateZ(260px) scale(0.93) !important;
+        background: rgba(0, 242, 254, 0.25) !important;
+        border-color: #00f2fe !important;
     }
 
     .cube-rotate-btn svg {
@@ -18833,15 +18689,17 @@ body.time-bounded-scrolling .cosmic-nav-wheel {
         bottom: auto !important;
     }
 
-    /* Tip HUD placed below rotate buttons */
+    /* Tip HUD placed safely BELOW rotate buttons with clear vertical separation */
+    #calendar-page.is-revealed .calendar-tip-hud,
+    .calendar-layout-container.is-revealed .calendar-tip-hud,
     .calendar-tip-hud {
         position: absolute !important;
-        top: 442px !important;
+        top: 446px !important;
         bottom: auto !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
         width: min(350px, calc(100% - 16px)) !important;
-        padding: 5px 10px !important;
+        padding: 6px 12px !important;
         background: rgba(10, 12, 26, 0.94) !important;
         border: 1px solid rgba(0, 242, 254, 0.3) !important;
         border-radius: 16px !important;
@@ -18849,7 +18707,7 @@ body.time-bounded-scrolling .cosmic-nav-wheel {
         align-items: center !important;
         gap: 7px !important;
         box-sizing: border-box !important;
-        z-index: 45 !important;
+        z-index: 100 !important;
     }
 
     .tip-icon {
@@ -19033,19 +18891,26 @@ body.time-bounded-scrolling .cosmic-nav-wheel {
     .face-top    { transform: rotateX(90deg) translateZ(116px) !important; }
     .face-bottom { transform: rotateX(-90deg) translateZ(116px) !important; }
 
+    #calendar-page.is-revealed .cube-rotate-btn,
+    .calendar-layout-container.is-revealed .cube-rotate-btn,
     .cube-rotate-btn {
-        top: 338px !important;
+        top: 308px !important;
         min-width: 86px !important;
         height: 34px !important;
         padding: 0 10px !important;
+        transform: translateZ(260px) !important;
     }
 
     .cube-rotate-btn.btn-prev { left: calc(50% - 94px) !important; }
     .cube-rotate-btn.btn-next { right: calc(50% - 94px) !important; }
     .cube-month-tracker { width: 290px !important; }
+    #calendar-page.is-revealed .calendar-tip-hud,
+    .calendar-layout-container.is-revealed .calendar-tip-hud,
     .calendar-tip-hud {
-        top: 382px !important;
-        width: 290px !important;
+        top: 376px !important;
+        bottom: auto !important;
+        width: min(290px, calc(100% - 16px)) !important;
+        transform: translateX(-50%) !important;
     }
 }
 

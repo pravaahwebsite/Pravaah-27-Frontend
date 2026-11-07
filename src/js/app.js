@@ -2516,27 +2516,47 @@ document.addEventListener('DOMContentLoaded', () => {
         if (cubeControlsInitialized) return;
         cubeControlsInitialized = true;
         if (cubeBtnPrev) {
+            ['touchstart', 'touchend'].forEach(evt => {
+                cubeBtnPrev.addEventListener(evt, (e) => {
+                    e.stopPropagation();
+                }, { passive: true });
+            });
             cubeBtnPrev.addEventListener('click', (e) => {
+                e.preventDefault();
                 e.stopPropagation();
                 focusMonthByStep(currentStep - 1);
+                cubeBtnPrev.blur();
             });
         }
 
         if (cubeBtnNext) {
+            ['touchstart', 'touchend'].forEach(evt => {
+                cubeBtnNext.addEventListener(evt, (e) => {
+                    e.stopPropagation();
+                }, { passive: true });
+            });
             cubeBtnNext.addEventListener('click', (e) => {
+                e.preventDefault();
                 e.stopPropagation();
                 focusMonthByStep(currentStep + 1);
+                cubeBtnNext.blur();
             });
         }
 
         const pills = document.querySelectorAll('.month-pill');
         pills.forEach((pill) => {
+            ['touchstart', 'touchend'].forEach(evt => {
+                pill.addEventListener(evt, (e) => {
+                    e.stopPropagation();
+                }, { passive: true });
+            });
             pill.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const targetIdx = parseInt(pill.getAttribute('data-month-index'), 10);
                 if (!isNaN(targetIdx)) {
                     focusMonth(targetIdx);
                 }
+                pill.blur();
             });
         });
 

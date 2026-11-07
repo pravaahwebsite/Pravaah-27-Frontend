@@ -1354,9 +1354,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     /* =========================================================
-       CARD SCROLL REVEAL (INTERSECTION OBSERVER - 60FPS)
+       CARD SCROLL REVEAL (INSTANT & 60FPS)
        ========================================================= */
-    let cardObserver = null;
 
     function initCardObserver() {
         if (!verseEventList) {
@@ -1368,33 +1367,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (cardObserver) {
-            cardObserver.disconnect();
-            cardObserver = null;
-        }
-
-        if (!('IntersectionObserver' in window)) {
-            cards.forEach(card => card.classList.add('is-visible'));
-            return;
-        }
-
-        cardObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const card = entry.target;
-                    card.classList.add('is-visible');
-                    card.classList.remove('is-revealing');
-                    observer.unobserve(card);
-                }
-            });
-        }, {
-            root: null,
-            rootMargin: '60px 0px 60px 0px',
-            threshold: 0.05
-        });
-
         cards.forEach(card => {
-            cardObserver.observe(card);
+            card.classList.add('is-visible');
+            card.classList.remove('is-revealing');
         });
     }
 
@@ -1501,6 +1476,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'false'
         );
 
+        window.scrollTo({ top: 0, behavior: 'instant' });
 
         /*
          * Fast hardware-accelerated scroll reveal via IntersectionObserver.
@@ -1567,7 +1543,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     event => `
 
                     <article
-                        class="reference-event-card"
+                        class="reference-event-card is-visible"
                         data-event-id="${event.id}"
                         style="--event-color:${verse.color}"
                     >
@@ -1585,6 +1561,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     src="${event.image ? encodeURI(event.image) : 'assets/images/page5_gallery.jpg'}"
                                     alt="${event.name}"
                                     loading="lazy"
+                                    onerror="this.onerror=null;this.src='assets/images/page5_gallery.jpg';"
                                 >
 
                             </div>
@@ -2295,6 +2272,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 activeEvent =
                     null;
 
+                // Reset scroll position to top instantly before closing panel
+                // This completely prevents viewport height clamping glitch on mobile
+                window.scrollTo({ top: 0, behavior: 'instant' });
+
                 isOrbitPaused =
                     false;
 
@@ -2347,8 +2328,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     'MULTIVERSE EVENTS'
                 );
 
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-
                 isOrbitPaused =
                     false;
                 lastFrameTime = performance.now();
@@ -2368,6 +2347,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (activeVerse) {
                 activeVerse = null;
                 activeEvent = null;
+                window.scrollTo({ top: 0, behavior: 'instant' });
                 eventsPortalHero?.classList.remove('event-list-open', 'event-explore-open');
                 verseEventListView?.classList.remove('visible');
                 explorerView?.classList.remove('visible');
@@ -2377,7 +2357,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     node.classList.remove('active-portal', 'portal-dimmed');
                 });
                 animateCategoryHeading('MULTIVERSE EVENTS');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
                 isOrbitPaused = false;
                 lastFrameTime = performance.now();
             }
@@ -2407,14 +2386,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let lastFrameTime = performance.now();
     let cachedUprightWrappers = [];
 
-    function getOrbitSpeedDegPerSec() {
-        const isMobile = window.innerWidth <= 768;
-        // On laptop, orbit rotates ~7.0 deg/sec.
-        // On mobile, the radius is much smaller (~115px vs ~274px),
-        // so to make it rotate dynamically and match laptop's visual movement pace,
-        // we scale angular speed to 12.0 deg/sec.
-        return isMobile ? 12.0 : 7.0;
-    }
+    const BASE_ORBIT_SPEED = 0.06; // Desktop rotation speed restored exactly as earlier
+    const MOBILE_ORBIT_SPEED = 0.082; // Slightly increased rotation speed for mobile phones
 
     function updateOrbitTransform(angle) {
         if (!portalOrbitWrapper) {
@@ -2565,12 +2538,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     orbitMomentum *= Math.pow(0.94, dt * 60);
                 } else {
                     orbitMomentum = 0;
-                    const speedDegPerSec = getOrbitSpeedDegPerSec();
-                    orbitAngle =
-                        (
-                            orbitAngle +
-                            speedDegPerSec * dt
-                        ) % 360;
+                    const isMobile = window.innerWidth <= 768;
+                    const speed = isMobile ? MOBILE_ORBIT_SPEED : BASE_ORBIT_SPEED;
+                    orbitAngle = (orbitAngle + speed * (dt * 60)) % 360;
                 }
 
                 if (orbitAngle < 0) orbitAngle += 360;

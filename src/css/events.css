@@ -915,27 +915,23 @@ body.events-page-body::-webkit-scrollbar {
     overscroll-behavior-y: contain;
 }
 
-/* Mobile event cards: pure GPU opacity/translateY, zero clip-path compositing lag */
+/* Event cards: fully visible, pure GPU rendering, zero clip-path compositing lag */
+.events-page-body .reference-event-card {
+    clip-path: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    will-change: auto !important;
+}
+
+.events-page-body .reference-event-card.is-visible {
+    clip-path: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    will-change: auto !important;
+}
+
 @media (max-width: 768px) {
-    .events-page-body .reference-event-card {
-        clip-path: none !important;
-        opacity: 0;
-        transform: translateY(16px) !important;
-        transition: opacity 0.35s ease-out, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
-        animation: none !important;
-        will-change: auto !important;
-        backface-visibility: hidden;
-        -webkit-backface-visibility: hidden;
-    }
-
-    .events-page-body .reference-event-card.is-visible {
-        clip-path: none !important;
-        opacity: 1 !important;
-        transform: translateY(0) !important;
-        animation: none !important;
-        will-change: auto !important;
-    }
-
     /* Keep event-list viewport clean and unblocked on phone */
     .events-page-body .events-portal-hero.event-list-open:not(.event-explore-open) .standalone-network-viewport {
         height: auto !important;
