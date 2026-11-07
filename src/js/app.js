@@ -1352,38 +1352,38 @@ document.addEventListener('DOMContentLoaded', () => {
             const gain = portalAudioCtx.createGain();
             osc.type = 'sawtooth';
             osc.frequency.setValueAtTime(320, now);
-            osc.frequency.exponentialRampToValueAtTime(1200, now + 1.5);
+            osc.frequency.exponentialRampToValueAtTime(1200, now + 1.0);
 
             const filter = portalAudioCtx.createBiquadFilter();
             filter.type = 'lowpass';
             filter.frequency.setValueAtTime(1200, now);
-            filter.frequency.exponentialRampToValueAtTime(8000, now + 1.5);
+            filter.frequency.exponentialRampToValueAtTime(8000, now + 1.0);
 
             gain.gain.setValueAtTime(0.35, now);
-            gain.gain.linearRampToValueAtTime(0.55, now + 1.3);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 1.8);
+            gain.gain.linearRampToValueAtTime(0.55, now + 0.9);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 1.25);
 
             osc.connect(filter);
             filter.connect(gain);
             gain.connect(portalAudioCtx.destination);
             osc.start(now);
-            osc.stop(now + 1.9);
+            osc.stop(now + 1.35);
 
             // 2. Heavy Sub-Bass Singularity Boom
             const subOsc = portalAudioCtx.createOscillator();
             const subGain = portalAudioCtx.createGain();
             subOsc.type = 'sine';
-            subOsc.frequency.setValueAtTime(150, now + 1.5);
-            subOsc.frequency.exponentialRampToValueAtTime(30, now + 2.2);
+            subOsc.frequency.setValueAtTime(150, now + 1.05);
+            subOsc.frequency.exponentialRampToValueAtTime(30, now + 1.48);
 
             subGain.gain.setValueAtTime(0, now);
-            subGain.gain.setValueAtTime(0.8, now + 1.5);
-            subGain.gain.exponentialRampToValueAtTime(0.001, now + 2.2);
+            subGain.gain.setValueAtTime(0.8, now + 1.05);
+            subGain.gain.exponentialRampToValueAtTime(0.001, now + 1.48);
 
             subOsc.connect(subGain);
             subGain.connect(portalAudioCtx.destination);
-            subOsc.start(now + 1.5);
-            subOsc.stop(now + 2.3);
+            subOsc.start(now + 1.05);
+            subOsc.stop(now + 1.5);
         } catch (e) {}
     }
 
@@ -1588,19 +1588,19 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.fillStyle = warpSpeed > 30 ? 'rgba(3, 0, 20, 0.35)' : 'rgba(3, 0, 20, 0.65)';
             ctx.fillRect(0, 0, width, height);
 
-            if (elapsed < 1.6) {
+            if (elapsed < 1.05) {
                 currentPhase = 'fast_warp';
-                warpSpeed = 95 + Math.sin(elapsed * 4) * 15;
+                warpSpeed = 115 + Math.sin(elapsed * 6) * 20;
                 if (glitchOverlay) {
-                    if (frameCount % 12 === 0) glitchOverlay.classList.add('active');
-                    else if (frameCount % 6 === 0) glitchOverlay.classList.remove('active');
+                    if (frameCount % 8 === 0) glitchOverlay.classList.add('active');
+                    else if (frameCount % 4 === 0) glitchOverlay.classList.remove('active');
                 }
-            } else if (elapsed >= 1.6 && elapsed < 2.0) {
+            } else if (elapsed >= 1.05 && elapsed < 1.38) {
                 currentPhase = 'singularity';
-                warpSpeed = 35 - ((elapsed - 1.6) / 0.4) * 30;
+                warpSpeed = 35 - ((elapsed - 1.05) / 0.33) * 30;
                 if (glitchOverlay) glitchOverlay.classList.add('active');
-            } else if (elapsed >= 2.0) {
-                // Flash breakout directly into festival home page (About / Get to know our fest)
+            } else if (elapsed >= 1.38) {
+                // Flash breakout directly into festival home page at exactly 1.5s
                 if (!flashTriggered) {
                     flashTriggered = true;
                     if (glitchOverlay) glitchOverlay.classList.remove('active');
@@ -1617,7 +1617,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     setTimeout(() => {
                         enterUniverse();
-                    }, 220);
+                    }, 120);
                 }
                 return;
             }
@@ -1647,12 +1647,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         portalAnimFrameId = requestAnimationFrame(renderPortalFrame);
 
-        // Fallback safety timeout (3.5s)
+        // Fallback safety timeout (1.5s)
         setTimeout(() => {
             if (portalPlaybackActive && !portalHasEntered) {
                 enterUniverse();
             }
-        }, 3500);
+        }, 1500);
     }
 
     function enterUniverse() {
