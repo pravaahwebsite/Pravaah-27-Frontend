@@ -939,3 +939,9 @@ body.events-page-body::-webkit-scrollbar {
         overflow: visible !important;
     }
 }
+
+/* Telemetry & HUD scanner removed */
+.events-page-body .telemetry-box,
+.events-page-body .hud-bracket {
+    display: none !important;
+}

@@ -837,9 +837,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const corePrompt =
         document.getElementById('core-deploy-prompt');
 
-    const liveCoords =
-        document.getElementById('live-coords');
-
     const eventsPortalHero =
         document.querySelector('.events-portal-hero');
 
@@ -2561,42 +2558,6 @@ document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(
         animateOrbit
     );
-
-
-    /* =========================================================
-       TELEMETRY
-       ========================================================= */
-
-    if (liveCoords) {
-
-        setInterval(
-            () => {
-                if (window.innerWidth <= 768) {
-                    return;
-                }
-
-                const x =
-                    (
-                        180 +
-                        Math.random() * 10
-                    ).toFixed(4);
-
-
-                const y =
-                    (
-                        -490 -
-                        Math.random() * 10
-                    ).toFixed(4);
-
-
-                liveCoords.textContent =
-                    `X: ${x} | Y: ${y}`;
-
-            },
-            1200
-        );
-
-    }
 
 
     /* =========================================================
