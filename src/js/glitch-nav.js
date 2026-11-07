@@ -56,30 +56,30 @@ document.addEventListener('DOMContentLoaded', () => {
                                 </filter>
                             </defs>
                             <g class="dotted-ring-group">
-                                <circle cx="140.00" cy="80.00" r="1.40" fill="#00f2fe" opacity="0.15" filter="url(#dot-glow)" class="loader-dot dot-0" />
-                                <circle cx="137.96" cy="95.53" r="1.63" fill="#00f2fe" opacity="0.19" filter="url(#dot-glow)" class="loader-dot dot-1" />
-                                <circle cx="131.96" cy="110.00" r="1.85" fill="#00f2fe" opacity="0.22" filter="url(#dot-glow)" class="loader-dot dot-2" />
-                                <circle cx="122.43" cy="122.43" r="2.08" fill="#00f2fe" opacity="0.26" filter="url(#dot-glow)" class="loader-dot dot-3" />
-                                <circle cx="110.00" cy="131.96" r="2.30" fill="#00f2fe" opacity="0.30" filter="url(#dot-glow)" class="loader-dot dot-4" />
-                                <circle cx="95.53" cy="137.96" r="2.53" fill="#00f2fe" opacity="0.33" filter="url(#dot-glow)" class="loader-dot dot-5" />
-                                <circle cx="80.00" cy="140.00" r="2.76" fill="#00f2fe" opacity="0.37" filter="url(#dot-glow)" class="loader-dot dot-6" />
-                                <circle cx="64.47" cy="137.96" r="2.98" fill="#00f2fe" opacity="0.41" filter="url(#dot-glow)" class="loader-dot dot-7" />
-                                <circle cx="50.00" cy="131.96" r="3.21" fill="#00f2fe" opacity="0.45" filter="url(#dot-glow)" class="loader-dot dot-8" />
-                                <circle cx="37.57" cy="122.43" r="3.43" fill="#0066ff" opacity="0.48" filter="url(#dot-glow)" class="loader-dot dot-9" />
-                                <circle cx="28.04" cy="110.00" r="3.66" fill="#0066ff" opacity="0.52" filter="url(#dot-glow)" class="loader-dot dot-10" />
-                                <circle cx="22.04" cy="95.53" r="3.89" fill="#0066ff" opacity="0.56" filter="url(#dot-glow)" class="loader-dot dot-11" />
-                                <circle cx="20.00" cy="80.00" r="4.11" fill="#0066ff" opacity="0.59" filter="url(#dot-glow)" class="loader-dot dot-12" />
-                                <circle cx="22.04" cy="64.47" r="4.34" fill="#0066ff" opacity="0.63" filter="url(#dot-glow)" class="loader-dot dot-13" />
-                                <circle cx="28.04" cy="50.00" r="4.57" fill="#0066ff" opacity="0.67" filter="url(#dot-glow-intense)" class="loader-dot dot-14" />
+                                <circle cx="140.00" cy="80.00" r="1.40" fill="#00d8ff" opacity="0.15" filter="url(#dot-glow)" class="loader-dot dot-0" />
+                                <circle cx="137.96" cy="95.53" r="1.63" fill="#00d8ff" opacity="0.19" filter="url(#dot-glow)" class="loader-dot dot-1" />
+                                <circle cx="131.96" cy="110.00" r="1.85" fill="#00d8ff" opacity="0.22" filter="url(#dot-glow)" class="loader-dot dot-2" />
+                                <circle cx="122.43" cy="122.43" r="2.08" fill="#00d8ff" opacity="0.26" filter="url(#dot-glow)" class="loader-dot dot-3" />
+                                <circle cx="110.00" cy="131.96" r="2.30" fill="#00c0ff" opacity="0.30" filter="url(#dot-glow)" class="loader-dot dot-4" />
+                                <circle cx="95.53" cy="137.96" r="2.53" fill="#00c0ff" opacity="0.33" filter="url(#dot-glow)" class="loader-dot dot-5" />
+                                <circle cx="80.00" cy="140.00" r="2.76" fill="#00c0ff" opacity="0.37" filter="url(#dot-glow)" class="loader-dot dot-6" />
+                                <circle cx="64.47" cy="137.96" r="2.98" fill="#00a8ff" opacity="0.41" filter="url(#dot-glow)" class="loader-dot dot-7" />
+                                <circle cx="50.00" cy="131.96" r="3.21" fill="#00a8ff" opacity="0.45" filter="url(#dot-glow)" class="loader-dot dot-8" />
+                                <circle cx="37.57" cy="122.43" r="3.43" fill="#0090ff" opacity="0.48" filter="url(#dot-glow)" class="loader-dot dot-9" />
+                                <circle cx="28.04" cy="110.00" r="3.66" fill="#0090ff" opacity="0.52" filter="url(#dot-glow)" class="loader-dot dot-10" />
+                                <circle cx="22.04" cy="95.53" r="3.89" fill="#0090ff" opacity="0.56" filter="url(#dot-glow)" class="loader-dot dot-11" />
+                                <circle cx="20.00" cy="80.00" r="4.11" fill="#0077ff" opacity="0.59" filter="url(#dot-glow)" class="loader-dot dot-12" />
+                                <circle cx="22.04" cy="64.47" r="4.34" fill="#0077ff" opacity="0.63" filter="url(#dot-glow)" class="loader-dot dot-13" />
+                                <circle cx="28.04" cy="50.00" r="4.57" fill="#0077ff" opacity="0.67" filter="url(#dot-glow-intense)" class="loader-dot dot-14" />
                                 <circle cx="37.57" cy="37.57" r="4.79" fill="#0066ff" opacity="0.70" filter="url(#dot-glow-intense)" class="loader-dot dot-15" />
                                 <circle cx="50.00" cy="28.04" r="5.02" fill="#0066ff" opacity="0.74" filter="url(#dot-glow-intense)" class="loader-dot dot-16" />
-                                <circle cx="64.47" cy="22.04" r="5.24" fill="#bd00ff" opacity="0.78" filter="url(#dot-glow-intense)" class="loader-dot dot-17" />
-                                <circle cx="80.00" cy="20.00" r="5.47" fill="#bd00ff" opacity="0.82" filter="url(#dot-glow-intense)" class="loader-dot dot-18" />
-                                <circle cx="95.53" cy="22.04" r="5.70" fill="#bd00ff" opacity="0.85" filter="url(#dot-glow-intense)" class="loader-dot dot-19" />
-                                <circle cx="110.00" cy="28.04" r="5.92" fill="#bd00ff" opacity="0.89" filter="url(#dot-glow-intense)" class="loader-dot dot-20" />
-                                <circle cx="122.43" cy="37.57" r="6.15" fill="#bd00ff" opacity="0.93" filter="url(#dot-glow-intense)" class="loader-dot dot-21" />
-                                <circle cx="131.96" cy="50.00" r="6.37" fill="#bd00ff" opacity="0.96" filter="url(#dot-glow-intense)" class="loader-dot dot-22" />
-                                <circle cx="137.96" cy="64.47" r="6.60" fill="#bd00ff" opacity="1.00" filter="url(#dot-glow-intense)" class="loader-dot dot-23" />
+                                <circle cx="64.47" cy="22.04" r="5.24" fill="#0066ff" opacity="0.78" filter="url(#dot-glow-intense)" class="loader-dot dot-17" />
+                                <circle cx="80.00" cy="20.00" r="5.47" fill="#0055ff" opacity="0.82" filter="url(#dot-glow-intense)" class="loader-dot dot-18" />
+                                <circle cx="95.53" cy="22.04" r="5.70" fill="#0055ff" opacity="0.85" filter="url(#dot-glow-intense)" class="loader-dot dot-19" />
+                                <circle cx="110.00" cy="28.04" r="5.92" fill="#0055ff" opacity="0.89" filter="url(#dot-glow-intense)" class="loader-dot dot-20" />
+                                <circle cx="122.43" cy="37.57" r="6.15" fill="#0044ff" opacity="0.93" filter="url(#dot-glow-intense)" class="loader-dot dot-21" />
+                                <circle cx="131.96" cy="50.00" r="6.37" fill="#0044ff" opacity="0.96" filter="url(#dot-glow-intense)" class="loader-dot dot-22" />
+                                <circle cx="137.96" cy="64.47" r="6.60" fill="#0044ff" opacity="1.00" filter="url(#dot-glow-intense)" class="loader-dot dot-23" />
                             </g>
                         </svg>
                     </div>
