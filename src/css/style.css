@@ -1082,8 +1082,10 @@ html.portal-entered-fast #about-lead-container {
 
 body.portal-entered #about-card-pravaah,
 body.portal-entered #about-card-theme,
+body.portal-entered .about-merged-card,
 html.portal-entered-fast #about-card-pravaah,
-html.portal-entered-fast #about-card-theme {
+html.portal-entered-fast #about-card-theme,
+html.portal-entered-fast .about-merged-card {
     opacity: 1 !important;
     visibility: visible !important;
     filter: blur(0px) !important;
@@ -3846,49 +3848,182 @@ body.portal-entered .home-swipe-prompt {
     position: relative;
 }
 
-.about-lead-decor {
+.about-lead-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 12px;
-    margin-top: 2px;
+    text-align: center;
+    margin-bottom: 16px;
+    z-index: 25;
+    position: relative;
+    width: 100%;
 }
 
-.decor-line-bar {
-    width: 44px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0, 242, 254, 0.6), transparent);
-}
-
-.decor-line-text {
+/* Big PRAVAAH Text Heading */
+.about-page-heading.pravaah-big-title {
     font-family: 'Orbitron', sans-serif;
-    font-size: 0.68rem;
-    font-weight: 600;
+    font-size: clamp(2.8rem, 6.5vw, 4.6rem);
+    font-weight: 900;
     letter-spacing: 0.22em;
-    color: rgba(255, 255, 255, 0.65);
+    color: #ffffff;
     text-transform: uppercase;
+    text-align: center;
+    margin: 0;
+    line-height: 1.1;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.6), 
+                 0 0 35px var(--tech-glow), 
+                 0 0 70px rgba(0, 242, 254, 0.45);
+    filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.95));
+    position: relative;
+    display: inline-block;
+    padding-left: 0.22em;
 }
 
 /* ==========================================================================
-   ABOUT PAGE ELEMENTS (SLIDE FROM SIDES TO CENTER WITH LOW OPACITY)
+   ABOUT PAGE ELEMENTS (MERGED SINGLE TRANSPARENT BOX)
    ========================================================================== */
 .about-intro-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.65fr;
-    gap: 24px;
+    display: flex;
+    justify-content: center;
     align-items: stretch;
     width: 100%;
+    max-width: 1060px;
     position: relative;
 }
 
-/* Pravaah card from Left - visible teaser state on side */
-.about-intro-card.pravaah-sub-card.from-left {
+/* Merged Single Box with Transparent Color */
+.about-intro-card.about-merged-card {
+    width: 100%;
+    background: transparent !important;
+    background-color: transparent !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 242, 254, 0.35);
+    border-radius: 20px;
+    padding: 34px 38px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), 0 0 25px rgba(0, 242, 254, 0.08);
+    transition: var(--transition-smooth);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
     will-change: transform, opacity, filter;
 }
 
-/* Kairos card from Right - visible teaser state on side */
+.about-intro-card.about-merged-card.is-revealed {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    filter: blur(0px);
+}
+
+.about-intro-card.about-merged-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2.5px;
+    background: linear-gradient(90deg, #00f2fe 0%, #cf3ad6 50%, #ffd043 100%);
+    box-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
+}
+
+.about-intro-card.about-merged-card:hover,
+.about-intro-card.about-merged-card.is-revealed:hover {
+    border-color: rgba(0, 242, 254, 0.6);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4), 0 0 35px rgba(0, 242, 254, 0.2);
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Unified About Narrative Content */
+.about-unified-text {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: clamp(1.02rem, 1.35vw, 1.18rem);
+    font-weight: 400;
+    line-height: 1.95;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
+    margin: 0;
+    letter-spacing: 0.015em;
+    position: relative;
+    z-index: 2;
+}
+
+/* Brand Highlight: PRAVAAH with cyber cyan glow */
+.pravaah-brand-highlight {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    color: #ffffff;
+    text-shadow: 0 0 12px rgba(0, 242, 254, 0.95), 0 0 26px rgba(0, 242, 254, 0.6);
+    display: inline-block;
+}
+
+/* Theme Highlights: KAIROS - WORLDS UNBOUND with signature golden metallic glow */
+.kairos-gold-highlight {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: linear-gradient(to bottom, #fff6a6 0%, #ffd043 45%, #b67600 90%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 14px rgba(255, 208, 67, 0.85));
+    display: inline-block;
+    padding: 0 2px;
+    vertical-align: baseline;
+    transition: filter 0.3s ease;
+}
+
+.worlds-unbound-highlight {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #ffd043;
+    text-shadow: 0 0 12px rgba(255, 208, 67, 0.9), 0 0 26px rgba(255, 180, 0, 0.65);
+    display: inline-block;
+    padding: 0 2px;
+    vertical-align: baseline;
+    transition: text-shadow 0.3s ease, color 0.3s ease;
+}
+
+/* Hover radiance enhancements */
+.about-intro-card.about-merged-card:hover .pravaah-brand-highlight {
+    text-shadow: 0 0 16px rgba(0, 242, 254, 1), 0 0 35px rgba(0, 242, 254, 0.8);
+}
+
+.about-intro-card.about-merged-card:hover .kairos-gold-highlight {
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 1)) drop-shadow(0 0 22px rgba(255, 208, 67, 1));
+}
+
+.about-intro-card.about-merged-card:hover .worlds-unbound-highlight {
+    color: #fff4ba;
+    text-shadow: 0 0 16px rgba(255, 208, 67, 1), 0 0 36px rgba(255, 180, 0, 0.95);
+}
+
+@media (max-width: 868px) {
+    .about-page-heading.pravaah-big-title {
+        font-size: clamp(1.9rem, 7.5vw, 2.8rem);
+        letter-spacing: 0.16em;
+        padding-left: 0.16em;
+    }
+
+    .about-intro-card.about-merged-card {
+        padding: 24px 20px;
+    }
+
+    .about-unified-text {
+        font-size: 0.95rem;
+        line-height: 1.8;
+    }
+}
+
+/* Fallback for separate cards if used elsewhere */
+.about-intro-card.pravaah-sub-card.from-left,
 .about-intro-card.theme-highlight-card.from-right {
     opacity: 0;
     visibility: hidden;
@@ -17280,15 +17415,15 @@ body.subpage-body>.pravaah-full-footer {
     z-index: 45 !important;
 }
 
-/* Animate each sphere's actual journey out from the centre */
+/* Animate each sphere's actual journey out from the centre (increased speed by ~20%) */
 .events-page-body .portal-node {
     position: absolute !important;
 
     transition:
-        left 1.25s cubic-bezier(0.22, 1, 0.36, 1),
-        top 1.25s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.75s ease-out,
-        opacity 0.55s ease-out !important;
+        left 1.0s cubic-bezier(0.22, 1, 0.36, 1),
+        top 1.0s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.6s ease-out,
+        opacity 0.45s ease-out !important;
 
     will-change:
         left,
@@ -17304,12 +17439,12 @@ body.subpage-body>.pravaah-full-footer {
 
 /* Cult sphere follows */
 .events-page-body .portal-node.portal-cult {
-    transition-delay: 120ms;
+    transition-delay: 100ms;
 }
 
 /* Entrepreneur sphere follows */
 .events-page-body .portal-node.portal-ent {
-    transition-delay: 240ms;
+    transition-delay: 200ms;
 }
 
 /* ==========================================================

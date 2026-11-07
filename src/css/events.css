@@ -860,3 +860,37 @@ body.events-page-body::-webkit-scrollbar {
 .events-page-body .event-explorer-back:hover::before {
     transform: translate(-3px, -2px);
 }
+
+/* =========================================================
+   TOUCH SENSITIVITY & HIT-BOX OPTIMIZATION
+   ========================================================= */
+
+.events-page-body .portal-node {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
+}
+
+/* Expanded invisible touch hit target for spheres so finger taps register reliably */
+.events-page-body .portal-node::after {
+    content: '';
+    position: absolute;
+    inset: -15px;
+    border-radius: 50%;
+    pointer-events: auto;
+    z-index: 50;
+}
+
+.events-page-body .pravaah-core-btn {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
+}
+
+.events-page-body .portal-network-container {
+    touch-action: pan-y;
+}

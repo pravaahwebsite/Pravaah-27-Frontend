@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
             badge: 'RUNWAY',
             edition: 'PRAVAAH 2026',
             resolution: '6000 x 4000 (RAW)',
-            image: 'assets/images/gallery/Comedy_night.jpg',
+            image: 'assets/images/gallery/CN.jpg',
             description: ' Professional, well-known comedians are booked to perform a marquee set, often drawing the largest ticketed or open-air campus crowds.',
             highlights: [
                 'Dramatic low-angle runway perspective.',

@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
             verseName: 'TECH EVENT',
             name: 'Trekkon',
             icon: '⚡',
-            image: 'assets/Events_images/Trekkon.jpeg',
+            image: 'assets/Events_images/lastyear/Trekkon_events.JPG',
             desc: 'Autonomous line-following robot challenge where precision bots race along complex tracks at maximum velocity.',
             date: 'Feb 6, 2026',
             day: '1',
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
             verseName: 'TECH EVENT',
             name: 'Data Science Hackathon',
             icon: '📊',
-            image: 'assets/Events_images/Data Science Hackathon.jpeg',
+            image: 'assets/Events_images/lastyear/data sceince event.jpg',
             desc: 'A grueling 24-hour offline hackathon challenging developers to engineer predictive models, pipelines, and machine learning solutions.',
             date: 'Feb 6, 9:00 AM',
             day: '1-2',
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
             verseName: 'TECH EVENT',
             name: 'Web Hackathon',
             icon: '💻',
-            image: 'assets/Events_images/Web Hackathon.jpeg',
+            image: 'assets/Events_images/lastyear/WEB HACKTHON.jpg',
             desc: 'Sprint through a 24-hour offline build to architect functional, highly responsive, and innovative web applications.',
             date: 'Feb 7, 10:00 AM',
             day: '2-3',
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
             verseName: 'TECH EVENT',
             name: 'Blast off',
             icon: '🚀',
-            image: 'assets/Events_images/Blast Off.jpeg',
+            image: 'assets/images/gallery/Blast_off.jpg',
             desc: 'Water bottle rocketry showdown where teams design pressurized aerodynamic vessels for maximum distance and trajectory.',
             date: 'Feb 7, 10:00 AM',
             day: '2',
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
             verseName: 'TECH EVENT',
             name: 'Free Fire Fury',
             icon: '🔥',
-            image: 'assets/Events_images/Free Fire Fury.jpeg',
+            image: 'assets/Events_images/lastyear/free fire.jpg',
             desc: 'Four-member squad battle royale tournament battling across Bermuda and Purgatory through qualifiers, playoffs, and Clash Squad finals.',
             date: 'Jan 26, 2026',
             day: 'Pre-Fest',
@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
             verseName: 'TECH EVENT',
             name: 'Clash Royal',
             icon: '👑',
-            image: 'assets/Events_images/Clash Royal.jpeg',
+            image: 'assets/Events_images/lastyear/clash royale.jpg',
             desc: 'Head-to-head tactical mobile card strategy tournament where players craft custom decks, counter elixir pushes, and take crowns.',
             date: 'Online Tournament',
             day: 'Pre-Fest',
@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
             verseName: 'TECH EVENT',
             name: 'Sci and tech quiz',
             icon: '🔬',
-            image: 'assets/Events_images/Sci and tech Quiz.jpeg',
+            image: 'assets/Events_images/lastyear/general quiz.JPG',
             desc: 'High-stakes battle of scientific minds testing knowledge across astronomy, modern physics, engineering, and tech innovations.',
             date: 'Feb 7, 2026',
             day: '2',
@@ -303,7 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
             verseName: 'CULT EVENT',
             name: 'Group Dance',
             icon: '💃',
-            image: 'assets/Events_images/Group Dance.jpeg',
+            image: 'assets/Events_images/lastyear/group Dance_events.JPG',
             desc: 'Showcase coordination, creativity, and collective stage expression in the premier collegiate group dance championship.',
             date: 'Feb 8, 2026',
             day: '3',
@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
             verseName: 'CULT EVENT',
             name: 'Fashion Show',
             icon: '✨',
-            image: 'assets/Events_images/Fashion Show.jpeg',
+            image: 'assets/Events_images/lastyear/fashionshow_gallery.jpg',
             desc: 'Step onto the runway and express your creativity, embracing grace, theme-driven elegance, and haute couture.',
             date: 'Feb 7, 2026',
             day: '2',
@@ -347,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
             verseName: 'CULT EVENT',
             name: 'Street Battle',
             icon: '🔥',
-            image: 'assets/Events_images/Street Battle.jpeg',
+            image: 'assets/Events_images/lastyear/StreetDanceBattle_events.jpg',
             desc: 'Head-to-head knockout dance battles where dancers showcase high-energy freestyle skills, popping, and breaking.',
             date: 'Feb 7, 2026',
             day: '2',
@@ -363,27 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ]
         },
 
-        {
-            id: 'cult-4',
-            verse: 'cult',
-            verseName: 'CULT EVENT',
-            name: 'Abhinay',
-            icon: '🎭',
-            image: 'assets/Events_images/Abhinay.jpeg',
-            desc: 'Flagship stage play competition bringing original scripts, dramatic intensity, and gripping theatrical acting to life.',
-            date: 'Feb 6, 09:00 AM',
-            day: '1',
-            venue: 'Community Centre',
-            prize: '₹10,000',
-            team: 'Up to 30 Members',
-            rulebookPage: 39,
-            rules: [
-                'Stage Play duration: 45 to 60 minutes from empty stage to empty stage.',
-                'Performance permitted in Hindi, English, or bilingual presentation.',
-                'Original scripts and adaptations welcome; team manages own audio/sound.',
-                'Judged on Script & Direction (35%), Acting (35%), Lights & Music (15%), and Creativity (10%).'
-            ]
-        },
+       
 
         {
             id: 'cult-5',
@@ -391,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
             verseName: 'CULT EVENT',
             name: 'Tamasha',
             icon: '📢',
-            image: 'assets/Events_images/Tamasha.jpeg',
+            image: 'assets/Events_images/lastyear/Tamasha_events.JPG',
             desc: 'Thunderous Nukkad Natak (street play) in a 30x30ft arena delivering sharp social messages with booming choruses.',
             date: 'Feb 6, 2026',
             day: '1',
@@ -435,7 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
             verseName: 'CULT EVENT',
             name: 'Face Painting',
             icon: '🎨',
-            image: 'assets/Events_images/Face Painting.jpeg',
+            image: 'assets/Events_images/lastyear/fpainting (1).jpg',
             desc: 'Transform human canvas with colors, brush strokes, and visionary imagination in this nocturnal creative contest.',
             date: 'Feb 6, Night',
             day: '1',
@@ -474,28 +454,6 @@ document.addEventListener('DOMContentLoaded', () => {
         },
 
         {
-            id: 'cult-9',
-            verse: 'cult',
-            verseName: 'CULT EVENT',
-            name: 'Flow Frames',
-            icon: '📸',
-            image: 'assets/Events_images/Flow Frames.jpeg',
-            desc: 'Capture the spirit, pulsating energy, and fleeting aesthetic memories of Pravaah through your lens.',
-            date: 'Feb 5 - 8, 2026',
-            day: '1-3',
-            venue: 'IIT Bhubaneswar Campus',
-            prize: '₹4,000',
-            team: 'Individual',
-            rulebookPage: 48,
-            rules: [
-                'Photographs must be shot on campus during Pravaah 2026 (Feb 5-8).',
-                'Maximum 3 entries per participant, each accompanied by an English or Hindi caption.',
-                'Submit JPG/JPEG along with original unedited RAW files in a single zip package.',
-                'Judged on Creativity, Originality, and Adherence to Festival Spirit.'
-            ]
-        },
-
-        {
             id: 'cult-10',
             verse: 'cult',
             verseName: 'CULT EVENT',
@@ -517,27 +475,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ]
         },
 
-        {
-            id: 'cult-11',
-            verse: 'cult',
-            verseName: 'CULT EVENT',
-            name: 'Kavodyay',
-            icon: '🖋️',
-            image: 'assets/Events_images/Kavodyay.jpeg',
-            desc: 'Hindi Slam Poetry competition where poets evoke deep emotion, lyrical rhythm, and evocative spoken-word storytelling.',
-            date: 'Feb 6 - 7, 2026',
-            day: '1-2',
-            venue: 'Online / Live Stream',
-            prize: '₹6,000',
-            team: 'Solo (Individual)',
-            rulebookPage: 67,
-            rules: [
-                'Original self-composed poetry in Hindi only; plagiarism results in disqualification.',
-                'Each poet allotted a maximum of 5 minutes for reciting their piece.',
-                'Acoustic spoken-word delivery without background tracks or digital distortion.',
-                'Judged on Vocabulary & Language (30%), Performance & Diction (30%), Creativity (20%), and Impact (20%).'
-            ]
-        },
+       
 
         {
             id: 'cult-12',
@@ -545,7 +483,7 @@ document.addEventListener('DOMContentLoaded', () => {
             verseName: 'CULT EVENT',
             name: 'General Quiz',
             icon: '🧠',
-            image: 'assets/Events_images/General Quiz.jpeg',
+            image: 'assets/Events_images/lastyear/Marcatus.JPG',
             desc: 'Battle of sharpest collegiate minds navigating general trivia, science, history, cinema, pop culture, and business.',
             date: 'Feb 7, 2026',
             day: '2',
@@ -567,7 +505,7 @@ document.addEventListener('DOMContentLoaded', () => {
             verseName: 'CULT EVENT',
             name: 'Solo Dance',
             icon: '🕺',
-            image: 'assets/Events_images/Solo Dance.jpeg',
+            image: 'assets/Events_images/lastyear/solo dance (1).jpg',
             desc: 'Command the central stage alone and mesmerize the crowd with technique, rhythm, expressive grace, and storytelling.',
             date: 'Feb 8, 09:30 AM',
             day: '3',
@@ -679,7 +617,7 @@ document.addEventListener('DOMContentLoaded', () => {
             verseName: 'ENT EVENT',
             name: 'Enigma',
             icon: '🧩',
-            image: 'assets/Events_images/Enigma.jpeg',
+            image: 'assets/Events_images/lastyear/Enigma_events.JPG',
             desc: 'High-pressure case competition challenging analytical duos to crack complex real-time business and industry scenarios.',
             date: 'Feb 7, 10:00 AM',
             day: '2',
@@ -1275,8 +1213,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ) {
 
                     const speed =
-                        6 +
-                        i * 5;
+                        ((6 + i * 5) * 0.82).toFixed(2);
 
                     const offset =
                         isMobile
@@ -1324,6 +1261,50 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
 
 
+                let nodeTouchStartX = 0;
+                let nodeTouchStartY = 0;
+                let nodeTouchMoved = false;
+
+                portal.addEventListener(
+                    'touchstart',
+                    event => {
+                        isOrbitPaused = true;
+                        nodeTouchMoved = false;
+                        if (event.touches && event.touches[0]) {
+                            nodeTouchStartX = event.touches[0].clientX;
+                            nodeTouchStartY = event.touches[0].clientY;
+                        }
+                    },
+                    { passive: true }
+                );
+
+                portal.addEventListener(
+                    'touchmove',
+                    event => {
+                        if (event.touches && event.touches[0]) {
+                            const dx = event.touches[0].clientX - nodeTouchStartX;
+                            const dy = event.touches[0].clientY - nodeTouchStartY;
+                            if (Math.hypot(dx, dy) > 8) {
+                                nodeTouchMoved = true;
+                            }
+                        }
+                    },
+                    { passive: true }
+                );
+
+                portal.addEventListener(
+                    'touchend',
+                    event => {
+                        if (!nodeTouchMoved && !isTouchDraggingMove) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            activatePortalBranch(verse.key);
+                        } else if (!isTouchDragging) {
+                            isOrbitPaused = false;
+                        }
+                    }
+                );
+
                 portal.addEventListener(
                     'mouseenter',
                     () => {
@@ -1335,7 +1316,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 portal.addEventListener(
                     'mouseleave',
                     () => {
-                        isOrbitPaused = false;
+                        if (!isTouchDragging) {
+                            isOrbitPaused = false;
+                        }
                     }
                 );
 
@@ -1423,6 +1406,8 @@ document.addEventListener('DOMContentLoaded', () => {
        OPEN VERSE
        ========================================================= */
 
+    let lastActivateTime = 0;
+
     function activatePortalBranch(
         verseKey
     ) {
@@ -1430,6 +1415,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!isNetworkDeployed) {
             return;
         }
+
+        const now = Date.now();
+        if (now - lastActivateTime < 320) {
+            return;
+        }
+        lastActivateTime = now;
 
         const selectedVerse =
             verses.find(
@@ -1923,12 +1914,19 @@ document.addEventListener('DOMContentLoaded', () => {
        DEPLOY NETWORK
        ========================================================= */
 
+    let lastDeployToggleTime = 0;
+
     function deployNetwork() {
 
         if (!portalNetworkContainer) {
             return;
         }
 
+        const now = Date.now();
+        if (now - lastDeployToggleTime < 320) {
+            return;
+        }
+        lastDeployToggleTime = now;
 
         isNetworkDeployed =
             !isNetworkDeployed;
@@ -2142,6 +2140,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (pravaahCore) {
 
+        let coreTouchMoved = false;
+        let coreStartX = 0;
+        let coreStartY = 0;
+
+        pravaahCore.addEventListener(
+            'touchstart',
+            event => {
+                coreTouchMoved = false;
+                if (event.touches && event.touches[0]) {
+                    coreStartX = event.touches[0].clientX;
+                    coreStartY = event.touches[0].clientY;
+                }
+            },
+            { passive: true }
+        );
+
+        pravaahCore.addEventListener(
+            'touchmove',
+            event => {
+                if (event.touches && event.touches[0]) {
+                    if (Math.hypot(event.touches[0].clientX - coreStartX, event.touches[0].clientY - coreStartY) > 10) {
+                        coreTouchMoved = true;
+                    }
+                }
+            },
+            { passive: true }
+        );
+
+        pravaahCore.addEventListener(
+            'touchend',
+            event => {
+                if (!coreTouchMoved) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    deployNetwork();
+                }
+            }
+        );
+
         pravaahCore.addEventListener(
             'click',
             event => {
@@ -2157,6 +2194,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     if (corePrompt) {
+
+        let promptTouchMoved = false;
+        let promptStartX = 0;
+        let promptStartY = 0;
+
+        corePrompt.addEventListener(
+            'touchstart',
+            event => {
+                promptTouchMoved = false;
+                if (event.touches && event.touches[0]) {
+                    promptStartX = event.touches[0].clientX;
+                    promptStartY = event.touches[0].clientY;
+                }
+            },
+            { passive: true }
+        );
+
+        corePrompt.addEventListener(
+            'touchmove',
+            event => {
+                if (event.touches && event.touches[0]) {
+                    if (Math.hypot(event.touches[0].clientX - promptStartX, event.touches[0].clientY - promptStartY) > 10) {
+                        promptTouchMoved = true;
+                    }
+                }
+            },
+            { passive: true }
+        );
+
+        corePrompt.addEventListener(
+            'touchend',
+            event => {
+                if (!promptTouchMoved) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    if (!isNetworkDeployed) {
+                        deployNetwork();
+                    }
+                }
+            }
+        );
 
         corePrompt.addEventListener(
             'click',
@@ -2266,8 +2344,147 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     /* =========================================================
-       ORBIT
+       ORBIT & TOUCH GESTURES
        ========================================================= */
+
+    const BASE_ORBIT_SPEED = 0.06; // 20% speed increase from 0.05
+    const TOUCH_ROTATION_SENSITIVITY = 1.35; // Increased touch sensitivity for responsive gesture rotation
+    let orbitMomentum = 0;
+    let isTouchDragging = false;
+    let isTouchDraggingMove = false;
+    let touchStartAngle = 0;
+    let touchStartOrbitAngle = 0;
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let lastMoveAngle = 0;
+    let lastMoveTime = 0;
+    let touchAngularVelocity = 0;
+
+    function updateOrbitTransform(angle) {
+        if (!portalOrbitWrapper) {
+            return;
+        }
+
+        portalOrbitWrapper.style.transform =
+            `rotate(${angle}deg)`;
+
+        portalOrbitWrapper
+            .querySelectorAll('.portal-upright-wrapper')
+            .forEach(wrapper => {
+                wrapper.style.transform =
+                    `rotate(${-angle}deg)`;
+            });
+    }
+
+    function getAngleFromCenter(clientX, clientY) {
+        if (!portalNetworkContainer) {
+            return 0;
+        }
+        const rect = portalNetworkContainer.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        return Math.atan2(clientY - cy, clientX - cx) * (180 / Math.PI);
+    }
+
+    if (portalNetworkContainer) {
+        portalNetworkContainer.addEventListener(
+            'touchstart',
+            event => {
+                if (!isNetworkDeployed) {
+                    return;
+                }
+                if (event.target.closest('#pravaah-core, .core-deploy-prompt')) {
+                    return;
+                }
+                if (event.touches && event.touches[0]) {
+                    const t = event.touches[0];
+                    touchStartX = t.clientX;
+                    touchStartY = t.clientY;
+                    isTouchDragging = true;
+                    isTouchDraggingMove = false;
+                    isOrbitPaused = true;
+                    orbitMomentum = 0;
+                    touchAngularVelocity = 0;
+
+                    touchStartAngle = getAngleFromCenter(t.clientX, t.clientY);
+                    touchStartOrbitAngle = orbitAngle;
+                    lastMoveAngle = touchStartAngle;
+                    lastMoveTime = performance.now();
+                }
+            },
+            { passive: true }
+        );
+
+        window.addEventListener(
+            'touchmove',
+            event => {
+                if (!isTouchDragging || !isNetworkDeployed) {
+                    return;
+                }
+                if (!event.touches || !event.touches[0]) {
+                    return;
+                }
+
+                const t = event.touches[0];
+                const dist = Math.hypot(t.clientX - touchStartX, t.clientY - touchStartY);
+
+                if (dist > 8) {
+                    isTouchDraggingMove = true;
+                }
+
+                if (isTouchDraggingMove) {
+                    const currAngle = getAngleFromCenter(t.clientX, t.clientY);
+                    let diffAngle = currAngle - touchStartAngle;
+
+                    while (diffAngle < -180) diffAngle += 360;
+                    while (diffAngle > 180) diffAngle -= 360;
+
+                    orbitAngle = (touchStartOrbitAngle + diffAngle * TOUCH_ROTATION_SENSITIVITY) % 360;
+                    if (orbitAngle < 0) orbitAngle += 360;
+
+                    updateOrbitTransform(orbitAngle);
+
+                    const now = performance.now();
+                    const dt = Math.max(1, now - lastMoveTime);
+                    let stepDelta = currAngle - lastMoveAngle;
+                    while (stepDelta < -180) stepDelta += 360;
+                    while (stepDelta > 180) stepDelta -= 360;
+
+                    touchAngularVelocity = (stepDelta / dt) * 16.67 * TOUCH_ROTATION_SENSITIVITY;
+                    lastMoveAngle = currAngle;
+                    lastMoveTime = now;
+
+                    if (event.cancelable) {
+                        event.preventDefault();
+                    }
+                }
+            },
+            { passive: false }
+        );
+
+        const handleTouchEndDrag = () => {
+            if (!isTouchDragging) {
+                return;
+            }
+            isTouchDragging = false;
+
+            if (isTouchDraggingMove) {
+                if (Math.abs(touchAngularVelocity) > 0.08) {
+                    orbitMomentum = Math.max(-4.5, Math.min(4.5, touchAngularVelocity));
+                }
+                isOrbitPaused = false;
+            } else {
+                isOrbitPaused = false;
+            }
+
+            setTimeout(() => {
+                isTouchDraggingMove = false;
+            }, 60);
+        };
+
+        window.addEventListener('touchend', handleTouchEndDrag, { passive: true });
+        window.addEventListener('touchcancel', handleTouchEndDrag, { passive: true });
+    }
 
     function animateOrbit() {
 
@@ -2276,30 +2493,23 @@ document.addEventListener('DOMContentLoaded', () => {
             isNetworkDeployed &&
             portalOrbitWrapper
         ) {
+            if (!isTouchDragging) {
+                if (Math.abs(orbitMomentum) > 0.005) {
+                    orbitAngle = (orbitAngle + orbitMomentum) % 360;
+                    orbitMomentum *= 0.94;
+                } else {
+                    orbitMomentum = 0;
+                    orbitAngle =
+                        (
+                            orbitAngle +
+                            BASE_ORBIT_SPEED
+                        ) % 360;
+                }
 
-            orbitAngle =
-                (
-                    orbitAngle +
-                    0.05
-                ) % 360;
+                if (orbitAngle < 0) orbitAngle += 360;
 
-
-            portalOrbitWrapper.style.transform =
-                `rotate(${orbitAngle}deg)`;
-
-
-            document
-                .querySelectorAll(
-                    '.portal-upright-wrapper'
-                )
-                .forEach(
-                    wrapper => {
-
-                        wrapper.style.transform =
-                            `rotate(${-orbitAngle}deg)`;
-
-                    }
-                );
+                updateOrbitTransform(orbitAngle);
+            }
 
         }
 

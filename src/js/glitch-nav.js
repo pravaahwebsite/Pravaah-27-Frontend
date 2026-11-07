@@ -1,5 +1,13 @@
 // Glitch Navigation & Cosmic Nav Controller (Pravāah '26)
 document.addEventListener('DOMContentLoaded', () => {
+    // Mark portalEntered for all subpages so navigating to Home goes straight to fest homepage
+    try {
+        const pathFile = (window.location.pathname.split('/').pop() || '').toLowerCase();
+        if (pathFile && pathFile !== 'index.html') {
+            sessionStorage.setItem('portalEntered', 'true');
+        }
+    } catch (e) {}
+
     // 1. Ensure Screen Glitch Overlay exists in DOM with full shard set
     let glitchOverlay = document.getElementById('screen-glitch-overlay');
     if (!glitchOverlay) {
@@ -195,6 +203,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentPage = window.location.pathname.split('/').pop() || 'index.html';
         const targetPage = href.split('/').pop().split('#')[0] || 'index.html';
 
+        // If on home page and clicking Home in nav bar, smooth scroll to about page
+        if ((targetPage === 'index.html' || targetPage === '') && (currentPage === 'index.html' || currentPage === '')) {
+            e.preventDefault();
+            const aboutSec = document.getElementById('about-page');
+            if (aboutSec && (document.body.classList.contains('portal-entered') || document.documentElement.classList.contains('portal-entered-fast'))) {
+                aboutSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            return;
+        }
+
         if (targetPage !== currentPage && (targetPage !== 'index.html' || currentPage !== '')) {
             e.preventDefault();
 
@@ -210,6 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
+                sessionStorage.setItem('portalEntered', 'true');
                 sessionStorage.setItem('pravaahPortalTransit', 'true');
                 sessionStorage.setItem('pravaahTransitStartTime', Date.now().toString());
             } catch (err) {}
