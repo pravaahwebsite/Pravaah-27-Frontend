@@ -18644,7 +18644,7 @@ body.time-bounded-scrolling .cosmic-nav-wheel {
     .calendar-layout-container {
         position: relative !important;
         width: min(370px, calc(100vw - 10px)) !important;
-        height: 500px !important;
+        height: 520px !important;
         margin: 10px auto 20px auto !important;
         display: flex !important;
         flex-direction: column !important;
@@ -18778,7 +18778,7 @@ body.time-bounded-scrolling .cosmic-nav-wheel {
         padding: 0 14px !important;
         gap: 6px !important;
         position: absolute !important;
-        top: 390px !important;
+        top: 366px !important;
         bottom: auto !important;
         transform: translateZ(260px) !important;
         z-index: 200 !important;
@@ -18846,15 +18846,17 @@ body.time-bounded-scrolling .cosmic-nav-wheel {
         bottom: auto !important;
     }
 
-    /* Tip HUD placed below rotate buttons */
+    /* Tip HUD placed safely BELOW rotate buttons with clear vertical separation */
+    #calendar-page.is-revealed .calendar-tip-hud,
+    .calendar-layout-container.is-revealed .calendar-tip-hud,
     .calendar-tip-hud {
         position: absolute !important;
-        top: 442px !important;
+        top: 446px !important;
         bottom: auto !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
         width: min(350px, calc(100% - 16px)) !important;
-        padding: 5px 10px !important;
+        padding: 6px 12px !important;
         background: rgba(10, 12, 26, 0.94) !important;
         border: 1px solid rgba(0, 242, 254, 0.3) !important;
         border-radius: 16px !important;
@@ -18862,7 +18864,7 @@ body.time-bounded-scrolling .cosmic-nav-wheel {
         align-items: center !important;
         gap: 7px !important;
         box-sizing: border-box !important;
-        z-index: 45 !important;
+        z-index: 100 !important;
     }
 
     .tip-icon {
@@ -19049,7 +19051,7 @@ body.time-bounded-scrolling .cosmic-nav-wheel {
     #calendar-page.is-revealed .cube-rotate-btn,
     .calendar-layout-container.is-revealed .cube-rotate-btn,
     .cube-rotate-btn {
-        top: 338px !important;
+        top: 308px !important;
         min-width: 86px !important;
         height: 34px !important;
         padding: 0 10px !important;
@@ -19059,9 +19061,13 @@ body.time-bounded-scrolling .cosmic-nav-wheel {
     .cube-rotate-btn.btn-prev { left: calc(50% - 94px) !important; }
     .cube-rotate-btn.btn-next { right: calc(50% - 94px) !important; }
     .cube-month-tracker { width: 290px !important; }
+    #calendar-page.is-revealed .calendar-tip-hud,
+    .calendar-layout-container.is-revealed .calendar-tip-hud,
     .calendar-tip-hud {
-        top: 382px !important;
-        width: 290px !important;
+        top: 376px !important;
+        bottom: auto !important;
+        width: min(290px, calc(100% - 16px)) !important;
+        transform: translateX(-50%) !important;
     }
 }
 
