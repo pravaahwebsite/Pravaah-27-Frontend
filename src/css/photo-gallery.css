@@ -336,8 +336,9 @@ body.photo-gallery-body {
     display: flex;
     align-items: center;
     justify-content: center;
-    touch-action: manipulation;
+    touch-action: pan-y;
     user-select: none;
+    -webkit-user-select: none;
     outline: none;
 }
 
@@ -544,13 +545,18 @@ body.photo-gallery-body {
     background: var(--bg-card);
     border: 1.5px solid rgba(255, 255, 255, 0.12);
     backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     padding: 1.1rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     transform-style: preserve-3d;
-    will-change: transform, opacity, filter;
+    -webkit-transform-style: preserve-3d;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform, opacity;
     user-select: none;
+    -webkit-user-select: none;
     cursor: pointer;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.65);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -589,6 +595,8 @@ body.photo-gallery-body {
     object-fit: cover;
     object-position: center;
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
 }
 
 .orbit-corridor-card:hover .corridor-card-img-box img {
@@ -1200,8 +1208,7 @@ body.photo-gallery-body {
         min-height: 500px;
         height: 500px;
         margin-top: 0.25rem;
-        touch-action: none;
-        overscroll-behavior: contain;
+        touch-action: pan-y;
     }
 
     .orbit-corridor-card {
@@ -1390,8 +1397,7 @@ body.photo-gallery-body {
     .corridor-viewport {
         min-height: 470px;
         height: 470px;
-        touch-action: none;
-        overscroll-behavior: contain;
+        touch-action: pan-y;
     }
 
     .orbit-corridor-card {
@@ -1517,8 +1523,7 @@ body.photo-gallery-body {
     .corridor-viewport {
         min-height: 440px;
         height: 440px;
-        touch-action: none;
-        overscroll-behavior: contain;
+        touch-action: pan-y;
     }
 
     .orbit-corridor-card {

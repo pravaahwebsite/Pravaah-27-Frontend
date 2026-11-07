@@ -228,12 +228,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let targetVelocity = 0;
     let lastTimestamp = 0;
     let isReturningToEntrance = false;
-    let returnCooldownActive = false;
-    let returnCooldownTimer = null;
+    let isTouching = false;
+    let isDragging = false;
     
-    // Bounds: 0 to 13,000px (14 cards * 900 = 12,600px + 400px end space)
-    let endSceneZ = -(filteredCollection.length * zStep); // -12,600px
-    let maxCameraZ = 13000;
+    // Bounds: (filteredCollection.length * zStep)
+    let endSceneZ = -(filteredCollection.length * zStep);
+    let maxCameraZ = filteredCollection.length * zStep + 400;
 
     // DOM Elements
     const corridorStage = document.getElementById('corridor-stage');
@@ -257,54 +257,70 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalCloseBtn = document.getElementById('modal-close-btn');
     let currentModalPhoto = null;
 
-    // Build 3D Stage (14 Wall Cards on Left/Right walls + THE FINAL FRAME End Scene)
+    // Responsive Geometry Function (Calculates continuous wall metrics for any viewport width)
+    function getResponsiveWallGeometry(width) {
+        if (width <= 360) {
+            return {
+                wallOffset: 45,
+                wallAngle: 7,
+                centerBlendDist: 750,
+                centerOffsetRatio: 0.0,
+                driftAmount: 140
+            };
+        } else if (width <= 480) {
+            return {
+                wallOffset: 65,
+                wallAngle: 9,
+                centerBlendDist: 750,
+                centerOffsetRatio: 0.0,
+                driftAmount: 160
+            };
+        } else if (width <= 768) {
+            return {
+                wallOffset: 120,
+                wallAngle: 11,
+                centerBlendDist: 750,
+                centerOffsetRatio: 0.08,
+                driftAmount: 200
+            };
+        } else if (width <= 1024) {
+            return {
+                wallOffset: 220,
+                wallAngle: 14,
+                centerBlendDist: 700,
+                centerOffsetRatio: 0.35,
+                driftAmount: 260
+            };
+        } else {
+            return {
+                wallOffset: 360,
+                wallAngle: 18,
+                centerBlendDist: 650,
+                centerOffsetRatio: 0.65,
+                driftAmount: 340
+            };
+        }
+    }
+
+    // Build 3D Stage (Photo Cards on alternating Left/Right walls + THE FINAL FRAME End Scene)
     function buildCorridorStage() {
         if (!corridorStage) return;
 
         corridorStage.innerHTML = '';
         endSceneZ = -(filteredCollection.length * zStep);
-        maxCameraZ = 13000;
+        maxCameraZ = filteredCollection.length * zStep + 400;
 
-        const winWidth = window.innerWidth;
-        let wallOffset;
-        let wallAngle;
-
-        if (winWidth <= 360) {
-            wallOffset = 55;
-            wallAngle = 8;
-        } else if (winWidth <= 480) {
-            wallOffset = 75;
-            wallAngle = 10;
-        } else if (winWidth <= 768) {
-            wallOffset = 135;
-            wallAngle = 12;
-        } else if (winWidth <= 1024) {
-            wallOffset = 240;
-            wallAngle = 15;
-        } else {
-            wallOffset = 380;
-            wallAngle = 18;
-        }
-
-        // Render Photo Cards on alternating Left/Right walls
+        // Render Photo Cards
         filteredCollection.forEach((photo, idx) => {
             const card = document.createElement('article');
             card.className = 'orbit-corridor-card';
             card.setAttribute('data-id', photo.id);
             card.setAttribute('data-index', idx);
-
-            const cardZ = -idx * zStep;
-            const isLeftWall = idx % 2 === 0;
-            const origX = isLeftWall ? -wallOffset : wallOffset;
-            const origRotateY = isLeftWall ? wallAngle : -wallAngle;
-
-            card.dataset.cardZ = cardZ;
-            card.dataset.origX = origX;
-            card.dataset.origRotateY = origRotateY;
+            card.dataset.cardIndex = idx;
 
             card.innerHTML = `
                 <div class="corridor-card-img-box">
-                    <img src="${photo.image}" alt="${photo.title}" loading="lazy" onerror="if (!this.dataset.fallback) { this.dataset.fallback = '1'; this.src = this.src.endsWith('.jpg') ? this.src.replace(/\.jpg$/i, '.JPG') : this.src.replace(/\.JPG$/i, '.jpg'); }" />
+                    <img src="${photo.image}" alt="${photo.title}" loading="lazy" onerror="if (!this.dataset.fallback) { this.dataset.fallback = '1'; this.src = this.src.endsWith('.jpg') ? this.src.replace(/\\.jpg$/i, '.JPG') : this.src.replace(/\\.JPG$/i, '.jpg'); }" />
                     <div class="card-img-overlay"></div>
                 </div>
                 
@@ -326,13 +342,10 @@ document.addEventListener('DOMContentLoaded', () => {
             corridorStage.appendChild(card);
         });
 
-        // Append "THE FINAL FRAME" End-of-Corridor Portal Scene at Z = -12,600px
+        // Append "THE FINAL FRAME" End-of-Corridor Portal Scene
         const finalFrame = document.createElement('div');
         finalFrame.className = 'corridor-final-frame';
         finalFrame.id = 'corridor-final-frame';
-        finalFrame.dataset.cardZ = endSceneZ;
-        finalFrame.dataset.origX = 0;
-        finalFrame.dataset.origRotateY = 0;
         finalFrame.style.setProperty('--fz', `${endSceneZ}px`);
 
         finalFrame.innerHTML = `
@@ -356,6 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
             returnBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 if (isReturningToEntrance) return;
+                mobileTargetCameraZ = null;
                 isReturningToEntrance = true;
                 targetVelocity = 0;
                 cameraVelocity = 0;
@@ -363,38 +377,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Frame-Rate Independent Animation Frame Loop with Smoothed Target Velocity Physics
+    // Frame-Rate Independent Animation Frame Loop with Seamless Continuous Transforms
     function updateCorridorFrame(timestamp) {
-        // 1. Calculate frame-rate independent deltaTime (normalized around 60fps = 16.6667ms)
         if (!lastTimestamp) lastTimestamp = timestamp;
         const deltaTime = Math.min((timestamp - lastTimestamp) / 16.6667, 2);
         lastTimestamp = timestamp;
 
-        // Smooth Return to Entrance Animation & Cooldown State Management
+        // Smooth Return to Entrance Animation
         if (isReturningToEntrance) {
             mobileTargetCameraZ = null;
-            currentCameraZ += (0 - currentCameraZ) * 0.14 * deltaTime;
+            const dist = 0 - currentCameraZ;
+            currentCameraZ += dist * Math.min(1, 0.12 * deltaTime);
             cameraVelocity = 0;
             targetVelocity = 0;
 
-            if (currentCameraZ <= 0.8) {
+            if (Math.abs(currentCameraZ) <= 1.0) {
                 currentCameraZ = 0;
                 cameraVelocity = 0;
                 targetVelocity = 0;
                 isReturningToEntrance = false;
-
-                returnCooldownActive = true;
-                if (returnCooldownTimer) clearTimeout(returnCooldownTimer);
-                returnCooldownTimer = setTimeout(() => {
-                    returnCooldownActive = false;
-                }, 400);
-
                 updateHUDTracker();
             }
         } else if (mobileTargetCameraZ !== null) {
             const dist = mobileTargetCameraZ - currentCameraZ;
             if (Math.abs(dist) > 0.8) {
-                currentCameraZ += dist * 0.14 * deltaTime;
+                currentCameraZ += dist * Math.min(1, 0.14 * deltaTime);
                 cameraVelocity = 0;
                 targetVelocity = 0;
             } else {
@@ -403,23 +410,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 cameraVelocity = 0;
                 targetVelocity = 0;
             }
-        } else {
-            // 2. Smoothly approach targetVelocity from input (0.16 smoothing factor)
+        } else if (!isTouching && !isDragging) {
+            // Smooth velocity approach from input
             cameraVelocity += (targetVelocity - cameraVelocity) * 0.16;
-
-            // 3. Update currentCameraZ scaled by deltaTime
             currentCameraZ += cameraVelocity * deltaTime;
-
-            // 4. Frame-rate independent friction damping applied to targetVelocity
             targetVelocity *= Math.pow(0.90, deltaTime);
 
-            // 5. Zero out near-zero threshold values to prevent infinite micro-floating
             if (Math.abs(targetVelocity) < 0.01 && Math.abs(cameraVelocity) < 0.01) {
                 targetVelocity = 0;
                 cameraVelocity = 0;
             }
 
-            // 6. Clamp currentCameraZ to [0, 13000px] bounds & zero velocities at boundaries
+            // Clamp bounds
             if (currentCameraZ <= 0) {
                 currentCameraZ = 0;
                 cameraVelocity = 0;
@@ -431,36 +433,40 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // 7. Extremely subtle & capped velocity-responsive sway
+        // Velocity sway
         const velSwayY = Math.max(-3, Math.min(3, cameraVelocity * 0.12));
         const velRoll = Math.max(-0.35, Math.min(0.35, cameraVelocity * 0.018));
-
         const swayY = Math.sin(currentCameraZ * 0.0012) * 2 + velSwayY;
         const swayRoll = Math.cos(currentCameraZ * 0.0012) * 0.12 + velRoll;
 
         // Apply 3D Stage Camera Transform
         if (corridorStage) {
-            corridorStage.style.transform = `translate3d(0px, ${swayY}px, ${currentCameraZ}px) rotateZ(${swayRoll}deg)`;
+            corridorStage.style.transform = `translate3d(0px, ${swayY.toFixed(2)}px, ${currentCameraZ.toFixed(1)}px) rotateZ(${swayRoll.toFixed(2)}deg)`;
         }
 
-        // Multi-Layer Parallax for Floor & Ceiling Planes
+        // Parallax for Floor & Ceiling Planes
         const parallaxZ = currentCameraZ * 0.25;
         if (floorPlane) {
-            floorPlane.style.transform = `rotateX(85deg) translateY(${parallaxZ * 0.3}px)`;
+            floorPlane.style.transform = `rotateX(85deg) translateY(${(parallaxZ * 0.3).toFixed(1)}px)`;
         }
         if (ceilingPlane) {
-            ceilingPlane.style.transform = `rotateX(-85deg) translateY(${-parallaxZ * 0.3}px)`;
+            ceilingPlane.style.transform = `rotateX(-85deg) translateY(${(-parallaxZ * 0.3).toFixed(1)}px)`;
         }
+
+        // Responsive geometry metrics dynamically calculated per frame
+        const geom = getResponsiveWallGeometry(window.innerWidth);
 
         // Update Wall Photo Cards
         const cards = corridorStage.querySelectorAll('.orbit-corridor-card');
         let nearestCardIdx = 0;
         let minAbsZ = Infinity;
 
-        cards.forEach((card, idx) => {
-            const cardZ = parseFloat(card.dataset.cardZ);
-            const origX = parseFloat(card.dataset.origX);
-            const origRotateY = parseFloat(card.dataset.origRotateY);
+        cards.forEach((card) => {
+            const idx = parseInt(card.dataset.cardIndex, 10);
+            const cardZ = -idx * zStep;
+            const isLeftWall = idx % 2 === 0;
+            const origX = isLeftWall ? -geom.wallOffset : geom.wallOffset;
+            const origRotateY = isLeftWall ? geom.wallAngle : -geom.wallAngle;
 
             const relZ = cardZ + currentCameraZ;
             const absRelZ = Math.abs(relZ);
@@ -470,107 +476,111 @@ document.addEventListener('DOMContentLoaded', () => {
                 nearestCardIdx = idx;
             }
 
-            if (relZ > 180) {
-                // Passed camera: drift outward along wall and fade out
-                const exitRatio = Math.min(1, (relZ - 180) / 450);
-                const driftAmount = window.innerWidth <= 768 ? 160 : 340;
-                const exitX = origX >= 0 ? origX + driftAmount * exitRatio : origX - driftAmount * exitRatio;
-                const exitRotate = origX >= 0 ? origRotateY - 18 * exitRatio : origRotateY + 18 * exitRatio;
+            if (relZ > 450) {
+                // Fully behind viewer
+                card.style.opacity = '0';
+                card.style.pointerEvents = 'none';
+                card.classList.remove('is-nearest');
+            } else if (relZ > 0) {
+                // Smooth continuous exit drift (0 < relZ <= 450)
+                const exitRatio = relZ / 450;
+                const exitEase = exitRatio * exitRatio;
 
-                card.style.transform = `translate3d(${exitX}px, 0px, ${cardZ}px) rotateY(${exitRotate}deg) scale(${1 + 0.25 * exitRatio})`;
-                card.style.opacity = Math.max(0, 1 - exitRatio * 1.25);
-                card.style.filter = `blur(${exitRatio * 8}px)`;
+                const focalX = origX * geom.centerOffsetRatio;
+                const focalRotateY = origRotateY * 0.15;
+
+                const exitX = focalX + (origX >= 0 ? geom.driftAmount : -geom.driftAmount) * exitEase;
+                const exitRotate = focalRotateY + (origX >= 0 ? -12 : 12) * exitRatio;
+                const scale = 1.0 + 0.22 * exitRatio;
+                const opacity = Math.max(0, 1 - exitRatio * 1.35);
+
+                card.style.transform = `translate3d(${exitX.toFixed(1)}px, 0px, ${cardZ}px) rotateY(${exitRotate.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+                card.style.opacity = opacity.toFixed(3);
                 card.style.pointerEvents = 'none';
                 card.classList.remove('is-nearest');
             } else if (relZ >= -3600) {
-                // Visible inside 3D corridor view
-                const depthRatio = 1 - Math.abs(relZ) / 3600;
-                const scale = 0.35 + 0.75 * depthRatio;
-                const opacity = Math.max(0.12, depthRatio);
-                const blurPx = (1 - depthRatio) * 6;
+                // In view corridor (-3600 <= relZ <= 0)
+                const depthRatio = (relZ + 3600) / 3600;
+                const scale = 0.35 + 0.65 * depthRatio;
+                const opacity = Math.min(1, Math.max(0.1, depthRatio * 1.35));
 
-                // Dynamic rotation & centering:
-                // When card is near camera (absRelZ < 650), smoothly ease rotation closer to flat
-                // And on mobile/tablet (<= 768px), ease X position toward center so active card never clips off screen
-                let activeRotateY = origRotateY;
                 let activeX = origX;
+                let activeRotateY = origRotateY;
 
-                if (absRelZ < 650) {
-                    const alignFactor = Math.min(1, absRelZ / 650);
-                    activeRotateY = origRotateY * (0.35 + 0.65 * alignFactor);
-                    if (window.innerWidth <= 768) {
-                        activeX = origX * (0.2 + 0.8 * alignFactor);
-                    }
+                if (relZ > -geom.centerBlendDist) {
+                    const focalProgress = (relZ + geom.centerBlendDist) / geom.centerBlendDist;
+                    const smoothEase = focalProgress * focalProgress * (3 - 2 * focalProgress);
+                    activeX = origX * (1 - smoothEase * (1 - geom.centerOffsetRatio));
+                    activeRotateY = origRotateY * (1 - smoothEase * 0.85);
                 }
 
-                card.style.transform = `translate3d(${activeX}px, 0px, ${cardZ}px) rotateY(${activeRotateY}deg) scale(${scale})`;
-                card.style.opacity = opacity;
-                card.style.filter = `blur(${blurPx}px)`;
-                card.style.pointerEvents = opacity > 0.3 ? 'auto' : 'none';
+                card.style.transform = `translate3d(${activeX.toFixed(1)}px, 0px, ${cardZ}px) rotateY(${activeRotateY.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+                card.style.opacity = opacity.toFixed(3);
+                card.style.pointerEvents = opacity > 0.4 ? 'auto' : 'none';
 
-                if (absRelZ < 400) {
+                if (absRelZ < 350) {
                     card.classList.add('is-nearest');
                 } else {
                     card.classList.remove('is-nearest');
                 }
             } else {
                 // Far horizon
-                card.style.opacity = 0;
+                card.style.opacity = '0';
                 card.style.pointerEvents = 'none';
                 card.classList.remove('is-nearest');
             }
         });
 
-        // Update "THE FINAL FRAME" End Portal Scene
+        // Update Final Frame
         const finalFrame = document.getElementById('corridor-final-frame');
         if (finalFrame) {
             const finalRelZ = endSceneZ + currentCameraZ;
             const finalAbsZ = Math.abs(finalRelZ);
 
-            if (finalRelZ > 180) {
-                const exitRatio = Math.min(1, (finalRelZ - 180) / 450);
-                finalFrame.style.transform = `translate3d(0px, 0px, ${endSceneZ}px) rotateY(0deg) scale(${1 + 0.2 * exitRatio})`;
-                finalFrame.style.opacity = Math.max(0, 1 - exitRatio);
+            if (finalRelZ > 450) {
+                finalFrame.style.opacity = '0';
+                finalFrame.style.pointerEvents = 'none';
+            } else if (finalRelZ > 0) {
+                const exitRatio = Math.min(1, finalRelZ / 450);
+                const scale = 1.0 + 0.2 * exitRatio;
+                const opacity = Math.max(0, 1 - exitRatio * 1.2);
+
+                finalFrame.style.transform = `translate3d(0px, 0px, ${endSceneZ}px) rotateY(0deg) scale(${scale.toFixed(3)})`;
+                finalFrame.style.opacity = opacity.toFixed(3);
                 finalFrame.style.pointerEvents = 'none';
             } else if (finalRelZ >= -3600) {
-                const depthRatio = 1 - finalAbsZ / 3600;
-                const scale = 0.4 + 0.7 * depthRatio;
-                const opacity = Math.max(0.08, depthRatio);
+                const depthRatio = (finalRelZ + 3600) / 3600;
+                const scale = 0.4 + 0.6 * depthRatio;
+                const opacity = Math.min(1, Math.max(0.08, depthRatio * 1.25));
 
-                finalFrame.style.transform = `translate3d(0px, 0px, ${endSceneZ}px) rotateY(0deg) scale(${scale})`;
-                finalFrame.style.opacity = opacity;
-                finalFrame.style.filter = `blur(${(1 - depthRatio) * 4}px)`;
+                finalFrame.style.transform = `translate3d(0px, 0px, ${endSceneZ}px) rotateY(0deg) scale(${scale.toFixed(3)})`;
+                finalFrame.style.opacity = opacity.toFixed(3);
                 finalFrame.style.pointerEvents = opacity > 0.5 ? 'auto' : 'none';
             } else {
-                finalFrame.style.opacity = 0;
+                finalFrame.style.opacity = '0';
                 finalFrame.style.pointerEvents = 'none';
             }
         }
 
-        // Dynamic Scroll Hint Fading (fades slightly as camera advances, bright at entrance)
+        // Scroll Hint Fading
         const scrollHintEl = document.getElementById('corridor-scroll-hint-text');
         if (scrollHintEl) {
-            if (currentCameraZ > 300) {
-                scrollHintEl.style.opacity = '0.35';
-            } else {
-                scrollHintEl.style.opacity = '1';
-            }
+            scrollHintEl.style.opacity = currentCameraZ > 300 ? '0.35' : '1';
         }
 
-        // Sync HUD Matrix Tracker
-        updateHUDTracker(nearestCardIdx);
+        // HUD tracker
+        updateHUDTracker();
 
-        // Update Prev / Next Fly Buttons state
+        // Prev / Next button states
         if (corridorNavPrev) {
-            corridorNavPrev.style.opacity = currentCameraZ <= 50 ? '0.3' : '1';
+            corridorNavPrev.style.opacity = currentCameraZ <= 50 ? '0.35' : '1';
             corridorNavPrev.style.pointerEvents = currentCameraZ <= 50 ? 'none' : 'auto';
         }
         if (corridorNavNext) {
-            corridorNavNext.style.opacity = currentCameraZ >= maxCameraZ - 50 ? '0.3' : '1';
+            corridorNavNext.style.opacity = currentCameraZ >= maxCameraZ - 50 ? '0.35' : '1';
             corridorNavNext.style.pointerEvents = currentCameraZ >= maxCameraZ - 50 ? 'none' : 'auto';
         }
 
-        // Persistent requestAnimationFrame loop
         requestAnimationFrame(updateCorridorFrame);
     }
 
@@ -598,7 +608,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modalImage.onerror = function() {
             if (!this.dataset.fallback) {
                 this.dataset.fallback = '1';
-                this.src = this.src.endsWith('.jpg') ? this.src.replace(/\.jpg$/i, '.JPG') : this.src.replace(/\.JPG$/i, '.jpg');
+                this.src = this.src.endsWith('.jpg') ? this.src.replace(/\\.jpg$/i, '.JPG') : this.src.replace(/\\.JPG$/i, '.jpg');
             }
         };
         modalImage.dataset.fallback = '';
@@ -637,7 +647,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Return to Entrance Button (smoothly returns corridor/camera to entrance/first card)
+    // Return to Entrance Button
     const returnEntranceBtn = document.getElementById('return-entrance-btn');
     if (returnEntranceBtn) {
         returnEntranceBtn.addEventListener('click', (e) => {
@@ -661,10 +671,11 @@ document.addEventListener('DOMContentLoaded', () => {
             currentCameraZ = ratio * maxCameraZ;
             cameraVelocity = 0;
             targetVelocity = 0;
+            mobileTargetCameraZ = null;
+            isReturningToEntrance = false;
         }
 
         hudProgressContainer.addEventListener('pointerdown', (e) => {
-            if (isReturningToEntrance || returnCooldownActive) return;
             e.stopPropagation();
             isSeeking = true;
             seekToPosition(e);
@@ -672,7 +683,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         hudProgressContainer.addEventListener('pointermove', (e) => {
-            if (isReturningToEntrance || returnCooldownActive) return;
             if (isSeeking) {
                 e.stopPropagation();
                 seekToPosition(e);
@@ -692,265 +702,159 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Handoff & Scroll State Flags
-    let corridorHandoffComplete = false;
-    let corridorAutoScrolling = false;
-    let handoffTimeoutId = null;
-    let finalFrameScrollImpulse = 0;
-
-    // Reset handoff state when user scrolls page up above corridor
-    window.addEventListener('scroll', () => {
-        if (!corridorViewport) return;
-        const rect = corridorViewport.getBoundingClientRect();
-        if (currentCameraZ <= 0 && rect.top > 220) {
-            corridorHandoffComplete = false;
-        }
-    }, { passive: true });
-
-    // Wheel Event Handler: Explicit Handoff State Model & Boundary Passthrough
-    window.addEventListener('wheel', (e) => {
-        if (!corridorViewport) return;
-
-        // Block navigation input during smooth return animation and neutral-input cooldown
-        if (isReturningToEntrance || returnCooldownActive) {
-            e.preventDefault();
-            if (returnCooldownActive) {
-                if (returnCooldownTimer) clearTimeout(returnCooldownTimer);
-                returnCooldownTimer = setTimeout(() => {
-                    returnCooldownActive = false;
-                }, 400);
-            }
-            return;
-        }
-
-        // 1. Ignore wheel events from interactive controls, buttons, links, or modal elements
-        if (e.target.closest('button, a, input, select, textarea, .dossier-modal-overlay, #photo-dossier-modal, .filter-btn, .final-return-btn')) {
-            return;
-        }
-
-        // 2. Normalize wheel delta across pixel / line / page deltaModes
-        let rawDelta = e.deltaY !== 0 ? e.deltaY : e.deltaX;
-        if (e.deltaMode === 1) { // Line mode
-            rawDelta *= 16;
-        } else if (e.deltaMode === 2) { // Page mode
-            rawDelta *= 300;
-        }
-
-        // 3. Boundary Passthrough & Final Frame Secondary Downward Scroll Return
-        if (currentCameraZ <= 0 && rawDelta < 0) {
-            // At entrance and scrolling UP: allow normal page scroll up
-            finalFrameScrollImpulse = 0;
-            return;
-        }
-
-        // Deliberate secondary scroll-down at Final Frame smoothly returns camera to entrance
-        if (currentCameraZ >= maxCameraZ - 80) {
-            if (rawDelta > 0) {
-                finalFrameScrollImpulse += Math.abs(rawDelta);
-                // Dead zone threshold (requires ~180px accumulated downward scroll at end scene)
-                if (finalFrameScrollImpulse >= 180) {
-                    finalFrameScrollImpulse = 0;
-                    e.preventDefault();
-                    if (!isReturningToEntrance && !returnCooldownActive) {
-                        isReturningToEntrance = true;
-                        targetVelocity = 0;
-                        cameraVelocity = 0;
-                    }
-                    return;
-                }
-                e.preventDefault();
-                return;
-            } else {
-                finalFrameScrollImpulse = 0;
-            }
-        } else {
-            finalFrameScrollImpulse = 0;
-        }
-
-        // 4. Prevent duplicate handoff while smooth page scroll is active
-        if (corridorAutoScrolling) {
-            e.preventDefault();
-            return;
-        }
-
-        // 5. Automatic Page-Scroll-to-Corridor Handoff
-        const rect = corridorViewport.getBoundingClientRect();
-        const navbarOffset = 80; // Account for floating cosmic navbar
-
-        if (currentCameraZ <= 0 && rawDelta > 0 && !corridorHandoffComplete && rect.top > navbarOffset + 10) {
-            e.preventDefault();
-            corridorAutoScrolling = true;
-
-            corridorViewport.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start',
-                inline: 'nearest'
-            });
-
-            if (handoffTimeoutId) clearTimeout(handoffTimeoutId);
-            handoffTimeoutId = setTimeout(() => {
-                corridorAutoScrolling = false;
-                corridorHandoffComplete = true;
-            }, 550);
-
-            return;
-        }
-
-        // 6. Camera 3D Movement once handoff is complete or camera is inside corridor
-        e.preventDefault();
-
-        const normalizedDelta = rawDelta * 0.48;
-        const clampedDelta = Math.max(-48, Math.min(48, normalizedDelta));
-
-        targetVelocity += clampedDelta * 0.52;
-        targetVelocity = Math.max(-24, Math.min(24, targetVelocity));
-    }, { passive: false });
-
     // =========================================================================
-    // TOUCH INTERACTION: Single-Swipe Card-by-Card Navigation on Mobile
+    // TOUCH INTERACTION: Real-Time Smooth Touch Dragging with Momentum & Passthrough
     // =========================================================================
     let touchStartX = 0;
     let touchStartY = 0;
-    let isTrackingTouch = false;
-    let touchGestureLocked = false;
-    const SWIPE_DISTANCE_THRESHOLD = 30; // Min px to trigger card advance
-    const SWIPE_LOCK_DURATION = 420; // ms
+    let touchLastX = 0;
+    let touchLastY = 0;
+    let touchLastTime = 0;
+    let touchVelocityZ = 0;
+    let touchMoveDistance = 0;
 
     if (corridorViewport) {
         corridorViewport.addEventListener('touchstart', (e) => {
-            if (isReturningToEntrance || returnCooldownActive) return;
             if (e.target.closest('.final-return-btn, .card-action-btn, .corridor-nav-btn, .return-entrance-btn, #hud-progress-container')) {
                 return;
             }
             if (e.touches.length !== 1) return;
 
+            // Immediate touch capture: cancel any active programmatic snap or return
+            mobileTargetCameraZ = null;
+            isReturningToEntrance = false;
+            cameraVelocity = 0;
+            targetVelocity = 0;
+
             const t = e.touches[0];
             touchStartX = t.clientX;
             touchStartY = t.clientY;
-            isTrackingTouch = true;
+            touchLastX = t.clientX;
+            touchLastY = t.clientY;
+            touchLastTime = performance.now();
+            touchVelocityZ = 0;
+            touchMoveDistance = 0;
+            isTouching = true;
             wasTouchDragging = false;
         }, { passive: true });
 
         corridorViewport.addEventListener('touchmove', (e) => {
-            if (!isTrackingTouch || e.touches.length !== 1) return;
+            if (!isTouching || e.touches.length !== 1) return;
 
             const t = e.touches[0];
-            const diffX = touchStartX - t.clientX;
-            const diffY = touchStartY - t.clientY;
-            const absX = Math.abs(diffX);
-            const absY = Math.abs(diffY);
+            const now = performance.now();
+            const dt = Math.max(1, now - touchLastTime);
 
-            if (absX > 8 || absY > 8) {
+            const deltaX = touchLastX - t.clientX;
+            const deltaY = touchLastY - t.clientY;
+            const totalDistX = Math.abs(t.clientX - touchStartX);
+            const totalDistY = Math.abs(t.clientY - touchStartY);
+            touchMoveDistance = Math.max(touchMoveDistance, Math.max(totalDistX, totalDistY));
+
+            if (touchMoveDistance > 8) {
                 wasTouchDragging = true;
-                // Prevent browser page from scrolling away to the footer!
-                if (e.cancelable) e.preventDefault();
             }
-        }, { passive: false });
 
-        corridorViewport.addEventListener('touchend', (e) => {
-            if (!isTrackingTouch) return;
-            isTrackingTouch = false;
+            // Swipe Up or Left advances forward; Swipe Down or Right goes backward
+            const isHorizontalDominant = totalDistX > totalDistY * 1.2;
+            const stepDelta = isHorizontalDominant ? deltaX : deltaY;
 
-            if (touchGestureLocked || isReturningToEntrance || returnCooldownActive) {
-                if (wasTouchDragging) {
-                    setTimeout(() => { wasTouchDragging = false; }, 120);
-                }
+            // Boundary passthrough:
+            // At entrance (currentCameraZ <= 5) and swiping down -> allow page scroll up
+            // At final frame (currentCameraZ >= maxCameraZ - 5) and swiping up -> allow page scroll down
+            if ((currentCameraZ <= 5 && stepDelta < 0 && !isHorizontalDominant) ||
+                (currentCameraZ >= maxCameraZ - 5 && stepDelta > 0 && !isHorizontalDominant)) {
+                touchLastX = t.clientX;
+                touchLastY = t.clientY;
+                touchLastTime = now;
                 return;
             }
 
-            if (e.changedTouches.length === 0) return;
-            const t = e.changedTouches[0];
-            const diffX = touchStartX - t.clientX;
-            const diffY = touchStartY - t.clientY;
-            const absX = Math.abs(diffX);
-            const absY = Math.abs(diffY);
-            const maxDist = Math.max(absX, absY);
-
-            // Release dragging flag after short delay so card click doesn't trigger
-            if (wasTouchDragging) {
-                setTimeout(() => { wasTouchDragging = false; }, 120);
+            if (e.cancelable) {
+                e.preventDefault();
             }
 
-            // Must exceed minimum swipe threshold
-            if (maxDist < SWIPE_DISTANCE_THRESHOLD) return;
+            // Real-time smooth corridor movement with touch
+            const sensitivity = window.innerWidth <= 480 ? 2.6 : 2.2;
+            const zDelta = stepDelta * sensitivity;
+            currentCameraZ = Math.max(0, Math.min(maxCameraZ, currentCameraZ + zDelta));
 
-            // Determine forward vs backward:
-            // Swipe Up (diffY > 0) or Swipe Left (diffX > 0) -> Next Card
-            // Swipe Down (diffY < 0) or Swipe Right (diffX < 0) -> Prev Card
-            const isForward = (absY >= absX && diffY > 0) || (absX > absY && diffX > 0);
-            const isBackward = (absY >= absX && diffY < 0) || (absX > absY && diffX < 0);
+            // Instantaneous velocity calculation for release momentum
+            const instantVelocity = (zDelta / dt) * 16.6667;
+            touchVelocityZ = touchVelocityZ * 0.5 + instantVelocity * 0.5;
 
-            const currentCardIdx = Math.round(currentCameraZ / zStep);
-            const maxCardIdx = filteredCollection.length; // Final frame is index 14
+            touchLastX = t.clientX;
+            touchLastY = t.clientY;
+            touchLastTime = now;
+        }, { passive: false });
 
-            if (isForward) {
-                if (currentCardIdx < maxCardIdx) {
-                    touchGestureLocked = true;
-                    const nextIdx = currentCardIdx + 1;
-                    mobileTargetCameraZ = nextIdx * zStep;
+        corridorViewport.addEventListener('touchend', (e) => {
+            if (!isTouching) return;
+            isTouching = false;
 
-                    // Ensure corridor is neatly in view on mobile
-                    const rect = corridorViewport.getBoundingClientRect();
-                    if (rect.top > 80 || rect.top < -40) {
-                        corridorViewport.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
+            if (wasTouchDragging) {
+                setTimeout(() => { wasTouchDragging = false; }, 150);
+            }
 
-                    setTimeout(() => { touchGestureLocked = false; }, SWIPE_LOCK_DURATION);
-                } else {
-                    // Already at Final Frame: swipe up scrolls smoothly to footer
-                    const footer = document.querySelector('footer');
-                    if (footer) {
-                        footer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                }
-            } else if (isBackward) {
-                if (currentCardIdx > 0) {
-                    touchGestureLocked = true;
-                    const prevIdx = currentCardIdx - 1;
-                    mobileTargetCameraZ = prevIdx * zStep;
-                    setTimeout(() => { touchGestureLocked = false; }, SWIPE_LOCK_DURATION);
-                } else {
-                    // Already at Card 0: swipe down scrolls back up to header
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
+            if (touchMoveDistance < 10) return;
+
+            const absV = Math.abs(touchVelocityZ);
+            if (absV > 7) {
+                // Flick gesture momentum
+                targetVelocity = Math.max(-28, Math.min(28, touchVelocityZ * 0.75));
+                cameraVelocity = targetVelocity;
+            } else {
+                // Gentle release: smoothly center nearest card
+                const currentIdx = Math.round(currentCameraZ / zStep);
+                const targetIdx = Math.max(0, Math.min(filteredCollection.length, currentIdx));
+                mobileTargetCameraZ = targetIdx * zStep;
+                targetVelocity = 0;
+                cameraVelocity = 0;
             }
         });
 
         corridorViewport.addEventListener('touchcancel', () => {
-            isTrackingTouch = false;
+            isTouching = false;
             wasTouchDragging = false;
         });
     }
 
     // Desktop Mouse Drag Movement
-    let startY = 0;
-    let lastY = 0;
-    let isDragging = false;
+    let pointerStartY = 0;
+    let pointerLastY = 0;
 
     if (corridorViewport) {
         corridorViewport.addEventListener('pointerdown', (e) => {
-            if (isReturningToEntrance || returnCooldownActive) return;
+            if (isReturningToEntrance) return;
             if (e.pointerType === 'touch') return; // Handled by dedicated touch events
             if (e.target.closest('.final-return-btn, .card-action-btn, .corridor-nav-btn, .return-entrance-btn, #hud-progress-container')) return;
             isDragging = true;
-            startY = e.clientY;
-            lastY = e.clientY;
-            corridorViewport.setPointerCapture(e.pointerId);
+            mobileTargetCameraZ = null;
+            pointerStartY = e.clientY;
+            pointerLastY = e.clientY;
+            try { corridorViewport.setPointerCapture(e.pointerId); } catch (err) {}
         });
 
         corridorViewport.addEventListener('pointermove', (e) => {
-            if (isReturningToEntrance || returnCooldownActive) return;
-            if (!isDragging) return;
-            const deltaY = lastY - e.clientY;
-            lastY = e.clientY;
-            const clampedTouch = Math.max(-48, Math.min(48, deltaY * 2.2));
-            targetVelocity += clampedTouch * 0.52;
-            targetVelocity = Math.max(-24, Math.min(24, targetVelocity));
+            if (isReturningToEntrance || !isDragging) return;
+            const deltaY = pointerLastY - e.clientY;
+            pointerLastY = e.clientY;
+            const clampedDelta = Math.max(-48, Math.min(48, deltaY * 2.2));
+            targetVelocity += clampedDelta * 0.52;
+            targetVelocity = Math.max(-26, Math.min(26, targetVelocity));
         });
 
         corridorViewport.addEventListener('pointerup', (e) => {
-            isDragging = false;
-            try { corridorViewport.releasePointerCapture(e.pointerId); } catch (err) {}
+            if (isDragging) {
+                isDragging = false;
+                try { corridorViewport.releasePointerCapture(e.pointerId); } catch (err) {}
+                if (Math.abs(cameraVelocity) < 3 && Math.abs(targetVelocity) < 3) {
+                    const currentIdx = Math.round(currentCameraZ / zStep);
+                    mobileTargetCameraZ = Math.max(0, Math.min(filteredCollection.length, currentIdx)) * zStep;
+                    targetVelocity = 0;
+                    cameraVelocity = 0;
+                }
+            }
         });
 
         corridorViewport.addEventListener('pointercancel', () => {
@@ -962,7 +866,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (corridorNavPrev) {
         corridorNavPrev.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (isReturningToEntrance || returnCooldownActive) return;
+            if (isReturningToEntrance) return;
             const currentIdx = Math.round(currentCameraZ / zStep);
             const targetIdx = Math.max(0, currentIdx - 1);
             mobileTargetCameraZ = targetIdx * zStep;
@@ -974,7 +878,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (corridorNavNext) {
         corridorNavNext.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (isReturningToEntrance || returnCooldownActive) return;
+            if (isReturningToEntrance) return;
             const currentIdx = Math.round(currentCameraZ / zStep);
             const targetIdx = Math.min(filteredCollection.length, currentIdx + 1);
             mobileTargetCameraZ = targetIdx * zStep;
@@ -983,18 +887,55 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Responsive Viewport Resize Listener
-    let resizeTimer = null;
+    // Wheel Event Handler with Boundary Passthrough
+    window.addEventListener('wheel', (e) => {
+        if (!corridorViewport) return;
+        if (isReturningToEntrance) {
+            e.preventDefault();
+            return;
+        }
+
+        if (e.target.closest('button, a, input, select, textarea, .dossier-modal-overlay, #photo-dossier-modal, .filter-btn, .final-return-btn')) {
+            return;
+        }
+
+        let rawDelta = e.deltaY !== 0 ? e.deltaY : e.deltaX;
+        if (e.deltaMode === 1) rawDelta *= 16;
+        else if (e.deltaMode === 2) rawDelta *= 300;
+
+        // Boundary passthrough:
+        // At entrance and scrolling UP: allow normal page scroll up
+        if (currentCameraZ <= 0 && rawDelta < 0) return;
+
+        // At final frame and scrolling DOWN: allow normal page scroll down to footer
+        if (currentCameraZ >= maxCameraZ && rawDelta > 0) return;
+
+        const rect = corridorViewport.getBoundingClientRect();
+        const isInViewport = rect.top < window.innerHeight - 100 && rect.bottom > 100;
+        if (!isInViewport) return;
+
+        e.preventDefault();
+        mobileTargetCameraZ = null; // Wheel input overrides programmatic snap
+
+        const normalizedDelta = rawDelta * 0.45;
+        const clampedDelta = Math.max(-48, Math.min(48, normalizedDelta));
+        targetVelocity += clampedDelta * 0.50;
+        targetVelocity = Math.max(-26, Math.min(26, targetVelocity));
+    }, { passive: false });
+
+    // Smooth Non-Destructive Responsive Resize Listener (zero DOM thrashing, zero image reloads)
     window.addEventListener('resize', () => {
-        if (resizeTimer) clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-            buildCorridorStage();
-        }, 150);
+        endSceneZ = -(filteredCollection.length * zStep);
+        maxCameraZ = filteredCollection.length * zStep + 400;
+        if (currentCameraZ > maxCameraZ) {
+            currentCameraZ = maxCameraZ;
+        }
+        updateHUDTracker();
     });
 
     // Keyboard Arrow Keys Impulse
     document.addEventListener('keydown', (e) => {
-        if (isReturningToEntrance || returnCooldownActive) return;
+        if (isReturningToEntrance) return;
         if (modalOverlay && modalOverlay.classList.contains('active')) {
             if (e.key === 'Escape') closeDossierModal();
             return;
