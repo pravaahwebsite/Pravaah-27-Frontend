@@ -1421,54 +1421,156 @@ body.register-fullscreen-body {
         -webkit-overflow-scrolling: touch !important;
     }
 
-    /* 5. Mobile Compact Cards & Form Clearance */
+    /* 5. Mobile Heading & Title Scaling */
+    .wall-title {
+        font-size: clamp(1.4rem, 6vw, 1.85rem) !important;
+        letter-spacing: 2px !important;
+        text-align: center !important;
+    }
+
+    .chamber-tabs-nav {
+        padding: 4px 6px !important;
+        gap: 4px !important;
+        width: min(360px, calc(100vw - 16px)) !important;
+        justify-content: center !important;
+    }
+
+    .chamber-tab-btn {
+        padding: 5px 8px !important;
+        font-size: 0.62rem !important;
+        gap: 4px !important;
+    }
+
+    .chamber-tab-btn .tab-name {
+        display: inline-block !important;
+        font-size: 0.58rem !important;
+        letter-spacing: 0.5px !important;
+    }
+
+    /* 6. Mobile Compact Cards & Form Clearance */
     .passes-showcase-row {
         gap: 14px !important;
         width: 100% !important;
         margin: 0 !important;
-        padding-bottom: 20px !important;
+        padding-bottom: 24px !important;
     }
 
     .pass-tower-card {
         padding: 16px 14px 18px 14px !important;
         gap: 8px !important;
         border-radius: 16px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
     }
 
-    .pass-tower-card .pass-icon-box {
-        font-size: 1.8rem !important;
+    .pass-tower-card .card-icon-halo {
+        font-size: 1.6rem !important;
         margin-bottom: 2px !important;
     }
 
-    .pass-tower-card .pass-title {
+    .pass-tower-card .pass-name {
         font-size: 1.15rem !important;
+        margin: 2px 0 !important;
     }
 
     .pass-tower-card .pass-price {
-        font-size: 0.95rem !important;
+        font-size: 0.92rem !important;
         margin: 2px 0 !important;
     }
 
     .pass-tower-card .pass-desc {
+        font-size: 0.74rem !important;
+        line-height: 1.35 !important;
+    }
+
+    .pass-tower-card .pass-select-prompt {
+        padding: 6px 14px !important;
+        font-size: 0.65rem !important;
+    }
+
+    /* 7. Wall 02 Form Mobile Refinements */
+    .delegate-form-row {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+
+    .form-pod-input {
+        padding: 11px 14px !important;
+        font-size: 0.88rem !important;
+    }
+
+    .delegate-prep-banner {
+        padding: 10px 14px !important;
         font-size: 0.72rem !important;
-        line-height: 1.3 !important;
     }
 
-    .pass-tower-card .btn-pass-select {
-        padding: 8px 18px !important;
+    /* 8. Wall 03 Directives Mobile Refinements */
+    .directives-panorama {
+        gap: 12px !important;
+        padding-bottom: 24px !important;
+    }
+
+    .directive-card {
+        padding: 13px 15px !important;
+        gap: 12px !important;
+    }
+
+    .directive-num {
+        font-size: 1.1rem !important;
+    }
+
+    .directive-heading {
+        font-size: 0.82rem !important;
+    }
+
+    .directive-text {
         font-size: 0.75rem !important;
+        line-height: 1.4 !important;
     }
 
-    .delegate-form {
-        gap: 10px !important;
-        padding-bottom: 24px !important;
+    /* 9. Wall 04 Clearance Ticket & Payment Button Mobile Refinements */
+    .clearance-showcase {
+        gap: 16px !important;
+        padding-bottom: 28px !important;
     }
 
-    .notes-arrow-list {
-        padding-bottom: 24px !important;
+    .hologram-ticket-box {
+        padding: 16px 14px !important;
+        border-radius: 14px !important;
     }
 
-    .selected-pass-container {
-        padding-bottom: 24px !important;
+    .ticket-top-tag {
+        font-size: 0.58rem !important;
+        padding: 3px 9px !important;
+    }
+
+    .ticket-pass-name {
+        font-size: 1.15rem !important;
+        margin: 6px 0 !important;
+    }
+
+    .ticket-subcard {
+        padding: 10px 12px !important;
+    }
+
+    .ticket-tier-name {
+        font-size: 0.85rem !important;
+    }
+
+    .ticket-notice-text {
+        font-size: 0.72rem !important;
+    }
+
+    .disabled-payment-btn {
+        padding: 12px 14px !important;
+        font-size: 0.70rem !important;
+        gap: 6px !important;
+        width: 100% !important;
+        border-radius: 12px !important;
+    }
+
+    .payment-live-note {
+        font-size: 0.70rem !important;
     }
 }
