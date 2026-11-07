@@ -1,778 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pravaah 2026 | The Multiverse Fest</title>
-    <meta name="description" content="Enter the Pravaah 2026 Multiverse. Explore Tech, Cult, Game, Entrepreneur, and Social Verses. Browse event schedule grids and travel across planetary space dimensions.">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&family=Unbounded:wght@300;500;700;900&family=Bricolage+Grotesque:opsz,wght@12..96,300..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="src/css/style.css?v=2.4">
-    <link rel="stylesheet" href="src/css/hero_kairos.css">
-    <script>
-        // If user already entered the portal during this session (or from another page), skip intro & show home directly
-        try {
-            if (new URLSearchParams(window.location.search).get('firsttime') === 'true' || new URLSearchParams(window.location.search).get('replay') === 'true') {
-                sessionStorage.removeItem('portalEntered');
-            } else if (sessionStorage.getItem('portalEntered') === 'true' || new URLSearchParams(window.location.search).get('skipintro') === 'true') {
-                document.documentElement.classList.add('portal-entered-fast');
-            }
-        } catch (e) {}
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pravaah | Kairos: Worlds Unbound</title>
+  <meta name="description" content="Pravaah, the annual cultural and technopreneurship fest of IIT Bhubaneswar.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/css/hero_kairos.css">
+  <link rel="stylesheet" href="portal_intro.css">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    try {
+      if (new URLSearchParams(window.location.search).get('skipintro') === 'true') {
+        document.documentElement.classList.add('portal-entered-fast');
+      } else {
+        sessionStorage.removeItem('portalEntered');
+      }
+    } catch (e) {}
+  </script>
 </head>
 <body>
-    <div id="global-bg-layer" class="global-bg-layer"></div>
-    <canvas id="starfield-canvas"></canvas>
 
-    <nav class="cosmic-nav-wheel" id="cosmic-nav-wheel">
-        <div class="nav-wheel-track">
+  <!-- 1. Pravaah 3D Hologram Glitch Scanner Intro (First Logo Animation) -->
+  <section id="pravaah-intro-screen" class="pravaah-intro-screen">
+    <canvas id="pravaah-glitch-canvas" class="pravaah-intro-canvas"></canvas>
+  </section>
 
-            <div class="nav-indicator-pill" id="nav-indicator-pill"></div>
-            <div class="nav-hover-pill" id="nav-hover-pill"></div>
+  <!-- 2. The Hero Viewport Page (The Screenshot Page) -->
+  <section id="splash-screen" class="snap-page splash-screen-page active-screen kairos-hero-viewport">
+    <canvas id="warp" class="hero-warp-canvas" aria-hidden="true"></canvas>
+    <div class="blob blob-c"></div>
+    <div class="blob blob-p"></div>
+    <div class="blob blob-a"></div>
 
-            <a href="index.html" class="nav-item active">HOME</a>
-            <div class="nav-divider"></div>
-            <a href="events.html" class="nav-item">EVENTS</a>
-            <div class="nav-divider"></div>
-            <a href="register.html" class="nav-item">REGISTER</a>
-            <div class="nav-divider"></div>
-            <a href="accommodation.html" class="nav-item">ACCOMMODATION</a>
-            <div class="nav-divider"></div>
-            <a href="photo-gallery.html" class="nav-item">PHOTO GALLERY</a>
-            <div class="nav-divider"></div>
-            <a href="sponsors.html" class="nav-item">SPONSORS</a>
-            <div class="nav-divider"></div>
-            <a href="contact.html" class="nav-item">CONTACT US</a>
-            <div class="nav-divider"></div>
-            <a href="profile.html" class="nav-item">PROFILE</a>
+    <div class="portal-dimension-rings" aria-hidden="true">
+      <div class="p-ring pr-1"></div>
+      <div class="p-ring pr-2"></div>
+      <div class="p-ring pr-3"></div>
+    </div>
+    <div class="hero-vignette"></div>
+
+    <div class="orbits" aria-hidden="true">
+      <div class="orbit o1"><i></i></div>
+      <div class="orbit o2"><i></i></div>
+      <div class="orbit o3"><i></i></div>
+    </div>
+
+    <div class="hero-inner">
+      <h1 class="hero-title" id="heroTitle" aria-label="Pravaah">
+        <span class="ltr" style="--i:0">P</span><span class="ltr" style="--i:1">R</span><span class="ltr" style="--i:2">A</span><span class="ltr" style="--i:3">V</span><span class="ltr" style="--i:4">A</span><span class="ltr" style="--i:5">A</span><span class="ltr" style="--i:6">H</span>
+      </h1>
+      <div class="hero-theme">
+        <span class="kairos">KAIROS</span>
+        <span class="colon">:</span>
+        <span class="unbound" id="unbound" data-words="Worlds Unbound|Tech Unbound|Culture Unbound|Enterprise Unbound">Worlds Unbound</span>
+      </div>
+      <p class="hero-tag">The moment to innovate across dimensions, express without boundaries, and venture into the unknown.</p>
+
+      <div class="count" id="count" aria-label="Countdown to the fest">
+        <div><b id="cd-d">00</b><small>days</small></div>
+        <div><b id="cd-h">00</b><small>hours</small></div>
+        <div><b id="cd-m">00</b><small>minutes</small></div>
+        <div><b id="cd-s">00</b><small>seconds</small></div>
+      </div>
+
+      <div class="hero-scroll-cue-container" id="scroll-to-next-trigger" role="button" tabindex="0" title="Scroll to go to next page">
+        <div class="scroll-cue-pill">
+          <span class="scroll-cue-icon">✦</span>
+          <span class="scroll-cue-text">SCROLL TO GO TO NEXT PAGE</span>
+          <span class="scroll-cue-icon">✦</span>
         </div>
-        <div class="nav-wheel-glow"></div>
+        <div class="scroll-cue-arrow-down">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m6 9 6 6 6-6"/>
+            <path d="m6 3 6 6 6-6"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Portal Entrance Screen (Warp Tunnel Animation on Scroll) -->
+  <section id="loader-screen" class="hidden portal-warp-section">
+    <canvas id="portal-warp-canvas" class="portal-warp-canvas"></canvas>
+    <div id="portal-glitch-overlay" class="portal-glitch-overlay"></div>
+    <div id="portal-shockwave-ring" class="portal-shockwave-ring"></div>
+    <div id="portal-shockwave-ring-2" class="portal-shockwave-ring portal-shockwave-ring-2"></div>
+    <div id="portal-flash-overlay" class="portal-flash-overlay"></div>
+    <div class="portal-loader-indicator">
+      <div class="portal-loader-bar"></div>
+    </div>
+  </section>
+
+  <!-- 4. The Home Page (The part currently in the website from the zip) -->
+  <canvas id="scene" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <header class="nav-wrap">
+    <nav class="nav" id="nav" aria-label="Main">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">Menu</button>
+      <ul id="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="register.html">Register</a></li>
+        <li><a href="accommodation.html">Accommodation</a></li>
+        <li><a href="photo-gallery.html">Photo Gallery</a></li>
+        <li><a href="sponsors.html">Sponsors</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="profile.html">Profile</a></li>
+      </ul>
     </nav>
+  </header>
 
-    <!-- =========================================================
-         MOBILE TOP-LEFT MENU BUTTON (PHONE VIEWPORTS ONLY)
-         ========================================================= -->
-    <button type="button" class="mobile-top-menu-btn" id="mobile-menu-trigger" aria-label="Open Side Menu">
-        <div class="top-menu-icon-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="3" y1="6" x2="21" y2="6"/>
-                <line x1="3" y1="12" x2="21" y2="12"/>
-                <line x1="3" y1="18" x2="21" y2="18"/>
-            </svg>
-        </div>
-        <span class="top-menu-active-dot"></span>
-    </button>
+  <nav class="rail" aria-label="Page sections">
+    <ul>
+      <li><a href="#home"><span>Home</span></a></li>
+      <li><a href="#calendar"><span>Calendar</span></a></li>
+      <li><a href="#highlights"><span>Highlights</span></a></li>
+    </ul>
+  </nav>
 
-    <!-- =========================================================
-         MOBILE BOTTOM NAVIGATION (TECHFEST-STYLE DOCK)
-         ========================================================= -->
-    <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Mobile Navigation">
-        <div class="bottom-nav-track">
-            <a href="index.html" class="bottom-nav-item active" data-nav="home">
-                <div class="nav-icon-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1V9.5z"/>
-                    </svg>
-                </div>
-                <span class="nav-label">HOME</span>
-                <span class="nav-active-pip"></span>
-            </a>
-
-            <a href="events.html" class="bottom-nav-item" data-nav="events">
-                <div class="nav-icon-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="7" height="7" rx="1.5"/>
-                        <rect x="14" y="3" width="7" height="7" rx="1.5"/>
-                        <rect x="14" y="14" width="7" height="7" rx="1.5"/>
-                        <rect x="3" y="14" width="7" height="7" rx="1.5"/>
-                    </svg>
-                </div>
-                <span class="nav-label">EVENTS</span>
-                <span class="nav-active-pip"></span>
-            </a>
-
-            <a href="register.html" class="bottom-nav-item" data-nav="register">
-                <div class="nav-icon-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
-                        <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
-                        <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
-                        <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
-                    </svg>
-                </div>
-                <span class="nav-label">REGISTER</span>
-                <span class="nav-active-pip"></span>
-            </a>
-
-            <a href="photo-gallery.html" class="bottom-nav-item" data-nav="gallery">
-                <div class="nav-icon-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                        <circle cx="8.5" cy="8.5" r="1.5"/>
-                        <polyline points="21 15 16 10 5 21"/>
-                    </svg>
-                </div>
-                <span class="nav-label">GALLERY</span>
-                <span class="nav-active-pip"></span>
-            </a>
-
-            <a href="profile.html" class="bottom-nav-item" data-nav="profile">
-                <div class="nav-icon-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                        <circle cx="12" cy="7" r="4"/>
-                    </svg>
-                </div>
-                <span class="nav-label">PROFILE</span>
-                <span class="nav-active-pip"></span>
-            </a>
-
-        </div>
-    </nav>
-
-    <!-- =========================================================
-         MOBILE SIDE DRAWER MENU (TECHFEST-STYLE PHONE DRAWER)
-         ========================================================= -->
-    <div class="mobile-menu-backdrop" id="mobile-menu-backdrop" aria-hidden="true"></div>
-
-    <aside class="mobile-side-menu" id="mobile-side-menu" aria-label="Mobile Directory Navigation" aria-hidden="true">
-        <div class="side-menu-header">
-            <div class="side-menu-brand">
-                <span class="side-brand-title">PRAVAAH '27</span>
-            </div>
-            <button type="button" class="side-menu-close-btn" id="mobile-menu-close" aria-label="Close Side Menu">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"/>
-                    <line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
-            </button>
-        </div>
-
-        <div class="side-menu-body">
-            <nav class="side-menu-links">
-                <a href="index.html" class="side-menu-link active" data-nav="home">
-                    <div class="side-link-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1V9.5z"/></svg>
-                    </div>
-                    <div class="side-link-info">
-                        <span class="side-link-title">HOME</span>
-                        <span class="side-link-desc">Main Gateway & Highlights</span>
-                    </div>
-                    <span class="side-link-chevron">›</span>
-                </a>
-
-                <a href="events.html" class="side-menu-link" data-nav="events">
-                    <div class="side-link-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
-                    </div>
-                    <div class="side-link-info">
-                        <span class="side-link-title">EVENTS</span>
-                        <span class="side-link-desc">Tech, Cult, Gaming & E-Cell</span>
-                    </div>
-                    <span class="side-link-chevron">›</span>
-                </a>
-
-                <a href="register.html" class="side-menu-link" data-nav="register">
-                    <div class="side-link-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
-                    </div>
-                    <div class="side-link-info">
-                        <span class="side-link-title">REGISTER</span>
-                        <span class="side-link-desc">Entry Passes & Hackathons</span>
-                    </div>
-                    <span class="side-link-chevron">›</span>
-                </a>
-
-                <a href="accommodation.html" class="side-menu-link" data-nav="accommodation">
-                    <div class="side-link-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg>
-                    </div>
-                    <div class="side-link-info">
-                        <span class="side-link-title">ACCOMMODATION</span>
-                        <span class="side-link-desc">Stay, Hostels & Travel</span>
-                    </div>
-                    <span class="side-link-chevron">›</span>
-                </a>
-
-                <a href="photo-gallery.html" class="side-menu-link" data-nav="gallery">
-                    <div class="side-link-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                    </div>
-                    <div class="side-link-info">
-                        <span class="side-link-title">PHOTO GALLERY</span>
-                        <span class="side-link-desc">Fest Archives & Memories</span>
-                    </div>
-                    <span class="side-link-chevron">›</span>
-                </a>
-
-                <a href="sponsors.html" class="side-menu-link" data-nav="sponsors">
-                    <div class="side-link-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    </div>
-                    <div class="side-link-info">
-                        <span class="side-link-title">SPONSORS</span>
-                        <span class="side-link-desc">Multiverse Partners</span>
-                    </div>
-                    <span class="side-link-chevron">›</span>
-                </a>
-
-                <a href="contact.html" class="side-menu-link" data-nav="contact">
-                    <div class="side-link-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                    </div>
-                    <div class="side-link-info">
-                        <span class="side-link-title">CONTACT US</span>
-                        <span class="side-link-desc">Team Leads & Query Desk</span>
-                    </div>
-                    <span class="side-link-chevron">›</span>
-                </a>
-
-                <a href="profile.html" class="side-menu-link" data-nav="profile">
-                    <div class="side-link-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    </div>
-                    <div class="side-link-info">
-                        <span class="side-link-title">PROFILE</span>
-                        <span class="side-link-desc">My Passport & Badges</span>
-                    </div>
-                    <span class="side-link-chevron">›</span>
-                </a>
-            </nav>
-        </div>
-    </aside>
-
-
-    <!-- Pravaah 3D Hologram Glitch Scanner Intro (Pure Black Background - Clean & Unobstructed) -->
-    <section id="pravaah-intro-screen" class="pravaah-intro-screen">
-        <canvas id="pravaah-glitch-canvas" class="pravaah-intro-canvas"></canvas>
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <h1 class="title" id="title" aria-label="Pravaah">
+        <span style="--i:0" aria-hidden="true">P</span><span style="--i:1" aria-hidden="true">R</span><span style="--i:2" aria-hidden="true">A</span><span style="--i:3" aria-hidden="true">V</span><span style="--i:4" aria-hidden="true">A</span><span style="--i:5" aria-hidden="true">A</span><span style="--i:6" aria-hidden="true">H</span>
+      </h1>
+      <p class="theme">Kairos: Worlds Unbound</p>
+      <p class="lede">
+        The annual cultural and technopreneurship fest of IIT Bhubaneswar, now in its 3rd edition.
+        Culture, technology and entrepreneurship in one unforgettable experience.
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="register.html">Register now</a>
+        <a class="btn" href="events.html">Explore events</a>
+      </div>
+      <a class="scroll-cue" href="#calendar">Scroll to travel through time</a>
     </section>
 
-    <!-- Portal Entrance Screen (Direct Native High-Performance Warp Tunnel - Pravaah Official Animation) -->
-    <section id="loader-screen" class="hidden portal-warp-section">
-        <canvas id="portal-warp-canvas" class="portal-warp-canvas"></canvas>
-        <div id="portal-glitch-overlay" class="portal-glitch-overlay"></div>
-        <div id="portal-shockwave-ring" class="portal-shockwave-ring"></div>
-        <div id="portal-shockwave-ring-2" class="portal-shockwave-ring portal-shockwave-ring-2"></div>
-
-        <div id="portal-flash-overlay" class="portal-flash-overlay"></div>
-
-        
-
-        <div class="portal-loader-indicator">
-            <div class="portal-loader-bar"></div>
+    <!-- FEST CALENDAR (sits beside the 3D working clock) -->
+    <section class="cal-section" id="calendar" aria-labelledby="cal-heading">
+      <div class="cal-wrap">
+        <h2 id="cal-heading">Fest Calendar</h2>
+        <div class="tabs" id="tabs" role="tablist" aria-label="Months"><span class="tab-glow" id="tab-glow" aria-hidden="true"></span></div>
+        <div class="cal" id="cal">
+          <div class="dial" id="dial" tabindex="0" role="group" aria-label="Date ring around the sun. Drag it to spin, click a date to aim the clock hand at it, or use the left and right arrow keys. Glowing dates have events.">
+            <div class="dial-glass" aria-hidden="true"></div>
+            <div class="dial-orbit o1" aria-hidden="true"></div>
+            <div class="dial-orbit o0" aria-hidden="true"></div>
+            <div class="dial-orbit o2" aria-hidden="true"></div>
+            <div class="dial-orbit o3" aria-hidden="true"></div>
+            <div class="days" id="days"></div>
+          </div>
+          <div class="hud" id="hud">
+            <p class="hud-tag" id="hud-tag"></p>
+            <p class="hud-date" id="hud-date"></p>
+            <p class="hud-name" id="hud-name"></p>
+            <p class="hud-meta" id="hud-meta"></p>
+          </div>
+          <div class="dial-ctrl">
+            <button class="cal-arrow" id="cal-prev" type="button" aria-label="Previous day">&#8592;</button>
+            <span>Drag the ring to spin &middot; click a date to aim the hand</span>
+            <button class="cal-arrow" id="cal-next" type="button" aria-label="Next day">&#8594;</button>
+          </div>
         </div>
+      </div>
     </section>
 
-    <main id="main-scroll-container">
-
-                <section id="splash-screen" class="snap-page splash-screen-page active-screen kairos-hero-viewport">
-            <canvas id="warp" class="hero-warp-canvas" aria-hidden="true"></canvas>
-            <div class="blob blob-c"></div>
-            <div class="blob blob-p"></div>
-            <div class="blob blob-a"></div>
-
-            <!-- Concentric cosmic portal dimension rings -->
-            <div class="portal-dimension-rings" aria-hidden="true">
-                <div class="p-ring pr-1"></div>
-                <div class="p-ring pr-2"></div>
-                <div class="p-ring pr-3"></div>
-            </div>
-            <div class="hero-vignette"></div>
-
-            <!-- Three orbiting worlds -->
-            <div class="orbits" aria-hidden="true">
-                <div class="orbit o1"><i></i></div>
-                <div class="orbit o2"><i></i></div>
-                <div class="orbit o3"><i></i></div>
-            </div>
-
-            <div class="hero-inner">
-                <h1 class="hero-title" id="heroTitle" aria-label="Pravaah">
-                    <span class="ltr" style="--i:0">P</span><span class="ltr" style="--i:1">R</span><span class="ltr" style="--i:2">A</span><span class="ltr" style="--i:3">V</span><span class="ltr" style="--i:4">A</span><span class="ltr" style="--i:5">A</span><span class="ltr" style="--i:6">H</span>
-                </h1>
-                <div class="hero-theme">
-                    <span class="kairos">KAIROS</span>
-                    <span class="colon">:</span>
-                    <span class="unbound" id="unbound" data-words="Worlds Unbound|Tech Unbound|Culture Unbound|Enterprise Unbound">Worlds Unbound</span>
-                </div>
-                <p class="hero-tag">The moment to innovate across dimensions, express without boundaries, and venture into the unknown.</p>
-
-                <div class="count" id="count" aria-label="Countdown to the fest">
-                    <div><b id="cd-d">00</b><small>days</small></div>
-                    <div><b id="cd-h">00</b><small>hours</small></div>
-                    <div><b id="cd-m">00</b><small>minutes</small></div>
-                    <div><b id="cd-s">00</b><small>seconds</small></div>
-                </div>
-
-
-
-                <div class="hero-scroll-cue-container" id="scroll-to-next-trigger" role="button" tabindex="0" title="Scroll to go to next page">
-                    <div class="scroll-cue-pill">
-                        <span class="scroll-cue-icon">✦</span>
-                        <span class="scroll-cue-text">SCROLL TO GO TO NEXT PAGE</span>
-                        <span class="scroll-cue-icon">✦</span>
-                    </div>
-                    <div class="scroll-cue-arrow-down">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="m6 9 6 6 6-6"/>
-                            <path d="m6 3 6 6 6-6"/>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="about-page" class="snap-page">
-
-            <div class="about-fullscreen-wrapper">
-                <!-- Revelation Lead Line: PRAVAAH in Big Text -->
-                <div class="about-lead-container is-centered" id="about-lead-container">
-                    <h2 class="about-page-heading about-lead-line spider-title pravaah-big-title" id="about-lead-line" data-text="PRAVAAH">PRAVAAH</h2>
-                </div>
-
-                <!-- Merged Single Box with Transparent Color: Fest & Kairos Theme -->
-                <div class="about-intro-grid" id="about-intro-grid">
-                    <div class="about-intro-card about-merged-card is-revealed" id="about-card-pravaah">
-                        <p class="about-unified-text">
-                            <span class="pravaah-brand-highlight">PRAVAAH</span>, The Annual Cultural and Technopreneurship Fest of IIT Bhubaneswar, celebrates creativity, innovation, and campus spirit. In its 3<sup>rd</sup> grand edition, it unites culture, technology, and entrepreneurship into one unforgettable experience. &ldquo;<span class="kairos-gold-highlight">KAIROS</span> &mdash; <span class="worlds-unbound-highlight">WORLDS UNBOUND</span>&rdquo; takes participants on a journey through eras and dimensions&mdash;where parallel realities converge, reviving the Past with retro-futuristic roots, engaging the Present with entrepreneurial challenges, and exploring the Future through high-tech quantum frontiers and cosmic exploration celebrating the limitless potential of youth and creativity.
-                        </p>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <section id="calendar-page" class="snap-page">
-
-            <div class="calendar-heading-container" id="calendar-heading-container">
-                <div class="calendar-heading-badge">
-                    <span class="badge-dot pulse-gold"></span>
-
-                    <span class="badge-sparkle">✦</span>
-                </div>
-                <h2 class="calendar-page-heading spider-title" id="calendar-lead-line" data-text="FEST CALENDAR">FEST CALENDAR</h2>
-                <div class="calendar-lead-decor">
-                    <span class="decor-line-bar"></span>
-                   
-                    <span class="decor-line-bar"></span>
-                </div>
-            </div>
-
-            <div class="calendar-layout-container" id="calendar-layout-container">
-
-                <div class="calendar-cube-viewport" id="calendar-cube-viewport">
-
-                    <div class="comet-orbit-ring ring-1">
-                        <div class="comet-spinner spinner-1">
-                            <div class="cube-comet comet-cyan"></div>
-                        </div>
-                    </div>
-                    <div class="comet-orbit-ring ring-2">
-                        <div class="comet-spinner spinner-2">
-                            <div class="cube-comet comet-pink"></div>
-                        </div>
-                    </div>
-                    <div class="comet-orbit-ring ring-3">
-                        <div class="comet-spinner spinner-3">
-                            <div class="cube-comet comet-gold"></div>
-                        </div>
-                    </div>
-
-                    <div class="cube-month-tracker" id="cube-month-tracker">
-                        <button class="month-pill" data-month-index="0">JAN</button>
-                        <button class="month-pill" data-month-index="1">FEB</button>
-                        <button class="month-pill" data-month-index="2">MAR</button>
-                        <button class="month-pill" data-month-index="3">APR</button>
-                        <button class="month-pill" data-month-index="4">MAY</button>
-                        <button class="month-pill" data-month-index="5">JUN</button>
-                    </div>
-
-                    <button class="cube-rotate-btn btn-prev" id="cube-btn-prev" aria-label="Rotate to Previous Month" title="Previous Month">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                        <span class="rotate-btn-label">PREV</span>
-                    </button>
-                    <button class="cube-rotate-btn btn-next" id="cube-btn-next" aria-label="Rotate to Next Month" title="Next Month">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                        <span class="rotate-btn-label">NEXT</span>
-                    </button>
-
-                    <div class="calendar-cube" id="calendar-cube">
-                        <div class="cube-face face-front" id="face-jan"></div>
-                        <div class="cube-face face-right" id="face-feb"></div>
-                        <div class="cube-face face-back" id="face-mar"></div>
-                        <div class="cube-face face-left" id="face-apr"></div>
-                        <div class="cube-face face-top" id="face-may"></div>
-                        <div class="cube-face face-bottom" id="face-jun"></div>
-                    </div>
-                </div>
-
-               
-
-                <div class="day-events-panel" id="day-events-panel">
-                    <div class="panel-header-row">
-                        <h3 class="panel-title" id="calendar-panel-title">SELECT A TEMPORAL NODE</h3>
-                        <button id="back-to-cube-btn" class="back-cube-btn hidden-btn">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
-                            BACK
-                        </button>
-                    </div>
-                    <div class="panel-date" id="calendar-panel-date">No cycle loaded</div>
-                    <div class="panel-events-list" id="calendar-events-list">
-                        <div class="no-events-prompt">Click a highlighted day grid cell to query local verse event timelines.</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="gallery-page" class="snap-page">
-
-            <div class="gallery-viewport">
-                <h2 class="gallery-page-heading spider-title" data-text="PORTAL GALLERY">PORTAL GALLERY</h2>
-
-                <div class="gallery-columns-wrapper" id="gallery-columns-wrapper">
-
-                    <div class="gallery-column col-down col-edge-left">
-                        <div class="gallery-track track-down">
-
-                            <div class="gallery-group-vertical">
-                                <div class="gallery-card" data-category="tech">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Tech Robo Soccer" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-tech">TECH VERSE</span>
-                                        <h4 class="gallery-card-title">Robo Soccer Arena</h4>
-                                    </div>
-                                </div>
-                                <div class="gallery-card" data-category="cult">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Cult Live Concert" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
-                                        <h4 class="gallery-card-title">Main Arena Concert</h4>
-                                    </div>
-                                </div>
-                                <div class="gallery-card" data-category="cult">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Cult Band Battle" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
-                                        <h4 class="gallery-card-title">Symphony Rock Battle</h4>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="gallery-group-vertical">
-                                <div class="gallery-card" data-category="tech">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Tech Robo Soccer" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-tech">TECH VERSE</span>
-                                        <h4 class="gallery-card-title">Robo Soccer Arena</h4>
-                                    </div>
-                                </div>
-                                <div class="gallery-card" data-category="cult">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Cult Live Concert" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
-                                        <h4 class="gallery-card-title">Main Arena Concert</h4>
-                                    </div>
-                                </div>
-                                <div class="gallery-card" data-category="cult">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Cult Band Battle" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
-                                        <h4 class="gallery-card-title">Symphony Rock Battle</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="gallery-column col-up col-middle-left">
-                        <div class="gallery-track track-up">
-
-                            <div class="gallery-group-vertical">
-                                <div class="gallery-card" data-category="game">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Game Esports Valorant" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-game">GAME VERSE</span>
-                                        <h4 class="gallery-card-title">Valorant Esports Arena</h4>
-                                    </div>
-                                </div>
-                                <div class="gallery-card" data-category="cult">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Vogue Fashion Show" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
-                                        <h4 class="gallery-card-title">Vogue Galaxy Runway</h4>
-                                    </div>
-                                </div>
-                                <div class="gallery-card" data-category="tech">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Tech Keynote Sync" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-tech">TECH VERSE</span>
-                                        <h4 class="gallery-card-title">Multiverse Sync Demo</h4>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="gallery-group-vertical">
-                                <div class="gallery-card" data-category="game">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Game Esports Valorant" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-game">GAME VERSE</span>
-                                        <h4 class="gallery-card-title">Valorant Esports Arena</h4>
-                                    </div>
-                                </div>
-                                <div class="gallery-card" data-category="cult">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Vogue Fashion Show" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
-                                        <h4 class="gallery-card-title">Vogue Galaxy Runway</h4>
-                                    </div>
-                                </div>
-                                <div class="gallery-card" data-category="tech">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Tech Keynote Sync" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-tech">TECH VERSE</span>
-                                        <h4 class="gallery-card-title">Multiverse Sync Demo</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="gallery-column col-down col-middle-right">
-                        <div class="gallery-track track-down">
-
-                            <div class="gallery-group-vertical">
-                                <div class="gallery-card" data-category="ent">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Entrepreneur Pitch Battle" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-ent">ENTR VERSE</span>
-                                        <h4 class="gallery-card-title">B-Plan Pitch Battle</h4>
-                                    </div>
-                                </div>
-                                <div class="gallery-card" data-category="social">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Social Eco Initiative" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-social">SOCIAL VERSE</span>
-                                        <h4 class="gallery-card-title">Green Horizon Initiative</h4>
-                                    </div>
-                                </div>
-                                <div class="gallery-card" data-category="game">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Game FIFA Cup" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-game">GAME VERSE</span>
-                                        <h4 class="gallery-card-title">FIFA Console Zones</h4>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="gallery-group-vertical">
-                                <div class="gallery-card" data-category="ent">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Entrepreneur Pitch Battle" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-ent">ENTR VERSE</span>
-                                        <h4 class="gallery-card-title">B-Plan Pitch Battle</h4>
-                                    </div>
-                                </div>
-                                <div class="gallery-card" data-category="social">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Social Eco Initiative" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-social">SOCIAL VERSE</span>
-                                        <h4 class="gallery-card-title">Green Horizon Initiative</h4>
-                                    </div>
-                                </div>
-                                <div class="gallery-card" data-category="game">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Game FIFA Cup" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-game">GAME VERSE</span>
-                                        <h4 class="gallery-card-title">FIFA Console Zones</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="gallery-column col-up col-edge-right">
-                        <div class="gallery-track track-up">
-
-                            <div class="gallery-group-vertical">
-                                <div class="gallery-card" data-category="cult">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Cult Street Play" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
-                                        <h4 class="gallery-card-title">Street Dramatics Stage</h4>
-                                    </div>
-                                </div>
-                                <div class="gallery-card" data-category="tech">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Tech Hackathon AI" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-tech">TECH VERSE</span>
-                                        <h4 class="gallery-card-title">AI Odyssey Coding</h4>
-                                    </div>
-                                </div>
-                                <div class="gallery-card" data-category="ent">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Entrepreneur Shark Tank" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-ent">ENTR VERSE</span>
-                                        <h4 class="gallery-card-title">Shark Tank Pitching</h4>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="gallery-group-vertical">
-                                <div class="gallery-card" data-category="cult">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Cult Street Play" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-cult">CULT VERSE</span>
-                                        <h4 class="gallery-card-title">Street Dramatics Stage</h4>
-                                    </div>
-                                </div>
-                                <div class="gallery-card" data-category="tech">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Tech Hackathon AI" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-tech">TECH VERSE</span>
-                                        <h4 class="gallery-card-title">AI Odyssey Coding</h4>
-                                    </div>
-                                </div>
-                                <div class="gallery-card" data-category="ent">
-                                    <img src="assets/images/gallery/C3182T01.jpg" alt="Entrepreneur Shark Tank" loading="lazy">
-                                    <div class="gallery-card-overlay">
-                                        <span class="gallery-card-tag tag-ent">ENTR VERSE</span>
-                                        <h4 class="gallery-card-title">Shark Tank Pitching</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="team-page" class="snap-page">
-
-            <footer class="pravaah-full-footer">
-                <div class="pravaah-footer-container">
-                    <div class="footer-col-brand">
-                        <a href="index.html" class="footer-brand-logo-link" aria-label="Pravaah 2026 Home">
-                            <img src="assets/images/pravaah_footer_logo.png" alt="PRAVAAH" class="footer-brand-logo-img">
-                        </a>
-                        <a href="register.html" class="footer-btn-register">Register Now</a>
-                    </div>
-                    <div class="footer-col-links">
-                        <h4 class="footer-col-title">Explore More</h4>
-                        <ul class="footer-nav-list">
-                            <li><a href="events.html">Events</a></li>
-                            <li><a href="photo-gallery.html">Gallery</a></li>
-                            <li><a href="sponsors.html">Brochure</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-col-contact">
-                        <h4 class="footer-col-title">Reach Out to Us</h4>
-                        <ul class="footer-nav-list">
-                            <li><a href="contact.html">Contact Us</a></li>
-                        </ul>
-                        <div class="footer-social-row">
-                            <a href="https://www.instagram.com/iitbbs.pravaah/?hl=en" target="_blank" rel="noopener noreferrer" class="footer-social-box" aria-label="Instagram">
-                                <i class="fa-brands fa-instagram"></i>
-                            </a>
-                            <a href="https://www.linkedin.com/company/pravaah-iit-bhubaneswar/posts/?feedView=all" target="_blank" rel="noopener noreferrer" class="footer-social-box" aria-label="LinkedIn">
-                                <i class="fa-brands fa-linkedin-in"></i>
-                            </a>
-                            <a href="https://youtube.com/@pravaahiitbbs?si=9zFAqSFCleCCECZ_" target="_blank" rel="noopener noreferrer" class="footer-social-box" aria-label="YouTube">
-                                <i class="fa-brands fa-youtube"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-bottom-divider"></div>
-                <div class="footer-bottom-credits">
-                    <span class="credits-brand">@PRAVAAH'27 IIT BHUBANESWAR</span>
-                    <span class="credits-separator">|</span>
-                    <span class="credits-team">MADE WITH 💜 BY WEB TEAM</span>
-                </div>
-            </footer>
-        </section>
-    </main>
-
-    <div id="event-modal" class="modal-overlay hidden">
-        <div class="modal-glow-back"></div>
-        <div class="modal-container">
-            <button id="close-modal-btn" class="close-btn" aria-label="Close modal">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
-            <div class="modal-header">
-                <div class="verse-badge" id="modal-verse-badge">TECH VERSE</div>
-                <h2 id="modal-verse-title" class="verse-title">TECH VERSE EVENTS</h2>
-                <p id="modal-verse-desc" class="verse-desc">The dimensional portal of extreme machines and futuristic logic.</p>
-            </div>
-
-            <div class="events-grid" id="events-grid">
-
-            </div>
+    <!-- HIGHLIGHTS: photo cards ring a wireframe globe -->
+    <section class="hl" id="highlights" aria-labelledby="hl-heading">
+      <div class="stage" id="stage" aria-label="3D photo carousel. Drag, swipe or scroll to spin, click the front photo to enlarge." tabindex="0">
+        <h2 id="hl-heading">&#10024; Highlights of 2K26 &#10024;</h2>
+        <div class="hl-name" id="hl-name" aria-live="polite"></div>
+        <div class="hl-cap" id="hl-cap">
+          <button class="hl-arrow" id="hl-prev" type="button" aria-label="Previous photo">&#8592;</button>
+          <span>Drag, swipe or scroll to spin</span>
+          <button class="hl-arrow" id="hl-next" type="button" aria-label="Next photo">&#8594;</button>
         </div>
-    </div>
+      </div>
+    </section>
+  </main>
 
-    <div id="gallery-lightbox" class="lightbox-overlay hidden">
-        <button id="close-lightbox-btn" class="lightbox-close-btn" aria-label="Close Lightbox">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
-        <button id="prev-lightbox-btn" class="lightbox-nav-btn nav-left" aria-label="Previous Image">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-        </button>
-        <button id="next-lightbox-btn" class="lightbox-nav-btn nav-right" aria-label="Next Image">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-        </button>
-        <div class="lightbox-content">
-            <img id="lightbox-img" src="" alt="large preview">
-            <div class="lightbox-caption">
-                <span id="lightbox-tag" class="lightbox-tag">CATEGORY</span>
-                <h3 id="lightbox-title" class="lightbox-title">Image Title</h3>
-            </div>
+  <div class="lightbox" id="lightbox" hidden>
+    <figure><img alt=""><figcaption></figcaption></figure>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-foot">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="assets/Events_images/lastyear/Pravaah%20logo.png" alt="Pravaah" width="130" onerror="this.src='https://pravaahweb1.vercel.app/Pravaah%20logo.png'">
+        <a class="reg-btn" href="register.html">Register Now</a>
+      </div>
+      <div>
+        <h3>Explore More</h3>
+        <ul>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="photo-gallery.html">Gallery</a></li>
+          <li><a href="https://pravaahweb1.vercel.app/events_brochure.pdf" target="_blank" rel="noopener">Brochure</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Reach Out to Us</h3>
+        <ul><li><a href="contact.html">Contact Us</a></li></ul>
+        <div class="social">
+          <a href="https://www.instagram.com/iitbbs.pravaah/?hl=en" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/company/pravaah-iit-bhubaneswar/posts/?feedView=all" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4V21H3V9.75Zm6.5 0h3.8v1.6h.05c.53-1 1.84-2.05 3.78-2.05 4.04 0 4.77 2.66 4.77 6.1V21h-4v-4.95c0-1.18-.02-2.7-1.65-2.7-1.65 0-1.9 1.29-1.9 2.62V21h-4V9.75Z"/></svg>
+          </a>
+          <a href="https://youtube.com/@pravaahiitbbs?si=9zFAqSFCleCCECZ_" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.76-1.77C18.27 5 12 5 12 5s-6.27 0-7.84.43A2.5 2.5 0 0 0 2.4 7.2C2 8.78 2 12 2 12s0 3.22.4 4.8a2.5 2.5 0 0 0 1.76 1.77C5.73 19 12 19 12 19s6.27 0 7.84-.43a2.5 2.5 0 0 0 1.76-1.77C22 15.22 22 12 22 12s0-3.22-.4-4.8ZM10 15V9l5.2 3L10 15Z"/></svg>
+          </a>
         </div>
+      </div>
     </div>
+    <p class="foot-base"><strong>@PRAVAAH'27 IIT BHUBANESWAR</strong><span class="bar">|</span>MADE WITH &#128156; BY WEB TEAM</p>
+  </footer>
 
-    <div id="screen-glitch-overlay" class="screen-glitch-overlay">
-        <div class="glitch-halftone"></div>
-        <div class="glitch-shard shard-1"></div>
-        <div class="glitch-shard shard-2"></div>
-        <div class="glitch-shard shard-3"></div>
-        <div class="glitch-shard shard-4"></div>
-        <div class="glitch-shard shard-5"></div>
-        <div class="glitch-shard shard-6"></div>
-        <div class="glitch-shard shard-7"></div>
-        <div class="glitch-shard shard-8"></div>
-        <div class="glitch-shard shard-9"></div>
-        <div class="glitch-shard shard-10"></div>
-        <div class="glitch-shard shard-11"></div>
-        <div class="glitch-shard shard-12"></div>
-        <div class="glitch-shard shard-13"></div>
-        <div class="glitch-shard shard-14"></div>
-        <div class="glitch-shard shard-15"></div>
-        <div class="glitch-shard shard-16"></div>
-        <div class="glitch-shard shard-17"></div>
-        <div class="glitch-shard shard-18"></div>
-        <div class="glitch-shard shard-19"></div>
-        <div class="glitch-shard shard-20"></div>
-        <div class="glitch-shard shard-21"></div>
-        <div class="glitch-shard shard-22"></div>
-        <div class="glitch-shard shard-23"></div>
-        <div class="glitch-shard shard-24"></div>
-        <div class="glitch-noise"></div>
-    </div>
-
-    <div id="toast-notification" class="toast-hidden">
-        <div class="toast-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-        </div>
-        <div class="toast-text">
-            <span class="toast-title">Transmission Successful</span>
-            <span class="toast-msg">Opening registration portal...</span>
-        </div>
-    </div>
-
-    <script src="src/js/app.js"></script>
-    <script src="src/js/glitch-nav.js"></script>
-    <script src="src/js/hero_kairos.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="src/js/app.js"></script>
+  <script src="src/js/hero_kairos.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // Ensure Three.js scene dynamically recalculates its layout and camera range when portal entrance completes
+    const portalTransitionObserver = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.attributeName === 'class' && document.body.classList.contains('portal-entered')) {
+          setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 60);
+          setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 360);
+          break;
+        }
+      }
+    });
+    portalTransitionObserver.observe(document.body, { attributes: true });
+  </script>
 </body>
 </html>
