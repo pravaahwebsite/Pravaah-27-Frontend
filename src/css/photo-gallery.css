@@ -253,7 +253,7 @@ body.photo-gallery-body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 0 25px rgba(0, 242, 254, 0.35));
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.35rem;
 }
 
 .gallery-subtitle {
@@ -423,7 +423,7 @@ body.photo-gallery-body {
     flex-direction: column;
     align-items: center;
     gap: 0.2rem;
-    padding: 0.45rem 1.2rem;
+    padding: 0.35rem 1rem;
     border-radius: 9999px;
     background: rgba(2, 6, 23, 0.88);
     border: 1px solid rgba(0, 242, 254, 0.35);
@@ -764,15 +764,15 @@ body.photo-gallery-body {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 440px;
-    height: 480px;
-    margin-left: -220px;
-    margin-top: -240px;
-    border-radius: 32px;
+    width: 380px;
+    height: 410px;
+    margin-left: -190px;
+    margin-top: -205px;
+    border-radius: 28px;
     background: linear-gradient(180deg, rgba(15, 23, 42, 0.96) 0%, rgba(2, 6, 23, 0.98) 100%);
     border: 2px solid var(--cyan-primary);
-    box-shadow: 0 0 80px rgba(0, 242, 254, 0.6), 0 0 120px rgba(243, 85, 218, 0.3);
-    padding: 2.2rem;
+    box-shadow: 0 0 60px rgba(0, 242, 254, 0.5), 0 0 100px rgba(243, 85, 218, 0.25);
+    padding: 1.6rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -867,7 +867,7 @@ body.photo-gallery-body {
 /* Compact Photo Progress / Seek Line (Positioned directly above scroll hint text with clear 18px gap) */
 .hud-progress-container {
     position: absolute;
-    bottom: 72px;
+    bottom: 58px;
     left: 50%;
     transform: translateX(-50%);
     width: 240px;
@@ -1289,20 +1289,12 @@ body.photo-gallery-body {
 
     .hud-progress-container {
         width: 75%;
-        bottom: 46px;
+        bottom: 16px;
     }
 
+    /* Hide scroll hint text capsule on phones/tablets, keep only on laptops/desktops */
     .corridor-scroll-hint {
-        bottom: 8px;
-        padding: 0.3rem 0.8rem;
-    }
-
-    .corridor-scroll-hint .hint-main {
-        font-size: 0.62rem;
-    }
-
-    .corridor-scroll-hint .hint-sub {
-        font-size: 0.52rem;
+        display: none !important;
     }
 
     .return-entrance-btn {
@@ -1491,20 +1483,12 @@ body.photo-gallery-body {
 
     .hud-progress-container {
         width: 80%;
-        bottom: 42px;
+        bottom: 14px;
     }
 
+    /* Hide scroll hint text capsule on phones, keep only on laptops/desktops */
     .corridor-scroll-hint {
-        bottom: 6px;
-        padding: 0.25rem 0.7rem;
-    }
-
-    .corridor-scroll-hint .hint-main {
-        font-size: 0.58rem;
-    }
-
-    .corridor-scroll-hint .hint-sub {
-        font-size: 0.48rem;
+        display: none !important;
     }
 
     .dossier-modal-card {
@@ -1535,6 +1519,15 @@ body.photo-gallery-body {
         margin-left: -102px;
         margin-top: -140px;
         padding: 0.6rem;
+    }
+
+    .hud-progress-container {
+        width: 85%;
+        bottom: 12px;
+    }
+
+    .corridor-scroll-hint {
+        display: none !important;
     }
 
     .corridor-card-img-box {

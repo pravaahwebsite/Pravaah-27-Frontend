@@ -999,6 +999,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 node => node.remove()
             );
 
+        cachedUprightWrappers = [];
         networkSvg.innerHTML = '';
 
         const rect =
@@ -1344,61 +1345,57 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         );
 
+        cachedUprightWrappers = Array.from(
+            portalOrbitWrapper.querySelectorAll('.portal-upright-wrapper')
+        );
+        updateOrbitTransform(orbitAngle);
+
     }
 
 
     /* =========================================================
-       CARD SCROLL REVEAL
+       CARD SCROLL REVEAL (INTERSECTION OBSERVER - 60FPS)
        ========================================================= */
-    function revealVisibleEventCards() {
+    let cardObserver = null;
+
+    function initCardObserver() {
         if (!verseEventList) {
             return;
         }
 
-        const visibleTop = window.innerHeight * 0.06;
-        const visibleBottom = window.innerHeight * 0.92;
+        const cards = verseEventList.querySelectorAll('.reference-event-card');
+        if (!cards.length) {
+            return;
+        }
 
-        const hiddenCards = [
-            ...verseEventList.querySelectorAll(
-                '.reference-event-card:not(.is-visible):not(.is-revealing)'
-            )
-        ].filter(card => {
-            const rect = card.getBoundingClientRect();
+        if (cardObserver) {
+            cardObserver.disconnect();
+            cardObserver = null;
+        }
 
-            return (
-                rect.top < visibleBottom &&
-                rect.bottom > visibleTop
-            );
+        if (!('IntersectionObserver' in window)) {
+            cards.forEach(card => card.classList.add('is-visible'));
+            return;
+        }
+
+        cardObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const card = entry.target;
+                    card.classList.add('is-visible');
+                    card.classList.remove('is-revealing');
+                    observer.unobserve(card);
+                }
+            });
+        }, {
+            root: null,
+            rootMargin: '60px 0px 60px 0px',
+            threshold: 0.05
         });
 
-        hiddenCards.forEach((card, index) => {
-            card.classList.add('is-revealing');
-
-            setTimeout(() => {
-                card.classList.remove('is-revealing');
-
-                // Restart the same CSS animation reliably.
-                void card.offsetWidth;
-
-                card.classList.add('is-visible');
-            }, index * 120);
+        cards.forEach(card => {
+            cardObserver.observe(card);
         });
-    }
-
-    if (verseEventListView) {
-
-        // Reveal cards as the PAGE scrolls.
-        window.addEventListener(
-            'scroll',
-            revealVisibleEventCards,
-            { passive: true }
-        );
-
-        window.addEventListener(
-            'resize',
-            revealVisibleEventCards
-        );
-
     }
 
 
@@ -1506,25 +1503,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         /*
-         * IMPORTANT:
-         * The list was hidden when the cards were created.
-         * Wait until the browser has painted the visible list,
-         * then calculate which cards are currently visible.
+         * Fast hardware-accelerated scroll reveal via IntersectionObserver.
+         * Runs off the main thread with zero layout reflows during scroll.
          */
+        requestAnimationFrame(() => {
+            initCardObserver();
+        });
 
-        requestAnimationFrame(
-            () => {
-
-                requestAnimationFrame(
-                    () => {
-
-                        revealVisibleEventCards();
-
-                    }
-                );
-
-            }
-        );
+        try {
+            history.pushState({ view: 'verse', verse: verseKey }, '');
+        } catch (e) {}
 
     }
 
@@ -1726,6 +1714,8 @@ document.addEventListener('DOMContentLoaded', () => {
        EVENT EXPLORER
        ========================================================= */
 
+    let savedCardsScrollY = 0;
+
     function openExplorer(
         event
     ) {
@@ -1734,6 +1724,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        savedCardsScrollY = window.scrollY || window.pageYOffset || 0;
 
         activeEvent =
             event.id;
@@ -1863,6 +1854,12 @@ document.addEventListener('DOMContentLoaded', () => {
             'true'
         );
 
+        window.scrollTo({ top: 0, behavior: 'instant' });
+
+        try {
+            history.pushState({ view: 'explorer', eventId: event.id, verse: event.verse }, '');
+        } catch (e) {}
+
     }
 
 
@@ -1891,23 +1888,18 @@ document.addEventListener('DOMContentLoaded', () => {
             'false'
         );
 
-        // Reset the previous card animation states.
+        // Keep all loaded cards visible without collapsing or re-triggering entrance animations
         verseEventList?.querySelectorAll(
             '.reference-event-card'
         ).forEach(card => {
-            card.classList.remove(
-                'is-visible',
-                'is-revealing'
-            );
+            card.classList.add('is-visible');
+            card.classList.remove('is-revealing');
         });
 
-        // Let the list become visible before restarting
-        // the entrance animation.
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                revealVisibleEventCards();
-            });
-        });
+        // Seamlessly restore scroll position without jumping
+        if (savedCardsScrollY > 0) {
+            window.scrollTo({ top: savedCardsScrollY, behavior: 'instant' });
+        }
     }
 
     /* =========================================================
@@ -1948,6 +1940,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 'network-deployed'
             );
 
+            eventsPortalHero?.classList.remove(
+                'network-undeployed'
+            );
+
+            eventsPortalHero?.classList.add(
+                'network-deployed'
+            );
+
+            isOrbitPaused = false;
+            lastFrameTime = performance.now();
 
             corePrompt?.classList.add(
                 'fade-out'
@@ -2013,6 +2015,14 @@ document.addEventListener('DOMContentLoaded', () => {
             );
 
             universePage?.classList.add(
+                'network-undeployed'
+            );
+
+            eventsPortalHero?.classList.remove(
+                'network-deployed'
+            );
+
+            eventsPortalHero?.classList.add(
                 'network-undeployed'
             );
 
@@ -2337,18 +2347,53 @@ document.addEventListener('DOMContentLoaded', () => {
                     'MULTIVERSE EVENTS'
                 );
 
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                isOrbitPaused =
+                    false;
+                lastFrameTime = performance.now();
+
             }
         );
 
     }
+
+    /* Popstate history listener for seamless back button navigation on phone */
+    window.addEventListener('popstate', event => {
+        const state = event.state;
+        if (!state) {
+            if (activeEvent) {
+                closeExplorerToCards();
+            }
+            if (activeVerse) {
+                activeVerse = null;
+                activeEvent = null;
+                eventsPortalHero?.classList.remove('event-list-open', 'event-explore-open');
+                verseEventListView?.classList.remove('visible');
+                explorerView?.classList.remove('visible');
+                verseEventListView?.setAttribute('aria-hidden', 'true');
+                explorerView?.setAttribute('aria-hidden', 'true');
+                document.querySelectorAll('.portal-node').forEach(node => {
+                    node.classList.remove('active-portal', 'portal-dimmed');
+                });
+                animateCategoryHeading('MULTIVERSE EVENTS');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                isOrbitPaused = false;
+                lastFrameTime = performance.now();
+            }
+        } else if (state.view === 'verse') {
+            if (activeEvent) {
+                closeExplorerToCards();
+            }
+        }
+    });
 
 
     /* =========================================================
        ORBIT & TOUCH GESTURES
        ========================================================= */
 
-    const BASE_ORBIT_SPEED = 0.06; // 20% speed increase from 0.05
-    const TOUCH_ROTATION_SENSITIVITY = 1.35; // Increased touch sensitivity for responsive gesture rotation
+    const TOUCH_ROTATION_SENSITIVITY = 1.35; // Responsive touch gesture rotation sensitivity
     let orbitMomentum = 0;
     let isTouchDragging = false;
     let isTouchDraggingMove = false;
@@ -2359,6 +2404,17 @@ document.addEventListener('DOMContentLoaded', () => {
     let lastMoveAngle = 0;
     let lastMoveTime = 0;
     let touchAngularVelocity = 0;
+    let lastFrameTime = performance.now();
+    let cachedUprightWrappers = [];
+
+    function getOrbitSpeedDegPerSec() {
+        const isMobile = window.innerWidth <= 768;
+        // On laptop, orbit rotates ~7.0 deg/sec.
+        // On mobile, the radius is much smaller (~115px vs ~274px),
+        // so to make it rotate dynamically and match laptop's visual movement pace,
+        // we scale angular speed to 12.0 deg/sec.
+        return isMobile ? 12.0 : 7.0;
+    }
 
     function updateOrbitTransform(angle) {
         if (!portalOrbitWrapper) {
@@ -2368,12 +2424,16 @@ document.addEventListener('DOMContentLoaded', () => {
         portalOrbitWrapper.style.transform =
             `rotate(${angle}deg)`;
 
-        portalOrbitWrapper
-            .querySelectorAll('.portal-upright-wrapper')
-            .forEach(wrapper => {
-                wrapper.style.transform =
-                    `rotate(${-angle}deg)`;
-            });
+        if (!cachedUprightWrappers || cachedUprightWrappers.length === 0) {
+            cachedUprightWrappers = Array.from(
+                portalOrbitWrapper.querySelectorAll('.portal-upright-wrapper')
+            );
+        }
+
+        const counterAngle = -angle;
+        for (let i = 0; i < cachedUprightWrappers.length; i++) {
+            cachedUprightWrappers[i].style.transform = `rotate(${counterAngle}deg)`;
+        }
     }
 
     function getAngleFromCenter(clientX, clientY) {
@@ -2387,6 +2447,74 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (portalNetworkContainer) {
+        function handleOrbitTouchMove(event) {
+            if (!isTouchDragging || !isNetworkDeployed) {
+                return;
+            }
+            if (!event.touches || !event.touches[0]) {
+                return;
+            }
+
+            const t = event.touches[0];
+            const dist = Math.hypot(t.clientX - touchStartX, t.clientY - touchStartY);
+
+            if (dist > 8) {
+                isTouchDraggingMove = true;
+            }
+
+            if (isTouchDraggingMove) {
+                const currAngle = getAngleFromCenter(t.clientX, t.clientY);
+                let diffAngle = currAngle - touchStartAngle;
+
+                while (diffAngle < -180) diffAngle += 360;
+                while (diffAngle > 180) diffAngle -= 360;
+
+                orbitAngle = (touchStartOrbitAngle + diffAngle * TOUCH_ROTATION_SENSITIVITY) % 360;
+                if (orbitAngle < 0) orbitAngle += 360;
+
+                updateOrbitTransform(orbitAngle);
+
+                const now = performance.now();
+                const dt = Math.max(1, now - lastMoveTime);
+                let stepDelta = currAngle - lastMoveAngle;
+                while (stepDelta < -180) stepDelta += 360;
+                while (stepDelta > 180) stepDelta -= 360;
+
+                touchAngularVelocity = (stepDelta / dt) * 16.67 * TOUCH_ROTATION_SENSITIVITY;
+                lastMoveAngle = currAngle;
+                lastMoveTime = now;
+
+                if (event.cancelable) {
+                    event.preventDefault();
+                }
+            }
+        }
+
+        const handleOrbitTouchEnd = () => {
+            window.removeEventListener('touchmove', handleOrbitTouchMove);
+            window.removeEventListener('touchend', handleOrbitTouchEnd);
+            window.removeEventListener('touchcancel', handleOrbitTouchEnd);
+
+            if (!isTouchDragging) {
+                return;
+            }
+            isTouchDragging = false;
+
+            if (isTouchDraggingMove) {
+                if (Math.abs(touchAngularVelocity) > 0.08) {
+                    orbitMomentum = Math.max(-4.5, Math.min(4.5, touchAngularVelocity));
+                }
+                isOrbitPaused = false;
+            } else {
+                isOrbitPaused = false;
+            }
+
+            lastFrameTime = performance.now();
+            setTimeout(() => {
+                isTouchDraggingMove = false;
+            }, 60);
+        };
+
         portalNetworkContainer.addEventListener(
             'touchstart',
             event => {
@@ -2410,83 +2538,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     touchStartOrbitAngle = orbitAngle;
                     lastMoveAngle = touchStartAngle;
                     lastMoveTime = performance.now();
+
+                    // Only attach touchmove while actively dragging the orbit
+                    window.addEventListener('touchmove', handleOrbitTouchMove, { passive: false });
+                    window.addEventListener('touchend', handleOrbitTouchEnd, { passive: true });
+                    window.addEventListener('touchcancel', handleOrbitTouchEnd, { passive: true });
                 }
             },
             { passive: true }
         );
-
-        window.addEventListener(
-            'touchmove',
-            event => {
-                if (!isTouchDragging || !isNetworkDeployed) {
-                    return;
-                }
-                if (!event.touches || !event.touches[0]) {
-                    return;
-                }
-
-                const t = event.touches[0];
-                const dist = Math.hypot(t.clientX - touchStartX, t.clientY - touchStartY);
-
-                if (dist > 8) {
-                    isTouchDraggingMove = true;
-                }
-
-                if (isTouchDraggingMove) {
-                    const currAngle = getAngleFromCenter(t.clientX, t.clientY);
-                    let diffAngle = currAngle - touchStartAngle;
-
-                    while (diffAngle < -180) diffAngle += 360;
-                    while (diffAngle > 180) diffAngle -= 360;
-
-                    orbitAngle = (touchStartOrbitAngle + diffAngle * TOUCH_ROTATION_SENSITIVITY) % 360;
-                    if (orbitAngle < 0) orbitAngle += 360;
-
-                    updateOrbitTransform(orbitAngle);
-
-                    const now = performance.now();
-                    const dt = Math.max(1, now - lastMoveTime);
-                    let stepDelta = currAngle - lastMoveAngle;
-                    while (stepDelta < -180) stepDelta += 360;
-                    while (stepDelta > 180) stepDelta -= 360;
-
-                    touchAngularVelocity = (stepDelta / dt) * 16.67 * TOUCH_ROTATION_SENSITIVITY;
-                    lastMoveAngle = currAngle;
-                    lastMoveTime = now;
-
-                    if (event.cancelable) {
-                        event.preventDefault();
-                    }
-                }
-            },
-            { passive: false }
-        );
-
-        const handleTouchEndDrag = () => {
-            if (!isTouchDragging) {
-                return;
-            }
-            isTouchDragging = false;
-
-            if (isTouchDraggingMove) {
-                if (Math.abs(touchAngularVelocity) > 0.08) {
-                    orbitMomentum = Math.max(-4.5, Math.min(4.5, touchAngularVelocity));
-                }
-                isOrbitPaused = false;
-            } else {
-                isOrbitPaused = false;
-            }
-
-            setTimeout(() => {
-                isTouchDraggingMove = false;
-            }, 60);
-        };
-
-        window.addEventListener('touchend', handleTouchEndDrag, { passive: true });
-        window.addEventListener('touchcancel', handleTouchEndDrag, { passive: true });
     }
 
-    function animateOrbit() {
+    function animateOrbit(timestamp) {
+        const now = timestamp || performance.now();
+        const dt = Math.min((now - lastFrameTime) / 1000, 0.1);
+        lastFrameTime = now;
 
         if (
             !isOrbitPaused &&
@@ -2495,14 +2561,15 @@ document.addEventListener('DOMContentLoaded', () => {
         ) {
             if (!isTouchDragging) {
                 if (Math.abs(orbitMomentum) > 0.005) {
-                    orbitAngle = (orbitAngle + orbitMomentum) % 360;
-                    orbitMomentum *= 0.94;
+                    orbitAngle = (orbitAngle + orbitMomentum * (dt * 60)) % 360;
+                    orbitMomentum *= Math.pow(0.94, dt * 60);
                 } else {
                     orbitMomentum = 0;
+                    const speedDegPerSec = getOrbitSpeedDegPerSec();
                     orbitAngle =
                         (
                             orbitAngle +
-                            BASE_ORBIT_SPEED
+                            speedDegPerSec * dt
                         ) % 360;
                 }
 
@@ -2534,6 +2601,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setInterval(
             () => {
+                if (window.innerWidth <= 768) {
+                    return;
+                }
 
                 const x =
                     (

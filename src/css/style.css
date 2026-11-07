@@ -17275,13 +17275,14 @@ body.subpage-body>.pravaah-full-footer {
 .reference-event-card.is-visible {
 
     clip-path:
-        inset(
-            0 0 0 0
-        );
+        none !important;
+
+    will-change:
+        auto !important;
 
     animation:
         referenceCardScrollReveal
-        1.05s
+        0.85s
         cubic-bezier(
             0.16,
             1,
@@ -17308,12 +17309,19 @@ body.subpage-body>.pravaah-full-footer {
 
     }
 
-    100% {
+    99% {
 
         clip-path:
             inset(
                 0 0 0 0
             );
+
+    }
+
+    100% {
+
+        clip-path:
+            none;
 
     }
 
@@ -17948,7 +17956,7 @@ body.multiverse-slow-glide .cosmic-nav-wheel {
         left: 20px;
         right: 20px;
         height: 1px;
-        background: linear-gradient(90deg, #00f2fe, #ff007f, transparent);
+        background: linear-gradient(90deg, #00f2fe, rgba(0, 242, 254, 0.4), transparent);
         opacity: 0.6;
     }
 
@@ -17960,13 +17968,15 @@ body.multiverse-slow-glide .cosmic-nav-wheel {
 
     .side-brand-title {
         font-family: 'Orbitron', sans-serif !important;
-        font-size: 1.1rem !important;
+        font-size: 1.15rem !important;
         font-weight: 900 !important;
         letter-spacing: 0.12em !important;
-        background: linear-gradient(135deg, #00f2fe 0%, #bd00ff 50%, #ff007f 100%) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        filter: drop-shadow(0 0 12px rgba(0, 242, 254, 0.4)) !important;
+        background: none !important;
+        -webkit-background-clip: initial !important;
+        -webkit-text-fill-color: #00f2fe !important;
+        color: #00f2fe !important;
+        text-shadow: 0 0 14px rgba(0, 242, 254, 0.7) !important;
+        filter: none !important;
     }
 
     .side-brand-subtitle {
@@ -18153,13 +18163,7 @@ body.multiverse-slow-glide .cosmic-nav-wheel {
     }
 
     .side-menu-footer {
-        padding: 10px 18px calc(12px + env(safe-area-inset-bottom, 0px)) 18px !important;
-        border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-        background: rgba(2, 3, 10, 0.88) !important;
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 3px !important;
-        flex-shrink: 0 !important;
+        display: none !important;
     }
 
     .side-footer-dates {

@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentCameraZ = 0;
     let cameraVelocity = 0;
     let targetVelocity = 0;
-    let maxCameraZ = filteredCollection.length * zStep + 400;
+    let maxCameraZ = filteredCollection.length * zStep;
     let endSceneZ = -(filteredCollection.length * zStep);
     let isReturningToEntrance = false;
     let mobileTargetCameraZ = null;
@@ -340,7 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
         corridorStage.innerHTML = '';
         cachedCards = [];
         endSceneZ = -(filteredCollection.length * zStep);
-        maxCameraZ = filteredCollection.length * zStep + 400;
+        maxCameraZ = filteredCollection.length * zStep;
 
         filteredCollection.forEach((photo, idx) => {
             const card = document.createElement('article');
@@ -395,7 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span class="final-badge">✦ ARCHIVE DESTINATION ✦</span>
                 <h2 class="final-heading">THE FINAL FRAME</h2>
                 <p class="final-subtext">“Every moment leaves a light behind.”</p>
-                <div class="final-small-line">END OF ARCHIVE // PRAVAAH VISUAL MEMORY</div>
+                <div class="final-small-line">END OF ARCHIVE</div>
             </div>
 
             <button class="final-return-btn" id="final-return-btn" type="button">
@@ -1019,7 +1019,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', () => {
         currentGeom = getResponsiveWallGeometry(window.innerWidth);
         endSceneZ = -(filteredCollection.length * zStep);
-        maxCameraZ = filteredCollection.length * zStep + 400;
+        maxCameraZ = filteredCollection.length * zStep;
         if (currentCameraZ > maxCameraZ) {
             currentCameraZ = maxCameraZ;
         }
