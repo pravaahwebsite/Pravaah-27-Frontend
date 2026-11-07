@@ -1605,6 +1605,8 @@ body.portal-entered .home-swipe-prompt {
     width: 100% !important;
     height: auto !important;
     min-height: 100vh;
+    display: flex !important;
+    flex-direction: column !important;
     z-index: 10;
     overflow: visible !important;
     scroll-behavior: auto !important;
@@ -4529,18 +4531,35 @@ body.portal-entered .home-swipe-prompt {
     border-color: var(--tech-color);
 }
 
-/* Team Page & Footer */
-#team-page {
+/* Team Page & Footer - Locked flush to bottom across all devices & resolutions */
+#team-page,
+#team-page.snap-page {
     background: transparent !important;
-    padding: 35px 0 0 0 !important;
+    padding: 0 !important;
+    padding-bottom: 0 !important;
+    margin: 0 !important;
+    margin-top: auto !important;
+    margin-bottom: 0 !important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: flex-start !important;
+    justify-content: flex-end !important;
     align-items: center !important;
     overflow: visible !important;
     position: relative !important;
     height: auto !important;
     min-height: auto !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+#team-page .pravaah-full-footer,
+.pravaah-full-footer {
+    width: 100% !important;
+    margin-top: auto !important;
+    margin-bottom: 0 !important;
+    align-self: flex-end !important;
+    flex-shrink: 0 !important;
+    position: relative !important;
     box-sizing: border-box !important;
 }
 
@@ -5862,26 +5881,29 @@ body.portal-entered .home-swipe-prompt {
     }
 }
 
-#gallery-page {
+#gallery-page,
+#gallery-page.snap-page {
     background: transparent !important;
-    padding: 35px 20px 35px 20px !important;
+    padding: 60px 20px 40px 20px !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
     overflow: visible !important;
-    min-height: auto !important;
+    min-height: 100vh !important;
     height: auto !important;
+    box-sizing: border-box !important;
 }
 
 .gallery-viewport {
     width: 100%;
-    height: clamp(520px, 75vh, 720px);
+    height: auto !important;
+    min-height: clamp(540px, 78vh, 760px);
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: clamp(15px, 2.5vw, 30px);
-    margin-top: 20px;
+    margin-top: 10px;
     z-index: 20;
 }
 
@@ -18839,15 +18861,21 @@ body.time-bounded-scrolling .cosmic-nav-wheel {
     }
 
     /* Gap after Portal Gallery on phones: reduce drastically */
-    #team-page {
-        padding: 30px 0 0 0 !important;
-        min-height: calc(100vh - 58px) !important;
-        min-height: calc(100dvh - 58px) !important;
+    #team-page,
+    #team-page.snap-page {
+        padding: 0 !important;
+        padding-bottom: 0 !important;
+        margin: 0 !important;
+        margin-top: auto !important;
+        margin-bottom: 0 !important;
+        min-height: auto !important;
+        height: auto !important;
         display: flex !important;
         flex-direction: column !important;
-        justify-content: space-between !important;
+        justify-content: flex-end !important;
         align-items: center !important;
         box-sizing: border-box !important;
+        width: 100% !important;
     }
 
     #team-page .pravaah-full-footer {
